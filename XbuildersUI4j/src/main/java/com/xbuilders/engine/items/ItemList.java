@@ -52,11 +52,11 @@ public class ItemList {
         allItems = concatArrays(entities.getList(), tools.getList(), blocks.getList()
         );
 
-        try {
-            blocks.exportListToXbuilders3();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            blocks.exportListToXbuilders3();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
         for (Item i : allItems) {
             i.initialize();

@@ -264,7 +264,7 @@ public class BlockList extends ItemGroup<Block> {
     }
 
     //Generate separate icons
-    /* private void separateIcons(File iconsDir) throws IOException {
+     private void separateIcons(File iconsDir) throws IOException {
 
         System.out.println(iconsDir.getAbsolutePath());
         BufferedImage image = ImageIO.read(iconsDir);
@@ -297,6 +297,6 @@ public class BlockList extends ItemGroup<Block> {
             }
         }
         return true;
-    }*/
+    }
 //</editor-fold>
 }
