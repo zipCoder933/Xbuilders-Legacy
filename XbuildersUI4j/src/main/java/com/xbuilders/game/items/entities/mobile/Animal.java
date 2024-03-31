@@ -27,17 +27,17 @@ import java.io.IOException;
 public abstract class Animal extends Entity {
 
     /**
-     * @param g              the graphics
-     * @param x              the left/right coordinate
-     * @param y              the y coordinate
-     * @param z              the forward/backward coordinate
+     * @param g the graphics
+     * @param x the left/right coordinate
+     * @param y the y coordinate
+     * @param z the forward/backward coordinate
      * @param animationSpeed the speed of the walk cycle (negative means the leg
-     *                       goes backwards)
-     * @param animationAdd   the addition to the existing frame count to offset
-     *                       the animation
+     * goes backwards)
+     * @param animationAdd the addition to the existing frame count to offset
+     * the animation
      */
     public void drawLeg(PGraphics g, PShape leg, float x, float y, float z,
-                        float animationSpeed, float animationAdd, int frameCount) {
+            float animationSpeed, float animationAdd, int frameCount) {
         modelMatrix.translate(x, y, z);
 
         float rot = (float) Math.sin((frameCount * animationSpeed) + animationAdd) / 2;
@@ -60,20 +60,22 @@ public abstract class Animal extends Entity {
                 (int) this.worldPosition.z
         ).isLiquid()
                 || this.getPointerHandler().getWorld().getBlock(
-                (int) this.worldPosition.x - 1,
-                (int) this.worldPosition.y,
-                (int) this.worldPosition.z
-        ).isLiquid()
+                        (int) this.worldPosition.x - 1,
+                        (int) this.worldPosition.y,
+                        (int) this.worldPosition.z
+                ).isLiquid()
                 || this.getPointerHandler().getWorld().getBlock(
-                (int) this.worldPosition.x + 1,
-                (int) this.worldPosition.y,
-                (int) this.worldPosition.z
-        ).isLiquid()
+                        (int) this.worldPosition.x + 1,
+                        (int) this.worldPosition.y,
+                        (int) this.worldPosition.z
+                ).isLiquid()
                 || this.getPointerHandler().getWorld().getBlock(
-                (int) this.worldPosition.x,
-                (int) this.worldPosition.y,
-                (int) this.worldPosition.z - 1
-        ).isLiquid()) return true;
+                        (int) this.worldPosition.x,
+                        (int) this.worldPosition.y,
+                        (int) this.worldPosition.z - 1
+                ).isLiquid()) {
+            return true;
+        }
         return (this.getPointerHandler().getWorld().getBlock(
                 (int) this.worldPosition.x,
                 (int) this.worldPosition.y,
@@ -172,7 +174,11 @@ public abstract class Animal extends Entity {
     }
 
     public void makeAnimalLeave(boolean isPendingDestruction) {
+        if (Main.getSettings().getSettingsFile().additionalFeatures) {
+            destroy(true);
+        }
         this.pendingDestruction = isPendingDestruction;
+        onDestructionInitiated();
     }
 
     /**
@@ -333,20 +339,23 @@ public abstract class Animal extends Entity {
         boolean allow = false;
         if (inFrustum) {
             allow = true;
-            if (move()) processMovements();
+            if (move()) {
+                processMovements();
+            }
         } else if (tamed
                 && distToPlayer < SubChunk.WIDTH
                 && getPointerHandler().getApplet().frameCount % 4 == 0
                 && moveWhenOutOfFrustum()) {
             processMovements();
         }
-
-        if (isPendingDestruction()) {
-            destroy(true);
-        }
         aabb.updateBox();
 
         if (distToPlayer > SubChunk.WIDTH * 1.5f) {
+            allow = false;
+        }
+
+        if (!allow && isPendingDestruction()) {
+            destroy(true);
             return false;
         }
         return allow;

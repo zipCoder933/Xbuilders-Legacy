@@ -21,35 +21,39 @@ public class NaiveCulling {
         return ItemList.getBlock(grid.getBlock(x, y, z));
     }
 
+    private static boolean checkNeighbor(SubChunk neighbor) {
+        return neighbor == null || (neighbor.lightMap.isPastedIntoSLM() && !neighbor.lightMap.allDarkness);
+    }
+
     public static boolean checkAllNeighborsForNonDarkness(SubChunk subChunk) {
         SubChunk neighbor = VoxelGame.getWorld().getSubChunk(
                 new Vector3i(subChunk.position.x - 1, subChunk.position.y, subChunk.position.z));
-        if (neighbor != null && !neighbor.lightMap.allDarkness) {
+        if (checkNeighbor(neighbor)) {
             return true;
         }
         neighbor = VoxelGame.getWorld().getSubChunk(
                 new Vector3i(subChunk.position.x + 1, subChunk.position.y, subChunk.position.z));
-        if (neighbor != null && !neighbor.lightMap.allDarkness) {
+        if (checkNeighbor(neighbor)) {
             return true;
         }
         neighbor = VoxelGame.getWorld().getSubChunk(
                 new Vector3i(subChunk.position.x, subChunk.position.y - 1, subChunk.position.z));
-        if (neighbor != null && !neighbor.lightMap.allDarkness) {
+        if (checkNeighbor(neighbor)) {
             return true;
         }
         neighbor = VoxelGame.getWorld().getSubChunk(
                 new Vector3i(subChunk.position.x, subChunk.position.y + 1, subChunk.position.z));
-        if (neighbor != null && !neighbor.lightMap.allDarkness) {
+        if (checkNeighbor(neighbor)) {
             return true;
         }
         neighbor = VoxelGame.getWorld().getSubChunk(
                 new Vector3i(subChunk.position.x, subChunk.position.y, subChunk.position.z - 1));
-        if (neighbor != null && !neighbor.lightMap.allDarkness) {
+        if (checkNeighbor(neighbor)) {
             return true;
         }
         neighbor = VoxelGame.getWorld().getSubChunk(
                 new Vector3i(subChunk.position.x, subChunk.position.y, subChunk.position.z + 1));
-        if (neighbor != null && !neighbor.lightMap.allDarkness) {
+        if (checkNeighbor(neighbor)) {
             return true;
         }
 
@@ -80,8 +84,6 @@ public class NaiveCulling {
         Block py = faceDefault;
         Block nz = faceDefault;
         Block pz = faceDefault;
-
-       
 
         final ChunkVoxels grid = subChunk.getVoxels();
         for (int x = 0 - chunkNegXAdd; x < grid.getSizeX() + chunkPosXAdd; ++x) {

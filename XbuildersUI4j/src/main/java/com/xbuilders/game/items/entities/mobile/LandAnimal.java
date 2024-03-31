@@ -256,7 +256,7 @@ public abstract class LandAnimal extends Animal {
                         break;
                     case WALK:
                         if (isPendingDestruction() && getRandom().nextFloat() > 0.6) {
-                            setRotationY(getRotationY() + getRandom().nextFloat() * 2);
+                            setRotationY(getRotationY() + getRandom().nextFloat() * 2.5f);
                         }
                         walkForward(getActionVelocity());
                         break;

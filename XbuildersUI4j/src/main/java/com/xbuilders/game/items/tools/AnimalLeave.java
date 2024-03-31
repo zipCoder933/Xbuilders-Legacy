@@ -13,9 +13,8 @@ import org.joml.Vector3i;
 public class AnimalLeave extends Tool {
 
     public AnimalLeave() {
-        super(7, "Ask Animals to Leave"
-                + (!Main.getSettings().getSettingsFile().additionalFeatures ? " hidden" : ""));
-//        setIconAtlasPosition(2, 6);
+        super(7, "Ask Animals to Leave");
+        setIconAtlasPosition(0, 3);
     }
 
     public boolean isInfiniteResource() {
@@ -37,9 +36,11 @@ public class AnimalLeave extends Tool {
                     if (sc != null) {
                         for (Entity e : sc.entities.list) {
                             if (e instanceof Animal) {
-                                e.destroyMode = true;
-//                                Animal a = (Animal) e;
-//                                a.makeAnimalLeave(true);
+                                if (Main.getSettings().getSettingsFile().additionalFeatures) {
+                                    e.destroy(true);
+                                }
+                                Animal a = (Animal) e;
+                                a.makeAnimalLeave(true);
                             }
                         }
                     }

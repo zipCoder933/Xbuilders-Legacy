@@ -6,3 +6,6 @@ Textures taken mostly from Pixel Perfection:
 * https://github.com/Wallbraker/PixelPerfection?tab=readme-ov-file
 
 
+Try this command:
+java -cp "path\to\jar.jar" com.xbuilders.game.Main
+

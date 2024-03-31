@@ -112,9 +112,9 @@ public class SubChunk {
     }
 
     public void generateMesh() {
-        if (lightMap.allDarkness && !hasLightNeighbor) {// Check for any light neighbors
-            hasLightNeighbor = NaiveCulling.checkAllNeighborsForNonDarkness(this);
-        }
+//        if (lightMap.allDarkness && !hasLightNeighbor) {// Check for any light neighbors
+//            hasLightNeighbor = NaiveCulling.checkAllNeighborsForNonDarkness(this);
+//        }
         NaiveCulling.generateMesh(this,
                 this.opaqueMesh = this.getPointerHandler().getApplet().createShape(),
                 this.transparentMesh = this.getPointerHandler().getApplet().createShape(), this.offset);
@@ -200,13 +200,11 @@ public class SubChunk {
     }
 
     private boolean darknessCull() {
-        // TODO: When a dark chunk is culled and it is drawing a face on the side of it,
-        // it won't render the face. Fix this by rednering outside neibhboring chunks
-        // that are next to a dark chunk
-        return (!lightMap.allDarkness
-                || distToPlayer < SubChunk.WIDTH * 2
-                || hasLightNeighbor) && !data.isEmpty();
-        // return true;
+//        return (!lightMap.allDarkness
+//                || distToPlayer < SubChunk.WIDTH * 2
+//                || hasLightNeighbor) && !data.isEmpty();
+
+        return !data.isEmpty();
     }
 
     Matrix4f modelMatrix = new Matrix4f();
@@ -233,6 +231,8 @@ public class SubChunk {
             // VoxelGame.getShaderHandler().setShader(Main.getPG());
             // Main.getPG().popMatrix();
             // // -----------------------------------------
+            
+            
             if (this.needsRegenerating) {
                 // (new Thread() {// TODO: Explore this multithreading to see if it leads to
                 // better performance
