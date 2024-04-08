@@ -231,8 +231,8 @@ public class SubChunk {
             // VoxelGame.getShaderHandler().setShader(Main.getPG());
             // Main.getPG().popMatrix();
             // // -----------------------------------------
-            
-            
+
+
             if (this.needsRegenerating) {
                 // (new Thread() {// TODO: Explore this multithreading to see if it leads to
                 // better performance
@@ -243,13 +243,15 @@ public class SubChunk {
                 // }).start();
             }
             if (shader != null) {
+                Main.getPG().shader(ShaderHandler.blockShader);
                 shader.setAnimatedTexturesEnabled(true);
                 shader.setWorldSpaceOffset((float) (this.getPosition().x * SubChunk.WIDTH), 0.0f,
                         (float) (this.getPosition().z * SubChunk.WIDTH));
-                shader.setModelMatrix(modelMatrix);
+                shader.setBlockShaderModelMatrix(modelMatrix);
             }
             Main.getPG().shape(this.opaqueMesh);
             if (drawEntities) {
+                //Draw static entities
                 if (shader != null) {
                     shader.setAnimatedTexturesEnabled(false);
                 }
@@ -259,16 +261,18 @@ public class SubChunk {
             }
         }
         // The entities must as least be updated even if not in frustum
-        this.getEntities().updateAndDrawEntities(Main.getPG(), inFrustum, drawEntities);
+        Entity.defaultShader();
+        this.getEntities().updateAndDrawEntities(Main.getPG(), drawEntities);
     }
 
     public void drawTransparent(final ShaderHandler shader) {
         if (inFrustum && darknessCull()) {
             if (shader != null) {
+                Main.getPG().shader(ShaderHandler.blockShader);
                 shader.setAnimatedTexturesEnabled(true);
                 shader.setWorldSpaceOffset((float) (this.getPosition().x * SubChunk.WIDTH), 0.0f,
                         (float) (this.getPosition().z * SubChunk.WIDTH));
-                shader.setModelMatrix(modelMatrix);
+                shader.setBlockShaderModelMatrix(modelMatrix);
             }
             Main.getPG().shape(this.transparentMesh);
         }

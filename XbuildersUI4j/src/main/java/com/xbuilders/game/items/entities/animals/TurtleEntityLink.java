@@ -42,7 +42,6 @@ public class TurtleEntityLink extends EntityLink {
 
 
     public class Turtle extends LandAndWaterAnimal {
-
         boolean youngAnimal = false;
 
         public Turtle() {
@@ -61,12 +60,12 @@ public class TurtleEntityLink extends EntityLink {
             if (playerCanSeeAnimalUnderwater()) {
                 //Z = animal front
                 //X = animal side
-                if (youngAnimal) {
-                    g.scale(0.4f);
-                    g.pushMatrix();
-                    g.translate(0, -0.45f, 0);
-
-                }
+//                if (youngAnimal) {
+//                    g.scale(0.4f);
+//                    g.pushMatrix();
+//                    g.translate(0, -0.45f, 0);
+//
+//                }
                 float animationTarget = 0f;
 //                float finAnimation = 0;
                 if (getWalkAmt() > 0) {
@@ -89,10 +88,10 @@ public class TurtleEntityLink extends EntityLink {
 //                drawFin(g, back_fin2,
 //                        ONE_SIXTEENTH * 4, ONE_SIXTEENTH * -1, ONE_SIXTEENTH * -10,
 //                        -finAnimation, 0.0f, getPointerHandler().getApplet().frameCount, 0.15f);
-                if (youngAnimal) {
-                    g.popMatrix();
-                    g.scale(1 / 0.4f);
-                }
+//                if (youngAnimal) {
+//                    g.popMatrix();
+//                    g.scale(1 / 0.4f);
+//                }
             }
         }
 
@@ -135,6 +134,7 @@ public class TurtleEntityLink extends EntityLink {
                     body.setTexture(texture);
                     fin1.setTexture(texture);
                     fin2.setTexture(texture);
+                    aabb.offset.y -= 0.5f;
 //                back_fin1.setTexture(texture);
 //                back_fin2.setTexture(texture);
                 } catch (IOException ex) {
@@ -142,8 +142,9 @@ public class TurtleEntityLink extends EntityLink {
                 }
             }
 
-
-            youngAnimal = bytes[0] == 1;
+//            if (bytes != null && bytes.length > 0) {
+//                youngAnimal = bytes[0] == 1;
+//            } else youngAnimal = Math.random() > 0.75;
         }
 
     }

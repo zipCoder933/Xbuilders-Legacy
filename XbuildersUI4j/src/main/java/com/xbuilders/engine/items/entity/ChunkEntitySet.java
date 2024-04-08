@@ -39,21 +39,13 @@ public class ChunkEntitySet {
         return list.get(i);
     }
 
-    public void updateAndDrawEntities(PGraphics graphics, boolean chunkInFrustum, boolean drawEntities) {
+    public void updateAndDrawEntities(PGraphics graphics, boolean drawEntities) {
         for (int i = list.size() - 1; i >= 0; i--) { // Loop through the list of entities in reverse order
             Entity e = get(i); // Get the entity at index i
 
             UserControlledPlayer userControlledPlayer = Main.ph().getPlayer();
             e.distToPlayer = e.worldPosition.distance(userControlledPlayer.worldPos); // Calculate the distance to the
-            // player
-            if (!e.playerIsRidingThis()
-                    && e.distToPlayer > VoxelGame.getSettings().getSettingsFile().entityMaxDistance) { // Check if the
-                // distance to the
-                // player is greater
-                // than the maximum
-                // allowed
-                continue; // Skip the rest of the loop for this entity
-            }
+
 
             if (e.destroyMode) { // Check if the entity is in destroy mode
                 list.remove(i); // Remove the entity from the list
@@ -62,6 +54,9 @@ public class ChunkEntitySet {
                 }
                 chunk.getParentChunk().markAsNeedsSaving(); // Mark the parent chunk as needing saving
                 continue;
+            } else if (!e.playerIsRidingThis()
+                    && e.distToPlayer > VoxelGame.getSettings().getSettingsFile().entityMaxDistance) {
+                continue; // Skip the rest of the loop for this entity
             } else if (e.needsUpdating) { // Check if the entity needs updating
                 if (e.hasStaticMeshes()) { // Check if the entity has static meshes
                     chunk.generateStaticEntityMesh(); // Generate static entity mesh for the chunk
@@ -71,34 +66,27 @@ public class ChunkEntitySet {
 
             if (!e.hasStaticMeshes()) { // Check if the entity does not have static meshes
                 // check if the entity is in frustum
-                if (e.playerIsRidingThis() || (e.getFrustumSphereRadius() <= 0)) {
+                if (e.playerIsRidingThis() || e.getFrustumSphereRadius() <= 0) {
                     e.inFrustum = true;
-                } else if (!chunkInFrustum) {
-                    e.inFrustum = false;
                 } else {
                     e.inFrustum = VoxelGame.getPlayer().camera.frustum.isSphereInside(e.worldPosition,
                             e.getFrustumSphereRadius());
                 }
 
                 // update the entity
-                if (e.update()) {
-                    if (!e.hasStaticMeshes()
-                            && (e.inFrustum || e.playerIsRidingThis())) {// || e.distToPlayer < 32
-
-                        try {
-                            VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(false);
-                            VoxelGame.getShaderHandler().setWorldSpaceOffset(e.worldPosition);
-                            e.modelMatrix.identity().translate(
-                                    e.worldPosition.x,
-                                    e.worldPosition.y,
-                                    e.worldPosition.z);
-                            e.sendModelMatrixToShader();
-                            if (drawEntities) e.draw(graphics);
-                        } catch (Exception ex) {
-                            ErrorHandler.saveErrorToLogFile(ex);
-                        } finally {
-                        }
-
+                if (e.update() && e.inFrustum) {
+                    try {
+                        VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(false);
+                        VoxelGame.getShaderHandler().setWorldSpaceOffset(e.worldPosition);
+                        e.modelMatrix.identity().translate(
+                                e.worldPosition.x,
+                                e.worldPosition.y,
+                                e.worldPosition.z);
+                        e.sendModelMatrixToShader();
+//                        ShaderHandler.setEntityLightLevel(e.getLightLevel());
+                        if (drawEntities) e.draw(graphics);
+                    } catch (Exception ex) {
+                        ErrorHandler.saveErrorToLogFile(ex);
                     }
                 }
             }
@@ -124,7 +112,9 @@ public class ChunkEntitySet {
                 }
             }
         }
-        VoxelGame.getShaderHandler().resetModelMatrix();
+        VoxelGame.getShaderHandler().
+
+                resetModelMatrix();
     }
 
 

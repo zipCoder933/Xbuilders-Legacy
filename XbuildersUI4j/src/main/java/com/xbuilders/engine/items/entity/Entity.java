@@ -7,10 +7,12 @@ package com.xbuilders.engine.items.entity;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.entity.shapeSet.OrientedShape;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.engine.world.chunk.wcc.WCCf;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.SubChunk;
@@ -117,7 +119,17 @@ public abstract class Entity {
     public final Matrix4f modelMatrix = new Matrix4f();
 
     public void sendModelMatrixToShader() {
-        VoxelGame.getShaderHandler().setModelMatrix(modelMatrix);
+        sendModelMatrixToShader(modelMatrix);
+    }
+
+    //Having an entity shader does nothing for performance
+
+    public static void sendModelMatrixToShader(Matrix4f matrix) {
+        VoxelGame.getShaderHandler().setBlockShaderModelMatrix(matrix);
+    }
+
+    public static void defaultShader() {
+        Main.getPG().shader(ShaderHandler.blockShader);
     }
 
     public Entity() {

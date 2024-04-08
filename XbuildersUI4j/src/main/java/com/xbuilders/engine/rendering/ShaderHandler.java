@@ -11,21 +11,15 @@ import static com.xbuilders.engine.VoxelGame.getShaderHandler;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.texture.BlockTextureAtlas;
-import com.xbuilders.engine.rendering.worldLightMap.ShaderLightMap;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.window.UIShader;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import processing.core.PGraphics;
-import processing.core.PMatrix;
-import processing.core.PMatrix3D;
 import processing.opengl.PShader;
 import processing.ui4j.UIExtensionFrame;
 
@@ -54,8 +48,12 @@ public class ShaderHandler {
         blockShader.set("modelMatrix", identityMatrix);
     }
 
-    public void setModelMatrix(Matrix4f modelMatrix) {
+    public void setBlockShaderModelMatrix(Matrix4f modelMatrix) {
         blockShader.set("modelMatrix", modelMatrix);
+    }
+
+    public void setEntityShaderModelMatrix(Matrix4f modelMatrix) {
+        entityShader.set("modelMatrix", modelMatrix);
     }
 
     /**
@@ -93,10 +91,12 @@ public class ShaderHandler {
         float blue = (float) b / 255;
         blockShader.set("sky_color", red, green, blue);
         cloudShader.set("sky_color", red, green, blue);
+        entityShader.set("sky_color", red, green, blue);
     }
 
     public void setWorldSpaceOffset(float x, float y, float z) {
-        blockShader.set("worldSpaceOffset", x, y, z);
+        //No longer needed
+//        blockShader.set("worldSpaceOffset", x, y, z);
     }
 
     public void setMaxBrightness(float value) {
@@ -115,6 +115,7 @@ public class ShaderHandler {
         if (lastDistance != fogDist) {
             lastDistance = fogDist;
             blockShader.set("fog_dist", fogDist);
+            entityShader.set("fog_dist", fogDist);
         }
     }
 
@@ -124,6 +125,7 @@ public class ShaderHandler {
             lastSunlightValue = value;
             blockShader.set("sunlightMultiplier", value);
             cloudShader.set("sunlightMultiplier", value);
+            entityShader.set("sunlightMultiplier", value);
         }
     }
 
@@ -146,6 +148,7 @@ public class ShaderHandler {
             lastPlayerLight = value;
             playerLight = MathUtils.mapAndClamp(value, 0, 15, 0.0f, 1.0f);
             blockShader.set("playerLight", playerLight);
+            entityShader.set("playerLight", playerLight);
         }
     }
 
@@ -191,7 +194,7 @@ public class ShaderHandler {
      * Changes the daylight level
      *
      * @param frameCount the frame count
-     * @param maxFrames the maximum number of frames to make a full cycle.
+     * @param maxFrames  the maximum number of frames to make a full cycle.
      */
     public void update(int frameCount) {
         if (System.currentTimeMillis() - lastUpdate > 200) {
@@ -222,12 +225,14 @@ public class ShaderHandler {
         blockShader.set("tick", animatedBlockTime);
     }
 
-    public PShader cloudShader, backgroundShader;
-    public PShader blockShader;
+    public static PShader cloudShader, backgroundShader;
+    public static PShader blockShader, entityShader;
 
     public ShaderHandler(UIExtensionFrame f, BlockTextureAtlas tex, Block[] blockList) {
         blockShader = f.loadShader(ResourceUtils.resourcePath("Shaders/Frag.glsl"),
                 ResourceUtils.resourcePath("Shaders/Vert.glsl"));
+        entityShader = f.loadShader(ResourceUtils.resourcePath("Shaders/entity/entity_frag.glsl"),
+                ResourceUtils.resourcePath("Shaders/entity/entity_vert.glsl"));
         cloudShader = f.loadShader(ResourceUtils.resourcePath("Shaders/clouds/Frag.glsl"),
                 ResourceUtils.resourcePath("Shaders/clouds/Vert.glsl"));
         backgroundShader = f.loadShader(ResourceUtils.resourcePath("Shaders/background/Frag.glsl"),
@@ -245,9 +250,12 @@ public class ShaderHandler {
         blockShader.set("individualTextureSize", individualTextureSize);
         blockShader.set("numberOfTilesWidth", numberOfTilesWidth);
         blockShader.set("tileSize", tileSize);
+        entityShader.set("textureMapWidth", textureMapWidth);
+        entityShader.set("individualTextureSize", individualTextureSize);
+        entityShader.set("numberOfTilesWidth", numberOfTilesWidth);
+        entityShader.set("tileSize", tileSize);
         setMaxBrightness(1.1f);
         setFogDistance(1);
-        ShaderLightMap.setParent(this);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Initialize animated textures">
@@ -324,6 +332,11 @@ public class ShaderHandler {
     public void setFlashlightMode(boolean b) {
         flashlightMode = b;
         blockShader.set("flashlightMode", b);
+        entityShader.set("flashlightMode", b);
+    }
+
+    public static void setEntityLightLevel(int level) {
+        entityShader.set("lightLevel", level);
     }
 
     public void setShader(PGraphics graphics) {

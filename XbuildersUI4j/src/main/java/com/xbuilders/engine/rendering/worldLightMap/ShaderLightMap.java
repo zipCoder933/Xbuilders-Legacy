@@ -20,7 +20,6 @@ import processing.core.PImage;
 public class ShaderLightMap {
 
     private static volatile PImage image;
-    private static ShaderHandler parent;
     public static boolean hasChanged;
     public static int minX;
     public static int minZ;
@@ -30,10 +29,6 @@ public class ShaderLightMap {
     public static final int EMPTY_VALUE = -2;
     public static boolean initializing;
     public static final Object lightmapInitializationLock;
-
-    public static void setParent(final ShaderHandler parent2) {
-        ShaderLightMap.parent = parent2;
-    }
 
     public static int[] getImagePixels() {
         return ShaderLightMap.image.pixels;
@@ -54,8 +49,8 @@ public class ShaderLightMap {
     public static synchronized void sendLightmapToShader() {
         if (ShaderLightMap.image != null && !ShaderLightMap.initializing && ShaderLightMap.hasChanged) {
             ShaderLightMap.image.updatePixels();
-            ShaderLightMap.parent.blockShader.set("lightsStart", ShaderLightMap.minX, 0, ShaderLightMap.minZ);
-            ShaderLightMap.parent.blockShader.set("lights", ShaderLightMap.image);
+            ShaderHandler.blockShader.set("lightsStart", ShaderLightMap.minX, 0, ShaderLightMap.minZ);
+            ShaderHandler.blockShader.set("lights", ShaderLightMap.image);
             ShaderLightMap.hasChanged = false;
         }
     }
@@ -178,9 +173,9 @@ public class ShaderLightMap {
                 }
             }
             ShaderLightMap.image.updatePixels();
-            ShaderLightMap.parent.blockShader.set("lightsStart", ShaderLightMap.minX, 0, ShaderLightMap.minZ);
-            ShaderLightMap.parent.blockShader.set("lightsShape", ShaderLightMap.Xdim, ShaderLightMap.Ydim, ShaderLightMap.Zdim);
-            ShaderLightMap.parent.blockShader.set("lights", ShaderLightMap.image);
+            ShaderHandler.blockShader.set("lightsStart", ShaderLightMap.minX, 0, ShaderLightMap.minZ);
+            ShaderHandler.blockShader.set("lightsShape", ShaderLightMap.Xdim, ShaderLightMap.Ydim, ShaderLightMap.Zdim);
+            ShaderHandler.blockShader.set("lights", ShaderLightMap.image);
             ShaderLightMap.initializing = false;
         }
     }

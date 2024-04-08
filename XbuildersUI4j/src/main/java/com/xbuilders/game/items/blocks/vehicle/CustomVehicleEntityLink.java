@@ -4,8 +4,8 @@ import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
-import com.xbuilders.game.Main;
 import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.entities.mobile.Vehicle;
 import com.xbuilders.game.items.entities.vehicle.minecart.MinecartUtils;
@@ -32,7 +32,7 @@ public class CustomVehicleEntityLink extends EntityLink {
         byte speed, direction;
         boolean isWatercraft, allTerrain;
         boolean canFly = false;
-        // List<Vector3f> helecopterBlades = new ArrayList<>();
+        List<HelecopterBlade> blades = new ArrayList<>();
         public PShape mesh;
 
         public CustomVehicle() {
@@ -72,6 +72,7 @@ public class CustomVehicleEntityLink extends EntityLink {
                 }
                 speedCurve = (float) MathUtils.curve(speedCurve, targetSpeed, 0.03f);
 
+
                 if (getPlayer().leftKeyPressed()) {
                     float rotationY1 = rotationYDeg + rotateSpeed;
                     this.rotationYDeg = rotationY1;
@@ -100,7 +101,11 @@ public class CustomVehicleEntityLink extends EntityLink {
                         }
                     } else if (getPlayer().upKeyPressed()) {
                         this.posHandler.setGravityEnabled(false);
-                        this.posHandler.velocity.y += speedCurve * 0.15f;
+                        if (!blades.isEmpty()) {//If this is a helecopter
+                            this.posHandler.velocity.y += speed * 0.001f;
+                        } else {
+                            this.posHandler.velocity.y += speedCurve * 0.15f;
+                        }
                         this.posHandler.onGround = false;
                     } else {
                         if (getPlayer().forwardKeyPressed()) {
@@ -147,7 +152,6 @@ public class CustomVehicleEntityLink extends EntityLink {
 
         @Override
         public void renderMob(PGraphics g) {
-
             g.shape(mesh);
         }
 
@@ -157,23 +161,25 @@ public class CustomVehicleEntityLink extends EntityLink {
             if (mesh != null) {
                 if (playerIsRidingThis()) {
                     positionLock.playerDisplacement.identity()
-                            .rotateY(yRotationRadians);
+                            .rotateY(yRotationRadians)
+                            .translate(seatPosition).translate(0, -1.0f, 0);
                 }
-
-                g.fill(0);
+                if (!blades.isEmpty()) {
+                    HelecopterBlade.startDrawingBlades();
+                    for (HelecopterBlade blade : blades) {
+                        blade.matrix.identity().translate(worldPosition)
+                                .rotateY(yRotationRadians)
+                                .translate(blade.position);
+                        blade.render(!posHandler.isGravityEnabled() && !posHandler.onGround, yRotationRadians);
+                    }
+                    HelecopterBlade.stopDrawingBlades();
+                }
                 smoothYRotation = (float) MathUtils.curve(smoothYRotation, rotationYDeg, 0.25f);
-                modelMatrix.rotateY(yRotationRadians);
-
-                if (playerIsRidingThis()) {
-                    positionLock.playerDisplacement.translate(seatPosition).translate(0, -1.0f, 0);
-                }
-
-                modelMatrix.translate(renderOffset.x, renderOffset.y, renderOffset.z);
-
+                modelMatrix.rotateY(yRotationRadians)
+                        .translate(renderOffset.x, renderOffset.y, renderOffset.z);
                 sendModelMatrixToShader();
                 renderMob(g);
             }
-
         }
 
         @Override
@@ -232,14 +238,21 @@ public class CustomVehicleEntityLink extends EntityLink {
                 renderOffset.z = (float) -blocks.size.z / 2;
                 mesh = BlockMesh.createMesh(blocks, false, true);
 
-                // Find the driver seat
+                // Find the driver seat and blades
                 for (int i = 0; i < blocks.size.x; i++) {
                     for (int j = 0; j < blocks.size.y; j++) {
                         for (int k = 0; k < blocks.size.z; k++) {
                             if (blocks.get(i, j, k) == GameItems.BLOCK_DRIVERS_SEAT.id) {
-                                seatPosition.set(i + renderOffset.x + 0.5f, j + renderOffset.y + 0.5f,
+                                seatPosition.set(
+                                        i + renderOffset.x + 0.5f,
+                                        j + renderOffset.y + 0.5f,
                                         k + renderOffset.z + 0.5f);
-                                break;
+                            } else if (blocks.get(i, j, k) == GameItems.BLOCK_HELICOPTER_BLADE.id) {
+                                blades.add(new HelecopterBlade(
+                                        new Vector3f(i + renderOffset.x + 0.5f,
+                                                j + renderOffset.y + 0.5f,
+                                                k + renderOffset.z + 0.5f), blades.size() % 2 == 0));
+
                             }
                         }
                     }
@@ -259,15 +272,14 @@ public class CustomVehicleEntityLink extends EntityLink {
                 canFly = bytes[2] == 1;
                 isWatercraft = bytes[3] == 1;
                 this.rotationYDeg = (float) (bytes[4] * 2);
-                allTerrain = bytes[5] == 1;
+                this.allTerrain = bytes[5] == 1;
                 smoothYRotation = this.rotationYDeg;
-
                 blocks = new BlockGrid(0, 0, 0);
                 blocks.fromBytes(bytes, METADATA, bytes.length);
                 // System.out.println("Loaded blocks: " + blocks);
             }
             jumpWithSideCollision = allTerrain && !canFly;
-
+            blades.clear();
             reloadMesh();
         }
     }

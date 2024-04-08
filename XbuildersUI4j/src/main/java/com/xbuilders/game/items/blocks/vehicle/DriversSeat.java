@@ -155,35 +155,35 @@ public class DriversSeat extends Block {
                 checkNeighbour(area, aabb, x2, y2, z2 + 1, true);
                 checkNeighbour(area, aabb, x2, y2, z2 - 1, true);
             }
-        }
-        System.out.println("Trying to create vehicle with speed: " + speed + " and direction: " + direction + " found wheel: " + foundWheel);
-        if (speed > -1 && foundWheel) {
-            aabb.maxPoint.add(1, 1, 1);
 
-            box.set(aabb);
-            //Set the blocks
-            blocks = new BlockGrid((int) aabb.getXLength(), (int) aabb.getYLength(), (int) aabb.getZLength());
-            for (Vector3i pos : checkedNodes) {
-                int normX = (int) (pos.x - aabb.minPoint.x);
-                int normY = (int) (pos.y - aabb.minPoint.y);
-                int normZ = (int) (pos.z - aabb.minPoint.z);
-                blocks.set(VoxelGame.getWorld().getBlock(pos.x, pos.y, pos.z).id, normX, normY, normZ);
-                blocks.setBlockData(VoxelGame.getWorld().getBlockData(pos.x, pos.y, pos.z), normX, normY, normZ);
+            System.out.println("Trying to create vehicle with speed: " + speed + " and direction: " + direction + " found wheel: " + foundWheel);
+            if (speed > -1 && foundWheel) {
+                aabb.maxPoint.add(1, 1, 1);
+
+                box.set(aabb);
+                //Set the blocks
+                blocks = new BlockGrid((int) aabb.getXLength(), (int) aabb.getYLength(), (int) aabb.getZLength());
+                for (Vector3i pos : checkedNodes) {
+                    int normX = (int) (pos.x - aabb.minPoint.x);
+                    int normY = (int) (pos.y - aabb.minPoint.y);
+                    int normZ = (int) (pos.z - aabb.minPoint.z);
+                    blocks.set(VoxelGame.getWorld().getBlock(pos.x, pos.y, pos.z).id, normX, normY, normZ);
+                    blocks.setBlockData(VoxelGame.getWorld().getBlockData(pos.x, pos.y, pos.z), normX, normY, normZ);
+                }
+                box.setMesh(blocks, true, true);
+                box.show();
+                VoxelGame.getGame().alert("Click the drivers seat to create vehicle");
+                System.out.println("Vehicle created with speed: " + speed + " and direction: " + direction + " found wheel: " + foundWheel
+                        + "\n AABB: min: " + MiscUtils.printVector(aabb.minPoint) + " size: " + aabb.getXLength() + " x " + aabb.getYLength() + " x " + aabb.getZLength());
+            } else {
+                box.hide();
+                if (speed == -1) {
+                    VoxelGame.getGame().alert("No engine found! The vehicle cannot be created!");
+                }
+                BlockList.BLOCK_AIR.set(x, y, z, null);
             }
-            box.setMesh(blocks, true, true);
-            box.show();
-            VoxelGame.getGame().alert("Click the drivers seat to create vehicle");
-            System.out.println("Vehicle created with speed: " + speed + " and direction: " + direction + " found wheel: " + foundWheel
-                    + "\n AABB: min: " + MiscUtils.printVector(aabb.minPoint) + " size: " + aabb.getXLength() + " x " + aabb.getYLength() + " x " + aabb.getZLength());
         } else {
-            box.hide();
-            if (speed == -1) {
-                VoxelGame.getGame().alert("No engine found! The vehicle cannot be created!");
-            } else if (!foundWheel) {
-                VoxelGame.getGame().alert("No wheels found! The vehicle cannot be created!");
-            }
-            System.out.println("Vehicle not created!");
-            BlockList.BLOCK_AIR.set(x, y, z, null);
+            VoxelGame.getGame().alert("No wheels found! The vehicle cannot be created!");
         }
     }
 
@@ -216,7 +216,7 @@ public class DriversSeat extends Block {
             entity.canFly = canFly;
             entity.isWatercraft = isWatercraft;
             entity.allTerrain = allTerrain;
-            entity.reloadMesh();
+            entity.initialize(null, true);
             box.hide();
             VoxelGame.getGame().alert("vehicle created!");
         } else {

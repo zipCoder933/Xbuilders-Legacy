@@ -170,8 +170,9 @@ void main() {
     // vertNormal = normalize(normalMatrix * normal);
     // vertLightDir = -lightNormal;
 
-    chunk_space.xyz = position.xyz;
-    world_space = vec3(chunk_space.x + worldSpaceOffset.x, chunk_space.y + worldSpaceOffset.y, chunk_space.z + worldSpaceOffset.z);
+    chunk_space = (modelMatrix * position).xyz;
+    world_space = chunk_space;
+    // world_space = vec3(chunk_space.x + worldSpaceOffset.x, chunk_space.y + worldSpaceOffset.y, chunk_space.z + worldSpaceOffset.z);
 
     // LIGHTMAP RENDERING ==================================================
     ivec3 lightmap_space = ivec3(world_space - lightsStart);
