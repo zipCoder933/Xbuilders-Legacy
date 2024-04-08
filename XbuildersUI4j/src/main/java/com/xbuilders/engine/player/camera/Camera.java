@@ -62,7 +62,7 @@ public class Camera {
      * @param thirdPersonDist the thirdPersonDist to set
      */
     public void setThirdPersonDist(float thirdPersonDist) {
-        this.thirdPersonDist = MathUtils.clamp(thirdPersonDist, -30, 30);
+        this.thirdPersonDist = MathUtils.clamp(thirdPersonDist, -70, 70);
         if (MathUtils.dist(thirdPersonDist, 0) < 2) {
             this.thirdPersonDist = 0;
         }

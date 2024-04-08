@@ -225,6 +225,7 @@ public class CustomVehicleEntityLink extends EntityLink {
         public void reloadMesh() {
             if (blocks != null) {
                 int width = Math.min(blocks.size.x, blocks.size.z);
+                width = (int) MathUtils.clamp(width, 1, 16);
 
                 aabb.setOffsetAndSize(
                         (float) -width / 2,

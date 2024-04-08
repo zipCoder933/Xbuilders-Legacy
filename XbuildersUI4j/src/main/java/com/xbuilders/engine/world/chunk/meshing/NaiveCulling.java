@@ -61,8 +61,9 @@ public class NaiveCulling {
     }
 
     public static synchronized void generateMesh(final SubChunk subChunk,
-            final PShape opaqueMesh, final PShape transparentMesh,
-            final Vector3i offset) {
+                                                 final PShape opaqueMesh, final PShape transparentMesh,
+                                                 final Vector3i offset) {
+
         final Block faceDefault = null;
         opaqueMesh.beginShape(8);
         opaqueMesh.texture(ItemList.blocks.textureAtlas.getImage());
@@ -147,6 +148,16 @@ public class NaiveCulling {
                                     subChunk.getPosition().z * SubChunk.WIDTH + z + 1, true);
                         }
                         // }
+
+                        if(!block.isLiquid()){ //Draw sides of null chunks unless it's a liquid
+                            if(nx == null) nx = BlockList.BLOCK_AIR;
+                            if(px == null) px = BlockList.BLOCK_AIR;
+                            if(ny == null) ny = BlockList.BLOCK_AIR;
+                            if(py == null) py = BlockList.BLOCK_AIR;
+                            if(nz == null) nz = BlockList.BLOCK_AIR;
+                            if(pz == null) pz = BlockList.BLOCK_AIR;
+                        }
+
                         BlockData data = grid.getBlockData(x, y, z);
                         ItemList.blocks.getBlockType(block.type).constructBlock(
                                 block.isOpaque() ? opaqueMesh : transparentMesh, block, data,

@@ -39,7 +39,7 @@ public class HelecopterBlade {
 
         Main.getPG().translate(x, y, z);
         Main.getPG().rotateY(actualRotation + rotation);
-        Main.getPG().box(0.4f, 0.2f, 10);
+        Main.getPG().box(0.4f, 0.2f, 17);
         Main.getPG().popMatrix();
     }
 
