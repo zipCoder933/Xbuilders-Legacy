@@ -48,9 +48,8 @@ import com.xbuilders.game.items.blocks.tnt.BlockTNT;
 import com.xbuilders.game.items.blocks.tnt.BlockTNTActive;
 import com.xbuilders.game.items.blocks.tnt.BlockTNTLarge;
 import com.xbuilders.game.items.blocks.track.*;
+import com.xbuilders.game.items.blocks.vehicle.*;
 import com.xbuilders.game.items.tools.*;
-import com.xbuilders.game.items.blocks.vehicle.DriversSeat;
-import com.xbuilders.game.items.blocks.vehicle.Engine;
 import com.xbuilders.game.items.blocks.wallItems.BambooLadder;
 import com.xbuilders.game.items.blocks.wallItems.DarkOakLadder;
 import com.xbuilders.game.items.blocks.wallItems.IronLadder;
@@ -81,7 +80,6 @@ import com.xbuilders.game.items.entities.trapdoors.SteelTrapdoorLink;
 import com.xbuilders.game.items.entities.trapdoors.TrapdoorLink;
 import com.xbuilders.game.items.entities.trapdoors.WarpedTrapdoorLink;
 import com.xbuilders.game.items.entities.trapdoors.WhiteTrapdoor;
-import com.xbuilders.game.items.blocks.vehicle.CustomVehicleEntityLink;
 import com.xbuilders.game.items.entities.vehicle.boat.AcaciaBoat;
 import com.xbuilders.game.items.entities.vehicle.boat.BirchBoat;
 import com.xbuilders.game.items.entities.vehicle.boat.DarkOakBoat;
@@ -1553,35 +1551,35 @@ public class GameItems {
     };
     public static final Block CoalOre = new Block(45, "Coal Ore", new BlockTexture(5, 19, 5, 19, 5, 19), true, true,
             false, (byte) 1, 1, DEFAULT_BLOCK_TYPE_ID) {
-                public byte maxStackSize() {
-                    return 64;
-                }
-            };
+        public byte maxStackSize() {
+            return 64;
+        }
+    };
     public static final Block LapisLazulOre = new Block(228, "Lapis Lazul Ore", new BlockTexture(0, 19, 0, 19, 0, 19),
             true, true, false, (byte) 1, 1, DEFAULT_BLOCK_TYPE_ID) {
-                public byte maxStackSize() {
-                    return 64;
-                }
-            };
+        public byte maxStackSize() {
+            return 64;
+        }
+    };
     public static final Block DiamondOre = new Block(99, "Diamond Ore", new BlockTexture(4, 19, 4, 19, 4, 19), true,
             true, false, (byte) 1, 1, DEFAULT_BLOCK_TYPE_ID) {
-                public byte maxStackSize() {
-                    return 64;
-                }
-            };
+        public byte maxStackSize() {
+            return 64;
+        }
+    };
     public static final Block EmeraldOre = new Block(237, "Emerald Ore", new BlockTexture(3, 19, 3, 19, 3, 19), true,
             true, false, (byte) 1, 1, DEFAULT_BLOCK_TYPE_ID) {
-                public byte maxStackSize() {
-                    return 64;
-                }
-            };
+        public byte maxStackSize() {
+            return 64;
+        }
+    };
     public static final Block GoldOre = new Block(234, "Gold Ore", new BlockTexture(2, 19, 2, 19, 2, 19), true, true,
             false, (byte) 1, 1, DEFAULT_BLOCK_TYPE_ID) {
-                public byte maxStackSize() {
-                    return 64;
-                }
-            };
-            
+        public byte maxStackSize() {
+            return 64;
+        }
+    };
+
     public static final Block LilyPad = new Block(154, "Lily Pad", new BlockTexture(1, 5, 1, 5, 1, 5),
             BlockRenderType.FLOOR);
     public static final Block SeaGrass = new Block(253, "Sea Grass", new BlockTexture(22, 15, 22, 15, 22, 15),
@@ -1635,14 +1633,21 @@ public class GameItems {
     public static final Engine BLOCK_ENGINE_120HP = new Engine(106, 55);
     public static final Engine BLOCK_ENGINE_240HP = new Engine(744, 70);
 
-    public static final Block BLOCK_WHEEL = new Block(743, "Wheel", new BlockTexture(
-            4, 25, 5, 25), false, BlockRenderType.WHEEL) {
+    public static final Block BLOCK_WHEEL = new WheelBlock(743, "Wheel", new BlockTexture(
+            4, 25, 5, 25), BlockRenderType.WHEEL) {
         public void init() {
             tags.add("vehicle");
         }
     };
-    public static final Block BLOCK_WHEEL_HALF = new Block(745, "Wheel Half", new BlockTexture(
-            4, 25, 5, 25), false, BlockRenderType.WHEEL_HALF) {
+    public static final Block BLOCK_WHEEL_HALF = new WheelBlock(745, "Wheel Half", new BlockTexture(
+            4, 25, 5, 25), BlockRenderType.WHEEL_HALF) {
+        public void init() {
+            tags.add("vehicle");
+        }
+    };
+
+    public static final Block BOYANCY_BASE = new WheelBlock(751, "Boyancy Base",
+            new BlockTexture(2, 26, 2, 26), DEFAULT_BLOCK_TYPE_ID) {
         public void init() {
             tags.add("vehicle");
         }
@@ -1671,12 +1676,8 @@ public class GameItems {
         }
     };
 
-    public static final Block BLOCK_HELICOPTER_BLADE = new Block(749, "Helicopter Blade",
-            new BlockTexture(0, 27, 1, 27)) {
-        public void init() {
-            tags.add("vehicle");
-        }
-    };
+    public static final HelecopterBladeBlock BLOCK_LARGE_HELICOPTER_BLADE = new HelecopterBladeBlock(749, "Large Helicopter Blade", 17);
+    public static final HelecopterBladeBlock BLOCK_SMALL_HELICOPTER_BLADE = new HelecopterBladeBlock(750, "Small Helicopter Blade", 9);
     public static final Block BLOCK_SILVER_BRICK = new Block(747, "Silver Brick", new BlockTexture(4, 24), true);
 
     // </editor-fold>
@@ -1855,8 +1856,8 @@ public class GameItems {
 
     public static final MuleEntityLink MULE = new MuleEntityLink(70, "Mule", "mule.png");
     public static final MuleEntityLink DONKEY = new MuleEntityLink(71, "Donkey", "donkey.png");
-    
-    
+
+
     public static final BannerEntityLink BANNER = new BannerEntityLink(82, "Red Banner", "red.png");
     public static final BannerEntityLink BANNER1 = new BannerEntityLink(81, "Orange Banner", "orange.png");
     public static final BannerEntityLink BANNER2 = new BannerEntityLink(72, "Yellow Banner", "yellow.png");
@@ -1940,12 +1941,12 @@ public class GameItems {
     // </editor-fold>
 
     public static Tool[] getToolList() {
-        return new Tool[] { COPY_TOOL, CAMERA, FLASHLIGHT, LIQUID_REMOVAL_TOOL, HOE, SADDLE, ANIMAL_FEED,
-                ANIMAL_LEAVE };
+        return new Tool[]{COPY_TOOL, CAMERA, FLASHLIGHT, LIQUID_REMOVAL_TOOL, HOE, SADDLE, ANIMAL_FEED,
+                ANIMAL_LEAVE};
     }
 
     public static EntityLink[] getEntityList() {
-        return new EntityLink[] {
+        return new EntityLink[]{
                 // Oak door
                 OAK_DOOR, OAK_DOOR2, OAK_DOOR3,
                 // red door
@@ -2001,11 +2002,11 @@ public class GameItems {
                 BLACK_AND_WHITE_RABBIT, BROWN_RABBIT,
                 CAERBANNOG_RABBIT, GOLD_RABBIT, SALT_RABBIT, WHITE_SPLOTCHED_RABBIT, BLUE_PARROT, GREEN_PARROT,
                 RED_BLUE_PARROT, GREY_PARROT, YELLOW_PARROT,
-                ENTITY_CUSTOM_VEHICLE };
+                ENTITY_CUSTOM_VEHICLE};
     }
 
     public static Block[] getBlockList() throws IOException {
-        Block[] list = new Block[] { START_BOUNDARY, BLOCK_PASTE, ADDITIVE_PASTE, PASTE_ROTATE_BLOCK,
+        Block[] list = new Block[]{START_BOUNDARY, BLOCK_PASTE, ADDITIVE_PASTE, PASTE_ROTATE_BLOCK,
                 PASTE_VERTEX_BLOCK, CURVED_TRACK, RAISED_TRACK, BLOCK_CONTROL_PANEL, BLOCK_DIRT, BLOCK_GRASS,
                 GRASS_PLANT, BLOCK_SNOW, SNOW_BLOCK, BLOCK_DRY_GRASS, DRY_GRASS_PLANT, BLOCK_JUNGLE_GRASS,
                 JUNGLE_GRASS_PLANT, TALL_GRASS_BOTTOM, TALL_GRASS_TOP, TALL_DRY_GRASS_BOTTOM, TALL_DRY_GRASS_TOP,
@@ -2158,10 +2159,10 @@ public class GameItems {
                 GoldOre, LilyPad, SeaGrass, BLOCK_CACTUS, Sandstone, RedSandstone, OakPlanks, JunglePlanks,
                 SprucePlanks, BirchPlanks, AcaciaPlanks, AmethystCrystal, RubyCrystal, JadeCrystal, AquamarineCrystal,
                 /**/ RED_WIRE, GREEN_WIRE, BLUE_WIRE, GRAY_WIRE,
-                BLOCK_DRIVERS_SEAT, PassengerSeat, MetalGrate, BLOCK_WHEEL, BLOCK_WHEEL_HALF,
+                BLOCK_DRIVERS_SEAT, PassengerSeat, MetalGrate, BLOCK_WHEEL, BLOCK_WHEEL_HALF, BOYANCY_BASE,
                 BLOCK_ENGINE_30HP, BLOCK_ENGINE_60HP,
                 BLOCK_ENGINE_120HP, BLOCK_ENGINE_240HP, BLOCK_JET_THRUSTER, BLOCK_WATER_PROPELLER,
-                BLOCK_HELICOPTER_BLADE, BLOCK_SILVER_BRICK };
+                BLOCK_LARGE_HELICOPTER_BLADE, BLOCK_SMALL_HELICOPTER_BLADE, BLOCK_SILVER_BRICK};
 
         try {
             ResourceUtils.resource("assets").mkdirs();

@@ -158,8 +158,9 @@ public class GameMenu extends UIExtension {
 
     public void render() {
         if (isShown()) {
-            strokeWeight(1);
-            getParentFrame().stroke(0, 100, 255);
+//            strokeWeight(1);
+//            getParentFrame().stroke(0, 100, 255);
+            noStroke();
             fill(30, 250);
             textSize(16);
             textAlign(LEFT, TOP);

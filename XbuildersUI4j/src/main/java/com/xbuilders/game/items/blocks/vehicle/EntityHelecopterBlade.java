@@ -1,18 +1,17 @@
 package com.xbuilders.game.items.blocks.vehicle;
 
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.Main;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-public class HelecopterBlade {
+class EntityHelecopterBlade {
     public final Vector3f position;
     public final Matrix4f matrix;
     boolean clockwise;
 
-    public HelecopterBlade(Vector3f position, boolean clockwise) {
+    public EntityHelecopterBlade(Vector3f position, boolean clockwise) {
         this.position = position;
         this.clockwise = clockwise;
         this.matrix = new Matrix4f();

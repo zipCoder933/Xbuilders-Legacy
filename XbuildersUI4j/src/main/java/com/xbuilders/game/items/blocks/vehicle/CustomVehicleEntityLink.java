@@ -4,7 +4,6 @@ import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.entities.mobile.Vehicle;
@@ -30,9 +29,9 @@ public class CustomVehicleEntityLink extends EntityLink {
 
         public BlockGrid blocks;
         byte speed, direction;
-        boolean isWatercraft, allTerrain;
+        boolean canFloatOnWater, allTerrain;
         boolean canFly = false;
-        List<HelecopterBlade> blades = new ArrayList<>();
+        List<EntityHelecopterBlade> blades = new ArrayList<>();
         public PShape mesh;
 
         public CustomVehicle() {
@@ -53,12 +52,12 @@ public class CustomVehicleEntityLink extends EntityLink {
                 if (getPlayer().forwardKeyPressed()) {
                     targetSpeed = speed * 0.006f;
                     rotateSpeed = 2.0f;
-                } else if ((posHandler.onGround || isWatercraft) && getPlayer().backKeyPressed()) {
+                } else if ((posHandler.onGround || canFloatOnWater) && getPlayer().backKeyPressed()) {
                     targetSpeed = speed * -0.002f;
                     rotateSpeed = 1.0f;
                 }
 
-                if (isWatercraft) {
+                if (canFloatOnWater) {
                     if (!posHandler.blockAtPosition.isLiquid()) {
                         targetSpeed *= 0.1f;
                     }
@@ -80,41 +79,41 @@ public class CustomVehicleEntityLink extends EntityLink {
                     float rotationY1 = rotationYDeg - rotateSpeed;
                     this.rotationYDeg = rotationY1;
                 }
-                if (isWatercraft) {
-                    if (getPlayer().downKeyPressed()) {
-                        this.posHandler.velocity.y -= (speedCurve + 0.1f) * 0.12f;
-                    }
-                    if (posHandler.blockAtPosition.isLiquid()) {
-                        if (getPlayer().upKeyPressed()) {
-                            this.posHandler.velocity.y += (speedCurve + 0.1f) * 0.12f;
-                            this.posHandler.onGround = false;
-                        }
-                        this.posHandler.setGravityEnabled(false);
-                    } else {
+
+                if (getPlayer().downKeyPressed()) {
+                    if (posHandler.blockAtPosition.isLiquid()) this.posHandler.velocity.y -= .7 * 0.18f;
+                    else this.posHandler.velocity.y -= (speedCurve + 0.1f) * 0.12f;
+                    if (this.posHandler.onGround) {
                         this.posHandler.setGravityEnabled(true);
                     }
-                } else if (canFly) {
-                    if (getPlayer().downKeyPressed() && !this.posHandler.isGravityEnabled()) {
-                        this.posHandler.velocity.y -= .7 * 0.18f;
-                        if (this.posHandler.onGround) {
-                            this.posHandler.setGravityEnabled(true);
-                        }
-                    } else if (getPlayer().upKeyPressed()) {
+                } else if (getPlayer().upKeyPressed()) {
+                    if (canFloatOnWater && posHandler.blockAtPosition.isLiquid()) {
+                        this.posHandler.velocity.y += (speedCurve + 0.1f) * 0.12f;
+                        this.posHandler.onGround = false;
+                        this.posHandler.setGravityEnabled(false);
+                    } else if (canFly) {
+                        this.posHandler.onGround = false;
                         this.posHandler.setGravityEnabled(false);
                         if (!blades.isEmpty()) {//If this is a helecopter
                             this.posHandler.velocity.y += speed * 0.001f;
                         } else {
                             this.posHandler.velocity.y += speedCurve * 0.15f;
                         }
-                        this.posHandler.onGround = false;
-                    } else {
+                    }
+                } else {
+                    if (!canFloatOnWater) {
                         if (getPlayer().forwardKeyPressed()) {
                             this.posHandler.velocity.y -= 0.01f;
                         } else {
                             this.posHandler.velocity.y -= 0.04f;
                         }
                     }
+                    if (!canFly && !posHandler.blockAtPosition.isLiquid()) {
+                        this.posHandler.setGravityEnabled(true);
+                    }
                 }
+
+
                 rotationYDeg = normalizeRotation(rotationYDeg);
                 smoothYRotation = rotationYDeg;
 
@@ -160,23 +159,18 @@ public class CustomVehicleEntityLink extends EntityLink {
             float yRotationRadians = (float) (smoothYRotation * (Math.PI / 180));
             if (mesh != null) {
                 if (playerIsRidingThis()) {
-                    positionLock.playerDisplacement.identity()
-                            .rotateY(yRotationRadians)
-                            .translate(seatPosition).translate(0, -1.0f, 0);
+                    positionLock.playerDisplacement.identity().rotateY(yRotationRadians).translate(seatPosition).translate(0, -1.0f, 0);
                 }
                 if (!blades.isEmpty()) {
-                    HelecopterBlade.startDrawingBlades();
-                    for (HelecopterBlade blade : blades) {
-                        blade.matrix.identity().translate(worldPosition)
-                                .rotateY(yRotationRadians)
-                                .translate(blade.position);
+                    EntityHelecopterBlade.startDrawingBlades();
+                    for (EntityHelecopterBlade blade : blades) {
+                        blade.matrix.identity().translate(worldPosition).rotateY(yRotationRadians).translate(blade.position);
                         blade.render(!posHandler.isGravityEnabled() && !posHandler.onGround, yRotationRadians);
                     }
-                    HelecopterBlade.stopDrawingBlades();
+                    EntityHelecopterBlade.stopDrawingBlades();
                 }
                 smoothYRotation = (float) MathUtils.curve(smoothYRotation, rotationYDeg, 0.25f);
-                modelMatrix.rotateY(yRotationRadians)
-                        .translate(renderOffset.x, renderOffset.y, renderOffset.z);
+                modelMatrix.rotateY(yRotationRadians).translate(renderOffset.x, renderOffset.y, renderOffset.z);
                 sendModelMatrixToShader();
                 renderMob(g);
             }
@@ -209,7 +203,7 @@ public class CustomVehicleEntityLink extends EntityLink {
             fout.write((byte) speed);// 0
             fout.write((byte) direction);// 1
             fout.write((byte) (canFly ? 1 : 0));// 2
-            fout.write((byte) (isWatercraft ? 1 : 0));// 3
+            fout.write((byte) (canFloatOnWater ? 1 : 0));// 3
             fout.write((byte) (normalizeRotation(rotationYDeg) / 2));// 4
             fout.write((byte) (allTerrain ? 1 : 0));// 5
             //MAKE SURE TO SET THE STARTING VALUE!!!
@@ -227,11 +221,7 @@ public class CustomVehicleEntityLink extends EntityLink {
                 int width = Math.min(blocks.size.x, blocks.size.z);
                 width = (int) MathUtils.clamp(width, 1, 16);
 
-                aabb.setOffsetAndSize(
-                        (float) -width / 2,
-                        (float) -blocks.size.y / 2,
-                        (float) -width / 2,
-                        width, blocks.size.y, width);
+                aabb.setOffsetAndSize((float) -width / 2, (float) -blocks.size.y / 2, (float) -width / 2, width, blocks.size.y, width);
                 setFrustumSphereRadius(Math.max(Math.max(blocks.size.x, blocks.size.y), blocks.size.z) / 2f);
 
                 renderOffset.x = (float) -blocks.size.x / 2;
@@ -244,15 +234,9 @@ public class CustomVehicleEntityLink extends EntityLink {
                     for (int j = 0; j < blocks.size.y; j++) {
                         for (int k = 0; k < blocks.size.z; k++) {
                             if (blocks.get(i, j, k) == GameItems.BLOCK_DRIVERS_SEAT.id) {
-                                seatPosition.set(
-                                        i + renderOffset.x + 0.5f,
-                                        j + renderOffset.y + 0.5f,
-                                        k + renderOffset.z + 0.5f);
-                            } else if (blocks.get(i, j, k) == GameItems.BLOCK_HELICOPTER_BLADE.id) {
-                                blades.add(new HelecopterBlade(
-                                        new Vector3f(i + renderOffset.x + 0.5f,
-                                                j + renderOffset.y + 0.5f,
-                                                k + renderOffset.z + 0.5f), blades.size() % 2 == 0));
+                                seatPosition.set(i + renderOffset.x + 0.5f, j + renderOffset.y + 0.5f, k + renderOffset.z + 0.5f);
+                            } else if (blocks.get(i, j, k) == GameItems.BLOCK_LARGE_HELICOPTER_BLADE.id) {
+                                blades.add(new EntityHelecopterBlade(new Vector3f(i + renderOffset.x + 0.5f, j + renderOffset.y + 0.5f, k + renderOffset.z + 0.5f), blades.size() % 2 == 0));
 
                             }
                         }
@@ -271,7 +255,7 @@ public class CustomVehicleEntityLink extends EntityLink {
                 speed = bytes[0];
                 direction = bytes[1];
                 canFly = bytes[2] == 1;
-                isWatercraft = bytes[3] == 1;
+                canFloatOnWater = bytes[3] == 1;
                 this.rotationYDeg = (float) (bytes[4] * 2);
                 this.allTerrain = bytes[5] == 1;
                 smoothYRotation = this.rotationYDeg;

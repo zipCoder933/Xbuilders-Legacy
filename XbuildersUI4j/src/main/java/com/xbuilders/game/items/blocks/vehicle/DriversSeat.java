@@ -13,12 +13,10 @@ import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.game.items.other.BlockGrid;
 import com.xbuilders.game.items.other.boundaryBlocks.BoundingBox;
-import org.joml.Vector2f;
 import org.joml.Vector3i;
 
 import java.util.HashSet;
 
-import static com.xbuilders.game.items.GameItems.BLOCK_HELICOPTER_BLADE;
 import static com.xbuilders.game.items.GameItems.BLOCK_JET_THRUSTER;
 
 public class DriversSeat extends Block {
@@ -34,10 +32,11 @@ public class DriversSeat extends Block {
     static BlockGrid blocks;
     public static final int VEHICLE_MAX_SIZE = 200;
     public static byte speed = -1;
-    public static boolean canFly, isWatercraft, allTerrain;
+    public static boolean canFly, canFloatOnWater, allTerrain;
     public static byte direction = 0;
 
     private boolean findWheels(AABB aabb, int x, int y, int z) {
+        boolean foundWheels = false;
         HashSet<Vector3i> area = new HashSet<>();
         HashSet<Vector3i> checkedNodes = new HashSet<>();
         aabb.setPosAndSize(x, y, z, 0, 0, 0);
@@ -56,13 +55,17 @@ public class DriversSeat extends Block {
                 continue;
             }
             checkedNodes.add(pos);
-            if (block.type == BlockRenderType.WHEEL || block.type == BlockRenderType.WHEEL_HALF) {
+            if (block instanceof WheelBlock) {
+                foundWheels = true;
                 System.out.println("Found a wheel at " + y2);
-                aabb.maxPoint.y = y2;
                 if (block.type == BlockRenderType.WHEEL) {
                     allTerrain = true;
+                } else if (block == GameItems.BOYANCY_BASE) {
+                    canFloatOnWater = true;
                 }
-                return true;
+                if(y2 >= aabb.maxPoint.y){
+                    aabb.maxPoint.y = y2;
+                }
             }
             checkNeighbour(area, aabb, x2 + 1, y2, z2, false);
             checkNeighbour(area, aabb, x2 - 1, y2, z2, false);
@@ -71,7 +74,7 @@ public class DriversSeat extends Block {
             checkNeighbour(area, aabb, x2, y2, z2 + 1, false);
             checkNeighbour(area, aabb, x2, y2, z2 - 1, false);
         }
-        return false;
+        return foundWheels;
     }
 
     @Override
@@ -100,7 +103,7 @@ public class DriversSeat extends Block {
         direction = 0;
         canFly = false;
         allTerrain = false;
-        isWatercraft = false;
+        canFloatOnWater = false;
         boolean foundWheel = findWheels(aabb, x, y, z);
         if (foundWheel) {
             area.add(new Vector3i(x, y, z));
@@ -134,16 +137,12 @@ public class DriversSeat extends Block {
                         System.out.println(e);
                         direction = 0;
                     }
-                } else if (block == BLOCK_JET_THRUSTER) {
-                    System.out.println("Found a jet thruster");
-                    canFly = true;
-                } else if (block == BLOCK_HELICOPTER_BLADE) {
-                    System.out.println("Found a helecopter blade");
+                } else if (block == BLOCK_JET_THRUSTER
+                        || block instanceof HelecopterBladeBlock) {
                     canFly = true;
                 } else if (block == GameItems.BLOCK_WATER_PROPELLER) {
-                    System.out.println("Found a water propelor");
                     canFly = true;
-                    isWatercraft = true;
+                    canFloatOnWater = true;
                 }
 
                 checkNeighbour(area, aabb, x2 + 1, y2, z2, true);
@@ -214,7 +213,7 @@ public class DriversSeat extends Block {
             entity.direction = direction;
             entity.speed = speed;
             entity.canFly = canFly;
-            entity.isWatercraft = isWatercraft;
+            entity.canFloatOnWater = canFloatOnWater;
             entity.allTerrain = allTerrain;
             entity.initialize(null, true);
             box.hide();

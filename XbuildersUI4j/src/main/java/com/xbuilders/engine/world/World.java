@@ -4,6 +4,7 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.VoxelGame;
+import com.xbuilders.engine.gui.game.GameMenu;
 import com.xbuilders.engine.player.blockPipeline.BlockPipeline;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
@@ -31,6 +32,7 @@ import processing.core.PGraphics;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -126,6 +128,36 @@ public class World {
     private final ArrayList<Chunk> unusedChunks;
     private PointerHandler ph;
     public WorldInfo infoFile;
+
+
+    public void setPinpoint() {
+        File pinpointFile = new File(this.infoFile.getDirectory(), "pinpoint.txt");
+        VoxelGame.getMessageBox().show("Are you sure?", "Are you sure you want to set this as your Pinpoint?", () -> {
+            try {
+                Files.writeString(pinpointFile.toPath(),
+                        ph.getPlayer().worldPos.x + ","
+                                + (ph.getPlayer().worldPos.y - 0.2f) + ","
+                                + ph.getPlayer().worldPos.z);
+                VoxelGame.getMessageBox().show("Success", "Pinpoint set");
+            } catch (IOException e) {
+                VoxelGame.getMessageBox().show("Error", "Error saving Pinpoint");
+            }
+        });
+    }
+
+    public void loadPinpoint() {
+        File pinpointFile = new File(this.infoFile.getDirectory(), "pinpoint.txt");
+        if (pinpointFile.exists()) {
+            try {
+                String[] pinpoint = Files.readString(pinpointFile.toPath()).split(",");
+                ph.getPlayer().worldPos.x = Float.parseFloat(pinpoint[0]);
+                ph.getPlayer().worldPos.y = Float.parseFloat(pinpoint[1]);
+                ph.getPlayer().worldPos.z = Float.parseFloat(pinpoint[2]);
+            } catch (IOException e) {
+                VoxelGame.getMessageBox().show("Error", "Error loading Pinpoint");
+            }
+        }
+    }
 
     public boolean isOpen() {
         return this.open;

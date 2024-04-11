@@ -15,30 +15,32 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.game.items.GameItemList;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import static processing.core.PConstants.LEFT;
+
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import processing.ui4j.EventAction;
 import processing.ui4j.components.NumberBox;
 
 /**
- *
  * @author zipCoder933
  */
 class Menu extends GameMenuPage {
-    
-    Button screenshots, quit, help, settings, gameMode;//TODO: Add screenshots menu button?
+
+    Button screenshots, quit, help, settings, gameMode, setPinpoint, loadPinpoint;//TODO: Add screenshots menu button?
     LabeledNumberBox chunks;
-    
+
     public Menu(final PointerHandler ph, GameMenu parent, Runnable quitAction) {
         super(parent);
         quit = new Button(this);
         help = new Button(this);
-        
+
         chunks = new LabeledNumberBox(this);
 //        fogDist = new LabeledNumberBox(this);
 
@@ -52,9 +54,9 @@ class Menu extends GameMenuPage {
                     value = (int) MathUtils.clamp(t.getValue(),
                             VoxelGame.getSettings().getSettingsFile().minChunkDistance,
                             VoxelGame.getSettings().getSettingsFile().maxChunkDistance);
-                    
+
                     chunks.getBox().setValue(value);
-                    
+
                     if (value != ph.getSettingsFile().chunkRadius) {
                         VoxelGame.getSettings().setChunkDistance(value);
                         ShaderLightMap.initializeLightmap(ph, this.getClass());
@@ -64,13 +66,13 @@ class Menu extends GameMenuPage {
                 }
             }
         });
-        
+
         gameMode = new Button(this);
         gameMode.setAction(() -> {
             int modeIndex = Arrays.asList(GameMode.values()).indexOf(VoxelGame.getGame().mode) + 1;
             VoxelGame.getGame().mode = GameMode.values()[modeIndex % GameMode.values().length];
         });
-        
+
         screenshots = new Button(this);
         screenshots.setAction(() -> {
             try {
@@ -79,12 +81,12 @@ class Menu extends GameMenuPage {
                 Logger.getLogger(GameMenu.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         quit.setAction(quitAction);
         help.setAction(() -> {
             MiscUtils.openHelpMenu();
         });
-        
+
         settings = new Button(this);
         settings.setAction(() -> {
             if (page == Page.DEFAULT) {
@@ -93,10 +95,20 @@ class Menu extends GameMenuPage {
                 setPage(Page.DEFAULT);
             }
         });
+
+        setPinpoint = new Button(this);
+        setPinpoint.setAction(() -> {
+            VoxelGame.getWorld().setPinpoint();
+        });
+
+        loadPinpoint = new Button(this);
+        loadPinpoint.setAction(() -> {
+            VoxelGame.getWorld().loadPinpoint();
+        });
         setPage(Page.DEFAULT);
         addToFrame();
     }
-    
+
     private void setPage(Page page2) {
         this.page = page2;
         if (this.page == Page.DEFAULT) {
@@ -113,72 +125,79 @@ class Menu extends GameMenuPage {
 //            fogDist.enable();
         }
     }
-    
+
     @Override
     public void initialize(World world) {
     }
-    
+
     @Override
     public void keyPressed(KeyEvent ke) {
     }
-    
+
     @Override
     public void keyReleased(KeyEvent ke) {
     }
-    
+
     @Override
     public void onDisable() {
     }
-    
+
     @Override
     public void onEnable() {
     }
-    
+
     @Override
     public void mouseEvent(MouseEvent me) {
     }
-    
+
     private enum Page {
         DEFAULT, SETTINGS;
     }
+
     Page page = Page.DEFAULT;
-    
+
+    int width = 440;
+    int height = 320;
+
     @Override
     public void render() {
         if (!getPointerHandler().getWorld().isOpen()) {
             return;
         }
         if (page == Page.DEFAULT) {
-            int width = 440;
-            int height = 320;
+            width = 440;
+            height = 440;
             int innerWidth = 300;
             int x1 = (getParentFrame().width / 2) - (width / 2);
             int y1 = (getParentFrame().height / 2) - (height / 2);
             int y2 = y1 + 85;
-            
+
             getParent().menuBackground("Menu", x1, y1, width, height);
-            
+
             quit.draw("Save and Quit", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
             y2 += 40 + 10;
             help.draw("Help Menu", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
             y2 += 40 + 10;
             screenshots.draw("Screenshots", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
-            
+            y2 += 40 + 10;
+            setPinpoint.draw("Set Pinpoint", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
+            y2 += 40 + 10;
+            loadPinpoint.draw("Load Pinpoint", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
             y2 += 40 + 10;
             settings.draw("Settings", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
         } else {
-            int width = 440;
-            int height = 330;
+            width = 440;
+            height = 330;
             int innerWidth = 300;
             int x1 = (getParentFrame().width / 2) - (width / 2);
             int y1 = (getParentFrame().height / 2) - (height / 2);
             int y2 = y1 + 85;
-            
+
             getParent().menuBackground("Settings", x1, y1, width, height);
-            
+
             chunks.render(x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
             y2 += 74;
-            
+
             fill(255, 100);
             textSize(11);
             textAlign(LEFT);
@@ -189,12 +208,12 @@ class Menu extends GameMenuPage {
             settings.draw("Back", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
         }
     }
-    
+
     @Override
     public void onShow() {
         setPage(Page.DEFAULT);
     }
-    
+
     @Override
     public void onHide() {
     }
