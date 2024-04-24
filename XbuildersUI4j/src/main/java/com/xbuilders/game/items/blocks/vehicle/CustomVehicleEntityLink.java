@@ -59,7 +59,7 @@ public class CustomVehicleEntityLink extends EntityLink {
                     rotateSpeed = 1.0f;
                 }
 
-                if (canFloatOnWater && !canFly) {
+                if (canFloatOnWater && !canFly && !allTerrain) {
                     if (!posHandler.blockAtPosition.isLiquid()) {
                         targetSpeed *= 0.1f;
                     }
