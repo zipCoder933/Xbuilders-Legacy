@@ -180,7 +180,7 @@ class Menu extends GameMenuPage {
             y2 += 40 + 10;
             screenshots.draw("Screenshots", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
             y2 += 40 + 10;
-            setPinpoint.draw("Set Pinpoint", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
+            setPinpoint.draw("Pinpoint Location", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
             y2 += 40 + 10;
             loadPinpoint.draw("Load Pinpoint", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
             y2 += 40 + 10;

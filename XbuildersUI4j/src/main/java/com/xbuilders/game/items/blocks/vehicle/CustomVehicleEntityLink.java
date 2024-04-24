@@ -1,5 +1,7 @@
 package com.xbuilders.game.items.blocks.vehicle;
 
+import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.engine.player.UserControlledPlayer;
@@ -25,12 +27,12 @@ public class CustomVehicleEntityLink extends EntityLink {
         setSupplier(() -> new CustomVehicle());
     }
 
+
     public class CustomVehicle extends Vehicle {
 
         public BlockGrid blocks;
         byte speed, direction;
-        boolean canFloatOnWater, allTerrain;
-        boolean canFly = false;
+        boolean canFloatOnWater, allTerrain, canFly = false;
         List<EntityHelecopterBlade> blades = new ArrayList<>();
         public PShape mesh;
 
@@ -57,7 +59,7 @@ public class CustomVehicleEntityLink extends EntityLink {
                     rotateSpeed = 1.0f;
                 }
 
-                if (canFloatOnWater) {
+                if (canFloatOnWater && !canFly) {
                     if (!posHandler.blockAtPosition.isLiquid()) {
                         targetSpeed *= 0.1f;
                     }
@@ -80,36 +82,41 @@ public class CustomVehicleEntityLink extends EntityLink {
                     this.rotationYDeg = rotationY1;
                 }
 
-                if (getPlayer().downKeyPressed()) {
-                    if (posHandler.blockAtPosition.isLiquid()) this.posHandler.velocity.y -= .7 * 0.18f;
-                    else this.posHandler.velocity.y -= (speedCurve + 0.1f) * 0.12f;
-                    if (this.posHandler.onGround) {
-                        this.posHandler.setGravityEnabled(true);
-                    }
-                } else if (getPlayer().upKeyPressed()) {
-                    if (canFloatOnWater && posHandler.blockAtPosition.isLiquid()) {
-                        this.posHandler.velocity.y += (speedCurve + 0.1f) * 0.12f;
-                        this.posHandler.onGround = false;
-                        this.posHandler.setGravityEnabled(false);
-                    } else if (canFly) {
-                        this.posHandler.onGround = false;
-                        this.posHandler.setGravityEnabled(false);
-                        if (!blades.isEmpty()) {//If this is a helecopter
-                            this.posHandler.velocity.y += speed * 0.001f;
-                        } else {
-                            this.posHandler.velocity.y += speedCurve * 0.15f;
+                if (canFloatOnWater || canFly) {
+                    if (getPlayer().downKeyPressed()) {
+                        this.posHandler.velocity.y -= 0.07f;
+                    } else if (getPlayer().upKeyPressed()) {
+                        if (canFloatOnWater && posHandler.blockAtPosition.isLiquid()) {
+                            this.posHandler.velocity.y += (speedCurve + 0.1f) * 0.12f;
+                            this.posHandler.onGround = false;
+                            this.posHandler.setGravityEnabled(false);
+                        } else if (canFly) {
+                            this.posHandler.onGround = false;
+                            this.posHandler.setGravityEnabled(false);
+                            if (!blades.isEmpty()) {//If this is a helecopter
+                                this.posHandler.velocity.y += speed * 0.0012f;
+                            } else {
+                                this.posHandler.velocity.y += speedCurve * 0.15f;
+                            }
                         }
-                    }
-                } else {
-                    if (!canFloatOnWater) {
-                        if (getPlayer().forwardKeyPressed()) {
-                            this.posHandler.velocity.y -= 0.01f;
-                        } else {
-                            this.posHandler.velocity.y -= 0.04f;
+                    } else {
+                        if (canFloatOnWater) {
+                            if (posHandler.blockAtPosition.isLiquid()) {
+                                this.posHandler.setGravityEnabled(false);
+                                this.posHandler.onGround = false;
+                            } else if (!canFly) this.posHandler.setGravityEnabled(true);
                         }
-                    }
-                    if (!canFly && !posHandler.blockAtPosition.isLiquid()) {
-                        this.posHandler.setGravityEnabled(true);
+                        if (this.posHandler.onGround) {
+                            this.posHandler.setGravityEnabled(true);
+                        }
+                        if (canFly && blades.isEmpty()  //If this is an airplane
+                                && !(canFloatOnWater && posHandler.blockAtPosition.isLiquid())) {
+                            if (getPlayer().forwardKeyPressed()) {
+                                this.posHandler.velocity.y -= 0.01f;
+                            } else {
+                                this.posHandler.velocity.y -= 0.03f;
+                            }
+                        }
                     }
                 }
 
@@ -129,7 +136,7 @@ public class CustomVehicleEntityLink extends EntityLink {
                     }
                 }
                 return true;
-            } else {
+            } else { //If player isn't riding this, make the entity fall unless underwater
                 posHandler.setGravityEnabled(!posHandler.blockAtPosition.isLiquid());
             }
 
@@ -165,7 +172,9 @@ public class CustomVehicleEntityLink extends EntityLink {
                     EntityHelecopterBlade.startDrawingBlades();
                     for (EntityHelecopterBlade blade : blades) {
                         blade.matrix.identity().translate(worldPosition).rotateY(yRotationRadians).translate(blade.position);
-                        blade.render(!posHandler.isGravityEnabled() && !posHandler.onGround, yRotationRadians);
+                        blade.render(
+                                !posHandler.isGravityEnabled() && !posHandler.onGround && playerIsRidingThis(),
+                                yRotationRadians);
                     }
                     EntityHelecopterBlade.stopDrawingBlades();
                 }
@@ -233,10 +242,15 @@ public class CustomVehicleEntityLink extends EntityLink {
                 for (int i = 0; i < blocks.size.x; i++) {
                     for (int j = 0; j < blocks.size.y; j++) {
                         for (int k = 0; k < blocks.size.z; k++) {
+                            Block block = ItemList.getBlock(blocks.get(i, j, k));
                             if (blocks.get(i, j, k) == GameItems.BLOCK_DRIVERS_SEAT.id) {
                                 seatPosition.set(i + renderOffset.x + 0.5f, j + renderOffset.y + 0.5f, k + renderOffset.z + 0.5f);
-                            } else if (blocks.get(i, j, k) == GameItems.BLOCK_LARGE_HELICOPTER_BLADE.id) {
-                                blades.add(new EntityHelecopterBlade(new Vector3f(i + renderOffset.x + 0.5f, j + renderOffset.y + 0.5f, k + renderOffset.z + 0.5f), blades.size() % 2 == 0));
+                            } else if (block instanceof HelecopterBladeBlock) {
+                                HelecopterBladeBlock blade = (HelecopterBladeBlock) block;
+                                blades.add(new EntityHelecopterBlade(
+                                        new Vector3f(i + renderOffset.x + 0.5f, j + renderOffset.y + 0.5f, k + renderOffset.z + 0.5f),
+                                        blades.size() % 2 == 0,
+                                        blade.length));
 
                             }
                         }

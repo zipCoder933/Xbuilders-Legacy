@@ -306,9 +306,9 @@ public class PSurfaceJOGL implements PSurface {
                 new Rectangle(screen.getX(), screen.getY(),
                         screen.getWidth(), screen.getHeight())
                 : new Rectangle((int) displayRect.getX(),
-                        (int) displayRect.getY(),
-                        (int) displayRect.getWidth(),
-                        (int) displayRect.getHeight());
+                (int) displayRect.getY(),
+                (int) displayRect.getWidth(),
+                (int) displayRect.getHeight());
 
 //      new Rectangle((int) (uiScale * displayRect.getX()),
 //                    (int) (uiScale * displayRect.getY()),
@@ -415,7 +415,8 @@ public class PSurfaceJOGL implements PSurface {
                     } else if (cause == null) {
                         throw new RuntimeException(drawException.getMessage());
                     } else {
-                        throw new RuntimeException(cause);
+                        System.err.println("Thread ended: " + cause);
+//                        throw new RuntimeException(cause);
                     }
                 } catch (InterruptedException ignored) {
                 }
@@ -758,12 +759,12 @@ public class PSurfaceJOGL implements PSurface {
         if (fps < 1) {
             PGraphics.showWarning(
                     "The OpenGL renderer cannot have a frame rate lower than 1.\n"
-                    + "Your sketch will run at 1 frame per second.");
+                            + "Your sketch will run at 1 frame per second.");
             fps = 1;
         } else if (fps > 1000) {
             PGraphics.showWarning(
                     "The OpenGL renderer cannot have a frame rate higher than 1000.\n"
-                    + "Your sketch will run at 1000 frames per second.");
+                            + "Your sketch will run at 1000 frames per second.");
             fps = 1000;
         }
         if (animator != null) {
@@ -802,9 +803,9 @@ public class PSurfaceJOGL implements PSurface {
                         // don't show the message when using fullScreen()
                         PGraphics.showWarning(
                                 "The sketch has been resized from "
-                                + "%dx%d to %dx%d by the operating system.%n"
-                                + "This happened outside Processing, "
-                                + "and may be a limitation of the OS or window manager.",
+                                        + "%dx%d to %dx%d by the operating system.%n"
+                                        + "This happened outside Processing, "
+                                        + "and may be a limitation of the OS or window manager.",
                                 sketchWidthRequested, sketchHeightRequested, sketchWidth, sketchHeight);
                     }
                 }
@@ -997,7 +998,7 @@ public class PSurfaceJOGL implements PSurface {
     }
 
     protected void nativeMouseEvent(com.jogamp.newt.event.MouseEvent nativeEvent,
-            int peAction) {
+                                    int peAction) {
         // SHIFT, CTRL, META, and ALT are identical to the processing.event.Event,
         // so the modifiers are left intact here.
         int modifiers = nativeEvent.getModifiers();
@@ -1011,14 +1012,10 @@ public class PSurfaceJOGL implements PSurface {
          */
 
         int peButton = switch (nativeEvent.getButton()) {
-            case com.jogamp.newt.event.MouseEvent.BUTTON1 ->
-                PConstants.LEFT;
-            case com.jogamp.newt.event.MouseEvent.BUTTON2 ->
-                PConstants.CENTER;
-            case com.jogamp.newt.event.MouseEvent.BUTTON3 ->
-                PConstants.RIGHT;
-            default ->
-                0;
+            case com.jogamp.newt.event.MouseEvent.BUTTON1 -> PConstants.LEFT;
+            case com.jogamp.newt.event.MouseEvent.BUTTON2 -> PConstants.CENTER;
+            case com.jogamp.newt.event.MouseEvent.BUTTON3 -> PConstants.RIGHT;
+            default -> 0;
         };
 
         int peCount;
@@ -1065,7 +1062,7 @@ public class PSurfaceJOGL implements PSurface {
     }
 
     protected void nativeKeyEvent(com.jogamp.newt.event.KeyEvent nativeEvent,
-            int peAction) {
+                                  int peAction) {
         // SHIFT, CTRL, META, and ALT are identical to processing.event.Event
         int modifiers = nativeEvent.getModifiers();
 //    int peModifiers = nativeEvent.getModifiers() &
@@ -1138,24 +1135,15 @@ public class PSurfaceJOGL implements PSurface {
     // (I don't think this is a complete solution).
     private static int mapToPConst(short code) {
         return switch (code) {
-            case com.jogamp.newt.event.KeyEvent.VK_UP ->
-                PConstants.UP;
-            case com.jogamp.newt.event.KeyEvent.VK_DOWN ->
-                PConstants.DOWN;
-            case com.jogamp.newt.event.KeyEvent.VK_LEFT ->
-                PConstants.LEFT;
-            case com.jogamp.newt.event.KeyEvent.VK_RIGHT ->
-                PConstants.RIGHT;
-            case com.jogamp.newt.event.KeyEvent.VK_ALT ->
-                PConstants.ALT;
-            case com.jogamp.newt.event.KeyEvent.VK_CONTROL ->
-                PConstants.CONTROL;
-            case com.jogamp.newt.event.KeyEvent.VK_SHIFT ->
-                PConstants.SHIFT;
-            case com.jogamp.newt.event.KeyEvent.VK_WINDOWS ->
-                java.awt.event.KeyEvent.VK_META;
-            default ->
-                code;
+            case com.jogamp.newt.event.KeyEvent.VK_UP -> PConstants.UP;
+            case com.jogamp.newt.event.KeyEvent.VK_DOWN -> PConstants.DOWN;
+            case com.jogamp.newt.event.KeyEvent.VK_LEFT -> PConstants.LEFT;
+            case com.jogamp.newt.event.KeyEvent.VK_RIGHT -> PConstants.RIGHT;
+            case com.jogamp.newt.event.KeyEvent.VK_ALT -> PConstants.ALT;
+            case com.jogamp.newt.event.KeyEvent.VK_CONTROL -> PConstants.CONTROL;
+            case com.jogamp.newt.event.KeyEvent.VK_SHIFT -> PConstants.SHIFT;
+            case com.jogamp.newt.event.KeyEvent.VK_WINDOWS -> java.awt.event.KeyEvent.VK_META;
+            default -> code;
         };
     }
 
@@ -1169,18 +1157,12 @@ public class PSurfaceJOGL implements PSurface {
 
     private static char hackToChar(short code, char def) {
         return switch (code) {
-            case com.jogamp.newt.event.KeyEvent.VK_BACK_SPACE ->
-                PConstants.BACKSPACE;
-            case com.jogamp.newt.event.KeyEvent.VK_TAB ->
-                PConstants.TAB;
-            case com.jogamp.newt.event.KeyEvent.VK_ENTER ->
-                PConstants.ENTER;
-            case com.jogamp.newt.event.KeyEvent.VK_ESCAPE ->
-                PConstants.ESC;
-            case com.jogamp.newt.event.KeyEvent.VK_DELETE ->
-                PConstants.DELETE;
-            default ->
-                def;
+            case com.jogamp.newt.event.KeyEvent.VK_BACK_SPACE -> PConstants.BACKSPACE;
+            case com.jogamp.newt.event.KeyEvent.VK_TAB -> PConstants.TAB;
+            case com.jogamp.newt.event.KeyEvent.VK_ENTER -> PConstants.ENTER;
+            case com.jogamp.newt.event.KeyEvent.VK_ESCAPE -> PConstants.ESC;
+            case com.jogamp.newt.event.KeyEvent.VK_DELETE -> PConstants.DELETE;
+            default -> def;
         };
     }
 
@@ -1299,7 +1281,7 @@ public class PSurfaceJOGL implements PSurface {
 
     @Override
     public void selectInput(String prompt, String callbackMethod,
-            File file, Object callbackObject) {
+                            File file, Object callbackObject) {
         EventQueue.invokeLater(() -> {
             // https://github.com/processing/processing/issues/3831
             boolean hide = (sketch != null)
@@ -1319,7 +1301,7 @@ public class PSurfaceJOGL implements PSurface {
 
     @Override
     public void selectOutput(String prompt, String callbackMethod,
-            File file, Object callbackObject) {
+                             File file, Object callbackObject) {
         EventQueue.invokeLater(() -> {
             // https://github.com/processing/processing/issues/3831
             boolean hide = (sketch != null)
@@ -1339,7 +1321,7 @@ public class PSurfaceJOGL implements PSurface {
 
     @Override
     public void selectFolder(String prompt, String callbackMethod,
-            File file, Object callbackObject) {
+                             File file, Object callbackObject) {
         EventQueue.invokeLater(() -> {
             // https://github.com/processing/processing/issues/3831
             boolean hide = (sketch != null)

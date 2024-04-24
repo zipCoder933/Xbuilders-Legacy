@@ -10,10 +10,12 @@ class EntityHelecopterBlade {
     public final Vector3f position;
     public final Matrix4f matrix;
     boolean clockwise;
+    int length;
 
-    public EntityHelecopterBlade(Vector3f position, boolean clockwise) {
+    public EntityHelecopterBlade(Vector3f position, boolean clockwise,int length) {
         this.position = position;
         this.clockwise = clockwise;
+        this.length = length;
         this.matrix = new Matrix4f();
     }
 
@@ -38,7 +40,7 @@ class EntityHelecopterBlade {
 
         Main.getPG().translate(x, y, z);
         Main.getPG().rotateY(actualRotation + rotation);
-        Main.getPG().box(0.4f, 0.2f, 17);
+        Main.getPG().box(0.4f, 0.2f, length);
         Main.getPG().popMatrix();
     }
 

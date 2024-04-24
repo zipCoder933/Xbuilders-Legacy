@@ -16,6 +16,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 
 import java.util.ArrayList;
 
+import com.xbuilders.game.Main;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -195,7 +196,7 @@ public class ShaderHandler {
 
     public void update(int frameCount) {
         if (System.currentTimeMillis() - lastUpdate > 200) {
-            if (VoxelGame.getSettings().getSettingsFile().dayNightCycles) {
+            if (VoxelGame.getSettings().getSettingsFile().dayNightCycles && !Main.DEV_MODE) {
                 setTimeOfDay(getTimeOfDay() + 0.001);
                 if (getTimeOfDay() > MathUtils.PI * 2) {
                     setTimeOfDay(0);

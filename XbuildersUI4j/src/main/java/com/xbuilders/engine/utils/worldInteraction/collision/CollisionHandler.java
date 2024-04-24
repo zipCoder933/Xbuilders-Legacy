@@ -39,7 +39,7 @@ public class CollisionHandler {
     final Consumer<AABB> customConsumer;
     Block b;
     BlockData d;
-    SubChunk chunk;
+    SubChunk subChunk;
 
 
     public CollisionHandler(World chunks, PositionHandler driver,
@@ -90,11 +90,19 @@ public class CollisionHandler {
                 for (int x = (int) (myBox.box.minPoint.x - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); x <= myBox.box.maxPoint.x + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; x++) {
                     for (int z = (int) (myBox.box.minPoint.z - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); z <= myBox.box.maxPoint.z + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; z++) {
                         wcc.set(x, y, z);
-                        chunk = chunks.getSubChunk(wcc.subChunk);
-                        if (chunk != null) {
-                            exploredChunks.add(chunk);
+                        subChunk = chunks.getSubChunk(wcc.subChunk);
+                        if (subChunk == null) {
+                            AABB chunkAABB=new AABB(stack);
+                            chunkAABB.setPosAndSize(
+                                    wcc.subChunk.x*SubChunk.WIDTH,
+                                    wcc.subChunk.y*SubChunk.WIDTH,
+                                    wcc.subChunk.z*SubChunk.WIDTH,
+                                    SubChunk.WIDTH, SubChunk.WIDTH, SubChunk.WIDTH);
+                            customConsumer.accept(chunkAABB);
+                        } else {
+                            exploredChunks.add(subChunk);
 //                            if (Main.specialMode1) {
-                            b = ItemList.blocks.getItem(chunk.data.getBlock(
+                            b = ItemList.blocks.getItem(subChunk.data.getBlock(
                                     wcc.subChunkVoxel.x,
                                     wcc.subChunkVoxel.y,
                                     wcc.subChunkVoxel.z));
@@ -102,7 +110,7 @@ public class CollisionHandler {
 //                                    if (Main.specialMode2) {
                                 //TODO: chunk.getBlockData() is the memory culprit!!!
                                 //Its ALL in the hashmap...
-                                d = chunk.data.getBlockData(
+                                d = subChunk.data.getBlockData(
                                         wcc.subChunkVoxel.x,
                                         wcc.subChunkVoxel.y,
                                         wcc.subChunkVoxel.z);
@@ -142,7 +150,9 @@ public class CollisionHandler {
                 collisionData.penPerAxes.mul(0.8f);
             }
 
-            if (Math.abs(collisionData.penPerAxes.x) > 0.6f || Math.abs(collisionData.penPerAxes.y) > 0.6f || Math.abs(collisionData.penPerAxes.z) > 0.6f) {
+            if (Math.abs(collisionData.penPerAxes.x) > 0.7f
+                    || Math.abs(collisionData.penPerAxes.y) > 0.7f
+                    || Math.abs(collisionData.penPerAxes.z) > 0.7f) {
                 driver.velocity.y = 0;
                 setFrozen = true;
                 return;

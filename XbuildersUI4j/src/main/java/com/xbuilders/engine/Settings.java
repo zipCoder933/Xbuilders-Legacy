@@ -42,7 +42,7 @@ public class Settings {
 
         //Player movement
         public float walkSpeed = 1.4f;
-        public float runSpeed = 7.0f;
+        public float runSpeed = 6.0f;
         public float flySpeed = 1.5f;
 
         //Blocks

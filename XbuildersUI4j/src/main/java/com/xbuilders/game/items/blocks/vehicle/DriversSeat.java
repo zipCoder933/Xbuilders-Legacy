@@ -1,6 +1,7 @@
 package com.xbuilders.game.items.blocks.vehicle;
 
 import com.xbuilders.engine.VoxelGame;
+import com.xbuilders.engine.game.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
@@ -63,7 +64,7 @@ public class DriversSeat extends Block {
                 } else if (block == GameItems.BOYANCY_BASE) {
                     canFloatOnWater = true;
                 }
-                if(y2 >= aabb.maxPoint.y){
+                if (y2 >= aabb.maxPoint.y) {
                     aabb.maxPoint.y = y2;
                 }
             }
@@ -192,7 +193,7 @@ public class DriversSeat extends Block {
 
     @Override
     public boolean onClickEvent(int setX, int setY, int setZ) {
-        if (box != null && box.isShown()) {
+        if (box != null && box.isShown() && blocks != null) {
             System.out.println("Removing the vehicle...");
             for (int i = 0; i < blocks.size.x; i++) {//Erase the old vehicle
                 for (int j = 0; j < blocks.size.y; j++) {
