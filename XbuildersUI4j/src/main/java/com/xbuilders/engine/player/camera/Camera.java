@@ -4,6 +4,7 @@ import com.jogamp.newt.opengl.GLWindow;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.game.GameScene;
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.player.CursorRaycast;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.camera.frustum.Frustum;
 import com.xbuilders.engine.player.raycasting.Ray;
@@ -22,7 +23,7 @@ import processing.ui4j.UIExtensionFrame;
 
 public class Camera {
     UIExtensionFrame app;
-    public boolean cursorRayHitAllBlocks = false;
+ public final   CursorRaycast cursorRay;
     public final Vector3f up = new Vector3f(0f, 1f, 0f);
     public final Vector3f right = new Vector3f(1f, 0f, 0f);
     public final Vector3f look = new Vector3f(0f, 0.5f, 1f);
@@ -46,8 +47,8 @@ public class Camera {
 
     public boolean isMouseFocused = true;
 
-    public int rayMaxDistance = 1000;//Max distance for front ray
-    public final Ray cursorRay, cameraViewRay;
+
+    public final Ray cameraViewRay;
     private float thirdPersonDist = 0;
 
 
@@ -83,13 +84,12 @@ public class Camera {
         this.app = app;
         this.game = game;
         this.player = player;
-
+        cursorRay = new CursorRaycast(this);
         try {
             robot = new Robot();
         } catch (Exception e) {
         }
 
-        cursorRay = new Ray();
         cameraViewRay = new Ray();
         pan = 0;
         tilt = 0f;
@@ -202,7 +202,7 @@ public class Camera {
                 cameraRaycastLook.set(0).sub(look);
             }
             RayCasting.traceSimpleRay(cameraViewRay, position, cameraRaycastLook, (int) thirdPersonDist2 + 1,
-                    ((block, forbiddenBlock) -> {
+                    ((block, forbiddenBlock, rx, ry, rz) -> {
                         Block block2 = ItemList.getBlock(block);
                         return block != BlockList.BLOCK_AIR.id &&
                                 block != forbiddenBlock
@@ -220,20 +220,7 @@ public class Camera {
                 cursorRaycastLook.set(0).add(look);
             }
         }
-        RayCasting.traceComplexRay(cursorRay, position, cursorRaycastLook, rayMaxDistance,
-                ((block, forbiddenBlock) -> {
-                    if (cursorRayHitAllBlocks) {
-                        return block != forbiddenBlock;
-                    } else return block != BlockList.BLOCK_AIR.id &&
-                            block != forbiddenBlock;
-                }),
-                ((entity) -> {
-                    if (player.positionLock != null) {
-                        return entity != player.positionLock.entity;
-                    }
-                    return true;
-                }),
-                VoxelGame.getWorld());
+        cursorRay.cast(position, cursorRaycastLook, player);
 
 
         //Update frustum

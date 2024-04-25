@@ -77,7 +77,7 @@ import com.xbuilders.game.items.entities.trapdoors.RedTrapdoorLink;
 import com.xbuilders.game.items.entities.trapdoors.RenaissanceTrapdoor;
 import com.xbuilders.game.items.entities.trapdoors.SpruceTrapdoorLink;
 import com.xbuilders.game.items.entities.trapdoors.SteelTrapdoorLink;
-import com.xbuilders.game.items.entities.trapdoors.TrapdoorLink;
+import com.xbuilders.game.items.entities.TrapdoorLink;
 import com.xbuilders.game.items.entities.trapdoors.WarpedTrapdoorLink;
 import com.xbuilders.game.items.entities.trapdoors.WhiteTrapdoor;
 import com.xbuilders.game.items.entities.vehicle.boat.AcaciaBoat;
@@ -1669,7 +1669,10 @@ public class GameItems {
             tags.add("vehicle");
         }
     };
-    public static final Block BLOCK_WATER_PROPELLER = new Block(748, "Water Propeller", new BlockTexture(0, 26, 1, 26),
+
+    public static final Block BLOCK_WATER_PROPELLER = new Block(
+            748, "Water Turbine",
+            new BlockTexture(3, 26, 4, 26),
             BlockRenderType.ORIENTABLE_BLOCK) {
         public void init() {
             tags.add("vehicle");

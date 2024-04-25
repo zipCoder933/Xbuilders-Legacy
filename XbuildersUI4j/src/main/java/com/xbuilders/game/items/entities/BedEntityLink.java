@@ -112,9 +112,6 @@ public class BedEntityLink extends EntityLink {
             if (bytes != null) {
                 xzOrientation = bytes[0];
             } else xzOrientation = getPointerHandler().getPlayer().cameraBlockOrientation().getXZ();
-            for (Vector3i box : getStaticBoxes((int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z)) {
-//                VoxelGame.getWorld().setBlock(BlockList.SOLID_ENTITY_BLOCK, box.x, box.y, box.z);
-            }
 
             if (xzOrientation == 0) {
                 aabb.setOffsetAndSize(0, (ONE_SIXTEENTH * 5), 0,
@@ -193,21 +190,21 @@ public class BedEntityLink extends EntityLink {
         }
 
 
-        @Override
-        public ArrayList<Vector3i> getStaticBoxes(int x, int y, int z) {
-            ArrayList<Vector3i> list = new ArrayList<Vector3i>();
-            list.add(new Vector3i(x, y, z));
-            if (xzOrientation == 0) {
-                list.add(new Vector3i(x, y, z + 1));
-            } else if (xzOrientation == 1) {
-                list.add(new Vector3i(x - 1, y, z));
-            } else if (xzOrientation == 2) {
-                list.add(new Vector3i(x, y, z - 1));
-            } else {
-                list.add(new Vector3i(x + 1, y, z));
-            }
-            return list;
-        }
+//        @Override
+//        public ArrayList<Vector3i> getStaticBoxes(int x, int y, int z) {
+//            ArrayList<Vector3i> list = new ArrayList<Vector3i>();
+//            list.add(new Vector3i(x, y, z));
+//            if (xzOrientation == 0) {
+//                list.add(new Vector3i(x, y, z + 1));
+//            } else if (xzOrientation == 1) {
+//                list.add(new Vector3i(x - 1, y, z));
+//            } else if (xzOrientation == 2) {
+//                list.add(new Vector3i(x, y, z - 1));
+//            } else {
+//                list.add(new Vector3i(x + 1, y, z));
+//            }
+//            return list;
+//        }
 
 
     }

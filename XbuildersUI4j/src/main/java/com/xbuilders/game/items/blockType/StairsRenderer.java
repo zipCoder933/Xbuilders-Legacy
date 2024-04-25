@@ -12,7 +12,8 @@ import com.xbuilders.engine.items.block.construction.blockTypes.DefaultBlockType
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.blockData.BlockData;
 import com.xbuilders.engine.world.chunk.blockData.BlockOrientation;
-import com.xbuilders.game.blockMode.BlockMode;
+import com.xbuilders.game.blockMode.BlockTools;
+import com.xbuilders.game.blockMode.tools.LineSet;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import processing.core.PShape;
@@ -27,7 +28,7 @@ public class StairsRenderer extends BlockType {
     @Override
     public BlockData getInitialBlockData(UserControlledPlayer player, Block block, Ray ray) {
         BlockOrientation orientation = player.cameraBlockOrientation();
-        if (player.blockModes.mode == BlockMode.Mode.LINE) {
+        if (player.blockTools.getSelectedTool() instanceof LineSet) {
             if (Math.abs(ray.getHitNormalAsInt().x) == 0
                     && Math.abs(ray.getHitNormalAsInt().z) == 0) {
                 orientation.setY((byte) 3);

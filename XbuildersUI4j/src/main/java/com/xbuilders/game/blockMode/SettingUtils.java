@@ -32,11 +32,11 @@ import java.util.HashSet;
  *
  * @author zipCoder933
  */
-class SettingUtils {
+public class SettingUtils {
 
     final int MAX_SET_TIME = 30000;
 
-    public SettingUtils(BlockMode parent) {
+    public SettingUtils(BlockTools parent) {
         this.parent = parent;
         sphereBoundaryEvent = new SphereBoundarySetEvent(parent);
         hollowSphereBoundaryEvent = new SphereBoundarySetEvent(parent) {
@@ -61,7 +61,7 @@ class SettingUtils {
         GameItems.START_BOUNDARY.place(hitPosition.x, hitPosition.y, hitPosition.z, hollowSphereBoundaryEvent);
     }
 
-    BlockMode parent;
+    BlockTools parent;
 
     void setFloor(ItemQuantity item, Ray ray, long timeSinceStart, int size, BlockData orientation) {
         HashSet<Vector3i> explored = new HashSet<>();
@@ -128,7 +128,7 @@ class SettingUtils {
         }
     }
 
-    void setLine(ItemQuantity item, Ray ray, long timeSinceStart, int size, BlockData orientation) {
+   public void setLine(ItemQuantity item, Ray ray, long timeSinceStart, int size, BlockData orientation) {
         Vector3i position = new Vector3i(ray.getHitPosPlusNormal());
         Vector3i normal = new Vector3i(ray.getHitNormalAsInt());
         for (int i = 0; i < size; i++) {
@@ -214,7 +214,7 @@ class SettingUtils {
         return !VoxelGame.getWorld().getBlock(position).isAir();
     }
 
-    void eraseLine(Ray ray, long timeSinceStart, int size) {
+    public void eraseLine(Ray ray, long timeSinceStart, int size) {
         Vector3i position = new Vector3i(ray.getHitPositionAsInt());
         Vector3i normal = ray.getHitNormalAsInt();
         for (int i = 0; i < size; i++) {
@@ -227,92 +227,9 @@ class SettingUtils {
         parent.blockSetter.wakeUp();
     }
 
-    private BoundarySetEvent boundaryCreate = new BoundarySetEvent() {
-        @Override
-        public void onBoundarySet(AABB boundary, Vector3i start, Vector3i end) {
-//            System.out.println("Setting Blocks BOUNDARY CREATE: " + boundary);
-            HashSet<SubChunk> subChunks = new HashSet<>();
-            ItemQuantity item = VoxelGame.getPlayer().blockPanel.getCurItem();
-            if (item != null) {
-                Item item1 = item.getItem();
-                if (item1.type == ItemType.BLOCK) {
-                    Block block = (Block) item.getItem();
-                    BlockOrientation orientation = VoxelGame.getPlayer().cameraBlockOrientation();
-                    for (int x = (int) boundary.minPoint.x; x < boundary.maxPoint.x; x++) {
-                        for (int y = (int) boundary.minPoint.y; y < boundary.maxPoint.y; y++) {
-                            for (int z = (int) boundary.minPoint.z; z < boundary.maxPoint.z; z++) {
-                                WCCi wcc = new WCCi().set(x, y, z);
-                                subChunks.add(wcc.getSubChunk());
-                                parent.blockSetter.addToBlockQueue(block, new Vector3i(x, y, z), orientation);
-                            }
-                        }
-                    }
-                }
-            }
-            deleteEntitiesInsideBoundary(subChunks, boundary);
-            parent.blockSetter.wakeUp();
-        }
-    };
 
-    private BoundarySetEvent hollowBoundaryCreate = new BoundarySetEvent() {
-        @Override
-        public void onBoundarySet(AABB boundary, Vector3i start, Vector3i end) {
-            HashSet<SubChunk> subChunks = new HashSet<>();
-            ItemQuantity item = VoxelGame.getPlayer().blockPanel.getCurItem();
-            if (item != null) {
-                Item item1 = item.getItem();
-                if (item1.type == ItemType.BLOCK) {
-                    Block block = (Block) item.getItem();
-                    BlockOrientation orientation = VoxelGame.getPlayer().cameraBlockOrientation();
-                    for (int x = (int) boundary.minPoint.x; x < boundary.maxPoint.x; x++) {
-                        for (int y = (int) boundary.minPoint.y; y < boundary.maxPoint.y; y++) {
-                            for (int z = (int) boundary.minPoint.z; z < boundary.maxPoint.z; z++) {
-                                if (x == boundary.minPoint.x || x == boundary.maxPoint.x - 1
-                                        || y == boundary.minPoint.y || y == boundary.maxPoint.y - 1
-                                        || z == boundary.minPoint.z || z == boundary.maxPoint.z - 1) {
-                                    WCCi wcc = new WCCi().set(x, y, z);
-                                    subChunks.add(wcc.getSubChunk());
-                                    parent.blockSetter.addToBlockQueue(block, new Vector3i(x, y, z), orientation);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            deleteEntitiesInsideBoundary(subChunks, boundary);
-            parent.blockSetter.wakeUp();
-        }
-    };
-    private BoundarySetEvent wallBoundaryCreate = new BoundarySetEvent() {
-        @Override
-        public void onBoundarySet(AABB boundary, Vector3i start, Vector3i end) {
-            HashSet<SubChunk> subChunks = new HashSet<>();
-            ItemQuantity item = VoxelGame.getPlayer().blockPanel.getCurItem();
-            if (item != null) {
-                Item item1 = item.getItem();
-                if (item1.type == ItemType.BLOCK) {
-                    Block block = (Block) item.getItem();
-                    BlockOrientation orientation = VoxelGame.getPlayer().cameraBlockOrientation();
-                    for (int x = (int) boundary.minPoint.x; x < boundary.maxPoint.x; x++) {
-                        for (int y = (int) boundary.minPoint.y; y < boundary.maxPoint.y; y++) {
-                            for (int z = (int) boundary.minPoint.z; z < boundary.maxPoint.z; z++) {
-                                if (x == boundary.minPoint.x || x == boundary.maxPoint.x - 1
-                                        || z == boundary.minPoint.z || z == boundary.maxPoint.z - 1) {
-                                    WCCi wcc = new WCCi().set(x, y, z);
-                                    subChunks.add(wcc.getSubChunk());
-                                    parent.blockSetter.addToBlockQueue(block, new Vector3i(x, y, z), orientation);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            deleteEntitiesInsideBoundary(subChunks, boundary);
-            parent.blockSetter.wakeUp();
-        }
-    };
 
-    protected static void deleteEntitiesInsideBoundary(HashSet<SubChunk> subChunks, AABB boundary) {
+    public static void deleteEntitiesInsideBoundary(HashSet<SubChunk> subChunks, AABB boundary) {
         for (SubChunk sc : subChunks) {
             if (sc == null) {
                 continue;
@@ -335,39 +252,7 @@ class SettingUtils {
         }
     }
 
-    private BoundarySetEvent boundaryDelete = new BoundarySetEvent() {
-        @Override
-        public void onBoundarySet(AABB boundary, Vector3i start, Vector3i end) {
-            HashSet<SubChunk> subChunks = new HashSet<>();
-            for (int x = (int) boundary.minPoint.x; x < boundary.maxPoint.x; x++) {
-                for (int y = (int) boundary.minPoint.y; y < boundary.maxPoint.y; y++) {
-                    for (int z = (int) boundary.minPoint.z; z < boundary.maxPoint.z; z++) {
-                        WCCi wcc = new WCCi().set(x, y, z);
-                        subChunks.add(wcc.getSubChunk());
-                        parent.blockSetter.addToBlockQueue(BlockList.BLOCK_AIR, new Vector3i(x, y, z), null);
-                    }
-                }
-            }
-            deleteEntitiesInsideBoundary(subChunks, boundary);
-            parent.blockSetter.wakeUp();
-        }
-    };
 
-    void boundaryCreate(Vector3i hitPosition) {
-        GameItems.START_BOUNDARY.place(hitPosition.x, hitPosition.y, hitPosition.z, boundaryCreate);
-    }
-
-    void hollowBoundaryCreate(Vector3i hitPosition) {
-        GameItems.START_BOUNDARY.place(hitPosition.x, hitPosition.y, hitPosition.z, hollowBoundaryCreate);
-    }
-
-    void boundaryDelete(Vector3i hitPosition) {
-        GameItems.START_BOUNDARY.place(hitPosition.x, hitPosition.y, hitPosition.z, boundaryDelete);
-    }
-
-    void wallBoundaryCreate(Vector3i hitPosition) {
-        GameItems.START_BOUNDARY.place(hitPosition.x, hitPosition.y, hitPosition.z, wallBoundaryCreate);
-    }
 
     void centeredSphere(Vector3i hitPosition) {
         int size2 = parent.getSize() * 2;

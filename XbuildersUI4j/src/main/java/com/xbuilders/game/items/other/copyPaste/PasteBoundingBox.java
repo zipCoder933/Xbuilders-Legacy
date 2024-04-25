@@ -64,7 +64,7 @@ public class PasteBoundingBox extends Hologram {
     public void render(PGraphics g) {
         if (size != null) {
             if (isBuilding()) {
-                if (VoxelGame.ph().getPlayer().blockModes.blockSetter.queueIsEmpty()) {
+                if (VoxelGame.ph().getPlayer().blockTools.blockSetter.queueIsEmpty()) {
                     remove();
                 }
             } else {

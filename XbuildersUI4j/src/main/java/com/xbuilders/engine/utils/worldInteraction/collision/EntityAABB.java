@@ -19,6 +19,9 @@ public class EntityAABB {
     public EntityAABB() {
         box = new AABB();
         offset = new Vector3f();
+        cursorBox = new AABB();
+        cursorOffset = new Vector3f();
+        cursorSize = new Vector3f();
         size = new Vector3f();
         worldPosition = new Vector3f();
         setOffsetAndSize(0, 0, 0, 1, 1, 1);
@@ -38,6 +41,15 @@ public class EntityAABB {
                                  float sizeX, float sizeY, float sizeZ) {
         offset.set(offsetX, offsetY, offsetZ);
         size.set(sizeX, sizeY, sizeZ);
+        cursorOffset.set(offsetX, offsetY, offsetZ);
+        cursorSize.set(sizeX, sizeY, sizeZ);
+        updateBox();
+    }
+
+    public void setCursorOffsetAndSize(float offsetX, float offsetY, float offsetZ,
+                                 float sizeX, float sizeY, float sizeZ) {
+        cursorOffset.set(offsetX, offsetY, offsetZ);
+        cursorSize.set(sizeX, sizeY, sizeZ);
         updateBox();
     }
 
@@ -51,13 +63,17 @@ public class EntityAABB {
                 worldPosition.y + offset.y,
                 worldPosition.z + offset.z,
                 size.x, size.y, size.z);
+        cursorBox.setPosAndSize(
+                worldPosition.x + cursorOffset.x
+                , worldPosition.y + cursorOffset.y
+                , worldPosition.z + cursorOffset.z
+                , cursorSize.x, cursorSize.y, cursorSize.z);
 //        System.out.println("EntityAABB: " +  MiscUtils.printVector(offset) + " " + MiscUtils.printVector(size));
     }
 
 
     public final Vector3f worldPosition;
-    public final AABB box;
-    public final Vector3f offset;
-    public final Vector3f size;
-    public boolean collisionEnabled=true;
+    public final AABB box, cursorBox;
+    public final Vector3f offset,size,cursorOffset,cursorSize;
+    public boolean collisionEnabled = true;
 }

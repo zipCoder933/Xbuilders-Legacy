@@ -189,7 +189,7 @@ public class BlockPaste extends Block {
             }
             //</editor-fold>
             pasteBox.markAsBuilding();
-            getPointerHandler().getPlayer().blockModes.blockSetter.wakeUp();
+            getPointerHandler().getPlayer().blockTools.blockSetter.wakeUp();
         }
         removePasteBlock();
         return false;
@@ -211,7 +211,7 @@ public class BlockPaste extends Block {
     private void setBlock(int x, int y, int z, Vector3f startPosOffset, int index) {
         Block block = ItemList.getBlock(CopyTool.clipboard.blocks.get(x, y, z));
         BlockData data = CopyTool.clipboard.blocks.getBlockData(x, y, z);
-        getPointerHandler().getPlayer().blockModes.blockSetter.addToBlockQueue(block,
+        getPointerHandler().getPlayer().blockTools.blockSetter.addToBlockQueue(block,
                 new Vector3i(
                         (int) (x + startPosOffset.x),
                         (int) (y + startPosOffset.y),

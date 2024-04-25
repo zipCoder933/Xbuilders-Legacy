@@ -125,7 +125,6 @@ public class DoorEntityLink extends EntityLink {
                     }
                 }
             }
-
             updateAABB();
         }
 
@@ -161,6 +160,9 @@ public class DoorEntityLink extends EntityLink {
                     aabb.setOffsetAndSize(ONE_SIXTEENTH * 13, -1, 0, ONE_SIXTEENTH * 3, 2, 1);
                 }
             }
+            aabb.setCursorOffsetAndSize(
+                    0, -1, 0,
+                    1, 2, 1);
         }
 
         @Override
@@ -279,13 +281,13 @@ public class DoorEntityLink extends EntityLink {
             fout.write((byte) (right ? 1 : 0));
         }
 
-        @Override
-        public ArrayList<Vector3i> getStaticBoxes(int x, int y, int z) {
-            ArrayList<Vector3i> list = new ArrayList<Vector3i>();
-            list.add(new Vector3i(x, y, z));
-            list.add(new Vector3i(x, y - 1, z));
-            return list;
-        }
+//        @Override
+//        public ArrayList<Vector3i> getStaticBoxes(int x, int y, int z) {
+//            ArrayList<Vector3i> list = new ArrayList<Vector3i>();
+//            list.add(new Vector3i(x, y, z));
+//            list.add(new Vector3i(x, y - 1, z));
+//            return list;
+//        }
 
 
     }

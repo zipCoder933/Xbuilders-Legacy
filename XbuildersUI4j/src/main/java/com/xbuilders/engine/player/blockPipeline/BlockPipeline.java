@@ -8,8 +8,6 @@ import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.light.torch.TorchUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.game.Main;
-import com.xbuilders.game.PointerHandler;
 import com.xbuilders.engine.world.chunk.wcc.WCCi;
 
 import java.util.HashMap;
@@ -81,12 +79,12 @@ public class BlockPipeline {
                             if (hist.getNew().isOpaque() != hist.getOld().isOpaque()) {
                                 sunlightNodesWereAdded = true;
                             }
-                            VoxelGame.getGame().player.blockModes.blockSetter.setSunlightNodes(wcc, hist.getNew(), hist.getOld());
+                            VoxelGame.getGame().player.blockTools.blockSetter.setSunlightNodes(wcc, hist.getNew(), hist.getOld());
                         }
                     }
                     blockPipeline.clear();
                     if (sunlightNodesWereAdded) {
-                        VoxelGame.getGame().player.blockModes.blockSetter.wakeUp();
+                        VoxelGame.getGame().player.blockTools.blockSetter.wakeUp();
                     }
                 }
             }

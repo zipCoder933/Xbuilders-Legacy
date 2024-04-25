@@ -63,7 +63,6 @@ public class FenceGateEntityLink extends EntityLink {
 
         private void updateAABB() {
             aabb.collisionEnabled = closed;
-
             aabb.setOffsetAndSize(0, 0, 0, 1, 1, 1);
         }
 
@@ -72,6 +71,34 @@ public class FenceGateEntityLink extends EntityLink {
 
         @Override
         public void initialize(byte[] bytes, boolean setByUser) {
+            if (bytes != null) {
+                xzOrientation = bytes[0];
+                closed = bytes[1] == 1;
+            } else {
+                xzOrientation = getPointerHandler().getPlayer().cameraBlockOrientation().getXZ() + 1;
+                if (xzOrientation > 3) {
+                    xzOrientation = 0;
+                }
+                int setX = (int) worldPosition.x;
+                int setY = (int) worldPosition.y;
+                int setZ = (int) worldPosition.z;
+                if (xzOrientation == 0 || xzOrientation == 2) {
+                    if (VoxelGame.getWorld().getBlock(
+                            setX - 1, setY, setZ).getRenderType() != BlockRenderType.FENCE
+                            && VoxelGame.getWorld().getBlock(
+                            setX + 1, setY, setZ).getRenderType() != BlockRenderType.FENCE) {
+                        xzOrientation += 1;
+                    }
+                } else {
+                    if (VoxelGame.getWorld().getBlock(
+                            setX, setY, setZ - 1).getRenderType() != BlockRenderType.FENCE
+                            && VoxelGame.getWorld().getBlock(
+                            setX, setY, setZ + 1).getRenderType() != BlockRenderType.FENCE) {
+                        xzOrientation += 1;
+                    }
+                }
+                closed = true;
+            }
 
             if (texture == null) {
                 try {
@@ -84,44 +111,8 @@ public class FenceGateEntityLink extends EntityLink {
                     ErrorHandler.handleFatalError(ex);
                 }
             }
-
-            if (bytes != null) {
-                xzOrientation = bytes[0];
-                closed = bytes[1] == 1;
-            } else {
-                xzOrientation = getPointerHandler().getPlayer().cameraBlockOrientation().getXZ() + 1;
-                if (xzOrientation > 3) {
-                    xzOrientation = 0;
-                }
-            }
-            int setX = (int) worldPosition.x;
-            int setY = (int) worldPosition.y;
-            int setZ = (int) worldPosition.z;
-
-            if (xzOrientation == 0 || xzOrientation == 2) {
-                if (VoxelGame.getWorld().getBlock(
-                        setX - 1, setY, setZ).getRenderType() != BlockRenderType.FENCE
-                        && VoxelGame.getWorld().getBlock(
-                                setX + 1, setY, setZ).getRenderType() != BlockRenderType.FENCE) {
-                    xzOrientation += 1;
-                }
-            } else {
-                if (VoxelGame.getWorld().getBlock(
-                        setX, setY, setZ - 1).getRenderType() != BlockRenderType.FENCE
-                        && VoxelGame.getWorld().getBlock(
-                                setX, setY, setZ + 1).getRenderType() != BlockRenderType.FENCE) {
-                    xzOrientation += 1;
-                }
-            }
-
-            closed = true;
             aabb.collisionEnabled = closed;
             updateAABB();
-//            getPointerHandler().getItems().blockList.SOLID_ENTITY_BLOCK.set(
-//                    (int) worldPosition.x,
-//                    (int) worldPosition.y,
-//                    (int) worldPosition.z);
-
         }
 
         @Override
@@ -213,12 +204,12 @@ public class FenceGateEntityLink extends EntityLink {
             fout.write((byte) (closed ? 1 : 0));
         }
 
-        @Override
-        public ArrayList<Vector3i> getStaticBoxes(int x, int y, int z) {
-            ArrayList<Vector3i> boxes = new ArrayList<>();
-            boxes.add(new Vector3i(x, y, z));
-            return boxes;
-        }
+//        @Override
+//        public ArrayList<Vector3i> getStaticBoxes(int x, int y, int z) {
+//            ArrayList<Vector3i> boxes = new ArrayList<>();
+//            boxes.add(new Vector3i(x, y, z));
+//            return boxes;
+//        }
 
     }
 

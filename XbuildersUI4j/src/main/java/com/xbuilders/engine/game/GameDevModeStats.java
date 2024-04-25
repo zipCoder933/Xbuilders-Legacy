@@ -25,7 +25,7 @@ import processing.core.KeyCode;
 public class GameDevModeStats {
 
     public static String getDevModeStats(GameScene game) throws IOException {
-        Ray cursor = game.player.camera.cursorRay;
+        Ray cursor = game.player.camera.cursorRay.cursorRay;
         UserControlledPlayer userControlledPlayer = game.player;
         Vector3f playerPos = userControlledPlayer.worldPos;
         String gameText2 = "";

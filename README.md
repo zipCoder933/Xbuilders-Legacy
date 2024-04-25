@@ -1,6 +1,9 @@
 ## XBuilders 2
 A Voxel game written in java and using Processing 4.0
-The latest update contains hybrid underwater vehicles
+
+### Setting up
+* **Dependencies are in the /dependencies folder**
+* Make sure that when you build an artifact, the artifact can only run if it is in the same directory as the resources directory
 
 Textures taken mostly from Pixel Perfection:
 * https://github.com/Athemis/PixelPerfectionCE/tree/master

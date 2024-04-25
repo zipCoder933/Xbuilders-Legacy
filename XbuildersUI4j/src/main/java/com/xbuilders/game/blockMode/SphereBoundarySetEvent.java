@@ -25,9 +25,9 @@ import org.joml.Vector3i;
  */
 public class SphereBoundarySetEvent extends BoundarySetEvent {
 
-    BlockMode parent;
+    BlockTools parent;
 
-    public SphereBoundarySetEvent(BlockMode parent) {
+    public SphereBoundarySetEvent(BlockTools parent) {
         this.parent = parent;
     }
 

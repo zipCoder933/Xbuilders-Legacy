@@ -63,32 +63,5 @@ public class Ray {
 
 //    private static final float add = 0.025f;
 //    private static float halfAdd = add / 2;
-    public void drawCursorBlock(PGraphics graphics) {
-            graphics.pushStyle();
-            graphics.stroke(255);
-            graphics.noFill();
-            if (cursorBoxes == null) {
-                graphics.strokeWeight(2);
-                graphics.translate(0.5f + hitPostition.x, 0.5f + hitPostition.y, 0.5f + hitPostition.z);
-                graphics.box(1.02f);
-            } else {
-                graphics.strokeWeight(4);
-                List<AABB> cursorAABBs1 = cursorBoxes;
-                for (int i = 0; i < cursorAABBs1.size(); i++) {
-                    AABB box = cursorAABBs1.get(i);
-                    graphics.pushMatrix();
-                    graphics.translate(
-                            box.minPoint.x + (box.getXLength() / 2),
-                            box.minPoint.y + (box.getYLength() / 2),
-                            box.minPoint.z + (box.getZLength() / 2));
-                    graphics.box(
-                            box.getXLength(),
-                            box.getYLength(),
-                            box.getZLength());
-                    graphics.popMatrix();
-                }
-                graphics.translate(0.5f + hitPostition.x, 0.5f + hitPostition.y, 0.5f + hitPostition.z);
-            }
-            graphics.popStyle();
-        }
+
 }

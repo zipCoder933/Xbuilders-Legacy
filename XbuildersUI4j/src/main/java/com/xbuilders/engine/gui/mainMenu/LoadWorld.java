@@ -37,7 +37,7 @@ public class LoadWorld extends UIExtension implements MenuPage {
     ListItem[] listButtons;
     MainMenu menu;
     final PointerHandler ph;
-    public static final boolean LOAD_WORLD_ON_STARTUP = false;
+
 
     public LoadWorld(final PointerHandler ph, final MainMenu menu, UIExtension f) {
         super(f);
@@ -127,7 +127,7 @@ public class LoadWorld extends UIExtension implements MenuPage {
     public void onOpen() {
         VoxelGame.getGame().mode = GameMode.FREEPLAY;
         loadSavedWorlds();
-        if (LOAD_WORLD_ON_STARTUP && Main.DEV_MODE && savedWorlds.size() > 0) {
+        if (VoxelGame.LOAD_WORLD_ON_STARTUP && Main.DEV_MODE && savedWorlds.size() > 0) {
             try {
                 WorldUtils.loadWorld(menu, savedWorlds.get(0), ph);
             } catch (IOException e) {

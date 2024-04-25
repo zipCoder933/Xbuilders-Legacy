@@ -24,6 +24,7 @@ import com.xbuilders.engine.gui.mainMenu.MainMenu;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,8 +52,14 @@ public class VoxelGame extends BaseWindow {
 
 
     public static List<Player> playerList = new ArrayList<>();
+    public static  boolean LOAD_WORLD_ON_STARTUP = false;
 
-    public PointerHandler init(boolean devMode, ProgramMode mode) throws IOException {
+    public PointerHandler init(String[] args, boolean devMode, ProgramMode mode) throws IOException {
+        List<String> argList = Arrays.asList(args);
+        LOAD_WORLD_ON_STARTUP = argList.contains("loadWorldOnStartup");
+        //===========================================
+        //INITIALIZATION
+        //===========================================
 
         messageBox = new MessageBox(this);
         game = new GameScene(this, messageBox.getBackground());

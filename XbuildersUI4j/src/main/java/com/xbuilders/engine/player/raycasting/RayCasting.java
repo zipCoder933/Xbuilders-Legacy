@@ -110,7 +110,7 @@ public class RayCasting {
     @FunctionalInterface
     public interface HitBlockCriteria {
 
-        boolean shouldHitBlock(short block, short forbiddenBlock);
+        boolean shouldHitBlock(short block, short forbiddenBlock, int x, int y, int z);
     }
 
     @FunctionalInterface
@@ -208,7 +208,7 @@ public class RayCasting {
 
                     if (blockCriteria == null
                             ? block != BlockList.BLOCK_AIR.id && block != forbiddenBlock
-                            : blockCriteria.shouldHitBlock(block, forbiddenBlock)) {
+                            : blockCriteria.shouldHitBlock(block, forbiddenBlock,ix, iy, iz)) {
                         ray.hitTarget = true;
                         ray.hitPostition.x = ix;
                         ray.hitPostition.y = iy;
@@ -366,7 +366,7 @@ public class RayCasting {
                         //Add entities in chunk
                         for (int i = 0; i < chunk.entities.list.size(); i++) {
                             Entity entity = chunk.entities.list.get(i);
-                            entityNodes.add(new AABBNode(entity.aabb.box, entity));
+                            entityNodes.add(new AABBNode(entity.aabb.cursorBox, entity));
                         }
                         traversedChunks.add(chunk);
                     }
@@ -378,7 +378,7 @@ public class RayCasting {
 
                     boolean blockIsHittable = blockCriteria == null
                             ? block != BlockList.BLOCK_AIR.id && block != forbiddenBlock
-                            : blockCriteria.shouldHitBlock(block, forbiddenBlock);
+                            : blockCriteria.shouldHitBlock(block, forbiddenBlock,ix, iy, iz);
 
                     if (blockIsHittable) {
                         Block realBlock = ItemList.getBlock(block);

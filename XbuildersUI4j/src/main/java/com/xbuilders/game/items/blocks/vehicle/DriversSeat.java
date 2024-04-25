@@ -141,9 +141,6 @@ public class DriversSeat extends Block {
                 } else if (block == BLOCK_JET_THRUSTER
                         || block instanceof HelecopterBladeBlock) {
                     canFly = true;
-                } else if (block == GameItems.BLOCK_WATER_PROPELLER) {
-                    canFly = true;
-                    canFloatOnWater = true;
                 }
 
                 checkNeighbour(area, aabb, x2 + 1, y2, z2, true);
@@ -209,7 +206,7 @@ public class DriversSeat extends Block {
             }
             CustomVehicleEntityLink.CustomVehicle entity = (CustomVehicleEntityLink.CustomVehicle) GameItems.ENTITY_CUSTOM_VEHICLE.placeNew(
                     (int) aabb.minPoint.x, (int) aabb.minPoint.y - 1, (int) aabb.minPoint.z,
-                    null, true, true);
+                    null, true);
             entity.blocks = blocks;
             entity.direction = direction;
             entity.speed = speed;

@@ -4,6 +4,8 @@
  */
 package com.xbuilders.game.items.entities.trapdoors;
 
+import com.xbuilders.game.items.entities.TrapdoorLink;
+
 /**
  *
  * @author sampw

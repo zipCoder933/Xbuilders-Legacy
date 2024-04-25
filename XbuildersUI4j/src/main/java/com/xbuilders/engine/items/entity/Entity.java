@@ -115,6 +115,9 @@ public abstract class Entity {
     public boolean inFrustum;
     private float frustumSphereRadius = 1;
     public final EntityAABB aabb;
+
+
+
     protected byte[] loadBytes;
     public final Matrix4f modelMatrix = new Matrix4f();
 
@@ -145,22 +148,6 @@ public abstract class Entity {
 
     public abstract void onDestroyClickEvent();
 
-
-    /**
-     * If the entity is static (placed down as a regular block), we want to make
-     * sure other entities don't intersect it
-     *
-     * @param setX the worldPosition the entity was setBlock (the world
-     *             worldPosition converted to int vector)
-     * @param setY the worldPosition the entity was setBlock (the world
-     *             worldPosition converted to int vector)
-     * @param setZ the worldPosition the entity was setBlock (the world
-     *             worldPosition converted to int vector)
-     * @return the voxels in world space that are being occupied by the entity
-     */
-    public ArrayList<Vector3i> getStaticBoxes(int setX, int setY, int setZ) {
-        return null;
-    }
 
     public ArrayList<OrientedShape> getStaticMeshes() {
         return null;

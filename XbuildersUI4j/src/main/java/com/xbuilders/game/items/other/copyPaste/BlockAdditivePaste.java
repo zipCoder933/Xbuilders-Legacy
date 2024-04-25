@@ -6,7 +6,6 @@ package com.xbuilders.game.items.other.copyPaste;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.game.GameMode;
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
@@ -75,7 +74,7 @@ public class BlockAdditivePaste extends Block {
             } else {
                 pasteBox.initialize(pasteBlock, CopyTool.clipboard);
             }
-            getPointerHandler().getPlayer().blockModes.blockSetter.wakeUp();
+            getPointerHandler().getPlayer().blockTools.blockSetter.wakeUp();
         }
         return true;
     }
@@ -136,7 +135,7 @@ public class BlockAdditivePaste extends Block {
             return;
         }
         BlockData data = CopyTool.clipboard.blocks.getBlockData(x, y, z);
-        getPointerHandler().getPlayer().blockModes.blockSetter.addToBlockQueue(block,
+        getPointerHandler().getPlayer().blockTools.blockSetter.addToBlockQueue(block,
                 new Vector3i(
                         (int) (x + startPosOffset.x),
                         (int) (y + startPosOffset.y),

@@ -145,7 +145,7 @@ public abstract class Terrain {
     public final void setEntity(final Chunk chunk, final EntityLink el, final int chunkX, final int worldY, final int chunkZ) {
         int worldX = chunkX + (chunk.getPosition().x * SubChunk.WIDTH);
         int worldZ = chunkZ + (chunk.getPosition().z * SubChunk.WIDTH);
-        el.placeNew(worldX, worldY, worldZ, false, false);
+        el.placeNew(worldX, worldY, worldZ, false);
     }
 
     public void worldBackground() {

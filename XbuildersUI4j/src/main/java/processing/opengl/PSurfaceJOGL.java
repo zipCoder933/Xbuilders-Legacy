@@ -415,7 +415,8 @@ public class PSurfaceJOGL implements PSurface {
                     } else if (cause == null) {
                         throw new RuntimeException(drawException.getMessage());
                     } else {
-                        System.err.println("Thread ended: " + cause);
+                        System.err.println("PSurface Thread ended: " + cause);
+                        System.exit(0);
 //                        throw new RuntimeException(cause);
                     }
                 } catch (InterruptedException ignored) {

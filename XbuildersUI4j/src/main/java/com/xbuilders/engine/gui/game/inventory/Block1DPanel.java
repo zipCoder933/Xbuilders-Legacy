@@ -216,7 +216,7 @@ public class Block1DPanel extends UIExtension {
     }
 
     public void changeSelection(int count) {
-        player.blockModes.resetBlockMode();
+        player.blockTools.resetBlockMode();
         setCurrentItemIndex(getCurrentItemIndex() + count);
         if (getCurrentItemIndex() > itemList.length - 1) {
             setCurrentItemIndex(0);

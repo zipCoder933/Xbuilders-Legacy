@@ -5,14 +5,11 @@ import com.xbuilders.engine.game.GameMode;
 import com.xbuilders.engine.game.ScreenshotUtils;
 import com.xbuilders.engine.player.blockPipeline.BlockPipeline;
 import com.xbuilders.engine.player.camera.Camera;
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemQuantity;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockGeometry;
-import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.game.items.entities.mobile.Animal;
@@ -21,13 +18,12 @@ import com.xbuilders.engine.utils.InventoryUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.chunk.SubChunk;
 import com.xbuilders.engine.world.chunk.blockData.BlockData;
 import com.xbuilders.engine.world.chunk.blockData.BlockOrientation;
 import com.xbuilders.engine.world.chunk.wcc.WCCi;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.PointerHandler;
-import com.xbuilders.game.blockMode.BlockMode;
+import com.xbuilders.game.blockMode.BlockTools;
 import com.xbuilders.engine.gui.game.inventory.Block1DPanel;
 import com.xbuilders.game.skins.FoxSkin;
 import org.joml.Vector3f;
@@ -42,7 +38,7 @@ import java.util.ArrayList;
 
 public class UserControlledPlayer extends Player {
 
-    public BlockMode blockModes;
+    public BlockTools blockTools;
     public Block1DPanel blockPanel;
 
     //<editor-fold defaultstate="collapsed" desc="bedtime mode">
@@ -79,12 +75,12 @@ public class UserControlledPlayer extends Player {
         }
         blockPanel = new Block1DPanel(VoxelGame.getWorld().infoFile.getInfoFile().backpack, this);
         blockPanel.initialize();
-        blockModes.newGame();
+        blockTools.newGame();
         VoxelGame.getWorld().terrain.worldBackground();
     }
 
     public void endGame() {
-        blockModes.stop();
+        blockTools.stop();
     }
 
     public UserControlledPlayer(UIExtension ext) {
@@ -165,7 +161,7 @@ public class UserControlledPlayer extends Player {
         this.worldPos.set(0, 0, 0);
 
         positionHandler = new PositionHandler(VoxelGame.getWorld(), Main.getMain(), aabb, this, VoxelGame.playerList);
-        blockModes = new BlockMode(this);
+        blockTools = new BlockTools(this);
         blockActionQueue = new ArrayList<>();
 
         skin = new FoxSkin(this);
@@ -376,12 +372,12 @@ public class UserControlledPlayer extends Player {
             drawSkin(pg, rotation, positionLock == null ? 0f : -0.9f);
         }
 
-        if (camera.cursorRay.hitTarget || camera.cursorRayHitAllBlocks) {
-            camera.cursorRay.drawCursorBlock(pg);
-        }
-        this.blockModes.drawScene(camera.cursorRay, pg);
+        camera.cursorRay.drawCursor(blockTools, pg);
+        this.blockTools.drawCursor(camera.cursorRay, pg);
         this.camera.draw(pg);
     }
+
+
 
     public Item breakItem = null;
 
@@ -402,46 +398,49 @@ public class UserControlledPlayer extends Player {
     private synchronized void blockEvent(MouseButton button) {
         BlockData data = !blockPanel.curItemIsNull()
                 && blockPanel.getCurItem().getItem().type == ItemType.BLOCK
-                ? BlockGeometry.getInitialBlockData(this, (Block) blockPanel.getCurItem().getItem(), camera.cursorRay) : null;
+                ? BlockGeometry.getInitialBlockData(this, (Block) blockPanel.getCurItem().getItem(), camera.cursorRay.cursorRay) : null;
+
         Vector3i hitPos = camera.cursorRay.getHitPositionAsInt();
         Vector3i hitPosNormal = camera.cursorRay.getHitPosPlusNormal();
         Block hitBlock = getPointerHandler().getWorld().getBlock(hitPos);
-        if (!(camera.isMouseFocused && (camera.cursorRay.hitTarget || camera.cursorRayHitAllBlocks))) {
+        if (!(camera.isMouseFocused && camera.cursorRay.hitTarget())) {
             return;
         }
 
         boolean createAllowed = true;
         if (button == MouseButton.CREATE) {
-            if (camera.cursorRay.entity != null) {
-                createAllowed = camera.cursorRay.entity.onClickEvent();
-                camera.cursorRay.entity.markAsModifiedByUser();
+            if (!camera.cursorRay.createClickEvent()) {
             } else {
-                createAllowed = hitBlock.onClickEvent(hitPos.x, hitPos.y, hitPos.z);
-            }
-            if (createAllowed) {
-                if (blockModes.setBlock(blockPanel.getCurItem(), camera.cursorRay, data)) { //Block mode
+                if (camera.cursorRay.getEntity() != null) {
+                    createAllowed = camera.cursorRay.getEntity().onClickEvent();
+                    camera.cursorRay.getEntity().markAsModifiedByUser();
                 } else {
-                    VoxelGame.getPlayer().placeItem(blockPanel.getCurItem(), hitPosNormal.x, hitPosNormal.y, hitPosNormal.z);
+                    createAllowed = hitBlock.onClickEvent(hitPos.x, hitPos.y, hitPos.z);
+                }
+                if (createAllowed) {
+                    blockTools.setBlock(blockPanel.getCurItem(), camera.cursorRay, data,true); //Block mode
                 }
             }
         } else if (button == MouseButton.MIDDLE) {
-            if (camera.cursorRay.entity != null) {
-                blockPanel.setCurItem(camera.cursorRay.entity.link);
+            if (camera.cursorRay.getEntity() != null) {
+                blockPanel.setCurItem(camera.cursorRay.getEntity().link);
             } else {
                 blockPanel.setCurItem(hitBlock);
             }
-            blockModes.resetBlockMode();
+            blockTools.resetBlockMode();
         } else if (button == MouseButton.DESTROY) {
-            if (camera.cursorRay.entity != null && shouldDestroy(camera.cursorRay.entity.link)) {
-                camera.cursorRay.entity.onDestroyClickEvent();
-                camera.cursorRay.entity.markAsModifiedByUser();
-                boolean isAnimal = camera.cursorRay.entity instanceof Animal;
-                if (!isAnimal && (!camera.cursorRay.entity.link.isInfiniteResource() || VoxelGame.getGame().mode == GameMode.WALKTHOUGH)) {
-                    createDrop((int) camera.cursorRay.entity.worldPosition.x, (int) camera.cursorRay.entity.worldPosition.y, (int) camera.cursorRay.entity.worldPosition.z, new ItemQuantity(camera.cursorRay.entity.link, (byte) 1));
+            if (!camera.cursorRay.destroyClickEvent()) {
+            } else {
+                if (camera.cursorRay.getEntity() != null && shouldDestroy(camera.cursorRay.getEntity().link)) {
+                    camera.cursorRay.getEntity().onDestroyClickEvent();
+                    camera.cursorRay.getEntity().markAsModifiedByUser();
+                    boolean isAnimal = camera.cursorRay.getEntity() instanceof Animal;
+                    if (!isAnimal && (!camera.cursorRay.getEntity().link.isInfiniteResource() || VoxelGame.getGame().mode == GameMode.WALKTHOUGH)) {
+                        createDrop((int) camera.cursorRay.getEntity().worldPosition.x, (int) camera.cursorRay.getEntity().worldPosition.y, (int) camera.cursorRay.getEntity().worldPosition.z, new ItemQuantity(camera.cursorRay.getEntity().link, (byte) 1));
+                    }
+                } else if (shouldDestroy(hitBlock)) {
+                    blockTools.setBlock(blockPanel.getCurItem(), camera.cursorRay, data,false);
                 }
-            } else if (shouldDestroy(hitBlock)) {
-                hitBlock.afterRemovalEvent(hitPos.x, hitPos.y, hitPos.z);
-                setBlock(BlockList.BLOCK_AIR, null, hitPos.x, hitPos.y, hitPos.z);
             }
         }
     }
@@ -484,55 +483,7 @@ public class UserControlledPlayer extends Player {
         return wasSet;
     }
 
-    public boolean placeItem(ItemQuantity item, int x, int y, int z) {
-        if (y >= Chunk.CHUNK_Y_LENGTH - 1 || y == 0) {
-            return false;
-        }
-        boolean wasSet = false;
-        if (item != null && item.getQuantity() > 0) {
-            WCCi wcc = new WCCi().set(x, y, z);
-            if (wcc.chunkExists()) {
-                Chunk chunk = wcc.getChunk();
 
-                Item item2 = item.getItem();
-                if (null != item2.type) {
-                    Item item1 = item.getItem();
-                    switch (item1.type) {
-                        case BLOCK -> {
-                            if (!blockIsIntersectingEntity(new Vector3i(x, y, z))) {
-                                Block block = (Block) item.getItem();
-                                BlockPipeline.startLocalChange(new Vector3i(x, y, z), block);
-                                BlockData data = BlockGeometry.getInitialBlockData(this, block, camera.cursorRay);
-                                block.setBlock((int) x, (int) y, (int) z, data);
-                                if (!item.isInfiniteResource()) {
-                                    item.setQuantity(item.getQuantity() - 1);
-                                }
-                            }
-                        }
-                        case ENTITY_LINK -> {
-                            EntityLink entity = (EntityLink) item.getItem();
-                            entity.placeNew(x, y, z, true, false);
-                            wasSet = true;
-                            if (!item.isInfiniteResource()) {
-                                item.setQuantity(item.getQuantity() - 1);
-                            }
-                        }
-                        case TOOL -> {
-                            Tool tool = (Tool) item.getItem();
-                            wasSet = true;
-                            if (tool.onPlace(x, y, z) && !item.isInfiniteResource()) {
-                                item.setQuantity(item.getQuantity() - 1);
-                            }
-                        }
-                    }
-                }
-                chunk.markAsModifiedByUser();
-                chunk.markAsNeedsSaving();
-            }
-        }
-        return wasSet;
-
-    }
 //</editor-fold>
 
     public enum MouseButton {
@@ -542,30 +493,26 @@ public class UserControlledPlayer extends Player {
     public MouseButton mouseButton;
     boolean scrollView;
     public final KeyCode CHANGE_VIEW = KeyCode.O;
-    public final KeyCode RAYCASTING_HIT_ALL_BLOCKS = KeyCode.TAB;
-    boolean rayDistChanged = false;
+
 
     @Override
     public void mouseEvent(MouseEvent event) {
         if (event.getAction() == MouseEvent.PRESS) {
             mouseButton = switch (event.getButton()) {
                 case 37 ->
-                    getPointerHandler().getSettingsFile().switchMouseButtons ? MouseButton.DESTROY : MouseButton.CREATE;
+                        getPointerHandler().getSettingsFile().switchMouseButtons ? MouseButton.DESTROY : MouseButton.CREATE;
                 case 39 ->
-                    getPointerHandler().getSettingsFile().switchMouseButtons ? MouseButton.CREATE : MouseButton.DESTROY;
-                default ->
-                    MouseButton.MIDDLE;
+                        getPointerHandler().getSettingsFile().switchMouseButtons ? MouseButton.CREATE : MouseButton.DESTROY;
+                default -> MouseButton.MIDDLE;
             };
             if (!(VoxelGame.getGame().mode == GameMode.WALKTHOUGH && mouseButton == MouseButton.DESTROY)) {
                 clickEvent(mouseButton);
             }
         } else if (event.getAction() == MouseEvent.WHEEL) {
-            if (VoxelGame.getGame().mode == GameMode.FREEPLAY && keyIsPressed(RAYCASTING_HIT_ALL_BLOCKS)) {
-                camera.rayMaxDistance = MathUtils.clamp(camera.rayMaxDistance - event.getCount(), 4, getPointerHandler().getSettingsFile().playerRayMaxDistance);
-                rayDistChanged = true;
+            if (camera.cursorRay.mouseEvent(event, getParentFrame())) {
 
             } else if (VoxelGame.getGame().mode == GameMode.FREEPLAY && keyIsPressed(KeyCode.SHIFT)) {
-                blockModes.setSize(blockModes.getSize() - event.getCount());
+                blockTools.setSize(blockTools.getSize() - event.getCount());
             } else if (keyIsPressed(CHANGE_VIEW) || positionLock != null) {
                 camera.setThirdPersonDist(camera.getThirdPersonDist() - (event.getCount() * 2));
                 scrollView = true;
@@ -590,31 +537,31 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    public boolean blockIsIntersectingEntity(Vector3i worldCoords) {
-        WCCi wcc = new WCCi().set(worldCoords);
-        for (int ccx = wcc.subChunk.x - 1; ccx < wcc.subChunk.x + 2; ccx++) {
-            for (int ccy = wcc.subChunk.y - 1; ccy < wcc.subChunk.y + 2; ccy++) {
-                for (int ccz = wcc.subChunk.z - 1; ccz < wcc.subChunk.z + 2; ccz++) {
-
-                    SubChunk sc = getPointerHandler().getWorld().getSubChunk(new Vector3i(ccx, ccy, ccz));
-                    if (sc != null) {
-                        for (Entity e : sc.getEntities().list) {
-                            ArrayList<Vector3i> otherEntityBoxes = e.getStaticBoxes((int) e.worldPosition.x, (int) e.worldPosition.y, (int) e.worldPosition.z);
-                            if (otherEntityBoxes != null && otherEntityBoxes.contains(worldCoords)) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
+//    public boolean blockIsIntersectingEntity(Vector3i worldCoords) {
+//        WCCi wcc = new WCCi().set(worldCoords);
+//        for (int ccx = wcc.subChunk.x - 1; ccx < wcc.subChunk.x + 2; ccx++) {
+//            for (int ccy = wcc.subChunk.y - 1; ccy < wcc.subChunk.y + 2; ccy++) {
+//                for (int ccz = wcc.subChunk.z - 1; ccz < wcc.subChunk.z + 2; ccz++) {
+//
+//                    SubChunk sc = getPointerHandler().getWorld().getSubChunk(new Vector3i(ccx, ccy, ccz));
+//                    if (sc != null) {
+//                        for (Entity e : sc.getEntities().list) {
+//                            ArrayList<Vector3i> otherEntityBoxes = e.getStaticBoxes((int) e.worldPosition.x, (int) e.worldPosition.y, (int) e.worldPosition.z);
+//                            if (otherEntityBoxes != null && otherEntityBoxes.contains(worldCoords)) {
+//                                return true;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     @Override
     public void keyReleased(KeyEvent ke) {
         if (!VoxelGame.getGame().menu.isShown()) {
-            blockModes.keyReleased(positionHandler.window, ke);
+            blockTools.keyReleased(positionHandler.window, ke);
 
             if (keyIsPressed(KeyCode.J)) {
                 autoForwardEnabled = !autoForwardEnabled;
@@ -635,15 +582,8 @@ public class UserControlledPlayer extends Player {
                     camera.cycleToNextView(5);
                 }
                 scrollView = false;
-            } else if (VoxelGame.getGame().mode == GameMode.FREEPLAY && keyIsPressed(RAYCASTING_HIT_ALL_BLOCKS)) {
-                camera.cursorRayHitAllBlocks = !camera.cursorRayHitAllBlocks;
-                System.out.println(camera.cursorRayHitAllBlocks);
-                if (camera.cursorRayHitAllBlocks) {
-                    camera.rayMaxDistance = 4;
-                } else {
-                    camera.rayMaxDistance = VoxelGame.ph().getSettingsFile().playerRayMaxDistance;
-                }
-                VoxelGame.getGame().alert("Raycast End: " + (camera.cursorRayHitAllBlocks ? "disabled" : "enabled"));
+            } else {
+                camera.cursorRay.keyReleased(ke, getParentFrame());
             }
         }
     }

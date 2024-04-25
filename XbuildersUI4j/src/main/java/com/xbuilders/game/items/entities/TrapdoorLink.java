@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game.items.entities.trapdoors;
+package com.xbuilders.game.items.entities;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.entity.Entity;
@@ -18,8 +18,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
+import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
 import org.joml.Vector3f;
-import org.joml.Vector3i;
 import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PShape;
@@ -72,9 +72,7 @@ public class TrapdoorLink extends EntityLink {
         public boolean onClickEvent() {
             closed = !closed;
             updateEntityMesh();
-
             updateAABB();
-
             return false;
         }
 
@@ -104,6 +102,9 @@ public class TrapdoorLink extends EntityLink {
                             ONE_SIXTEENTH * 3, 1, 1);
                 }
             }
+            aabb.setCursorOffsetAndSize(
+                    0, 0, 0,
+                    1, 1, 1);
         }
 
         @Override
@@ -168,7 +169,7 @@ public class TrapdoorLink extends EntityLink {
 //            }
 //        }
         @Override
-        public void toBytes(XBFilterOutputStream fout) throws IOException{
+        public void toBytes(XBFilterOutputStream fout) throws IOException {
             fout.write((byte) xzOrientation);
             fout.write((byte) (closed ? 1 : 0));
         }
@@ -204,12 +205,12 @@ public class TrapdoorLink extends EntityLink {
         }
 
 
-        @Override
-        public ArrayList<Vector3i> getStaticBoxes(int x, int y, int z) {
-            ArrayList<Vector3i> list = new ArrayList<Vector3i>();
-            list.add(new Vector3i(x, y, z));
-            return list;
-        }
+//        @Override
+//        public ArrayList<Vector3i> getStaticBoxes(int x, int y, int z) {
+//            ArrayList<Vector3i> list = new ArrayList<Vector3i>();
+//            list.add(new Vector3i(x, y, z));
+//            return list;
+//        }
 
     }
 

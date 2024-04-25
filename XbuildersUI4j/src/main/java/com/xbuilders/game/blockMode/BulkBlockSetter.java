@@ -62,8 +62,7 @@ public class BulkBlockSetter {
                 && vec.y < Chunk.CHUNK_Y_LENGTH - 1
                 && vec.y > 0
                 && VoxelGame.getWorld().inBounds(vec)
-                && !this.willCollideWithPlayer(vec)
-                && !VoxelGame.getPlayer().blockIsIntersectingEntity(vec)) {
+                && !this.willCollideWithPlayer(vec)) {
 
             this.fastBlockQueue.add(new BlockToSet(block, prevBlock, vec, data));
             VoxelGame.getWorld().setBlockAndUpdate(block, data, vec.x, vec.y, vec.z);

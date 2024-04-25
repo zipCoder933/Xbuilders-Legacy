@@ -30,7 +30,7 @@ public class Main extends VoxelGame {
 
     public final static String VERSION_NOTES = "underwater hybrid vehicles";
 
-    public Main(int sizeX, int sizeY, File iconPath, ProgramMode mode) throws IOException, InterruptedException {
+    public Main(String args[], int sizeX, int sizeY, File iconPath, ProgramMode mode) throws IOException, InterruptedException {
         super(sizeX, sizeY, iconPath, "X-Builders");
 
         ItemList.initialize(this);
@@ -57,7 +57,7 @@ public class Main extends VoxelGame {
         ItemList.blocks.addBlockType(BlockRenderType.WHEEL, new WheelRenderer());
         ItemList.blocks.addBlockType(BlockRenderType.WHEEL_HALF, new HalfWheelRenderer());
 
-        ph = init(DEV_MODE, mode);
+        ph = init(args, DEV_MODE, mode);
     }
 
     private static Main main;
@@ -87,7 +87,7 @@ public class Main extends VoxelGame {
                     !BLOCK_ICON_DIR.exists()) {
                 mode = ProgramMode.BLOCK_ICON_SETUP;
             }
-            main = new Main(1100, 700, ResourceUtils.resource("icon.png"), mode);
+            main = new Main(args, 1000, 700, ResourceUtils.resource("icon.png"), mode);
             ph.getMainThread().run(Thread.currentThread());
         } catch (Exception ex) {
             ErrorHandler.handleFatalError(ex);

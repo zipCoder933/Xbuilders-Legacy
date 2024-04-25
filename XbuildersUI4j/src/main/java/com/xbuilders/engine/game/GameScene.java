@@ -431,7 +431,7 @@ public class GameScene extends UIExtension {
 
         gameText += "\n" + ph.getWorld().updater.getStatusString();
         gameText += "\nLast saved: " + ph.getMainThread().getTimeSinceLastSaved();
-        player.blockModes.drawGUI(getParentFrame());
+        player.blockTools.drawGUI(getParentFrame());
         textAlign(LEFT, TOP);
         getParentFrame().fill(255, 165);
         textSize(10);

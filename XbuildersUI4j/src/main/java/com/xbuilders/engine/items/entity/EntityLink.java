@@ -77,8 +77,8 @@ public abstract class EntityLink extends Item {
      * with any other entities
      * @return the new entity
      */
-    public final Entity placeNew(int worldPosX, int worldPosY, int worldPosZ, boolean setByUser, boolean checkCollisions) {
-        return placeNew(worldPosX, worldPosY, worldPosZ, null, setByUser, checkCollisions);
+    public final Entity placeNew(int worldPosX, int worldPosY, int worldPosZ, boolean setByUser) {
+        return placeNew(worldPosX, worldPosY, worldPosZ, null, setByUser);
     }
 
     /**
@@ -93,7 +93,7 @@ public abstract class EntityLink extends Item {
      * with any other entities
      * @return the new entity
      */
-    public final Entity placeNew(int worldPosX, int worldPosY, int worldPosZ, byte[] bytes, boolean setByUser, boolean checkCollisions) {
+    public final Entity placeNew(int worldPosX, int worldPosY, int worldPosZ, byte[] bytes, boolean setByUser) {
         if (!VoxelGame.getWorld().inBounds(worldPosX, worldPosY, worldPosZ)) {
             return null;
         }
@@ -103,28 +103,28 @@ public abstract class EntityLink extends Item {
         }
         Entity entity = makeNew(chunk, worldPosX, worldPosY, worldPosZ, bytes, setByUser);
 
-        if (checkCollisions) {
-            // Check if the entity is colliding with any other entities
-            ArrayList<Vector3i> staticBoxes = entity.getStaticBoxes(worldPosX, worldPosY, worldPosZ);
-            if (staticBoxes != null) {
-                for (Entity e : chunk.getEntities().list) {
-                    ArrayList<Vector3i> otherEntityBoxes = e.getStaticBoxes(
-                            (int) e.worldPosition.x,
-                            (int) e.worldPosition.y,
-                            (int) e.worldPosition.z);
-
-                    if (otherEntityBoxes != null) {
-                        for (Vector3i box : otherEntityBoxes) {
-                            for (Vector3i myBox : staticBoxes) {
-                                if (myBox.equals(box)) {
-                                    return null;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//        if (checkCollisions) {
+//            // Check if the entity is colliding with any other entities
+//            ArrayList<Vector3i> staticBoxes = entity.getStaticBoxes(worldPosX, worldPosY, worldPosZ);
+//            if (staticBoxes != null) {
+//                for (Entity e : chunk.getEntities().list) {
+//                    ArrayList<Vector3i> otherEntityBoxes = e.getStaticBoxes(
+//                            (int) e.worldPosition.x,
+//                            (int) e.worldPosition.y,
+//                            (int) e.worldPosition.z);
+//
+//                    if (otherEntityBoxes != null) {
+//                        for (Vector3i box : otherEntityBoxes) {
+//                            for (Vector3i myBox : staticBoxes) {
+//                                if (myBox.equals(box)) {
+//                                    return null;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
         chunk.getParentChunk().markAsNeedsSaving();
         chunk.getEntities().list.add(entity);
         if (entity.hasStaticMeshes()) {
