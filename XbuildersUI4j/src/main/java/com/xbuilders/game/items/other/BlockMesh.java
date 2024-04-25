@@ -18,12 +18,12 @@ public class BlockMesh {
         mesh.noFill();
 
         if (wireframe) {
-            mesh.stroke(255, 50);
+            mesh.stroke(255);
             mesh.strokeWeight(1);
         } else mesh.noStroke();
 
         if (textured) {
-            mesh.tint(180, 180, 180, 25);
+            mesh.tint(180, 180, 180);
             mesh.texture(ItemList.blocks.textureAtlas.getImage());
         }
 

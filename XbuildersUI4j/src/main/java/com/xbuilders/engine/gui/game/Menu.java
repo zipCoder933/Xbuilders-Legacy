@@ -12,6 +12,7 @@ import com.xbuilders.engine.gui.LabeledNumberBox;
 import com.xbuilders.engine.rendering.worldLightMap.ShaderLightMap;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.world.TerrainUpdater;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.game.items.GameItemList;
@@ -52,7 +53,7 @@ class Menu extends GameMenuPage {
                 try {
                     int value = 0;
                     value = (int) MathUtils.clamp(t.getValue(),
-                            VoxelGame.getSettings().getSettingsFile().minChunkDistance,
+                            TerrainUpdater.MIN_CHUNK_DIST,
                             VoxelGame.getSettings().getSettingsFile().maxChunkDistance);
 
                     chunks.getBox().setValue(value);

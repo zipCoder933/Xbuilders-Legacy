@@ -13,6 +13,7 @@ import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.world.TerrainUpdater;
 import com.xbuilders.engine.world.chunk.wcc.WCCi;
 import com.xbuilders.game.GrassGrower;
 import com.xbuilders.game.PointerHandler;
@@ -474,9 +475,10 @@ public class GameScene extends UIExtension {
             } else if (keyIsPressed(KeyCode.CTRL) && keyIsPressed(KeyCode.SHIFT) && keyIsPressed(KeyCode.P)) {
                 setDevStatsOpen(!isDevStatsOpen());
             } else if (keyIsPressed(KeyCode.SHIFT) && keyIsPressed(KeyCode.T)) {
-                boolean val = !ph.getTerrainUpdater().isEnabled();
-                ph.getGame().alert("Terrain Updater " + (val ? "Enabled" : "Disabled"));
-                ph.getTerrainUpdater().setEnabled(val);
+                TerrainUpdater terrainUpdater = ph.getTerrainUpdater();
+                terrainUpdater.regularViewDistance = !terrainUpdater.regularViewDistance;
+                ph.getGame().alert("Unlimited view distance: " + (terrainUpdater.regularViewDistance ? "Disabled" : "Enabled"));
+                VoxelGame.getShaderHandler().setFogDistance(1);
             }
         }
     }

@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game.blockMode.tools.copyPaste;
 
+import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.world.chunk.blockData.BlockOrientation;
 import com.xbuilders.engine.world.holograms.Hologram;
 import com.xbuilders.game.items.other.BlockMesh;
@@ -35,13 +36,16 @@ public class PastePreview extends Hologram {
     }
 
 
-
     @Override
-    public void render(PGraphics g) {
+    public void render(PGraphics g) {  g.resetShader();
+
+        g.shape(mesh);
+
+
         g.noFill();
         g.strokeWeight(3);
         g.stroke(0, 200, 0);
-        g.shape(mesh);
+
         g.translate((float) size.x / 2, (float) size.y / 2, (float) size.z / 2);
         g.box(size.x, size.y, size.z);
     }

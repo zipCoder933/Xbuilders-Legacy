@@ -33,7 +33,6 @@ public abstract class Entity {
 
     public final boolean playerIsRidingThis() {
         if (getPointerHandler().getPlayer().positionLock == null) return false;
-        getPointerHandler().getPlayer();
         return getPointerHandler().getPlayer().positionLock.entity == this;
     }
 

@@ -4,11 +4,9 @@ import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.ItemQuantity;
 import com.xbuilders.engine.player.CursorRaycast;
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.blockData.BlockData;
 import com.xbuilders.engine.world.chunk.blockData.BlockOrientation;
 import com.xbuilders.game.blockMode.BlockTools;
-import com.xbuilders.game.items.other.boundaryBlocks.BoundarySetEvent;
 import com.xbuilders.window.BaseWindow;
 import org.joml.Vector3i;
 import processing.core.KeyCode;
@@ -52,13 +50,6 @@ public class SphereTool extends Tool {
 
     @Override
     public boolean keyReleased(BaseWindow window, KeyEvent ke) {
-        if (window.keyIsPressed(CursorRaycast.BLOCK_TOOL_PARAMETER_1)) {
-            //Advance to the next mode
-            SphereMode[] modes = SphereMode.values();
-            mode = modes[(mode.ordinal() + 1) % modes.length];
-            setMode();
-            return true;
-        }
         return false;
     }
 
@@ -67,6 +58,14 @@ public class SphereTool extends Tool {
     }
 
     SphereMode mode = SphereMode.CENTERED;
+
+    @Override
+    public void changeMode() {
+        //Advance to the next mode
+        SphereMode[] modes = SphereMode.values();
+        mode = modes[(mode.ordinal() + 1) % modes.length];
+        setMode();
+    }
 
     @Override
     public String toolDescription() {

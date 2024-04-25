@@ -205,12 +205,13 @@ public class Fill extends Tool {
     }
 
     @Override
+    public void changeMode() {
+        //Go to next mode
+        mode = FillMode.values()[(mode.ordinal() + 1) % FillMode.values().length];
+    }
+
+    @Override
     public boolean keyReleased(BaseWindow window, KeyEvent ke) {
-        if (window.keyIsPressed(CursorRaycast.BLOCK_TOOL_PARAMETER_1)) {
-            //Go to next mode
-            mode = FillMode.values()[(mode.ordinal() + 1) % FillMode.values().length];
-            return true;
-        }
         return false;
     }
 }

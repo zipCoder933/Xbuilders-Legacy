@@ -1,7 +1,10 @@
 package com.xbuilders.game.blockMode.tools;
 
 import com.xbuilders.engine.VoxelGame;
+import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.ItemQuantity;
+import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.entity.EntityTemplate;
 import com.xbuilders.engine.player.CursorRaycast;
 import com.xbuilders.engine.world.chunk.blockData.BlockData;
 import com.xbuilders.engine.world.chunk.blockData.BlockOrientation;
@@ -15,14 +18,17 @@ import processing.core.KeyCode;
 import processing.core.PGraphics;
 import processing.event.KeyEvent;
 
+import java.util.Map;
+
 public class PasteTool extends Tool {
 
     public static int offsetVector = 0;
 
+
     public static void nextOffsetVertex(PastePreview pasteBox) {
         offsetVector++;
         offsetVector %= 7;
-        pasteBox.initialize(CopyTool.clipboard);
+        if (pasteBox != null) pasteBox.initialize(CopyTool.clipboard);
     }
 
     public static void rotatePasteBox(PastePreview pasteBox) {
@@ -58,7 +64,7 @@ public class PasteTool extends Tool {
                 }
             }
             CopyTool.clipboard.blocks = newClipboard;
-            pasteBox.initialize(CopyTool.clipboard);
+            if (pasteBox != null) pasteBox.initialize(CopyTool.clipboard);
         }
     }
 
@@ -124,22 +130,65 @@ public class PasteTool extends Tool {
         }
     }
 
+
+    private void paste(Vector3i setPos, boolean additive) {
+        if (CopyTool.clipboard != null) {
+            final Vector3f startPosOfffset = getStartPosOffset(setPos);
+
+            for (int x = 0; x < CopyTool.clipboard.blocks.size.x; x++) {
+                for (int y = 0; y < CopyTool.clipboard.blocks.size.y; y++) {
+                    for (int z = 0; z < CopyTool.clipboard.blocks.size.z; z++) {
+                        Block block = ItemList.getBlock(CopyTool.clipboard.blocks.get(x, y, z));
+                        Block previousBlock = VoxelGame.ph().getWorld().getBlock(
+                                (int) startPosOfffset.x + x,
+                                (int) startPosOfffset.y + y,
+                                (int) startPosOfffset.z + z);
+
+                        if (!additive || !previousBlock.isSolid()) {
+                            BlockData data = CopyTool.clipboard.blocks.getBlockData(x, y, z);
+                            VoxelGame.ph().getPlayer().blockTools.blockSetter.addToBlockQueue(block,
+                                    new Vector3i(
+                                            (int) (x + startPosOfffset.x),
+                                            (int) (y + startPosOfffset.y),
+                                            (int) (z + startPosOfffset.z)), data);
+                        }
+                    }
+                }
+            }
+
+            //<editor-fold desc="paste entities">
+            for (Map.Entry<Vector3f, EntityTemplate> e : CopyTool.clipboard.entities.entrySet()) {
+                Vector3f normalizedWorldPos = e.getKey();
+                EntityTemplate entityTemplate = e.getValue();
+                Vector3f offset = new Vector3f(startPosOfffset.x, startPosOfffset.y, startPosOfffset.z);
+                Vector3f pos = new Vector3f(normalizedWorldPos);
+                pos.add(offset);
+//                System.out.println("Setting entity " + e.toString() + " to " + pos);
+                entityTemplate.makeEntity(VoxelGame.ph(), (int) pos.x, (int) pos.y, (int) pos.z);
+            }
+            //</editor-fold>
+            VoxelGame.ph().getPlayer().blockTools.blockSetter.wakeUp();
+        }
+    }
+
     PastePreview pasteBox;
+    boolean additive = true;
 
     @Override
     public boolean drawCursor(CursorRaycast ray, PGraphics g) {
         if (pasteBox != null && ray.hitTarget()) {
-            Vector3f pos = getStartPosOffset(ray.getHitPositionAsInt());
+            Vector3f pos = getStartPosOffset(ray.getHitPosPlusNormal());
             g.translate(pos.x, pos.y, pos.z);
-            pasteBox.worldPosition.set(ray.getHitPositionAsInt());
+            pasteBox.worldPosition.set(ray.getHitPosPlusNormal());
             pasteBox.render(g);
         }
         return false;
     }
 
+
     @Override
     public boolean keyReleased(BaseWindow window, KeyEvent ke) {
-        if (window.keyIsPressed(KeyCode.V)) {
+        if (window.keyIsPressed(KeyCode.V) && !window.keyIsPressed(KeyCode.CTRL)) {
             nextOffsetVertex(pasteBox);
             return true;
         } else if (window.keyIsPressed(KeyCode.R)) {
@@ -150,8 +199,21 @@ public class PasteTool extends Tool {
     }
 
     @Override
-    public boolean setBlock(ItemQuantity item, CursorRaycast ray, BlockData data, boolean isCreationMode) {
+    public void changeMode() {
+        additive = !additive;
+    }
 
+    @Override
+    public String toolDescription() {
+        return additive ? "Additive Paste" : "Paste" + (" (v" + offsetVector + ")");
+    }
+
+    @Override
+    public boolean setBlock(ItemQuantity item, CursorRaycast ray, BlockData data, boolean isCreationMode) {
+        if (CopyTool.clipboard != null) {
+            paste(ray.getHitPosPlusNormal(), additive);
+            return true;
+        }
         return false;
     }
 }

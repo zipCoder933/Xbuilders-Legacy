@@ -31,8 +31,6 @@ public class Settings {
         public boolean additionalFeatures = false;
         public float SLM_RadiusMultiplier = 0.7f;//(was 0.65) Affects the radius of chunk generation as well
         public int chunkRadius = 160;
-
-        public int minChunkDistance = 60;//Maximum chunk size
         public int maxChunkDistance = 208;//Maximum chunk size
         public int extraChunkDistMultiplier = 0;   //2 = render 16*2 extra chunk distance, Also be aware that the terrain updater will delete w/ chunk distance + 16
 

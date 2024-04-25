@@ -16,20 +16,6 @@ import com.xbuilders.engine.world.chunk.Chunk;
 public class TerrainUpdater {
 
     /**
-     * @return the enabled
-     */
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    /**
-     * @param enabled the enabled to set
-     */
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    /**
      * @return the terrainChunkDist
      */
     public int getTerrainChunkDist() {
@@ -38,8 +24,8 @@ public class TerrainUpdater {
     
     UpdaterThread thread;
     private int terrainChunkDist;
-
-    protected boolean enabled;
+    public boolean regularViewDistance;
+    public final static int MIN_CHUNK_DIST = 60;
 
     public void update() {
         int extraDistMultiplier = VoxelGame.getSettings().getSettingsFile().extraChunkDistMultiplier;
@@ -61,7 +47,7 @@ public class TerrainUpdater {
     }
 
     public synchronized void begin(PointerHandler pointerHandler) {
-        enabled = true;
+        regularViewDistance = true;
         update();
         thread = new UpdaterThread(pointerHandler, this);
         thread.start();
@@ -83,8 +69,8 @@ public class TerrainUpdater {
 
     public String getStatusString() {
         if (isRunning()) {
-            return "Updater-thread status: " + thread.printStatus()
-                    + "\n    (" + (enabled ? "Enabled" : "Disabled") + ", Shift+T)";
+            return "Chunk Gen: " + thread.printStatus()
+                    + "\nView dist (Shift+T): "+(regularViewDistance?"Regular":"Unlimited");
         } else {
             return "Updater-thread not running...";
         }

@@ -8,6 +8,7 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
 import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.world.TerrainUpdater;
 import com.xbuilders.engine.world.chunk.blockData.BlockData;
 import org.joml.Vector3i;
 
@@ -137,20 +138,23 @@ public class StartBoundary extends Block {
                 clearFirstMarker();
                 clearSecondMarker();
                 getPointerHandler().getGame().alert("The boundary exceeds a maximum area of " + maxArea + " blocks!");
-            } else if (getPointerHandler().getTerrainUpdater().isEnabled()
-                    && (aabb.getXLength() >= maxWidth || aabb.getZLength() >= maxWidth)) {
-                clearFirstMarker();
-                clearSecondMarker();
-                getPointerHandler().getGame().alert("The boundary dimensions exceeds max width of " + maxWidth + " blocks!");
             } else {
-                getPointerHandler().getGame().alert("Boundary set! ("
-                        + ((int) aabb.getXLength()) + " x "
-                        + ((int) aabb.getYLength()) + " x "
-                        + ((int) aabb.getZLength()) + ")");
+                TerrainUpdater terrainUpdater = getPointerHandler().getTerrainUpdater();
+                if (terrainUpdater.regularViewDistance
+                        && (aabb.getXLength() >= maxWidth || aabb.getZLength() >= maxWidth)) {
+                    clearFirstMarker();
+                    clearSecondMarker();
+                    getPointerHandler().getGame().alert("The boundary dimensions exceeds max width of " + maxWidth + " blocks!");
+                } else {
+                    getPointerHandler().getGame().alert("Boundary set! ("
+                            + ((int) aabb.getXLength()) + " x "
+                            + ((int) aabb.getYLength()) + " x "
+                            + ((int) aabb.getZLength()) + ")");
 
-                BoundingBox holo = new BoundingBox(this, aabb);
-                getPointerHandler().getWorld().hologramList.add(holo);
-                return holo;
+                    BoundingBox holo = new BoundingBox(this, aabb);
+                    getPointerHandler().getWorld().hologramList.add(holo);
+                    return holo;
+                }
             }
         }
         return null;

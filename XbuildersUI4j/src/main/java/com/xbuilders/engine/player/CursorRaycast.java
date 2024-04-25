@@ -30,9 +30,9 @@ public class CursorRaycast {
     Camera camera;
 
     public final static KeyCode RAYCASTING_HIT_ALL_BLOCKS = KeyCode.TAB;
-    public final static KeyCode BLOCK_TOOL_PARAMETER_1 = KeyCode.K;
-    public final static KeyCode BLOCK_TOOL_PARAMETER_2 = KeyCode.L;
-    public final static KeyCode BLOCK_TOOL_PARAMETER_3 = KeyCode.M;
+    public final static KeyCode BOUNDARY_PARAM1 = KeyCode.K;
+    public final static KeyCode BOUNDARY_PARAM2 = KeyCode.L;
+
 
     public CursorRaycast(Camera camera) {
         cursorRay = new Ray();
@@ -100,6 +100,7 @@ public class CursorRaycast {
                             block != forbiddenBlock;
                 }),
                 ((entity) -> {
+                    if (entity != null && entity.playerIsRidingThis()) return false;
                     return true;
                 }),
                 VoxelGame.getWorld());
@@ -132,6 +133,8 @@ public class CursorRaycast {
     }
 
     public void drawCursorBlock(PGraphics graphics) {
+
+
         graphics.pushStyle();
         graphics.stroke(255);
         graphics.noFill();
@@ -234,9 +237,9 @@ public class CursorRaycast {
             enableBoundaryMode((AABB, Boolean) -> {
                 System.out.println("boundary created " + AABB + " boolean " + Boolean);
             });
-        } else if (ke.getKeyCode() == BLOCK_TOOL_PARAMETER_1) {
+        } else if (ke.getKeyCode() == BOUNDARY_PARAM1) {
             boundary_useHitPos = !boundary_useHitPos;
-        } else if (ke.getKeyCode() == BLOCK_TOOL_PARAMETER_2) {
+        } else if (ke.getKeyCode() == BOUNDARY_PARAM2) {
             boundary_lockToPlane = !boundary_lockToPlane;
             System.out.println("boundary lock to plane " + boundary_lockToPlane);
         }

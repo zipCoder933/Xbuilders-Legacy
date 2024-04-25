@@ -20,7 +20,6 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.io.IOException;
-import java.util.HashSet;
 
 class UpdaterThread extends Thread {
 
@@ -46,22 +45,18 @@ class UpdaterThread extends Thread {
                 lastPlayerZ = userControlledPlayer.worldPos.z;
             }
             while (!isInterrupted()) {
-                if (parent.enabled) {
-                    UserControlledPlayer userControlledPlayer2 = ph.getPlayer();
-                    UserControlledPlayer userControlledPlayer3 = ph.getPlayer();
-                    if (MathUtils.dist(lastPlayerX, lastPlayerZ,
-                            userControlledPlayer3.worldPos.x,
-                            userControlledPlayer2.worldPos.z) > 2) {
-                        active = true;
-                        this.updateTerrain();
-                        active = false;
-                        UserControlledPlayer userControlledPlayer1 = ph.getPlayer();
-                        lastPlayerX = userControlledPlayer1.worldPos.x;
-                        UserControlledPlayer userControlledPlayer = ph.getPlayer();
-                        lastPlayerZ = userControlledPlayer.worldPos.z;
-                        updateSLM(chunkDeletionDist);
-                    }
+                UserControlledPlayer player = ph.getPlayer();
+                if (MathUtils.dist(lastPlayerX, lastPlayerZ,
+                        player.worldPos.x,
+                        player.worldPos.z) > 2) { //If the player has moved
+                    active = true;
+                    this.updateTerrain();
+                    active = false;
+                    lastPlayerX = player.worldPos.x;
+                    lastPlayerZ = player.worldPos.z;
                 }
+
+                updateSLM(chunkDeletionDist, player.worldPos);
                 Thread.sleep(200);
             }
         } catch (InterruptedException ex) {
@@ -87,6 +82,7 @@ class UpdaterThread extends Thread {
         return ph.getPlayer().camera.frustum.isAABBInside(aabb);
     }
 
+
     /*
      * The memory issues here are due to updateTerrain(). Probbably because the
      * queue never gets emptied, and so it just keeps filling up the heap.
@@ -96,7 +92,7 @@ class UpdaterThread extends Thread {
         ChunkCoords coords = new ChunkCoords(0, 0);
         boolean foundSomething = true;
 
-        while (!isInterrupted() && parent.enabled && foundSomething) {
+        while (!isInterrupted() && foundSomething) {
             foundSomething = false;
 
             // If the generation radius is larger than the SLM radius, than chunks that
@@ -105,8 +101,20 @@ class UpdaterThread extends Thread {
             // Also, the generation radius must be small enough that you dont have the
             // updater firing up for every small move the player makes
             chunkDist = ShaderLightMap.getChunkRadius(ph) - SubChunk.WIDTH;
-            chunkDeletionDist = chunkDist + (SubChunk.WIDTH * 2);// There must be some padding between
-            // creation and deletion.
+            chunkDeletionDist = chunkDist + (SubChunk.WIDTH * 2);// There must be some padding between creation and deletion.
+            if (chunkDist < TerrainUpdater.MIN_CHUNK_DIST) {
+                chunkDist = TerrainUpdater.MIN_CHUNK_DIST;
+                chunkDeletionDist = chunkDist + (SubChunk.WIDTH * 4);
+            }
+
+            if (!parent.regularViewDistance) {
+                chunkDist /= 2;
+                if (chunkDist < TerrainUpdater.MIN_CHUNK_DIST) {
+                    chunkDist = TerrainUpdater.MIN_CHUNK_DIST;
+                    chunkDeletionDist = chunkDist + (SubChunk.WIDTH * 4);
+                }
+                chunkDeletionDist *= 5;
+            }
 
             UserControlledPlayer userControlledPlayer = ph.getPlayer();
             float centerX = userControlledPlayer.worldPos.x;
@@ -125,11 +133,11 @@ class UpdaterThread extends Thread {
                     if (distance < chunkDist) {
                         // ----------------------------------------------------------
                         coords.set(x, z); // for some reason the creation of these was enough to increase memory
-                                          // significantly if it was added to a list
+                        // significantly if it was added to a list
                         if (chunkIsUnfinished(coords) && chunkInFrustum(coords)) {
                             if (firstClear) { // We dont have to clear chunks if no new ones have been created
                                 clearChunksOutsideOfBoundary(chunkDeletionDist); // We want to erase any chunks outside
-                                                                                 // of bounds before we create more
+                                // of bounds before we create more
                                 firstClear = false;
                             }
 
@@ -140,7 +148,7 @@ class UpdaterThread extends Thread {
                     }
                 }
             }
-            updateSLM(chunkDeletionDist);
+            updateSLM(chunkDeletionDist, userControlledPlayer.worldPos);
         }
     }
 
@@ -151,9 +159,9 @@ class UpdaterThread extends Thread {
     public boolean chunkIsUnfinished(ChunkCoords coords) {
         Chunk chunk = ph.getWorld().getChunk(coords);
         return chunk == null || !chunk.lightmapInit
-        // Investigate why this solves the no-lightmap-on-initial-chunks mystery.
-        // It could be that the chunks on the edge get their SLM pasted even though they
-        // have no lightmap
+                // Investigate why this solves the no-lightmap-on-initial-chunks mystery.
+                // It could be that the chunks on the edge get their SLM pasted even though they
+                // have no lightmap
                 || !ShaderLightMap.inBounds(chunk.getPosition()) || !chunk.inSLM();
     }
 
@@ -166,13 +174,13 @@ class UpdaterThread extends Thread {
          *
          * THEROIES: * Sometimes too many new chunks are created * The lightmap
          * propagation may increase memory usage
-         * 
+         *
          * TODO: Investigate the cause of the performance decrease when updating terrain
          * THEROIES: * The garbage collector
          * * It is definietly not the deletion and recreation in chunks, a chunks is never created twice iin the similar timeframe
          */
 
-        Chunk chunk= VoxelGame.getWorld().makeChunk(coords);
+        Chunk chunk = VoxelGame.getWorld().makeChunk(coords);
 
         //Make neighbors
         parent.ph.getWorld().makeChunk(coords.set(coords.x + 1, coords.z));
@@ -189,7 +197,7 @@ class UpdaterThread extends Thread {
         }
         pasteSLM(chunk);
         if (!chunk.hasGeneratedMeshes()
-        // && chunk.isSurroundedByChunks()
+            // && chunk.isSurroundedByChunks()
         ) {
             // (new Thread() {
             // public void run() {
@@ -245,19 +253,23 @@ class UpdaterThread extends Thread {
         }
     }
 
-    boolean SLMneedsUpdating = false;
+    public boolean SLMneedsUpdating = false;
     long timeSinceUpdate;
+    Vector3f slmUpdatePos = new Vector3f(0, 0, 0);
 
-    public void updateSLM(int chunkDeletionDist) throws IOException {
+    public void updateSLM(int chunkDeletionDist, Vector3f playerPos) throws IOException {
         if (SLMneedsUpdating
-                && System.currentTimeMillis() - timeSinceUpdate > 2000) {
+                && System.currentTimeMillis() - timeSinceUpdate > 1000 &&//If it takes longer than 1 second to update
+                slmUpdatePos.distance(playerPos) > 2) { //If the player has moved more than 2 blocks
 
             /**
              * If we send the SLM over on another thread it could disrupt the
              * rendering and cause concurrent errors when drawing shapes.
              */
+//            System.out.println("Updating SLM");
             ShaderLightMap.markAsChanged();
             SLMneedsUpdating = false;
+            slmUpdatePos.set(playerPos);
             timeSinceUpdate = System.currentTimeMillis();
         }
     }

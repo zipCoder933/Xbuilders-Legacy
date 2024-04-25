@@ -34,6 +34,8 @@ public abstract class Tool {
     public void activate() {
     }
 
+    public void changeMode() {}
+
     public void deactivate() {
     }
 

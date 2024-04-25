@@ -52,7 +52,9 @@ public class BlockTools {
         if (!window.keyIsPressed(KeyCode.SHIFT)
                 && VoxelGame.getGame().mode == GameMode.FREEPLAY) {
 
-            if (getSelectedTool().keyReleased(window, ke)) {
+            if (window.keyIsPressed(KeyCode.M)) {
+                getSelectedTool().changeMode();
+            } else if (getSelectedTool().keyReleased(window, ke)) {
             } else {
                 for (int i = 0; i < tools.size(); i++) {
                     if (tools.get(i).shouldActivate(window, ke)) {
@@ -91,6 +93,7 @@ public class BlockTools {
 
     private void setSelectedTool(int selectedTool) {
         if (this.selectedTool != selectedTool) getSelectedTool().deactivate();
+        else getSelectedTool().changeMode();
         if (selectedTool < 0) selectedTool = 0;
         if (selectedTool > tools.size() - 1) selectedTool = tools.size() - 1;
         this.selectedTool = selectedTool;

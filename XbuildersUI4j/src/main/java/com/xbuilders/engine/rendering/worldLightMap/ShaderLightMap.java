@@ -5,6 +5,7 @@ package com.xbuilders.engine.rendering.worldLightMap;
 
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.world.TerrainUpdater;
 import com.xbuilders.engine.world.chunk.wcc.WCCi;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.ItemList;
@@ -122,7 +123,10 @@ public class ShaderLightMap {
     }
 
     public static int getChunkRadius(final PointerHandler ph) {
-        return (int) (ph.getSettingsFile().chunkRadius * ph.getSettingsFile().SLM_RadiusMultiplier);
+        int value =  (int) (ph.getSettingsFile().chunkRadius * ph.getSettingsFile().SLM_RadiusMultiplier);
+        if(value < TerrainUpdater.MIN_CHUNK_DIST)
+            value = TerrainUpdater.MIN_CHUNK_DIST;
+        return value;
     }
 
     public static String boundariesToString() {
