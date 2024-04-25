@@ -5,33 +5,21 @@
 package com.xbuilders.game.items;
 
 import com.google.gson.Gson;
-
-import static com.xbuilders.engine.items.BlockList.DEFAULT_BLOCK_TYPE_ID;
-
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.tool.Tool;
 import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.game.items.blocks.electronics.PressurePlate;
-import com.xbuilders.game.items.blocks.electronics.light.BlockBlueLamp;
-import com.xbuilders.game.items.blocks.electronics.light.BlockBlueTorch;
-import com.xbuilders.game.items.blocks.electronics.light.BlockCampfire;
-import com.xbuilders.game.items.blocks.electronics.light.BlockLamp;
-import com.xbuilders.game.items.blocks.electronics.light.BlockTorch;
-import com.xbuilders.game.items.blocks.liquid.*;
-import com.xbuilders.game.items.blocks.plants.*;
-import com.xbuilders.game.items.blocks.plants.growablePlants.BlockBeetSeeds;
-import com.xbuilders.game.items.blocks.plants.growablePlants.BlockBeets;
-import com.xbuilders.game.items.blocks.plants.growablePlants.BlockCarrotSeeds;
-import com.xbuilders.game.items.blocks.plants.growablePlants.BlockCarrots;
-import com.xbuilders.game.items.blocks.plants.growablePlants.BlockPotatoSeeds;
-import com.xbuilders.game.items.blocks.plants.growablePlants.BlockPotatoes;
-import com.xbuilders.game.items.blocks.plants.growablePlants.BlockWheat;
-import com.xbuilders.game.items.blocks.plants.growablePlants.BlockWheatSeeds;
+import com.xbuilders.game.items.blocks.electronics.light.*;
+import com.xbuilders.game.items.blocks.liquid.BlockLava;
+import com.xbuilders.game.items.blocks.liquid.BlockWater;
+import com.xbuilders.game.items.blocks.plants.BlockFarmland;
+import com.xbuilders.game.items.blocks.plants.Plant;
+import com.xbuilders.game.items.blocks.plants.growablePlants.*;
 import com.xbuilders.game.items.blocks.plants.sunflower.BlockSunflowerSeeds;
 import com.xbuilders.game.items.blocks.plants.sunflower.SunflowerHead;
 import com.xbuilders.game.items.blocks.plants.sunflower.SunflowerStalk;
@@ -39,66 +27,25 @@ import com.xbuilders.game.items.blocks.plants.tallGrass.TallDryGrassBottom;
 import com.xbuilders.game.items.blocks.plants.tallGrass.TallDryGrassTop;
 import com.xbuilders.game.items.blocks.plants.tallGrass.TallGrassBottom;
 import com.xbuilders.game.items.blocks.plants.tallGrass.TallGrassTop;
-import com.xbuilders.game.items.blocks.plants.trees.BlockAcaciaSapling;
-import com.xbuilders.game.items.blocks.plants.trees.BlockBirchSapling;
-import com.xbuilders.game.items.blocks.plants.trees.BlockJungleSapling;
-import com.xbuilders.game.items.blocks.plants.trees.BlockOakSapling;
-import com.xbuilders.game.items.blocks.plants.trees.BlockSpruceSapling;
+import com.xbuilders.game.items.blocks.plants.trees.*;
 import com.xbuilders.game.items.blocks.tnt.BlockTNT;
 import com.xbuilders.game.items.blocks.tnt.BlockTNTActive;
 import com.xbuilders.game.items.blocks.tnt.BlockTNTLarge;
 import com.xbuilders.game.items.blocks.track.*;
 import com.xbuilders.game.items.blocks.vehicle.*;
-import com.xbuilders.game.items.tools.*;
 import com.xbuilders.game.items.blocks.wallItems.BambooLadder;
 import com.xbuilders.game.items.blocks.wallItems.DarkOakLadder;
 import com.xbuilders.game.items.blocks.wallItems.IronLadder;
 import com.xbuilders.game.items.blocks.wallItems.OakLadder;
-import com.xbuilders.game.items.entities.BannerEntityLink;
-import com.xbuilders.game.items.entities.BedEntityLink;
-import com.xbuilders.game.items.entities.DoorEntityLink;
-import com.xbuilders.game.items.entities.FenceGateEntityLink;
-import com.xbuilders.game.items.entities.animals.CatEntityLink;
-import com.xbuilders.game.items.entities.animals.FoxEntityLink;
-import com.xbuilders.game.items.entities.animals.HorseEntityLink;
-import com.xbuilders.game.items.entities.animals.MuleEntityLink;
-import com.xbuilders.game.items.entities.animals.ParrotEntityLink;
-import com.xbuilders.game.items.entities.animals.RabbitEntityLink;
-import com.xbuilders.game.items.entities.animals.TurtleEntityLink;
+import com.xbuilders.game.items.entities.*;
+import com.xbuilders.game.items.entities.animals.*;
 import com.xbuilders.game.items.entities.animals.fish.FishALink;
 import com.xbuilders.game.items.entities.animals.fish.FishBLink;
-import com.xbuilders.game.items.entities.trapdoors.BambooTrapdoor;
-import com.xbuilders.game.items.entities.trapdoors.BambooTrapdoor2;
-import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
-import com.xbuilders.game.items.entities.trapdoors.GlassTrapdoorLink;
-import com.xbuilders.game.items.entities.trapdoors.JungleTrapdoor2;
-import com.xbuilders.game.items.entities.trapdoors.JungleTrapdoorLink;
-import com.xbuilders.game.items.entities.trapdoors.RedTrapdoorLink;
-import com.xbuilders.game.items.entities.trapdoors.RenaissanceTrapdoor;
-import com.xbuilders.game.items.entities.trapdoors.SpruceTrapdoorLink;
-import com.xbuilders.game.items.entities.trapdoors.SteelTrapdoorLink;
-import com.xbuilders.game.items.entities.TrapdoorLink;
-import com.xbuilders.game.items.entities.trapdoors.WarpedTrapdoorLink;
-import com.xbuilders.game.items.entities.trapdoors.WhiteTrapdoor;
-import com.xbuilders.game.items.entities.vehicle.boat.AcaciaBoat;
-import com.xbuilders.game.items.entities.vehicle.boat.BirchBoat;
-import com.xbuilders.game.items.entities.vehicle.boat.DarkOakBoat;
-import com.xbuilders.game.items.entities.vehicle.boat.JungleBoat;
-import com.xbuilders.game.items.entities.vehicle.boat.OakBoat;
-import com.xbuilders.game.items.entities.vehicle.boat.SpruceBoat;
-import com.xbuilders.game.items.entities.vehicle.minecart.BlueMinecart;
-import com.xbuilders.game.items.entities.vehicle.minecart.CharcoalMinecart;
-import com.xbuilders.game.items.entities.vehicle.minecart.CyanMinecart;
-import com.xbuilders.game.items.entities.vehicle.minecart.GreenMinecart;
-import com.xbuilders.game.items.entities.vehicle.minecart.IronMinecart;
-import com.xbuilders.game.items.entities.vehicle.minecart.RedMinecart;
-import com.xbuilders.game.items.entities.vehicle.minecart.YellowMinecart;
+import com.xbuilders.game.items.entities.trapdoors.*;
+import com.xbuilders.game.items.entities.vehicle.boat.*;
+import com.xbuilders.game.items.entities.vehicle.minecart.*;
 import com.xbuilders.game.items.other.boundaryBlocks.StartBoundary;
-import com.xbuilders.game.items.other.copyPaste.BlockAdditivePaste;
-import com.xbuilders.game.items.other.copyPaste.BlockPaste;
-import com.xbuilders.game.items.other.copyPaste.CopyTool;
-import com.xbuilders.game.items.other.copyPaste.PasteRotateBlock;
-import com.xbuilders.game.items.other.copyPaste.PasteVertexBlock;
+import com.xbuilders.game.items.tools.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,19 +53,21 @@ import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.xbuilders.engine.items.BlockList.DEFAULT_BLOCK_TYPE_ID;
+
 /**
  * @author zipCoder933
  */
 public class GameItems {
 
     // <editor-fold defaultstate="collapsed" desc="blocks">
-    public static final PasteRotateBlock PASTE_ROTATE_BLOCK = new PasteRotateBlock();
-    public static final PasteVertexBlock PASTE_VERTEX_BLOCK = new PasteVertexBlock();
+//    public static final PasteRotateBlock PASTE_ROTATE_BLOCK = new PasteRotateBlock();
+//    public static final PasteVertexBlock PASTE_VERTEX_BLOCK = new PasteVertexBlock();
     public static final MergeTrack MERGE_TRACK = new MergeTrack();
     public static final BlockTNTLarge BLOCK_TNT_LARGE = new BlockTNTLarge();
     public static final StartBoundary START_BOUNDARY = new StartBoundary();
-    public static final BlockPaste BLOCK_PASTE = new BlockPaste();
-    public static final BlockAdditivePaste ADDITIVE_PASTE = new BlockAdditivePaste();
+//    public static final BlockPaste BLOCK_PASTE = new BlockPaste();
+//    public static final BlockAdditivePaste ADDITIVE_PASTE = new BlockAdditivePaste();
     public static final BlockLamp BLOCK_LAMP = new BlockLamp();
     public static final BlockBlueLamp BLOCK_BLUE_LAMP = new BlockBlueLamp();
     public static final Track TRACK = new Track();
@@ -1933,7 +1882,7 @@ public class GameItems {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="tools">
-    public static final CopyTool COPY_TOOL = new CopyTool();
+//    public static final CopyToolBlock COPY_TOOL = new CopyToolBlock();
     public static final LiquidRemovalTool LIQUID_REMOVAL_TOOL = new LiquidRemovalTool();
     public static final Saddle SADDLE = new Saddle();
     public static final AnimalFeed ANIMAL_FEED = new AnimalFeed();
@@ -1944,7 +1893,7 @@ public class GameItems {
     // </editor-fold>
 
     public static Tool[] getToolList() {
-        return new Tool[]{COPY_TOOL, CAMERA, FLASHLIGHT, LIQUID_REMOVAL_TOOL, HOE, SADDLE, ANIMAL_FEED,
+        return new Tool[]{ CAMERA, FLASHLIGHT, LIQUID_REMOVAL_TOOL, HOE, SADDLE, ANIMAL_FEED,
                 ANIMAL_LEAVE};
     }
 
@@ -2009,8 +1958,8 @@ public class GameItems {
     }
 
     public static Block[] getBlockList() throws IOException {
-        Block[] list = new Block[]{START_BOUNDARY, BLOCK_PASTE, ADDITIVE_PASTE, PASTE_ROTATE_BLOCK,
-                PASTE_VERTEX_BLOCK, CURVED_TRACK, RAISED_TRACK, BLOCK_CONTROL_PANEL, BLOCK_DIRT, BLOCK_GRASS,
+        Block[] list = new Block[]{START_BOUNDARY,
+               CURVED_TRACK, RAISED_TRACK, BLOCK_CONTROL_PANEL, BLOCK_DIRT, BLOCK_GRASS,
                 GRASS_PLANT, BLOCK_SNOW, SNOW_BLOCK, BLOCK_DRY_GRASS, DRY_GRASS_PLANT, BLOCK_JUNGLE_GRASS,
                 JUNGLE_GRASS_PLANT, TALL_GRASS_BOTTOM, TALL_GRASS_TOP, TALL_DRY_GRASS_BOTTOM, TALL_DRY_GRASS_TOP,
                 BLOCK_WATER, BlockLava, BLOCK_TNT, BLOCK_TNT_LARGE, TNT_ACTIVE, BlockTorch, BLOCK_BLUE_TORCH,

@@ -59,10 +59,8 @@ public class BulkBlockSetter {
         Block prevBlock = VoxelGame.getWorld().getBlock(vec);
 
         if (prevBlock != block
-                && vec.y < Chunk.CHUNK_Y_LENGTH - 1
-                && vec.y > 0
-                && VoxelGame.getWorld().inBounds(vec)
-                && !this.willCollideWithPlayer(vec)) {
+                && VoxelGame.getWorld().inPlacableBounds(vec.y)
+                && !willCollideWithPlayer(block,vec)) {
 
             this.fastBlockQueue.add(new BlockToSet(block, prevBlock, vec, data));
             VoxelGame.getWorld().setBlockAndUpdate(block, data, vec.x, vec.y, vec.z);
@@ -86,8 +84,8 @@ public class BulkBlockSetter {
         return this.fastBlockQueue.isEmpty();
     }
 
-    private boolean willCollideWithPlayer(final Vector3i coords) {
-        if (VoxelGame.getPlayer().passThroughMode) {
+    private boolean willCollideWithPlayer(Block block, final Vector3i coords) {
+        if (VoxelGame.getPlayer().passThroughMode || !block.isSolid()) {
             return false;
         }
         UserControlledPlayer userControlledPlayer2 = VoxelGame.getPlayer();

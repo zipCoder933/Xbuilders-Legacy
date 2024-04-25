@@ -257,8 +257,7 @@ public class Block extends Item {
     }
 
     public final void set(int x, int y, int z, BlockData data) {
-        if (y < Chunk.CHUNK_Y_LENGTH - 1 && y > 0
-                && VoxelGame.getWorld().inBounds(x, y, z)) {
+        if (VoxelGame.getWorld().inPlacableBounds(y)) {
             final int chunkX = WCCi.chunkDiv(x);
             final int blockX = MathUtils.positiveMod(x, SubChunk.WIDTH);
             final int chunkZ = WCCi.chunkDiv(z);

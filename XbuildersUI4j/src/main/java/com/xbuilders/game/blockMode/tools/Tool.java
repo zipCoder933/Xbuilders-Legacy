@@ -16,6 +16,11 @@ public abstract class Tool {
     public final SettingUtils setting;
     public final BulkBlockSetter blockSetter;
     public final BlockTools blockTools;
+    public boolean usesSize = false;
+
+    public String toolDescription(){
+        return name + (usesSize ? " (x" + blockTools.getSize() + ")" : "");
+    }
 
     public Tool(String name, BlockTools blockTools) {
         this.name = name;
@@ -36,5 +41,13 @@ public abstract class Tool {
 
     public boolean drawCursor(CursorRaycast ray, PGraphics g) {
         return false;
+    }
+
+    public boolean keyReleased(BaseWindow window, KeyEvent ke) {
+        return false;
+    }
+
+    public float getMaxSize() {
+        return 20f;
     }
 }

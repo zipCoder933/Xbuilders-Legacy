@@ -29,6 +29,11 @@ public class CursorRaycast {
     public boolean cursorRayHitAllBlocks = false;
     Camera camera;
 
+    public final static KeyCode RAYCASTING_HIT_ALL_BLOCKS = KeyCode.TAB;
+    public final static KeyCode BLOCK_TOOL_PARAMETER_1 = KeyCode.K;
+    public final static KeyCode BLOCK_TOOL_PARAMETER_2 = KeyCode.L;
+    public final static KeyCode BLOCK_TOOL_PARAMETER_3 = KeyCode.M;
+
     public CursorRaycast(Camera camera) {
         cursorRay = new Ray();
         this.camera = camera;
@@ -174,7 +179,7 @@ public class CursorRaycast {
     }
 
     boolean rayDistChanged = false;
-    public final KeyCode RAYCASTING_HIT_ALL_BLOCKS = KeyCode.TAB;
+
 
     //Boundary mode:
     private boolean useBoundary = false;
@@ -229,9 +234,9 @@ public class CursorRaycast {
             enableBoundaryMode((AABB, Boolean) -> {
                 System.out.println("boundary created " + AABB + " boolean " + Boolean);
             });
-        } else if (ke.getKeyCode() == KeyCode.K) {
+        } else if (ke.getKeyCode() == BLOCK_TOOL_PARAMETER_1) {
             boundary_useHitPos = !boundary_useHitPos;
-        } else if (ke.getKeyCode() == KeyCode.L) {
+        } else if (ke.getKeyCode() == BLOCK_TOOL_PARAMETER_2) {
             boundary_lockToPlane = !boundary_lockToPlane;
             System.out.println("boundary lock to plane " + boundary_lockToPlane);
         }

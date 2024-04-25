@@ -34,36 +34,16 @@ import java.util.HashSet;
  */
 public class SettingUtils {
 
-    final int MAX_SET_TIME = 30000;
+    public static final int MAX_SET_TIME = 30000;
 
     public SettingUtils(BlockTools parent) {
         this.parent = parent;
-        sphereBoundaryEvent = new SphereBoundarySetEvent(parent);
-        hollowSphereBoundaryEvent = new SphereBoundarySetEvent(parent) {
-            @Override
-            public boolean checkIfToSet(int x, int y, int z, double radius, Vector3i center) {
-                double dist = MathUtils.dist(center.x, center.y, center.z, x, y, z);
-
-                return dist < radius && dist > radius - 2 && !VoxelGame.getWorld().getBlock(x, y, z).isSolid();
-            }
-
-        };
     }
 
-    SphereBoundarySetEvent sphereBoundaryEvent;
-    BoundarySetEvent hollowSphereBoundaryEvent;
-
-    void sphere(Vector3i hitPosition) {
-        GameItems.START_BOUNDARY.place(hitPosition.x, hitPosition.y, hitPosition.z, sphereBoundaryEvent);
-    }
-
-    void hollowSphere(Vector3i hitPosition) {
-        GameItems.START_BOUNDARY.place(hitPosition.x, hitPosition.y, hitPosition.z, hollowSphereBoundaryEvent);
-    }
 
     BlockTools parent;
 
-    void setFloor(ItemQuantity item, Ray ray, long timeSinceStart, int size, BlockData orientation) {
+    public void setFloor(ItemQuantity item, Ray ray, long timeSinceStart, int size, BlockData orientation) {
         HashSet<Vector3i> explored = new HashSet<>();
         HashQueue<Node> queue = new HashQueue<>();
 
@@ -128,83 +108,19 @@ public class SettingUtils {
         }
     }
 
-   public void setLine(ItemQuantity item, Ray ray, long timeSinceStart, int size, BlockData orientation) {
+   public void setLine(Block item, Ray ray, long timeSinceStart, int size, BlockData orientation) {
         Vector3i position = new Vector3i(ray.getHitPosPlusNormal());
         Vector3i normal = new Vector3i(ray.getHitNormalAsInt());
         for (int i = 0; i < size; i++) {
             if (!voxelIsAvalilable(position)) {
                 break;
             }
-            parent.blockSetter.addToBlockQueue((Block) item.getItem(), position, orientation);
+            parent.blockSetter.addToBlockQueue(item, position, orientation);
             position.add(normal);
         }
     }
 
-    void repaint(ItemQuantity item, Ray ray, long timeSinceStart, int size, BlockData orientation) {
-        HashSet<Vector3i> explored = new HashSet<>();
-        HashQueue<Node> queue = new HashQueue<>();
 
-        Vector3i startingPoint = ray.getHitPosPlusNormal();
-        Block highlightedBlock = VoxelGame.getWorld().getBlock(ray.getHitPositionAsInt());
-        queue.add(new TravelNode(ray.getHitPositionAsInt(), 0));
-        while (!queue.isEmpty()) {
-            if (System.currentTimeMillis() - timeSinceStart > MAX_SET_TIME) {
-                return;
-            }
-            Node node = queue.getAndRemove();
-
-            if (node.getCoords().x < startingPoint.x + size && node.getCoords().x > startingPoint.x - size
-                    && node.getCoords().z < startingPoint.z + size && node.getCoords().z > startingPoint.z - size
-                    && node.getCoords().y < startingPoint.y + size && node.getCoords().y > startingPoint.y - size
-                    && VoxelGame.getWorld().getBlock(node.getCoords()) == highlightedBlock) {
-
-                Vector3i coordinate = new Vector3i(node.getCoords());
-                if (!explored.contains(coordinate)) {
-                    parent.blockSetter.addToBlockQueue((Block) item.getItem(), coordinate, orientation);
-                    queue.add(new Node(node.getCoords().x + 1, node.getCoords().y, node.getCoords().z));
-                    queue.add(new Node(node.getCoords().x - 1, node.getCoords().y, node.getCoords().z));
-                    queue.add(new Node(node.getCoords().x, node.getCoords().y, node.getCoords().z + 1));
-                    queue.add(new Node(node.getCoords().x, node.getCoords().y, node.getCoords().z - 1));
-                    queue.add(new Node(node.getCoords().x, node.getCoords().y + 1, node.getCoords().z));
-                    queue.add(new Node(node.getCoords().x, node.getCoords().y - 1, node.getCoords().z));
-                    explored.add(coordinate);
-                }
-            }
-        }
-    }
-
-    void erase(Ray ray, long timeSinceStart, int size) {
-        HashSet<Vector3i> explored = new HashSet<>();
-        HashQueue<Node> queue = new HashQueue<>();
-
-        Vector3i startingPoint = ray.getHitPosPlusNormal();
-        Block highlightedBlock = VoxelGame.getWorld().getBlock(ray.getHitPositionAsInt());
-        queue.add(new TravelNode(ray.getHitPositionAsInt(), 0));
-        while (!queue.isEmpty()) {
-            if (System.currentTimeMillis() - timeSinceStart > MAX_SET_TIME) {
-                return;
-            }
-            Node node = queue.getAndRemove();
-
-            if (node.getCoords().x < startingPoint.x + size && node.getCoords().x > startingPoint.x - size
-                    && node.getCoords().z < startingPoint.z + size && node.getCoords().z > startingPoint.z - size
-                    && node.getCoords().y < startingPoint.y + size && node.getCoords().y > startingPoint.y - size
-                    && VoxelGame.getWorld().getBlock(node.getCoords()) == highlightedBlock) {
-
-                Vector3i coordinate = new Vector3i(node.getCoords());
-                if (!explored.contains(coordinate)) {
-                    parent.blockSetter.addToBlockQueue(BlockList.BLOCK_AIR, coordinate, null);
-                    queue.add(new Node(node.getCoords().x + 1, node.getCoords().y, node.getCoords().z));
-                    queue.add(new Node(node.getCoords().x - 1, node.getCoords().y, node.getCoords().z));
-                    queue.add(new Node(node.getCoords().x, node.getCoords().y, node.getCoords().z + 1));
-                    queue.add(new Node(node.getCoords().x, node.getCoords().y, node.getCoords().z - 1));
-                    queue.add(new Node(node.getCoords().x, node.getCoords().y + 1, node.getCoords().z));
-                    queue.add(new Node(node.getCoords().x, node.getCoords().y - 1, node.getCoords().z));
-                    explored.add(coordinate);
-                }
-            }
-        }
-    }
 
     private boolean voxelIsAvalilable(Vector3i position) {
         return !VoxelGame.getWorld().getBlock(position).isSolid();
@@ -252,24 +168,5 @@ public class SettingUtils {
         }
     }
 
-
-
-    void centeredSphere(Vector3i hitPosition) {
-        int size2 = parent.getSize() * 2;
-        sphereBoundaryEvent.onBoundarySet(
-                new AABB().setPosAndSize(hitPosition.x - parent.getSize(),
-                        hitPosition.y - parent.getSize(),
-                        hitPosition.z - parent.getSize(),
-                        size2, size2, size2), null, null);
-    }
-
-    void centeredHollowSphere(Vector3i hitPosition) {
-        int size2 = parent.getSize() * 2;
-        hollowSphereBoundaryEvent.onBoundarySet(
-                new AABB().setPosAndSize(hitPosition.x - parent.getSize(),
-                        hitPosition.y - parent.getSize(),
-                        hitPosition.z - parent.getSize(),
-                        size2, size2, size2), null, null);
-    }
 
 }

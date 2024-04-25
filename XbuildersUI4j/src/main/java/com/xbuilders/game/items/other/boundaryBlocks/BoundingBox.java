@@ -14,8 +14,6 @@ import org.joml.Vector3i;
 import processing.core.PGraphics;
 import processing.core.PShape;
 
-import static com.xbuilders.game.items.other.copyPaste.BlockPaste.getStartPosOffset;
-
 /**
  * @author zipCoder933
  */
@@ -81,16 +79,6 @@ public class BoundingBox extends Hologram {
     }
 
     private PShape mesh = null;
-
-    public void setMesh(Vector3i startPos, BlockGrid clipboard, boolean wireframe, boolean textured) {
-        size.set(
-                clipboard.size.x,
-                clipboard.size.y,
-                clipboard.size.z);
-        mesh = BlockMesh.createMesh(clipboard, wireframe, textured);
-        final Vector3f worldPosition = getStartPosOffset(startPos.x, startPos.y, startPos.z);
-        this.worldPosition.set(worldPosition);
-    }
 
     public void setMesh(BlockGrid clipboard, boolean wireframe, boolean textured) {
         size.set(

@@ -1,6 +1,8 @@
 package com.xbuilders.game.blockMode.tools;
 
 import com.xbuilders.engine.items.ItemQuantity;
+import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRaycast;
 import com.xbuilders.engine.utils.preformance.Stopwatch;
 import com.xbuilders.engine.world.chunk.blockData.BlockData;
@@ -16,11 +18,12 @@ public class LineSet extends Tool {
 
     public LineSet(BlockTools tools) {
         super("Line", tools);
+        usesSize = true;
     }
 
     @Override
     public boolean shouldActivate(BaseWindow window, KeyEvent ke) {
-        return window.keyIsPressed(KeyCode.FOUR);
+        return window.keyIsPressed(KeyCode.THREE);
     }
 
     @Override
@@ -30,7 +33,10 @@ public class LineSet extends Tool {
         long timeSinceStart = System.currentTimeMillis();
 
         if (isCreationMode) {
-            setting.setLine(item, ray.cursorRay, timeSinceStart, blockTools.getSize(), data);
+            if (item != null && item.getItem().type == ItemType.BLOCK) {
+                Block block = (Block) item.getItem();
+                setting.setLine(block, ray.cursorRay, timeSinceStart, blockTools.getSize(), data);
+            }
         } else setting.eraseLine(ray.cursorRay, timeSinceStart, blockTools.getSize());
 
         blockSetter.wakeUp();
@@ -40,10 +46,10 @@ public class LineSet extends Tool {
     @Override
     public boolean drawCursor(CursorRaycast ray, PGraphics g) {
         g.translate(
-                ray.cursorRay.hitPostition.x+0.5f,
-                ray.cursorRay.hitPostition.y+0.5f,
-                ray.cursorRay.hitPostition.z+0.5f);
-        
+                ray.cursorRay.hitPostition.x + 0.5f,
+                ray.cursorRay.hitPostition.y + 0.5f,
+                ray.cursorRay.hitPostition.z + 0.5f);
+
         int size = blockTools.getSize();
         float add = 0f;
         g.strokeWeight(1.5f);

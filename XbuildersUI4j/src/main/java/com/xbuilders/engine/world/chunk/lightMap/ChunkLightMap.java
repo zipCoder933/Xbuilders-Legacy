@@ -84,7 +84,7 @@ public final class ChunkLightMap {
                             ShaderLightMap.setImagePixelValue(idx,
                                     ShaderLightMap.getLightmapValue(this.chunk, x, y, z));
                             ++placesSet;
-                        } else if (VoxelGame.getWorld().inBounds(worldX, worldY, worldZ)) {
+                        } else if (VoxelGame.getWorld().inBounds(worldY)) {
                             try {
                                 wcc.set(worldX, worldY, worldZ);
                                 final SubChunk neighboringChunk = VoxelGame.getWorld().getSubChunk(wcc.subChunk);

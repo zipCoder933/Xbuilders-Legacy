@@ -9,11 +9,9 @@ import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.world.chunk.SubChunk;
 
-import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import com.xbuilders.engine.world.chunk.wcc.WCCi;
-import org.joml.Vector3i;
 
 /**
  * @author sampw
@@ -94,7 +92,7 @@ public abstract class EntityLink extends Item {
      * @return the new entity
      */
     public final Entity placeNew(int worldPosX, int worldPosY, int worldPosZ, byte[] bytes, boolean setByUser) {
-        if (!VoxelGame.getWorld().inBounds(worldPosX, worldPosY, worldPosZ)) {
+        if (!VoxelGame.getWorld().inBounds(worldPosY)) {
             return null;
         }
         SubChunk chunk = VoxelGame.getWorld().getSubChunk(WCCi.getSubChunkAtWorldPos(worldPosX, worldPosY, worldPosZ));

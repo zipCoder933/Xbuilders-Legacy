@@ -4,7 +4,6 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.VoxelGame;
-import com.xbuilders.engine.gui.game.GameMenu;
 import com.xbuilders.engine.player.blockPipeline.BlockPipeline;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
@@ -25,7 +24,6 @@ import com.xbuilders.engine.world.info.WorldInfo;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.game.terrain.Terrain;
 import com.xbuilders.game.terrain.TerrainsList;
-import com.xbuilders.window.FrameTester;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import processing.core.PGraphics;
@@ -394,10 +392,14 @@ public class World {
     }
 
     public boolean inBounds(final Vector3i vec) {
-        return this.inBounds(vec.x, vec.y, vec.z);
+        return this.inBounds(vec.y);
     }
 
-    public boolean inBounds(final int x, final int y, final int z) {
+    public boolean inPlacableBounds(int y) {
+        return y < Chunk.CHUNK_Y_LENGTH - 1 && y > 0;
+    }
+
+    public boolean inBounds(final int y) {
         return y >= 0 && y <= Chunk.CHUNK_Y_LENGTH - 1;
     }
 

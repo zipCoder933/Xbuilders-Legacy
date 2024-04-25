@@ -2,13 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game.items.other.copyPaste;
+package com.xbuilders.game.blockMode.tools.copyPaste;
 
-import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.entity.EntityTemplate;
 import com.xbuilders.game.items.other.BlockGrid;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import org.joml.Vector3f;
 
@@ -23,6 +21,6 @@ public class Clipboard {
         entities = new HashMap<>();
     }
 
-    BlockGrid blocks;
-    HashMap<Vector3f, EntityTemplate> entities;
+    public  BlockGrid blocks;
+    public HashMap<Vector3f, EntityTemplate> entities;
 }

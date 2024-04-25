@@ -88,7 +88,7 @@ class PropagatorThread extends Thread {
             int ny = node.getCoords().y;
             int nz = node.getCoords().z;
 
-            if (!VoxelGame.ph().getWorld().inBounds(nx, ny, nz)) {
+            if (!VoxelGame.ph().getWorld().inBounds(ny)) {
                 continue;
             }
 
