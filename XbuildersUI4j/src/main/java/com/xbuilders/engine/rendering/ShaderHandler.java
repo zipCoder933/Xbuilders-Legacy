@@ -243,7 +243,7 @@ public class ShaderHandler {
         setDaylightLevel(0);
         animatedBlockTime = 0;
         float textureMapWidth = ItemList.blocks.textureAtlas.getImageWidth();
-        float individualTextureSize = ItemList.blocks.textureAtlas.getIndividualTextureSize();
+        float individualTextureSize = ItemList.blocks.textureAtlas.INDIVIDUAL_TEXTURE_SIZE;
         float tileSize = (individualTextureSize / textureMapWidth);
         int numberOfTilesWidth = (int) (textureMapWidth / individualTextureSize);
 

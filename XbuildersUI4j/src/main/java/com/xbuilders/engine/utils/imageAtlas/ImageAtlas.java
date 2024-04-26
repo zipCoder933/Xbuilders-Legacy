@@ -10,13 +10,6 @@ import processing.core.PImage;
 public class ImageAtlas {
 
     /**
-     * @return the individualTextureSize
-     */
-    public int getIndividualTextureSize() {
-        return individualTextureSize;
-    }
-
-    /**
      * @return the imageSize
      */
     public int getImageWidth() {
@@ -32,7 +25,7 @@ public class ImageAtlas {
 
     private PImage image;
     private int imageSize;
-    private final int individualTextureSize = 16;
+    public final int INDIVIDUAL_TEXTURE_SIZE = 16;
 
 
     public ImageAtlas(File imagePath) throws IOException {
@@ -44,16 +37,16 @@ public class ImageAtlas {
 
         if (img.getWidth() != img.getHeight()) {
             throw new IOException("The image \"" + imagePath.getAbsolutePath() + "\" is not square!");
-        } else if (img.getWidth() % getIndividualTextureSize() != 0) {
+        } else if (img.getWidth() % INDIVIDUAL_TEXTURE_SIZE != 0) {
             throw new IOException("The image \"" + imagePath.getAbsolutePath() +
-                    "\" is not divisible by " + getIndividualTextureSize() + "!");
+                    "\" is not divisible by " + INDIVIDUAL_TEXTURE_SIZE + "!");
         }
         image = new PImage(img);
         imageSize = image.width;
     }
 
     public ImageAtlasPosition getImageIndex(int[] pos) {
-        float texturePerRow = (float) getImageWidth() / (float) getIndividualTextureSize();
+        float texturePerRow = (float) getImageWidth() / (float) INDIVIDUAL_TEXTURE_SIZE;
         float indvTexSize = 1.0f / texturePerRow;
         float pixelSize = 1.0f / (float) getImageWidth();
 
