@@ -4,14 +4,15 @@
  */
 package com.xbuilders.game.items;
 
-import com.google.gson.Gson;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.tool.Tool;
 import com.xbuilders.engine.utils.ArrayUtils;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.game.items.blocks.electronics.PressurePlate;
 import com.xbuilders.game.items.blocks.electronics.light.*;
@@ -50,8 +51,9 @@ import com.xbuilders.game.items.tools.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import static com.xbuilders.engine.items.BlockList.DEFAULT_BLOCK_TYPE_ID;
 
@@ -66,7 +68,7 @@ public class GameItems {
     public static final MergeTrack MERGE_TRACK = new MergeTrack();
     public static final BlockTNTLarge BLOCK_TNT_LARGE = new BlockTNTLarge();
     public static final StartBoundary START_BOUNDARY = new StartBoundary();
-//    public static final BlockPaste BLOCK_PASTE = new BlockPaste();
+    //    public static final BlockPaste BLOCK_PASTE = new BlockPaste();
 //    public static final BlockAdditivePaste ADDITIVE_PASTE = new BlockAdditivePaste();
     public static final BlockLamp BLOCK_LAMP = new BlockLamp();
     public static final BlockBlueLamp BLOCK_BLUE_LAMP = new BlockBlueLamp();
@@ -1893,7 +1895,7 @@ public class GameItems {
     // </editor-fold>
 
     public static Tool[] getToolList() {
-        return new Tool[]{ CAMERA, FLASHLIGHT, LIQUID_REMOVAL_TOOL, HOE, SADDLE, ANIMAL_FEED,
+        return new Tool[]{CAMERA, FLASHLIGHT, LIQUID_REMOVAL_TOOL, HOE, SADDLE, ANIMAL_FEED,
                 ANIMAL_LEAVE};
     }
 
@@ -1959,7 +1961,7 @@ public class GameItems {
 
     public static Block[] getBlockList() throws IOException {
         Block[] list = new Block[]{START_BOUNDARY,
-               CURVED_TRACK, RAISED_TRACK, BLOCK_CONTROL_PANEL, BLOCK_DIRT, BLOCK_GRASS,
+                CURVED_TRACK, RAISED_TRACK, BLOCK_CONTROL_PANEL, BLOCK_DIRT, BLOCK_GRASS,
                 GRASS_PLANT, BLOCK_SNOW, SNOW_BLOCK, BLOCK_DRY_GRASS, DRY_GRASS_PLANT, BLOCK_JUNGLE_GRASS,
                 JUNGLE_GRASS_PLANT, TALL_GRASS_BOTTOM, TALL_GRASS_TOP, TALL_DRY_GRASS_BOTTOM, TALL_DRY_GRASS_TOP,
                 BLOCK_WATER, BlockLava, BLOCK_TNT, BLOCK_TNT_LARGE, TNT_ACTIVE, BlockTorch, BLOCK_BLUE_TORCH,
@@ -2116,20 +2118,116 @@ public class GameItems {
                 BLOCK_ENGINE_120HP, BLOCK_ENGINE_240HP, BLOCK_JET_THRUSTER, BLOCK_WATER_PROPELLER,
                 BLOCK_LARGE_HELICOPTER_BLADE, BLOCK_SMALL_HELICOPTER_BLADE, BLOCK_SILVER_BRICK};
 
-        try {
-            ResourceUtils.resource("assets").mkdirs();
-            File jsonBlockFile = ResourceUtils.resource("items\\blocks\\blocks.json");
-            if (jsonBlockFile.exists()) {
-                String jsonString = Files.readString(jsonBlockFile.toPath());
-                Block[] jsonBlocks = new Gson().fromJson(jsonString, Block[].class);
-                if (jsonBlocks != null && jsonBlocks.length > 0) {
-                    list = ArrayUtils.concatArrays(list, jsonBlocks);
-                }
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(ItemList.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        makeNewBlocksAsJson(list, "items\\blocks\\json\\house.json", 752);
+        list = ArrayUtils.concatArrays(list, getAllJsonBlocks());
         return list;
     }
 
+    private static Block[] getAllJsonBlocks() {
+        try {
+            File jsonBlockFile = ResourceUtils.resource("items\\blocks\\json");
+            System.out.println("Adding all json blocks from " + jsonBlockFile.getAbsolutePath());
+            if (!jsonBlockFile.exists()) jsonBlockFile.mkdirs();
+            Block[] allBlocks = new Block[0];
+
+            for (File file : jsonBlockFile.listFiles()) {
+                if (!file.getName().endsWith(".json")) continue;
+                System.out.println("\tAdding all json blocks from " + file.getAbsolutePath());
+                String jsonString = Files.readString(file.toPath());
+                Block[] jsonBlocks2 = JsonManager.gson.fromJson(jsonString, Block[].class);
+                if (jsonBlocks2 != null && jsonBlocks2.length > 0) {
+                    //append to list
+                    allBlocks = ArrayUtils.concatArrays(allBlocks, jsonBlocks2);
+                }
+            }
+            return allBlocks;
+        } catch (IOException e) {
+            ErrorHandler.handleFatalError(e);
+        }
+        return null;
+    }
+
+    public static void makeNewBlocksAsJson(Block[] list, String outputPath, int startingID) {
+        //Add carpet
+        ArrayList<Block> newBlocks = new ArrayList<>();
+        for (Block block : list) {
+            if (block.name.toLowerCase().contains("teracotta")
+                    &&block.type == BlockRenderType.ORIENTABLE_BLOCK) {
+                    Block b = new Block(startingID,
+                            block.name.replace("Glazed Teracotta","") +"Carpet");
+                    b.solid = false;
+                    b.texture = block.texture;
+                    b.opaque = false;
+                    b.type = BlockRenderType.FLOOR;
+
+                    newBlocks.add(b);
+                    startingID++;
+                    System.out.println("Added " + b.name);
+            }
+        }
+
+        HashMap<Integer,String> colorNames = new HashMap<>();
+        colorNames.put(0, "Gold");
+        colorNames.put(1, "Tan");
+        colorNames.put(2, "Brown");
+        colorNames.put(3, "Cyan");
+        colorNames.put(4, "Gray");
+        colorNames.put(5, "Green");
+        colorNames.put(6, "Blue");
+        colorNames.put(7, "Light Gray");
+        colorNames.put(8, "Light Green");
+        colorNames.put(9, "Magenta");
+        colorNames.put(10, "Orange");
+        colorNames.put(11, "Pink");
+        colorNames.put(12, "Purple");
+        colorNames.put(13, "Red");
+        colorNames.put(14, "White");
+        colorNames.put(15, "Yellow");
+
+        //Add seats and siding
+        for(int i=0;i<16;i++) {
+            Block seat = new Block(startingID,
+                    colorNames.get(i)+" Seat");
+            seat.solid = true;
+            seat.texture = new BlockTexture(i,30,i,31,i,31);
+            seat.opaque = false;
+            seat.type = BlockRenderType.SLAB;
+            newBlocks.add(seat);
+            startingID++;
+
+
+            Block siding = new Block(startingID,
+                    colorNames.get(i)+" Siding");
+            siding.solid = true;
+            siding.texture = new BlockTexture(i,28,i,28,i,29);
+            siding.opaque = true;
+            newBlocks.add(siding);
+            startingID++;
+        }
+
+        exportBlocksToJson(newBlocks, outputPath);
+    }
+
+    public static void exportBlocksToJson(Block[] list,String out) {
+        //Save list as json
+        try {
+            File jsonBlockFile = ResourceUtils.resource(out);
+            String jsonString = JsonManager.gson.toJson(list);
+            Files.writeString(jsonBlockFile.toPath(), jsonString);
+            System.out.println("Saved " + list.length + " blocks to " + jsonBlockFile.getAbsolutePath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void exportBlocksToJson(List<Block> list, String out) {
+        //Save list as json
+        try {
+            File jsonBlockFile = ResourceUtils.resource(out);
+            String jsonString = JsonManager.gson.toJson(list);
+            Files.writeString(jsonBlockFile.toPath(), jsonString);
+            System.out.println("Saved " + list.size() + " blocks to " + jsonBlockFile.getAbsolutePath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -48,9 +48,9 @@ public abstract class BlockType {
             return !neighboringBlock.isSolid()
                     || !neighboringBlock.isOpaque();
         } else {
-            return neighboringBlock.isAir()
-                    || neighboringBlock.getRenderType() == BlockRenderType.SPRITE
-                    || neighboringBlock.getRenderType() == BlockRenderType.FENCE;
+            if (neighboringBlock.isAir()
+                    || neighboringBlock.getRenderType() == BlockRenderType.SPRITE) return true;
+            return neighboringBlock.getRenderType() == BlockRenderType.FENCE;
         }
     }
 

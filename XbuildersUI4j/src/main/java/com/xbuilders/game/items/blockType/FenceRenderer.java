@@ -20,10 +20,10 @@ import static com.xbuilders.engine.items.BlockList.DEFAULT_BLOCK_TYPE_ID;
 public class FenceRenderer extends BlockType {
 
     private boolean isSolid(Block block) {
-        return (block.isSolid())
-                && block.getRenderType() != BlockRenderType.FLOOR
-                && block.getRenderType() != BlockRenderType.WALL_ITEM
-                && block.getRenderType() != BlockRenderType.SPRITE;
+        if ((!block.isSolid())
+                || block.getRenderType() == BlockRenderType.FLOOR
+                || block.getRenderType() == BlockRenderType.WALL_ITEM) return false;
+        return block.getRenderType() != BlockRenderType.SPRITE;
     }
 
     @Override

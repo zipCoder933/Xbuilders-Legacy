@@ -150,7 +150,7 @@ public class ItemQuantity {
     }
 
     public String toFileString() {
-        return item.id + "," + item.type.toString() + "," + quantity;
+        return item.id + "," + item.itemType.toString() + "," + quantity;
     }
 
     public void fromFileString(String str) {

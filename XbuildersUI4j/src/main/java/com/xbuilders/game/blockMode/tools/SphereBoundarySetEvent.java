@@ -43,7 +43,7 @@ public class SphereBoundarySetEvent {
                 Item item = BlockList.BLOCK_AIR;
                 if (create) {
                     item = VoxelGame.getPlayer().blockPanel.getCurItem().getItem();
-                    if (item == null || item.type != ItemType.BLOCK) return;
+                    if (item == null || item.itemType != ItemType.BLOCK) return;
                 }
                 System.out.println("Creating sphere... item: " + item);
 

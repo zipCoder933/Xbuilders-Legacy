@@ -4,17 +4,13 @@
  */
 package com.xbuilders.game.items;
 
-import com.xbuilders.engine.VoxelGame;
-import com.xbuilders.engine.game.GameMode;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.tool.Tool;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  *
@@ -26,7 +22,7 @@ public class GameItemList extends ArrayList<Item> {
 
     public Item get(ItemType type, int id) {
         for (Item item : this) {
-            if (item.type == type && item.id == id) {
+            if (item.itemType == type && item.id == id) {
                 return item;
             }
         }

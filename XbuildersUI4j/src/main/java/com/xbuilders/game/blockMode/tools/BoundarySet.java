@@ -13,8 +13,6 @@ import com.xbuilders.engine.world.chunk.blockData.BlockData;
 import com.xbuilders.engine.world.chunk.blockData.BlockOrientation;
 import com.xbuilders.engine.world.chunk.wcc.WCCi;
 import com.xbuilders.game.blockMode.BlockTools;
-import com.xbuilders.game.blockMode.BulkBlockSetter;
-import com.xbuilders.game.blockMode.SettingUtils;
 import com.xbuilders.window.BaseWindow;
 import org.joml.Vector3i;
 import processing.core.KeyCode;
@@ -34,7 +32,7 @@ public class BoundarySet extends Tool {
             if (isCreationMode) {
                 if (item != null) {
                     Item item1 = item.getItem();
-                    if (item1.type == ItemType.BLOCK) {
+                    if (item1.itemType == ItemType.BLOCK) {
                         Block block = (Block) item.getItem();
                         BlockOrientation orientation = VoxelGame.getPlayer().cameraBlockOrientation();
                         for (int x = (int) boundary.minPoint.x; x < boundary.maxPoint.x; x++) {
@@ -131,6 +129,16 @@ public class BoundarySet extends Tool {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toolDescription() {
+        return VoxelGame.getPlayer().camera.cursorRay.boundary_lockToPlane ? "Plane (Boundary)" : "Boundary";
+    }
+
+    @Override
+    public void changeMode() {
+        VoxelGame.getPlayer().camera.cursorRay.boundary_lockToPlane = !VoxelGame.getPlayer().camera.cursorRay.boundary_lockToPlane;
     }
 
     @Override

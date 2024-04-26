@@ -97,6 +97,19 @@ public class ItemList {
         return tools.getIdMap().get(blockID);
     }
 
+    public static Item getItem(short blockID, ItemType type) {
+        switch (type) {
+            case BLOCK:
+                return getBlock(blockID);
+            case ENTITY_LINK:
+                return getEntity(blockID);
+            case TOOL:
+                return getTool(blockID);
+            default:
+                return null;
+        }
+    }
+
     public static void worldClose() {
         for (final Block b : blocks.getList()) {//Close all stuff in items
             b.onWorldClose();

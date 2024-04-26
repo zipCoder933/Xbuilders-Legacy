@@ -5,7 +5,6 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemQuantity;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.construction.BlockGeometry;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.CursorRaycast;
 import com.xbuilders.engine.player.blockPipeline.BlockPipeline;
@@ -13,7 +12,6 @@ import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.blockData.BlockData;
 import com.xbuilders.engine.world.chunk.wcc.WCCi;
 import com.xbuilders.game.blockMode.BlockTools;
-import com.xbuilders.game.blockMode.SettingUtils;
 import com.xbuilders.window.BaseWindow;
 import org.joml.Vector3i;
 import processing.core.KeyCode;
@@ -60,9 +58,9 @@ public class DefaultTool extends Tool {
                 Chunk chunk = wcc.getChunk();
 
                 Item item2 = item.getItem();
-                if (null != item2.type) {
+                if (null != item2.itemType) {
                     Item item1 = item.getItem();
-                    switch (item1.type) {
+                    switch (item1.itemType) {
                         case BLOCK -> {
 //                            if (!blockIsIntersectingEntity(new Vector3i(x, y, z))) {
                             Block block = (Block) item.getItem();

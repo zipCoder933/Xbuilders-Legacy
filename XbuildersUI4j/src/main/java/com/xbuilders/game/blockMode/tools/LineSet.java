@@ -7,8 +7,6 @@ import com.xbuilders.engine.player.CursorRaycast;
 import com.xbuilders.engine.utils.preformance.Stopwatch;
 import com.xbuilders.engine.world.chunk.blockData.BlockData;
 import com.xbuilders.game.blockMode.BlockTools;
-import com.xbuilders.game.blockMode.BulkBlockSetter;
-import com.xbuilders.game.blockMode.SettingUtils;
 import com.xbuilders.window.BaseWindow;
 import processing.core.KeyCode;
 import processing.core.PGraphics;
@@ -33,7 +31,7 @@ public class LineSet extends Tool {
         long timeSinceStart = System.currentTimeMillis();
 
         if (isCreationMode) {
-            if (item != null && item.getItem().type == ItemType.BLOCK) {
+            if (item != null && item.getItem().itemType == ItemType.BLOCK) {
                 Block block = (Block) item.getItem();
                 setting.setLine(block, ray.cursorRay, timeSinceStart, blockTools.getSize(), data);
             }

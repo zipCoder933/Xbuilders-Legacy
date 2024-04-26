@@ -397,7 +397,7 @@ public class UserControlledPlayer extends Player {
 
     private synchronized void blockEvent(MouseButton button) {
         BlockData data = !blockPanel.curItemIsNull()
-                && blockPanel.getCurItem().getItem().type == ItemType.BLOCK
+                && blockPanel.getCurItem().getItem().itemType == ItemType.BLOCK
                 ? BlockGeometry.getInitialBlockData(this, (Block) blockPanel.getCurItem().getItem(), camera.cursorRay.cursorRay) : null;
 
         Vector3i hitPos = camera.cursorRay.getHitPositionAsInt();
@@ -599,7 +599,7 @@ public class UserControlledPlayer extends Player {
     private void clickEvent(MouseButton button) {
         if (button == MouseButton.CREATE && blockPanel.getCurItem() != null) {
             Item item = blockPanel.getCurItem().getItem();
-            if (item.type == ItemType.TOOL) {
+            if (item.itemType == ItemType.TOOL) {
                 Tool tool = (Tool) blockPanel.getCurItem().getItem();
                 tool.onClick();
             }

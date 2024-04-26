@@ -35,7 +35,7 @@ public class ItemCreator extends TypeAdapter {
             writer.value(item1.id);
             writer.name("type");
             Item item2 = item.getItem();
-            writer.value(item2.type.toString());
+            writer.value(item2.itemType.toString());
             writer.name("quantity");
             writer.value(item.getQuantity());
             writer.endObject();

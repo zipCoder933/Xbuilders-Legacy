@@ -478,13 +478,13 @@ public class SlabRenderer extends BlockType {
                 make_sideSlab_negativeY_faces(verts, uv_sideSlab, block, buffers, x, y, z);
             }
 
-            if (StairsRenderer.renderSideSubBlock(block, positiveX) || positiveX.getRenderType() != DEFAULT_BLOCK_TYPE_ID) {
+            if (StairsRenderer.renderSideSubBlock(block, positiveX) || positiveX.type != DEFAULT_BLOCK_TYPE_ID) {
                 make_sideSlab_positiveX_faces(verts, uv_sideSlab, block, buffers, x, y, z);
             }
-            if (StairsRenderer.renderSideSubBlock(block, negativeX) || negativeX.getRenderType() != DEFAULT_BLOCK_TYPE_ID) {
+            if (StairsRenderer.renderSideSubBlock(block, negativeX) || negativeX.type != DEFAULT_BLOCK_TYPE_ID) {
                 make_sideSlab_negativeX_faces(verts, uv_sideSlab, block, buffers, x, y, z);
             }
-            if (StairsRenderer.renderSideSubBlock(block, negativeZ) || negativeZ.getRenderType() != DEFAULT_BLOCK_TYPE_ID) {
+            if (StairsRenderer.renderSideSubBlock(block, negativeZ) || negativeZ.type != DEFAULT_BLOCK_TYPE_ID) {
                 make_sideSlab_negativeZ_faces(verts, uv_sideSlab, block, buffers, x, y, z);
             }
         }

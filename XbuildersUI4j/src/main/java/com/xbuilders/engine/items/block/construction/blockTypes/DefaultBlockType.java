@@ -187,7 +187,8 @@ public class DefaultBlockType extends BlockType {
     }
 
     public static boolean blockIsBlock(Block b) {
-        return b.getRenderType() == DEFAULT_BLOCK_TYPE_ID || b.getRenderType() == BlockRenderType.ORIENTABLE_BLOCK;
+        if (b.getRenderType() == DEFAULT_BLOCK_TYPE_ID) return true;
+        return b.type == BlockRenderType.ORIENTABLE_BLOCK;
     }
 
     private boolean orRule(Block block, Block neighbor) {

@@ -92,7 +92,7 @@ public class BlockPipeline {
                 clearLocalChangeQueue();
             }
         } catch (Exception e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.saveErrorToLogFile(e);
         }
     }
 

@@ -87,7 +87,7 @@ public class IconManager {
             } else if (getIconsHashmap().containsKey(item)) {
                 pg.image(getIconsHashmap().get(item), x, y, boxSize, boxSize);
                 textureDrawn = true;
-            } else if (item.type == ItemType.BLOCK) {
+            } else if (item.itemType == ItemType.BLOCK) {
                 Block block = (Block) item;
                 if (block.texture != null) {
                     textureDrawn = true;

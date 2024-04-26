@@ -6,11 +6,10 @@ package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.game.PointerHandler;
-import java.util.ArrayList;
+
 import java.util.HashSet;
 
 /**
- *
  * @author zipCoder933
  */
 public abstract class Item {
@@ -38,9 +37,6 @@ public abstract class Item {
     public void initialize() {
     }
 
-    public void onWorldOpen() {
-    }
-
     private int[] iconAtlasPosition = null;
 
     public final void setIconAtlasPosition(int x, int y) {
@@ -57,7 +53,8 @@ public abstract class Item {
     public void onWorldClose() {
     }
 
-  
+    public void onWorldOpen() {
+    }
 
     public boolean saveInChunk() {
         return true;
@@ -73,7 +70,7 @@ public abstract class Item {
         }
         this.id = (short) id;
         this.name = name.trim();
-        this.type = type;
+        this.itemType = type;
     }
 
     public boolean isInfiniteResource() {
@@ -94,8 +91,6 @@ public abstract class Item {
     }
 
     /**
-     *
-     *
      * @return If a single item should run out gradually instead of an item
      * getting used up entirely once per click
      */
@@ -105,7 +100,7 @@ public abstract class Item {
 
     public final short id;
     public final String name;
-    public final ItemType type;
+    public final ItemType itemType;
 
     @Override
     public int hashCode() {
@@ -126,12 +121,12 @@ public abstract class Item {
             return false;
         }
         final Item other = (Item) obj;
-        return id == other.id && type == other.type;
+        return id == other.id && itemType == other.itemType;
     }
 
     @Override
     public String toString() {
-        return type.toString().toLowerCase().replace("_", " ") + " \"" + this.name + "\" (id: " + id + ")";
+        return itemType.toString().toLowerCase().replace("_", " ") + " \"" + this.name + "\" (id: " + id + ")";
     }
 
     public void onDropEvent() {

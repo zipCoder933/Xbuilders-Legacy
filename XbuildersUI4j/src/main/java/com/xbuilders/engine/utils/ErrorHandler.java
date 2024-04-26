@@ -105,4 +105,5 @@ public class ErrorHandler {
     public static void haltProgram(PointerHandler pointerHandler) {
         pointerHandler.getApplet().noLoop();
     }
+
 }

@@ -17,7 +17,7 @@ import processing.core.PApplet;
 public class CustomIconAtlas extends ImageAtlas {
     
     public CustomIconAtlas() throws IOException {
-        super(ResourceUtils.resource("items\\icons.png"), 32);
+        super(ResourceUtils.resource("items\\icons.png"));
     }
     
 }

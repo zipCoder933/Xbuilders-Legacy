@@ -63,9 +63,9 @@ class LiquidPropagator {
     }
 
     public final boolean isPenatrable(Block block) {
-        return !block.isSolid()
-                && block.getRenderType() != BlockRenderType.WALL_ITEM
-                && block.getRenderType() != BlockRenderType.FLOOR
+        if (block.isSolid()
+                || block.getRenderType() == BlockRenderType.WALL_ITEM) return false;
+        return block.getRenderType() != BlockRenderType.FLOOR
                 && parent.isPenetrableCustom(block);
     }
 

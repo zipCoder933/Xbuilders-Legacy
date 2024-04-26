@@ -180,7 +180,8 @@ public class Block extends Item {
         init();
     }
 
-    public Block(int id, String name, BlockTexture texture, boolean solid, boolean opaque, boolean luminous, byte falloff, int animationLength, int renderType) {
+    public Block(int id, String name, BlockTexture texture, boolean solid, boolean opaque, boolean luminous, byte falloff,
+                 int animationLength, int renderType) {
         super(id, name, ItemType.BLOCK);
         this.texture = texture;
         this.type = renderType;

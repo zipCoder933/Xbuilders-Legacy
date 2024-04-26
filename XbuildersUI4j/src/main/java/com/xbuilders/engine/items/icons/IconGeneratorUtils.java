@@ -48,22 +48,23 @@ public class IconGeneratorUtils {
                 && b.getRenderType() != BlockRenderType.TORCH
                 && b.getRenderType() != BlockRenderType.TRACK
                 && b.getRenderType() != BlockRenderType.FLOOR
-                && b.getRenderType() != BlockRenderType.WIRE
-                && b.getRenderType() != BlockRenderType.SUNFLOWER_HEAD) {
-            PShape shape = makeBlockShape(b);
+                && b.getRenderType() != BlockRenderType.WIRE) {
+            if (b.getRenderType() != BlockRenderType.SUNFLOWER_HEAD) {
+                PShape shape = makeBlockShape(b);
 
-            pg.ortho(-frame.width / 2, frame.width / 2, -frame.height / 2, frame.height / 2, -1000, 1000);
-            pg.noStroke();
-            pg.translate((frame.width / 2), (frame.height / 2));
-            pg.rotateX(0 - (PI / 4) * 0.5f);
-            pg.rotateY(PI / 4);
+                pg.ortho(-frame.width / 2, frame.width / 2, -frame.height / 2, frame.height / 2, -1000, 1000);
+                pg.noStroke();
+                pg.translate((frame.width / 2), (frame.height / 2));
+                pg.rotateX(0 - (PI / 4) * 0.5f);
+                pg.rotateY(PI / 4);
 
-            pg.translate(0 - (blockSize / 2), 0 - (blockSize / 2), 0 - (blockSize / 2));
-            pg.scale(blockSize);
-            pg.shape(shape);
+                pg.translate(0 - (blockSize / 2), 0 - (blockSize / 2), 0 - (blockSize / 2));
+                pg.scale(blockSize);
+                pg.shape(shape);
 
-            PImage image = pg.get();
-            image.save(new File(Main.BLOCK_ICON_DIR, b.id + ".png").getAbsolutePath());
+                PImage image = pg.get();
+                image.save(new File(Main.BLOCK_ICON_DIR, b.id + ".png").getAbsolutePath());
+            }
         }
     }
 

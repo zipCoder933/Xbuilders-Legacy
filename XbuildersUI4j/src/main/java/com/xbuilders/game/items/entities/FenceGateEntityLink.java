@@ -84,17 +84,19 @@ public class FenceGateEntityLink extends EntityLink {
                 int setZ = (int) worldPosition.z;
                 if (xzOrientation == 0 || xzOrientation == 2) {
                     if (VoxelGame.getWorld().getBlock(
-                            setX - 1, setY, setZ).getRenderType() != BlockRenderType.FENCE
-                            && VoxelGame.getWorld().getBlock(
-                            setX + 1, setY, setZ).getRenderType() != BlockRenderType.FENCE) {
-                        xzOrientation += 1;
+                            setX - 1, setY, setZ).getRenderType() != BlockRenderType.FENCE) {
+                        if (VoxelGame.getWorld().getBlock(
+                        setX + 1, setY, setZ).getRenderType() != BlockRenderType.FENCE) {
+                            xzOrientation += 1;
+                        }
                     }
                 } else {
                     if (VoxelGame.getWorld().getBlock(
-                            setX, setY, setZ - 1).getRenderType() != BlockRenderType.FENCE
-                            && VoxelGame.getWorld().getBlock(
-                            setX, setY, setZ + 1).getRenderType() != BlockRenderType.FENCE) {
-                        xzOrientation += 1;
+                            setX, setY, setZ - 1).getRenderType() != BlockRenderType.FENCE) {
+                        if (VoxelGame.getWorld().getBlock(
+                        setX, setY, setZ + 1).getRenderType() != BlockRenderType.FENCE) {
+                            xzOrientation += 1;
+                        }
                     }
                 }
                 closed = true;

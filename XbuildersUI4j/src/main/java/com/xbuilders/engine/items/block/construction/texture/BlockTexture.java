@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class BlockTexture {
 
-    public int[] TOP, FRONT,BACK, LEFT, RIGHT, BOTTOM;
+    public int[] TOP, FRONT, BACK, LEFT, RIGHT, BOTTOM;
 
     public BlockTexture() {
         TOP = new int[]{0, 0};
@@ -96,7 +96,6 @@ public class BlockTexture {
     }
 
 
-
     public void setTOP(int x, int y) {
         this.TOP[0] = x;
         this.TOP[1] = y;
@@ -136,6 +135,11 @@ public class BlockTexture {
     public void setRIGHT(int x, int y) {
         this.RIGHT[0] = x;
         this.RIGHT[1] = y;
+    }
+
+    public String toString() {
+        return Arrays.toString(TOP) + " " + Arrays.toString(FRONT) + " " + Arrays.toString(BOTTOM)
+                + " " + Arrays.toString(LEFT) + " " + Arrays.toString(RIGHT) + " " + Arrays.toString(BACK);
     }
 
 

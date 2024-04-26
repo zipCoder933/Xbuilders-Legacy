@@ -1,11 +1,10 @@
 package com.xbuilders.engine.utils.imageAtlas;
 
-import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.imageAtlas.ImageAtlasPosition;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import processing.core.PApplet;
+
 import processing.core.PImage;
 
 public class ImageAtlas {
@@ -33,26 +32,26 @@ public class ImageAtlas {
 
     private PImage image;
     private int imageSize;
-    private int individualTextureSize;
+    private final int individualTextureSize = 16;
 
-    /**
-     *
-     * @param applet the PApplet
-     * @param imagePath the path to the image
-     * @param atlasRows the number of rows in the atlas (note: The number of
-     * columns must be the same as the number of rows.)
-     * @throws IOException
-     */
-    public ImageAtlas(File imagePath, int atlasRows) throws IOException {
+
+    public ImageAtlas(File imagePath) throws IOException {
         //atlasRows=32 for a 512x512 image with 16x16 blocks each
         if (!imagePath.exists()) {
             throw new IOException("The image \"" + imagePath.getAbsolutePath() + "\" does not exist!");
         }
-        image = new PImage(ImageIO.read(imagePath));
+        BufferedImage img = ImageIO.read(imagePath);
+
+        if (img.getWidth() != img.getHeight()) {
+            throw new IOException("The image \"" + imagePath.getAbsolutePath() + "\" is not square!");
+        } else if (img.getWidth() % getIndividualTextureSize() != 0) {
+            throw new IOException("The image \"" + imagePath.getAbsolutePath() +
+                    "\" is not divisible by " + getIndividualTextureSize() + "!");
+        }
+        image = new PImage(img);
         imageSize = image.width;
-        individualTextureSize = imageSize / atlasRows;//The individual texture size is the size of each atlas block.
     }
-    
+
     public ImageAtlasPosition getImageIndex(int[] pos) {
         float texturePerRow = (float) getImageWidth() / (float) getIndividualTextureSize();
         float indvTexSize = 1.0f / texturePerRow;

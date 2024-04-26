@@ -259,7 +259,7 @@ class UpdaterThread extends Thread {
 
     public void updateSLM(int chunkDeletionDist, Vector3f playerPos) throws IOException {
         if (SLMneedsUpdating
-                && System.currentTimeMillis() - timeSinceUpdate > 1000 &&//If it takes longer than 1 second to update
+                && System.currentTimeMillis() - timeSinceUpdate > 2000 &&//If it takes longer than 1 second to update
                 slmUpdatePos.distance(playerPos) > 2) { //If the player has moved more than 2 blocks
 
             /**

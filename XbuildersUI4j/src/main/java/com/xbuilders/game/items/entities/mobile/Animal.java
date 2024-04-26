@@ -311,7 +311,7 @@ public abstract class Animal extends Entity {
             return false;
         }
         Item curItem = VoxelGame.getGame().player.blockPanel.getCurItem().getItem();
-        if (curItem.type == ItemType.TOOL) {
+        if (curItem.itemType == ItemType.TOOL) {
             Tool t = (Tool) curItem;
             return t == GameItems.ANIMAL_FEED || t == GameItems.ANIMAL_LEAVE;
         }

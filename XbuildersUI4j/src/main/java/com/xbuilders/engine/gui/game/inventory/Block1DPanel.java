@@ -65,7 +65,7 @@ public class Block1DPanel extends UIExtension {
     public boolean curItemEquals(Item item) {
         if (getCurItem() != null) {
             Item curItem = getCurItem().getItem();
-            return curItem.type == item.type && (curItem.id == item.id);
+            return curItem.itemType == item.itemType && (curItem.id == item.id);
         }
         return false;
     }

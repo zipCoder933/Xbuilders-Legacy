@@ -36,7 +36,8 @@ public class GrassGrower {
 
     public boolean isObstructedBySolidBlock(World world, Vector3i pos) {
         Block block = world.getBlock(pos.x, pos.y - 1, pos.z);
-        return (block.isSolid() && block.getRenderType() == DEFAULT_BLOCK_TYPE_ID);
+        if (!block.isSolid()) return false;
+        return (block.getRenderType() == DEFAULT_BLOCK_TYPE_ID);
     }
 
     public void growGrass(UserControlledPlayer p, World world, UIFrame applet) {
