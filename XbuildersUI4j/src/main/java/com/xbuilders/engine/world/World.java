@@ -375,12 +375,12 @@ public class World {
 
         // frameTester.startProcess();
         this.subChunks.values().forEach(chunk -> {// Draw opaque meshes of all chunks
-            if (chunk.getParentChunk().hasGeneratedMeshes()) {
+            if (chunk.getParentChunk().hasGeneratedMeshes() && chunk.lightMap.inBoundsOfSLM()) { //If it is outside of the SLM, Dont render it!
                 chunk.drawOpaqueAndEntities(VoxelGame.getShaderHandler(), drawEntities);
             }
         });
         this.subChunks.values().forEach(chunk -> {// Draw transparent meshes of all chunks
-            if (chunk.getParentChunk().hasGeneratedMeshes()) {
+            if (chunk.getParentChunk().hasGeneratedMeshes() && chunk.lightMap.inBoundsOfSLM()) {
                 chunk.drawTransparent(VoxelGame.getShaderHandler());
             }
         });
