@@ -139,6 +139,9 @@ public class BoundarySet extends Tool {
     @Override
     public void changeMode() {
         VoxelGame.getPlayer().camera.cursorRay.boundary_lockToPlane = !VoxelGame.getPlayer().camera.cursorRay.boundary_lockToPlane;
+        if (VoxelGame.getPlayer().camera.cursorRay.boundary_lockToPlane == false) {
+            VoxelGame.getPlayer().camera.cursorRay.boundary_useHitPos = false;
+        }
     }
 
     @Override

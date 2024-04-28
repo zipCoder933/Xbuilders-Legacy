@@ -54,7 +54,7 @@ public class Fill extends Tool {
                 }).start();
             } else {
                 (new Thread(() -> {
-                    fill(item, ray.cursorRay, timeSinceStart, size, data, mode == FillMode.FILL);
+                    fill(item, ray.cursorRay, timeSinceStart, size, data, false);
                     watch.calculateElapsedTime();
                     System.out.println("Finished repainting.\tTime elapsed: " + watch.toString());
                     blockSetter.wakeUp();
@@ -182,9 +182,6 @@ public class Fill extends Tool {
                 g.box((size * 2) - 1f, 1 + add, (size * 2) - 1f);
             }
         } else {
-            if (mode == FillMode.FILL) {
-                g.stroke(50, 100, 255);
-            }
             g.translate(ray.cursorRay.hitNormal.x, ray.cursorRay.hitNormal.y, ray.cursorRay.hitNormal.z);
             g.box((size * 2) - 1f, (size * 2) - 1f, (size * 2) - 1f);
         }
@@ -200,7 +197,7 @@ public class Fill extends Tool {
 
     enum FillMode {
         PLANAR,
-        FILL,
+//        FILL,
         REPAINT
     }
 

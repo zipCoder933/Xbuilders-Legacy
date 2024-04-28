@@ -9,6 +9,7 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.items.entities.mobile.FlyingAnimal;
 import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -54,13 +55,18 @@ public class ParrotEntityLink extends EntityLink {
             //x=side, z=front
             g.shape(body);
             float animSpeed = getFlyAnimationSpeed();
+            bodyMatrix.set(modelMatrix);
+
             drawWing(g, wing, ONE_SIXTEENTH * 1.5f, ONE_SIXTEENTH * -7, ONE_SIXTEENTH * 0, animSpeed, 0.0f, -2.0f);
             drawWing(g, wing, ONE_SIXTEENTH * -1.5f, ONE_SIXTEENTH * -7, ONE_SIXTEENTH * 0, animSpeed, 0.0f, 2.0f);
         }
 
+        Matrix4f bodyMatrix = new Matrix4f();
+
         private void drawWing(PGraphics g, PShape fin,
                               float x, float y, float z,
                               float animationSpeed, float min, float max) {
+          modelMatrix.set(bodyMatrix);
             modelMatrix.translate(x, y, z);
             float rot = (float) MathUtils.map(
                     Math.sin((getPointerHandler().getApplet().frameCount * animationSpeed)), -1, 1, min, max);
@@ -72,7 +78,6 @@ public class ParrotEntityLink extends EntityLink {
             if (animationSpeed != 0) {
                 modelMatrix.rotateZ(-rot);
             }
-
         }
 
 

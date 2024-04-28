@@ -76,6 +76,7 @@ public class UserControlledPlayer extends Player {
         blockPanel = new Block1DPanel(VoxelGame.getWorld().infoFile.getInfoFile().backpack, this);
         blockPanel.initialize();
         blockTools.newGame();
+        positionLock = null;
         VoxelGame.getWorld().terrain.worldBackground();
     }
 
