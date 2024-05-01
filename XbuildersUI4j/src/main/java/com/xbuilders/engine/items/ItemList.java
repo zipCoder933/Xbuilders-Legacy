@@ -1,10 +1,11 @@
 package com.xbuilders.engine.items;
 
+import com.xbuilders.engine.items.exporting.ItemExporting;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.icons.IconManager;
 import com.xbuilders.engine.items.tool.Tool;
-import com.xbuilders.game.PointerHandler;
+
 import java.io.IOException;
 import processing.ui4j.UIExtensionFrame;
 
@@ -52,11 +53,11 @@ public class ItemList {
         allItems = concatArrays(entities.getList(), tools.getList(), blocks.getList()
         );
 
-//        try {
-//            blocks.exportListToXbuilders3();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            ItemExporting.exportListToXbuilders3(blocks.textureAtlas, blocks.getList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         for (Item i : allItems) {
             i.initialize();
