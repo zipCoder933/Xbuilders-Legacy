@@ -2,25 +2,21 @@ package com.xbuilders.engine.items.exporting;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.imageAtlas.ImageAtlas;
-import com.xbuilders.engine.utils.json.BlockTextureTypeAdapter;
-import com.xbuilders.engine.utils.json.BlockTypeAdapter;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.xbuilders.engine.utils.ResourceUtils.LOCAL_DIR;
 
@@ -96,7 +92,6 @@ public class ItemExporting {
                     writeTextureAtlasFile(atlas, blockTextureDir, name, block.getAnimationLength(), block.texture.TOP);
                 }
 
-
                 if (!textureMap.containsKey(new AtlasPosition(block.texture.FRONT))) {
                     String name = textureName(block);
                     if (block.texture.FRONT[0] != block.texture.TOP[0] ||
@@ -161,15 +156,23 @@ public class ItemExporting {
         try {
             File jsonBlockFile = new File(outputDir, "blocks.json");
 
-            BlockTextureTypeAdapter texture = new BlockTextureTypeAdapter();
+            XB3_BlockTextureTypeAdapter texture = new XB3_BlockTextureTypeAdapter(textureMap);
             Gson blockGson = new GsonBuilder()
-                    .registerTypeHierarchyAdapter(Item.class, new BlockTypeAdapter())
-                    .registerTypeAdapter(BlockTexture.class, texture)
+                    .registerTypeHierarchyAdapter(Block.class, new XB3_BlockTypeAdapter(texture))
+                    .registerTypeHierarchyAdapter(BlockTexture.class, texture)
                     .create();
 
-            String jsonString = blockGson.toJson(itemList);
+            List<Block> jsonList = new ArrayList<>();
+
+            for (Block block : itemList) {
+                if (block == BlockList.BLOCK_AIR || block == null) continue;
+                jsonList.add((Block) block); //jsonList
+            }
+
+            String jsonString = blockGson.toJson(jsonList,
+                    new TypeToken<List<Block>>() {}.getType());
             Files.writeString(jsonBlockFile.toPath(), jsonString);
-            System.out.println("Saved " + itemList.length + " blocks to " + jsonBlockFile.getAbsolutePath());
+            System.out.println("Saved " + jsonList.size() + " blocks to " + jsonBlockFile.getAbsolutePath());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
