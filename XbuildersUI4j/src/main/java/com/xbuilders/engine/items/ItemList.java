@@ -53,11 +53,11 @@ public class ItemList {
         allItems = concatArrays(entities.getList(), tools.getList(), blocks.getList()
         );
 
-        try {
-            ItemExporting.exportListToXbuilders3(blocks.textureAtlas, blocks.getList());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            ItemExporting.exportListToXbuilders3(blocks.textureAtlas, blocks.getList());
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
         for (Item i : allItems) {
             i.initialize();
