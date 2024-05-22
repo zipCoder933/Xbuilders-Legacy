@@ -534,6 +534,8 @@ public class UserControlledPlayer extends Player {
                     cancelBedtimeMode();
                 }
                 clearPositionLock();
+            } else {
+                camera.cursorRay.keyPressed(event, getParentFrame());
             }
         }
     }

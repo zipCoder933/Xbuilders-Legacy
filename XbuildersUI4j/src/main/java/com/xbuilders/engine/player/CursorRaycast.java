@@ -221,24 +221,28 @@ public class CursorRaycast {
                 (int) MathUtils.dist(minZ, maxZ + 1));
     }
 
+    public void keyPressed(KeyEvent ke, UIExtensionFrame f) {
+        System.out.println(ke.getKeyCode());
+        if (VoxelGame.getGame().mode != GameMode.FREEPLAY) return;
+        if (ke.getKeyCode() == RAYCASTING_HIT_ALL_BLOCKS) {
+            cursorRayHitAllBlocks = true;
+            maxCursorRayDist = 4;
+        } else if (ke.getKeyCode() == BOUNDARY_PARAM1) {
+            boundary_useHitPos = true;
+        }
+    }
 
     public void keyReleased(KeyEvent ke, UIExtensionFrame f) {
         if (VoxelGame.getGame().mode != GameMode.FREEPLAY) return;
         if (ke.getKeyCode() == RAYCASTING_HIT_ALL_BLOCKS) {
-            cursorRayHitAllBlocks = !cursorRayHitAllBlocks;
-            System.out.println(cursorRayHitAllBlocks);
-            if (cursorRayHitAllBlocks) {
-                maxCursorRayDist = 4;
-            } else {
-                maxCursorRayDist = VoxelGame.ph().getSettingsFile().playerRayMaxDistance;
-            }
-            VoxelGame.getGame().alert("Raycast End: " + (cursorRayHitAllBlocks ? "disabled" : "enabled"));
+            cursorRayHitAllBlocks = false;
+            maxCursorRayDist = VoxelGame.ph().getSettingsFile().playerRayMaxDistance;
         } else if (ke.getKeyCode() == KeyCode.B) {
             enableBoundaryMode((AABB, Boolean) -> {
                 System.out.println("boundary created " + AABB + " boolean " + Boolean);
             });
         } else if (ke.getKeyCode() == BOUNDARY_PARAM1) {
-            boundary_useHitPos = !boundary_useHitPos;
+            boundary_useHitPos = false;
         } else if (ke.getKeyCode() == BOUNDARY_PARAM2) {
             boundary_lockToPlane = !boundary_lockToPlane;
             System.out.println("boundary lock to plane " + boundary_lockToPlane);
