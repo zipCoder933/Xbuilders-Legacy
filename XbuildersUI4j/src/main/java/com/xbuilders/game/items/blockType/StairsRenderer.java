@@ -29,6 +29,7 @@ public class StairsRenderer extends BlockType {
     public BlockData getInitialBlockData(UserControlledPlayer player, Block block, Ray ray) {
         BlockOrientation orientation = player.cameraBlockOrientation();
         if (player.blockTools.getSelectedTool() instanceof LineSet) {
+            System.out.println("LineSet");
             if (Math.abs(ray.getHitNormalAsInt().x) == 0
                     && Math.abs(ray.getHitNormalAsInt().z) == 0) {
                 orientation.setY((byte) 3);
