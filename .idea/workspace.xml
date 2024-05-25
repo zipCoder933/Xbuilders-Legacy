@@ -9,11 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97088633-1bd4-4482-a1bb-f362d22b9a51" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/XBuildersUI4J_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/XBuildersUI4J_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/XBuildersUI4J_jar/XBuildersUI4J.jar" beforeDir="false" />
-    </list>
+    <list default="true" id="97088633-1bd4-4482-a1bb-f362d22b9a51" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
