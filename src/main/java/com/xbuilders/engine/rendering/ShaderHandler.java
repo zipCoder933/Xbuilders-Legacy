@@ -113,9 +113,9 @@ public class ShaderHandler {
     private float fogDist;
 
     public void setFogDistance(float multiplier) {
-        if(!VoxelGame.getWorld().updater.regularViewDistance) {
-            multiplier *= 1000f;
-        }
+//        if(!VoxelGame.getWorld().updater.regularViewDistance) {
+//            multiplier *= 1000f;
+//        }
         //For some reason, I think setting the chunk dist to terrain value cause the fog to be incorrect
         fogDist = (VoxelGame.getSettings().getSettingsFile().chunkRadius - 5) * multiplier;
         if (lastDistance != fogDist) {
