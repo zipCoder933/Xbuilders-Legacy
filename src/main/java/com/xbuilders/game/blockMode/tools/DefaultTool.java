@@ -3,6 +3,7 @@ package com.xbuilders.game.blockMode.tools;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.ItemQuantity;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
@@ -32,7 +33,12 @@ public class DefaultTool extends Tool {
     public boolean setBlock(ItemQuantity item, CursorRaycast ray, BlockData initialData, boolean isCreationMode) {
         if (isCreationMode) {
             Vector3i hitPosNormal = ray.getHitPosPlusNormal();
-            placeItem(item, hitPosNormal.x, hitPosNormal.y, hitPosNormal.z, initialData);
+            Vector3i hitPos = ray.getHitPositionAsInt();
+            if (VoxelGame.getWorld().getBlock(hitPos.x, hitPos.y, hitPos.z).isSolid()) {
+                placeItem(item, hitPosNormal.x, hitPosNormal.y, hitPosNormal.z, initialData);
+            } else { //If the item is not solid, place the block directly inside of it
+                placeItem(item, hitPos.x, hitPos.y, hitPos.z, initialData);
+            }
         } else {
             Vector3i hitPos = ray.getHitPositionAsInt();
             deleteItem(item, hitPos);

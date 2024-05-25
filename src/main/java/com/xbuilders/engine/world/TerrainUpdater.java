@@ -47,7 +47,7 @@ public class TerrainUpdater {
     }
 
     public synchronized void begin(PointerHandler pointerHandler) {
-        regularViewDistance = true;
+        regularViewDistance = false;
         update();
         thread = new UpdaterThread(pointerHandler, this);
         thread.start();
