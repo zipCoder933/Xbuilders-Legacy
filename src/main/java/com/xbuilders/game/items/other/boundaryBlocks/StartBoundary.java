@@ -130,7 +130,7 @@ public class StartBoundary extends Block {
 
     protected BoundingBox makeCopyBox() {
         int maxArea = getPointerHandler().getSettingsFile().maxBlockBoundaryArea;
-        int maxWidth = getPointerHandler().getSettingsFile().chunkRadius / 2;
+//        int maxWidth = getPointerHandler().getSettingsFile().chunkRadius / 2;
 
         if (bothMarkersExist()) {
             AABB aabb = BoundingBox.makeAABBFrom2Points(firstMarker, secondMarker);
@@ -140,12 +140,12 @@ public class StartBoundary extends Block {
                 getPointerHandler().getGame().alert("The boundary exceeds a maximum area of " + maxArea + " blocks!");
             } else {
                 TerrainUpdater terrainUpdater = getPointerHandler().getTerrainUpdater();
-                if (terrainUpdater.regularViewDistance
-                        && (aabb.getXLength() >= maxWidth || aabb.getZLength() >= maxWidth)) {
-                    clearFirstMarker();
-                    clearSecondMarker();
-                    getPointerHandler().getGame().alert("The boundary dimensions exceeds max width of " + maxWidth + " blocks!");
-                } else {
+//                if (terrainUpdater.regularViewDistance
+//                        && (aabb.getXLength() >= maxWidth || aabb.getZLength() >= maxWidth)) {
+//                    clearFirstMarker();
+//                    clearSecondMarker();
+//                    getPointerHandler().getGame().alert("The boundary dimensions exceeds max width of " + maxWidth + " blocks!");
+//                } else {
                     getPointerHandler().getGame().alert("Boundary set! ("
                             + ((int) aabb.getXLength()) + " x "
                             + ((int) aabb.getYLength()) + " x "
@@ -154,7 +154,7 @@ public class StartBoundary extends Block {
                     BoundingBox holo = new BoundingBox(this, aabb);
                     getPointerHandler().getWorld().hologramList.add(holo);
                     return holo;
-                }
+//                }
             }
         }
         return null;

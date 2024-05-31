@@ -24,7 +24,6 @@ public class TerrainUpdater {
     
     UpdaterThread thread;
     private int terrainChunkDist;
-    public boolean regularViewDistance;
     public final static int MIN_CHUNK_DIST = 60;
 
     public void update() {
@@ -47,7 +46,6 @@ public class TerrainUpdater {
     }
 
     public synchronized void begin(PointerHandler pointerHandler) {
-        regularViewDistance = false;
         update();
         thread = new UpdaterThread(pointerHandler, this);
         thread.start();
@@ -69,8 +67,7 @@ public class TerrainUpdater {
 
     public String getStatusString() {
         if (isRunning()) {
-            return "Chunk Gen: " + thread.printStatus()
-                    + "\nView dist (Shift+T): "+(regularViewDistance?"Regular":"Unlimited");
+            return "Chunk Gen: " + thread.printStatus();
         } else {
             return "Updater-thread not running...";
         }

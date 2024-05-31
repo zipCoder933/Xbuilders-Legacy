@@ -106,15 +106,8 @@ class UpdaterThread extends Thread {
                 chunkDist = TerrainUpdater.MIN_CHUNK_DIST;
                 chunkDeletionDist = chunkDist + (SubChunk.WIDTH * 4);
             }
+            chunkDeletionDist *= 5; //Increase the chunk deletion distance drastically
 
-            if (!parent.regularViewDistance) {
-                chunkDist /= 2;
-                if (chunkDist < TerrainUpdater.MIN_CHUNK_DIST) {
-                    chunkDist = TerrainUpdater.MIN_CHUNK_DIST;
-                    chunkDeletionDist = chunkDist + (SubChunk.WIDTH * 4);
-                }
-                chunkDeletionDist *= 5;
-            }
 
             UserControlledPlayer userControlledPlayer = ph.getPlayer();
             float centerX = userControlledPlayer.worldPos.x;

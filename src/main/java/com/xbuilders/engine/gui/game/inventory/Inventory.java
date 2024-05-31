@@ -4,7 +4,9 @@
  */
 package com.xbuilders.engine.gui.game.inventory;
 
+import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.game.GameScene;
+import com.xbuilders.engine.gui.Button;
 import com.xbuilders.engine.items.ItemQuantity;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.gui.game.GameMenu;
@@ -14,6 +16,9 @@ import com.xbuilders.engine.utils.InventoryUtils;
 import com.xbuilders.engine.world.World;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import processing.core.KeyCode;
 
@@ -31,15 +36,26 @@ import processing.ui4j.components.TextBox;
 public class Inventory extends GameMenuPage {
 
     final int width = 780;
-    final int height = 575 + 55;
+    final int height = 575 + 55 + 45;
 
-    ItemGrid<Item> menu;
-    ItemGrid<ItemQuantity> backpack;
+    ItemGrid<Item> itemsUIList;
+    ItemGrid<ItemQuantity> backpackUIList;
     DragHandler<Integer> drag;
     TextBox search;
+    Button clearButton, organizeButton;
 
     public boolean isWillingToClose() {
         return !search.isFocused();
+    }
+
+
+    private boolean containsItem(ArrayList<ItemQuantity> items, ItemQuantity item) {
+        for (ItemQuantity j : items) {
+            if (j.getItem().equals(item.getItem())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Inventory(GameMenu parent) throws IOException {
@@ -48,42 +64,23 @@ public class Inventory extends GameMenuPage {
         search = new TextBox(getGameScene(), "Search for block");
         search.setBorderWidth(1);
         search.setTextSize(14);
-//        search.setOnchangeEvent(new EventAction() {
-//            String lastSearch = "";
-//
-//            @Override
-//            public void run(Object t) {
-//                if (search.getValue() != null
-//                        && !search.getValue().isEmpty()
-//                        && !search.getValue().isBlank()
-//                        && !lastSearch.equals(search.getValue())) {
-//                    lastSearch = search.getValue();
-//                    for (int i = 0; i < menu.itemList.length; i++) {
-//                        if (menu.itemList[i] != null
-//                                && menu.itemList[i].getName().toLowerCase().contains(
-//                                        search.getValue().toLowerCase())) {
-////                            menu.setScrollAmount(0 - (i / menu.getWindowCols()));
-//                            break;
-//                        }
-//                    }
-//
-//                }
-//            }
-//        });
+        clearButton = new Button(parent);
+        organizeButton = new Button(parent);
 
-        menu = new ItemGrid<Item>(this, drag) {
+
+        itemsUIList = new ItemGrid<Item>(this, drag) {
             @Override
             public void buttonClicked(Item selectedItem, int index) {
-                if (InventoryUtils.isRoomForItem(backpack.itemList, new ItemQuantity(selectedItem))) {
-                    InventoryUtils.appendBlocksToInventory(backpack.itemList, new ItemQuantity(selectedItem));
+                if (InventoryUtils.isRoomForItem(backpackUIList.itemList, new ItemQuantity(selectedItem))) {
+                    InventoryUtils.appendBlocksToInventory(backpackUIList.itemList, new ItemQuantity(selectedItem));
                 } else {
-                    for (int i = 0; i < backpack.itemList.length; i++) {
-                        if (backpack.itemList[i] != null && backpack.itemList[i].isInfiniteResource()) {
-                            backpack.itemList[i] = null;
+                    for (int i = 0; i < backpackUIList.itemList.length; i++) {
+                        if (backpackUIList.itemList[i] != null && backpackUIList.itemList[i].isInfiniteResource()) {
+                            backpackUIList.itemList[i] = null;
                             break;
                         }
                     }
-                    InventoryUtils.appendBlocksToInventory(backpack.itemList, new ItemQuantity(selectedItem));
+                    InventoryUtils.appendBlocksToInventory(backpackUIList.itemList, new ItemQuantity(selectedItem));
                 }
             }
 
@@ -122,7 +119,7 @@ public class Inventory extends GameMenuPage {
             }
 
         };
-        menu.customCriteria = (i) -> {
+        itemsUIList.customCriteria = (i) -> {
             if (search.getValue() == null
                     || search.getValue().isEmpty()
                     || search.getValue().isBlank()) {
@@ -132,7 +129,7 @@ public class Inventory extends GameMenuPage {
                     || i.containsPieceOfTag(search.getValue());
         };
 
-        backpack = new ItemGrid<ItemQuantity>(this, drag) {
+        backpackUIList = new ItemGrid<ItemQuantity>(this, drag) {
 
             @Override
             public void buttonClicked(ItemQuantity selectedItem, int index) {
@@ -173,7 +170,7 @@ public class Inventory extends GameMenuPage {
                         itemList[old].setQuantity(itemList[target].addQuantity(itemList[old].getQuantity()));
                     }
                 } else {
-                    Item menuItem = menu.itemList[old];
+                    Item menuItem = itemsUIList.itemList[old];
                     System.out.println("Dropping" + menuItem.toString());
                     ItemQuantity iq = new ItemQuantity(menuItem);
                     this.itemList[target] = iq;
@@ -189,6 +186,7 @@ public class Inventory extends GameMenuPage {
                     }
                 }
             }
+
 
             @Override
             public void keyPressed(KeyEvent ke) {
@@ -208,14 +206,49 @@ public class Inventory extends GameMenuPage {
 
         };
 
+        clearButton.setAction(() -> {
+            ItemQuantity[] backpack = VoxelGame.getWorld().infoFile.getInfoFile().backpack;
+            for (int i = 0; i < backpack.length; i++) {
+                backpack[i] = null;
+            }
+            VoxelGame.getPlayer().blockPanel.setCurrentItemIndex(0);
+        });
+
+        organizeButton.setAction(() -> {
+            //If an item is an infinite resource, there should only be 1 item in the backpack
+            //Shift all items in the backpack to the top
+            ItemQuantity[] backpack = VoxelGame.getWorld().infoFile.getInfoFile().backpack;
+
+            ArrayList<ItemQuantity> items = new ArrayList<>();
+
+            for (int i = 0; i < backpack.length; i++) {
+                ItemQuantity item = backpack[i];
+                backpack[i] = null;
+
+                if (item != null) {
+                    if (item.getItem().isInfiniteResource()) {
+                        if (!containsItem(items, item)) items.add(item);
+                    } else {
+                        items.add(item);
+                    }
+                }
+            }
+            VoxelGame.getPlayer().blockPanel.setCurrentItemIndex(0);
+            for (int i = 0; i < items.size(); i++) {
+                if (i < items.size()) {
+                    backpack[i] = items.get(i);
+                }
+            }
+        });
+
         addToFrame();
     }
 
     @Override
     public void initialize(World world) {
         Item[] arr = new Item[getGameScene().gameItems.size()];
-        backpack.setDimensions(world.infoFile.getInfoFile().backpack, 12, 2);
-        menu.setDimensions(getGameScene().gameItems.toArray(arr), 12, 5);
+        backpackUIList.setDimensions(world.infoFile.getInfoFile().backpack, 12, 2);
+        itemsUIList.setDimensions(getGameScene().gameItems.toArray(arr), 12, 5);
     }
 
     @Override
@@ -223,7 +256,7 @@ public class Inventory extends GameMenuPage {
         if (getParent().getPointerHandler().getWorld().isOpen()) {
             GameScene gameScene1 = getGameScene();
             int curItemIndex = gameScene1.player.blockPanel.getCurrentItemIndex();
-            ItemQuantity iq = backpack.itemList[curItemIndex];
+            ItemQuantity iq = backpackUIList.itemList[curItemIndex];
 
             if (keyIsPressed(KeyCode.Q) && iq != null) {
                 if (!iq.isInfiniteResource()) {
@@ -231,7 +264,7 @@ public class Inventory extends GameMenuPage {
                     gameScene.player.dropItem(iq);
                 }
                 iq.getItem().onDropEvent();
-                backpack.itemList[curItemIndex] = null;
+                backpackUIList.itemList[curItemIndex] = null;
             }
 
         }
@@ -255,14 +288,17 @@ public class Inventory extends GameMenuPage {
             }
             search.render(menuX, y1, width - 60, 30);
             y1 += 40;
-            menu.render(menuX, y1);
+            itemsUIList.render(menuX, y1);
             y1 += 310;
             textAlign(LEFT, TOP);
             textSize(11);
             fill(255);
             text("Your Items", menuX, y1);
             y1 += 25;
-            backpack.render(menuX, y1);
+            int w = clearButton.draw("Clear", menuX, y1);
+            organizeButton.draw("Organize", menuX + w + 5, y1);
+            y1 += 45;
+            backpackUIList.render(menuX, y1);
         }
     }
 

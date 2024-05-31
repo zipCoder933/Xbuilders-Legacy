@@ -222,7 +222,6 @@ public class CursorRaycast {
     }
 
     public void keyPressed(KeyEvent ke, UIExtensionFrame f) {
-        System.out.println(ke.getKeyCode());
         if (VoxelGame.getGame().mode != GameMode.FREEPLAY) return;
         if (ke.getKeyCode() == RAYCASTING_HIT_ALL_BLOCKS) {
             cursorRayHitAllBlocks = true;

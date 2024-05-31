@@ -12,6 +12,7 @@ import com.xbuilders.engine.items.block.BlockAction;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.TerrainUpdater;
 import com.xbuilders.engine.world.chunk.wcc.WCCi;
@@ -21,10 +22,13 @@ import com.xbuilders.engine.gui.game.GameMenu;
 import com.xbuilders.engine.gui.game.MenuType;
 import com.xbuilders.engine.gui.mainMenu.MainMenu;
 import com.xbuilders.game.items.GameItemList;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import processing.core.KeyCode;
+
 import static processing.core.PConstants.BOTTOM;
 import static processing.core.PConstants.CENTER;
 import static processing.core.PConstants.LEFT;
@@ -161,8 +165,6 @@ public class GameScene extends UIExtension {
         return (float) getParentFrame().width / (float) getParentFrame().height;
     }
 
-    
-
 
     public void draw() throws IOException, Exception {
         if (ready) {  //frameTester.startFrame();
@@ -189,8 +191,8 @@ public class GameScene extends UIExtension {
             //shader(lightingEnabled ? blockShader : depthBufferShader);
 //          
 
-          //frameTester.startProcess();
-            VoxelGame.getWorld().draw(getParentFrame().getGraphics(),drawEntities);
+            //frameTester.startProcess();
+            VoxelGame.getWorld().draw(getParentFrame().getGraphics(), drawEntities);
             //frameTester.endProcess("World Draw");
 
             skyDome.drawEffects(getParentFrame(), VoxelGame.getShaderHandler());
@@ -388,8 +390,8 @@ public class GameScene extends UIExtension {
             if (progress == -1) {
                 double val = Math.sin(getParentFrame().frameCount / 10);
                 rect((float) MathUtils.map(val, -1, 1,
-                        progBarX,
-                        progBarX + progBarWidth - progInnerWidth),
+                                progBarX,
+                                progBarX + progBarWidth - progInnerWidth),
                         progBarY, progInnerWidth, progBarHeight);
             } else {
                 progress = MathUtils.clamp(progress, 0, 1);
@@ -420,15 +422,10 @@ public class GameScene extends UIExtension {
                 + "\nX: " + Math.round(player.worldPos.x)
                 + "  Y: " + Math.round(player.worldPos.y)
                 + "  Z: " + Math.round(player.worldPos.z);
-
         if (player.passThroughMode) {
             gameText += "\n  (Passthough mode)";
         }
 
-        gameText += "\nChunk: " + WCCi.getSubChunkAtWorldPos(
-                (int) player.worldPos.x,
-                (int) player.worldPos.y,
-                (int) player.worldPos.z);
 
         gameText += "\n" + ph.getWorld().updater.getStatusString();
         gameText += "\nLast saved: " + ph.getMainThread().getTimeSinceLastSaved();
@@ -474,18 +471,13 @@ public class GameScene extends UIExtension {
                 menu.show(MenuType.INVENTORY);
             } else if (keyIsPressed(KeyCode.CTRL) && keyIsPressed(KeyCode.SHIFT) && keyIsPressed(KeyCode.P)) {
                 setDevStatsOpen(!isDevStatsOpen());
-            } else if (keyIsPressed(KeyCode.SHIFT) && keyIsPressed(KeyCode.T)) {
-                TerrainUpdater terrainUpdater = ph.getTerrainUpdater();
-                terrainUpdater.regularViewDistance = !terrainUpdater.regularViewDistance;
-                ph.getGame().alert("Unlimited view distance: " + (terrainUpdater.regularViewDistance ? "Disabled" : "Enabled"));
-                VoxelGame.getShaderHandler().setFogDistance(1);
             }
         }
     }
 
     @Override
     public void keyReleased(KeyEvent ke) {
-        if(keyIsPressed(KeyCode.SHIFT) && keyIsPressed(KeyCode.E)) {
+        if (keyIsPressed(KeyCode.SHIFT) && keyIsPressed(KeyCode.E)) {
             //Toggle entity rendering
             drawEntities = !drawEntities;
             alert("Entity Rendering " + (drawEntities ? "ENABLED" : "DISABLED"));

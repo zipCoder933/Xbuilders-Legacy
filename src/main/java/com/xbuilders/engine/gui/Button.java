@@ -6,14 +6,15 @@ package com.xbuilders.engine.gui;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import static processing.core.PConstants.CENTER;
+
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import processing.ui4j.UIExtension;
 import processing.ui4j.UIExtensionFrame;
 
 /**
- *
  * @author zipCoder933
  */
 public class Button extends UIExtension {
@@ -50,6 +51,7 @@ public class Button extends UIExtension {
         addToFrame();
         over = false;
     }
+
     private Runnable action;
     private String buttonTitle = "";
 
@@ -80,6 +82,37 @@ public class Button extends UIExtension {
         }
     }
 
+    public int draw(String str, int x, int y) {
+        over = coords(x, y, x1, 40);
+        buttonTitle = str;
+        this.x = x;
+        this.y = y;
+
+        getParentFrame().noStroke();
+        if (over && getParentFrame().mousePressed && this.isEnabled()) {
+            getParentFrame().fill(0, 100, 255);
+        } else if (over && this.isEnabled()) {
+            getParentFrame().stroke(0, 100, 255);
+            getParentFrame().strokeWeight(1);
+            getParentFrame().fill(30, 150);
+        } else {
+            getParentFrame().fill(10, 200);
+        }
+
+        getParentFrame().textSize(14);
+        getParentFrame().textAlign(CENTER, CENTER);
+        this.x1 = (int) (getParentFrame().textWidth(str) + 20);
+
+        getParentFrame().rect(x, y, x1, 40, 2);
+        getParentFrame().fill(255);
+
+        getParentFrame().text(str, x + x1 / 2, y + 20);
+        if (!isEnabled()) {
+            press = false;
+        }
+        return x1;
+    }
+
     int x, y, x1, tx, ty;
 
     public boolean isOver() {
@@ -90,6 +123,7 @@ public class Button extends UIExtension {
             2. the coordinates check here is different than in the draw method.
          */
     }
+
     boolean press = false;
 
     @Override
@@ -107,7 +141,7 @@ public class Button extends UIExtension {
     @Override
     public void onEnable() {
     }
-    
+
     @Override
     public void mouseEvent(MouseEvent me) {
         if (me.getAction() == MouseEvent.RELEASE && isOver() && press) {
