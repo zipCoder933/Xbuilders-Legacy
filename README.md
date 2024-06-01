@@ -1,6 +1,7 @@
 ![screenshot (3).png](./assets/screenshots/city2.png)
 ## XBuilders (w/ Processing 4.0)
 A Voxel game written in java and using Processing 4.0
+Development has been shifted to LWJGL edition of the game: https://github.com/zipCoder933/Xbuilders
 
 Textures taken mostly from Pixel Perfection:
 * https://github.com/Athemis/PixelPerfectionCE/tree/master
@@ -11,22 +12,21 @@ This version of XBuilders is a lot more feature heavy than XBuilders w/ LWJGL. I
 
 * Animals, and Vehicles
   * Horses, Mules, Cats, Foxes, Rabbit, Fish, Sea Turtle
-* We have minecarts and a track system
+  * Multicolored minecarts and a track system
+  * Boats
 * Create banners to hang up in your world
-* Fences, stairs, slabs and even carpet can be used
+* Block types, such as Fences, stairs, slabs, doors, trapdoors, wires (no redstone support), Panes, and other decorative blocks.
 * Block tools, allowing for faster block building
   * Block boundary
+    * Plane creation
   * Block repaint
   * Copy/Paste
   * Sphere creation/deletion
 * Custom vehicles can be build, in a driving, underwater or flying configuration configuration
-  * Build a helecopter with the helecopter blade
-  * Make a fast flying jet
-  * Build a boat or underwater submarine
-  * Make an off roader or sports car
+  * Build a helecopter with the helecopter blade, Make a fast flying jet, Build a boat or underwater submarine or Make an off roader or sports car
 
 ## Contributing
-All contributions welcome! If you want to contribute to XBuilders, I would appreciate the most help with a version of the game that is better suited for preformance, using LWJGL instead of Processing:
+If you want to contribute to XBuilders, I have moved development to XBuilders (LWJGL) version:
 https://github.com/zipCoder933/Xbuilders
 
 ### Setting up
@@ -49,7 +49,7 @@ The game allows blocks to be set as boundaries. Spheres can be created using blo
 
 ![screenshot10.png](./assets/screenshots/screenshot10.png)
 
-torchligt is supported, we have torches, candles and lamps:
+torchligt is supported: torches, candles and lamps:
 
 ![screenshot (3).png](./assets/screenshots/house2.png)
 
