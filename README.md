@@ -1,11 +1,20 @@
 ![screenshot (3).png](./assets/screenshots/city2.png)
-## XBuilders (w/ Processing 4.0)
-A Voxel game written in java and using Processing 4.0
-Development has been shifted to LWJGL edition of the game: https://github.com/zipCoder933/Xbuilders
+## XBuilders v2 (w/ Processing 4.0)
+A Voxel game written in java and using Processing 4.0 (https://github.com/benfry/processing4) (XBuilders v1 was originally built using Godot) 
+
+Development has since been shifted to an LWJGL edition: https://github.com/zipCoder933/Xbuilders
 
 Textures taken mostly from Pixel Perfection:
 * https://github.com/Athemis/PixelPerfectionCE/tree/master
 * https://github.com/Wallbraker/PixelPerfection?tab=readme-ov-file
+
+# Contributing
+If you want to contribute to XBuilders, I have moved development to XBuilders (LWJGL) version:
+https://github.com/zipCoder933/Xbuilders
+
+### Setting up
+* Dependencies for processing 4.0 were pre-compiled into a a few packed jars. The jarfiles are in the /dependencies folder. Just make sure to add them into the project using whatever IDE you have chosen.
+* No extra setup is required, You will have the easiest time if you use IntelliJ IDEA since I have profiles setup in the project for that specific IDE.
 
 ## Current Features
 This version of XBuilders is a lot more feature heavy than XBuilders w/ LWJGL. I hope to eventually port all of these features over to the LWJGL version at some point:
@@ -25,14 +34,7 @@ This version of XBuilders is a lot more feature heavy than XBuilders w/ LWJGL. I
 * Custom vehicles can be build, in a driving, underwater or flying configuration configuration
   * Build a helecopter with the helecopter blade, Make a fast flying jet, Build a boat or underwater submarine or Make an off roader or sports car
 
-## Contributing
-If you want to contribute to XBuilders, I have moved development to XBuilders (LWJGL) version:
-https://github.com/zipCoder933/Xbuilders
-
-### Setting up
-* **Dependencies are in the /dependencies folder**
-
-## Running
+# Running
 1. the build artifact is in the XBuildersUI4J directory
 
 # Screenshots
