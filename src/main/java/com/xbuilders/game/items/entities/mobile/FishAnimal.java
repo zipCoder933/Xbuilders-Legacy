@@ -153,8 +153,9 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
         if (playerIsInSameMediumAsFish()) {
             if (inWater) {
                 float waggle = (float) (Math.sin(getPointerHandler().getApplet().frameCount / 2) * MathUtils.mapAndClamp(forwardVelocity, 0, maxSpeed, 0, 0.25f));
-                g.rotateY(waggle);
-                g.translate(waggle * -0.1f, 0, 0);
+                modelMatrix.rotateY(waggle);
+                modelMatrix.translate(waggle * -0.1f, 0, 0);
+                sendModelMatrixToShader();
             }
             renderFish(g);
         }

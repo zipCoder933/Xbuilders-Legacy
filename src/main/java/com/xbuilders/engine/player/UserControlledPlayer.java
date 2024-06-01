@@ -3,6 +3,7 @@ package com.xbuilders.engine.player;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.game.GameMode;
 import com.xbuilders.engine.game.ScreenshotUtils;
+import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.player.blockPipeline.BlockPipeline;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.items.Item;
@@ -132,7 +133,8 @@ public class UserControlledPlayer extends Player {
     private PositionHandler positionHandler;
     private ArrayList<Runnable> blockActionQueue;
 
-    public Block lastHeadBlock, headBlock;
+    public Block lastHeadBlock = BlockList.BLOCK_AIR;
+    public Block headBlock = BlockList.BLOCK_AIR;
     private boolean isInDarkness = false;
     boolean isClimbing = false;
     public boolean passThroughMode = false;

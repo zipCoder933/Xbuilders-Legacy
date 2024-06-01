@@ -1,5 +1,25 @@
-## XBuilders 2
+![screenshot (3).png](assets\screenshots\city2.png)
+## XBuilders (w/ Processing 4.0)
 A Voxel game written in java and using Processing 4.0
+
+## Current Features Include
+This version of XBuilders is a lot more feature heavy than XBuilders w/ LWJGL. I hope to eventually port all of these features over to the LWJGL version at some point:
+
+* Animals, and Vehicles
+  * Horses, Mules, Cats, Foxes, Rabbit, Fish, Sea Turtle
+* We have minecarts and a track system
+* Create banners to hang up in your world
+* Fences, stairs, slabs and even carpet can be used
+* Block tools, allowing for faster block building
+  * Block boundary
+  * Block repaint
+  * Copy/Paste
+  * Sphere creation/deletion
+* Custom vehicles can be build, in a driving, underwater or flying configuration configuration
+  * Build a helecopter with the helecopter blade
+  * Make a fast flying jet
+  * Build a boat or underwater submarine
+  * Make an off roader or sports car
 
 ### Setting up
 * **Dependencies are in the /dependencies folder**
@@ -8,7 +28,47 @@ Textures taken mostly from Pixel Perfection:
 * https://github.com/Athemis/PixelPerfectionCE/tree/master
 * https://github.com/Wallbraker/PixelPerfection?tab=readme-ov-file
 
+## Contributing
+All contributions welcome! If you want to contribute to XBuilders, I would appreciate the most help with a version of the game that is better suited for preformance, using LWJGL instead of Processing:
+https://github.com/zipCoder933/Xbuilders
+
 ## Running
-1. the build artifact is in the XBuildersUI4J/out directory
-2. the artifact should be moved to the same directory as the resources directory 
-3. run the artifact with "java -jar app.jar"
+1. the build artifact is in the XBuildersUI4J directory
+
+
+# Screenshots
+A wide range of blocks are available. The game has about 799 blocks, 165 entities and 7 tools
+
+![ingame.png](assets\screenshots\ingame.png)
+
+Custom vehicles can be created:
+
+![screenshot (7).png](assets\screenshots\vehicle1.png)
+
+The game allows blocks to be set as boundaries
+
+![ingame2.png](assets\screenshots\ingame2.png)
+
+Large strucures can be build very easily using block tools
+
+![screenshot (2).png](assets\screenshots\house.png)
+
+Lights are supported too, we have torches, lamps and even fire and lava
+
+![screenshot (3).png](assets\screenshots\house2.png)
+
+![screenshot (7).png](assets\screenshots\sea2.png)
+
+Spheres can be created very easily using block tools
+
+![screenshot10.png](assets\screenshots\screenshot10.png)
+
+Minecarts can be used as a railroad system in your very own city!
+
+![screenshot (3).png](assets\screenshots\city3.png)
+
+![screenshot (3).png](assets\screenshots\city4.png)
+
+The default terrain has 6 biomes!
+
+![screenshot (5).png](.\assets\screenshots\home.png)
