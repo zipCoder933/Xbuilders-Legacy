@@ -1,8 +1,12 @@
-![screenshot (3).png](assets\screenshots\city2.png)
+![screenshot (3).png](./assets/screenshots/city2.png)
 ## XBuilders (w/ Processing 4.0)
 A Voxel game written in java and using Processing 4.0
 
-## Current Features Include
+Textures taken mostly from Pixel Perfection:
+* https://github.com/Athemis/PixelPerfectionCE/tree/master
+* https://github.com/Wallbraker/PixelPerfection?tab=readme-ov-file
+
+## Current Features
 This version of XBuilders is a lot more feature heavy than XBuilders w/ LWJGL. I hope to eventually port all of these features over to the LWJGL version at some point:
 
 * Animals, and Vehicles
@@ -21,54 +25,42 @@ This version of XBuilders is a lot more feature heavy than XBuilders w/ LWJGL. I
   * Build a boat or underwater submarine
   * Make an off roader or sports car
 
-### Setting up
-* **Dependencies are in the /dependencies folder**
-
-Textures taken mostly from Pixel Perfection:
-* https://github.com/Athemis/PixelPerfectionCE/tree/master
-* https://github.com/Wallbraker/PixelPerfection?tab=readme-ov-file
-
 ## Contributing
 All contributions welcome! If you want to contribute to XBuilders, I would appreciate the most help with a version of the game that is better suited for preformance, using LWJGL instead of Processing:
 https://github.com/zipCoder933/Xbuilders
 
+### Setting up
+* **Dependencies are in the /dependencies folder**
+
 ## Running
 1. the build artifact is in the XBuildersUI4J directory
 
-
 # Screenshots
-A wide range of blocks are available. The game has about 799 blocks, 165 entities and 7 tools
 
-![ingame.png](assets\screenshots\ingame.png)
+A wide range of blocks are available:
 
-Custom vehicles can be created:
+![ingame.png](./assets/screenshots/ingame.png)
 
-![screenshot (7).png](assets\screenshots\vehicle1.png)
+Custom vehicles can be built:
 
-The game allows blocks to be set as boundaries
+![screenshot (7).png](./assets\screenshots\vehicle1.png)
 
-![ingame2.png](assets\screenshots\ingame2.png)
+The game allows blocks to be set as boundaries. Spheres can be created using block tools:
 
-Large strucures can be build very easily using block tools
+![screenshot10.png](./assets\screenshots\screenshot10.png)
 
-![screenshot (2).png](assets\screenshots\house.png)
+torchligt is supported, we have torches, candles and lamps:
 
-Lights are supported too, we have torches, lamps and even fire and lava
+![screenshot (3).png](./assets\screenshots\house2.png)
 
-![screenshot (3).png](assets\screenshots\house2.png)
+The game has a few speces of animals that can be spawned anywhere:
 
-![screenshot (7).png](assets\screenshots\sea2.png)
-
-Spheres can be created very easily using block tools
-
-![screenshot10.png](assets\screenshots\screenshot10.png)
+![screenshot (7).png](./assets\screenshots\sea2.png)
 
 Minecarts can be used as a railroad system in your very own city!
 
-![screenshot (3).png](assets\screenshots\city3.png)
-
-![screenshot (3).png](assets\screenshots\city4.png)
+![screenshot (3).png](./assets\screenshots\city4.png)
 
 The default terrain has 6 biomes!
 
-![screenshot (5).png](.\assets\screenshots\home.png)
+![screenshot (5).png](./assets\screenshots\home.png)
