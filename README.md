@@ -43,24 +43,24 @@ A wide range of blocks are available:
 
 Custom vehicles can be built:
 
-![screenshot (7).png](./assets\screenshots\vehicle1.png)
+![screenshot (7).png](./assets/screenshots/vehicle1.png)
 
 The game allows blocks to be set as boundaries. Spheres can be created using block tools:
 
-![screenshot10.png](./assets\screenshots\screenshot10.png)
+![screenshot10.png](./assets/screenshots/screenshot10.png)
 
 torchligt is supported, we have torches, candles and lamps:
 
-![screenshot (3).png](./assets\screenshots\house2.png)
+![screenshot (3).png](./assets/screenshots/house2.png)
 
 The game has a few speces of animals that can be spawned anywhere:
 
-![screenshot (7).png](./assets\screenshots\sea2.png)
+![screenshot (7).png](./assets/screenshots/sea2.png)
 
 Minecarts can be used as a railroad system in your very own city!
 
-![screenshot (3).png](./assets\screenshots\city4.png)
+![screenshot (3).png](./assets/screenshots/city4.png)
 
 The default terrain has 6 biomes!
 
-![screenshot (5).png](./assets\screenshots\home.png)
+![screenshot (5).png](./assets/screenshots/home.png)
