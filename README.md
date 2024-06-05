@@ -1,16 +1,11 @@
 ![screenshot (3).png](./assets/screenshots/city2.png)
 ## XBuilders v2 (w/ Processing 4.0)
-A Voxel game written in java and using Processing 4.0 (https://github.com/benfry/processing4) (XBuilders v1 was originally built using Godot) 
-
-Development has since been shifted to an LWJGL edition: https://github.com/zipCoder933/Xbuilders
+A Voxel game written in java and using Processing 4.0 (https://github.com/benfry/processing4)
+(XBuilders v1 was originally built using Godot) 
 
 Textures taken mostly from Pixel Perfection:
 * https://github.com/Athemis/PixelPerfectionCE/tree/master
 * https://github.com/Wallbraker/PixelPerfection?tab=readme-ov-file
-
-# Contributing
-If you want to contribute to XBuilders, I have moved development to XBuilders (LWJGL) version:
-https://github.com/zipCoder933/Xbuilders
 
 ### Setting up
 * Dependencies for processing 4.0 were pre-compiled into a a few packed jars. The jarfiles are in the /dependencies folder. Just make sure to add them into the project using whatever IDE you have chosen.
