@@ -8,7 +8,9 @@ Textures taken mostly from Pixel Perfection:
 * https://github.com/Wallbraker/PixelPerfection?tab=readme-ov-file
 
 # Running
-1. the build artifact is in the XBuildersUI4J directory
+1. the build artifact, "XBuildersUI4J.jar" is in the root directory
+2. upon first run, the jarfile will generate all block icons
+3. run it again to start the game
 
 # Setting up source code
 * Dependencies for processing 4.0 were pre-compiled into a a few packed jars. The jarfiles are in the /dependencies folder. Just make sure to add them into the project using whatever IDE you have chosen.
