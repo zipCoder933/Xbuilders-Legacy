@@ -267,7 +267,7 @@ public class VoxelGame extends BaseWindow {
 
             System.out.println("OpenGL: " + PGraphicsOpenGL.OPENGL_VERSION);
             textureMode(NORMAL);
-            frameRate(5000); //Disable vsync
+            if (getSettings().getSettingsFile().disableVsync) frameRate(5000); //Disable vsync
 
             surface.setResizable(true);
             setPage(Page.MENU);
@@ -309,7 +309,6 @@ public class VoxelGame extends BaseWindow {
             noLoop();
         }
     }
-
 
 
     private void onResizeEvent(int width, int height) {

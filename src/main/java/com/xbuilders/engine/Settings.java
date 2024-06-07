@@ -32,29 +32,19 @@ public class Settings {
         public float SLM_RadiusMultiplier = 0.7f;//(was 0.65) Affects the radius of chunk generation as well
         public int chunkRadius = 160;
         public int maxChunkDistance = 208;//Maximum chunk size
-        public int extraChunkDistMultiplier = 0;   //2 = render 16*2 extra chunk distance, Also be aware that the terrain updater will delete w/ chunk distance + 16
-
-        //Misc:
+        public int extraChunkDistMultiplier = 0;
         public boolean switchMouseButtons = false;
         public boolean dayNightCycles = true;
-
-        //Player movement
         public float walkSpeed = 1.4f;
         public float runSpeed = 6.0f;
         public float flySpeed = 1.5f;
-
-        //Blocks
         public int playerRayMaxDistance = 22;
         public long blockAutoSetInterval = 200;
         public int playerInventorySlots = 24;
         public long blockAutoSetTimeThreshold = 500;
-        public int maxBlockModeSize = 25;
-
-        //boundary
         public int maxBlockBoundaryArea = 1000000;
-
-        //Entities
         public float entityMaxDistance = SubChunk.WIDTH * 3; //The distance threshold before an entity is not shown or updated (static meshed entities are still shown)
+        public boolean disableVsync = true;
     }
 
     private SettingsFile settingsFile;
@@ -74,7 +64,7 @@ public class Settings {
             save();
         }
 
-        if(Main.DEV_MODE){
+        if (Main.DEV_MODE) {
             settingsFile.runSpeed = 15;
             settingsFile.dayNightCycles = false;
         }
