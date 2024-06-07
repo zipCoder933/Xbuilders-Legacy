@@ -6,7 +6,6 @@ package com.xbuilders.engine.items.entity;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.player.UserControlledPlayer;
-import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -15,10 +14,7 @@ import com.xbuilders.game.Main;
 
 import java.util.ArrayList;
 
-import org.joml.Matrix4f;
-import org.joml.Vector3i;
 import processing.core.PGraphics;
-import processing.core.PMatrix3D;
 
 /**
  * @author zipCoder933
@@ -39,7 +35,8 @@ public class ChunkEntitySet {
         return list.get(i);
     }
 
-    public void updateAndDrawEntities(PGraphics graphics, boolean drawEntities) {
+    public void updateAndDrawEntities(PGraphics graphics, boolean drawEntities, boolean chunkInFrustum) {
+        Entity.defaultShader();
         for (int i = list.size() - 1; i >= 0; i--) { // Loop through the list of entities in reverse order
             Entity e = get(i); // Get the entity at index i
 
@@ -69,7 +66,8 @@ public class ChunkEntitySet {
                 if (e.playerIsRidingThis() || e.getFrustumSphereRadius() <= 0) {
                     e.inFrustum = true;
                 } else {
-                    e.inFrustum = VoxelGame.getPlayer().camera.frustum.isSphereInside(e.worldPosition,
+                    e.inFrustum = chunkInFrustum &&
+                            VoxelGame.getPlayer().camera.frustum.isSphereInside(e.worldPosition,
                             e.getFrustumSphereRadius());
                 }
 
@@ -91,7 +89,7 @@ public class ChunkEntitySet {
                 }
             }
 
-            e.worldPosition.y = MathUtils.clamp(e.worldPosition.y, 1, Chunk.CHUNK_Y_LENGTH - 1);
+            e.worldPosition.y = MathUtils.clamp(e.worldPosition.y, 1, Chunk.HEIGHT - 1);
             e.hasMoved = !e.lastWorldPosition.equals(e.worldPosition);
 
             if (e.hasMoved) {// If the entity has moved

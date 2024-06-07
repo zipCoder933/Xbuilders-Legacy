@@ -31,7 +31,7 @@ public class TerrainV1 extends Terrain {
         if (valley > 0.7) {
             return Biome.DESERT;
         }
-        if (y / (float) Chunk.CHUNK_Y_LENGTH > 0.65f - fractal) {
+        if (y / (float) Chunk.HEIGHT > 0.65f - fractal) {
             if (valley > 0.36 && !savannah) {
                 return Biome.DESERT;
             }
@@ -55,7 +55,7 @@ public class TerrainV1 extends Terrain {
     }
 
     private double heightmapFunction(final int wy, final double val) {
-        return Math.pow(wy / (float) Chunk.CHUNK_Y_LENGTH * 4.0f, 1.1) - val * this.WORLD_HEIGHT;
+        return Math.pow(wy / (float) Chunk.HEIGHT * 4.0f, 1.1) - val * this.WORLD_HEIGHT;
     }
 
     public void generateChunkInner(final Chunk chunk) {
@@ -151,7 +151,7 @@ public class TerrainV1 extends Terrain {
     @Override
     public int getHeightmapOfVoxel(final int wx, final int wz) {
         double valleyLayer = this.getValleyValue(wx, wz);
-        for (int wy = Chunk.CHUNK_Y_LENGTH - 120; wy > 0; --wy) {
+        for (int wy = Chunk.HEIGHT - 120; wy > 0; --wy) {
             final double rand = this.getHeightmapValue(valleyLayer, wx, wy, wz);
             if (rand < 0.5) {
                 return wy + 120;

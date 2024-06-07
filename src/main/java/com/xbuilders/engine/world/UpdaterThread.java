@@ -17,7 +17,6 @@ import com.xbuilders.engine.world.chunk.SubChunk;
 import com.xbuilders.engine.world.chunk.wcc.WCCi;
 import com.xbuilders.game.PointerHandler;
 import org.joml.Vector3f;
-import org.joml.Vector3i;
 
 import java.io.IOException;
 
@@ -113,10 +112,10 @@ class UpdaterThread extends Thread {
             float centerX = userControlledPlayer.worldPos.x;
             float centerZ = userControlledPlayer.worldPos.z;
 
-            int xStart = (int) (centerX - chunkDist) / Chunk.CHUNK_X_LENGTH;
-            int xEnd = (int) (centerX + chunkDist) / Chunk.CHUNK_X_LENGTH;
-            int zStart = (int) (centerZ - chunkDist) / Chunk.CHUNK_Z_LENGTH;
-            int zEnd = (int) (centerZ + chunkDist) / Chunk.CHUNK_Z_LENGTH;
+            int xStart = (int) (centerX - chunkDist) / Chunk.WIDTH;
+            int xEnd = (int) (centerX + chunkDist) / Chunk.WIDTH;
+            int zStart = (int) (centerZ - chunkDist) / Chunk.WIDTH;
+            int zEnd = (int) (centerZ + chunkDist) / Chunk.WIDTH;
 
             boolean firstClear = true;
 

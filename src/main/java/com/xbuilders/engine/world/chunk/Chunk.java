@@ -4,9 +4,6 @@
 package com.xbuilders.engine.world.chunk;
 
 import com.xbuilders.engine.rendering.worldLightMap.ShaderLightMap;
-import com.xbuilders.engine.rendering.ShaderHandler;
-import com.xbuilders.engine.world.chunk.ChunkSavingLoading;
-import processing.core.PGraphics;
 import com.xbuilders.engine.player.UserControlledPlayer;
 
 import java.util.Objects;
@@ -29,11 +26,10 @@ import org.joml.Vector3i;
 
 public class Chunk {
 
-    private ChunkCoords position;
-    public static final int CHUNK_X_LENGTH = SubChunk.WIDTH;
-    public static final int CHUNK_Z_LENGTH = SubChunk.WIDTH;
+    public ChunkCoords position;
+    public static final int WIDTH = SubChunk.WIDTH;
     public static final int SUB_CHUNK_QUANTITY = 16;
-    public static final int CHUNK_Y_LENGTH = SubChunk.WIDTH * SUB_CHUNK_QUANTITY;
+    public static final int HEIGHT = SubChunk.WIDTH * SUB_CHUNK_QUANTITY;
 
     public boolean lightmapInit;
     public AABB aabb;
@@ -69,12 +65,12 @@ public class Chunk {
 
     public static AABB makeNewChunkAABB(final ChunkCoords pos) {
         return new AABB().setPosAndSize((float) (pos.x * SubChunk.WIDTH), 0.0f, (float) (pos.z * SubChunk.WIDTH),
-                SubChunk.WIDTH, CHUNK_Y_LENGTH, SubChunk.WIDTH);
+                SubChunk.WIDTH, HEIGHT, SubChunk.WIDTH);
     }
 
     public static void setChunkAABB(final AABB box, final ChunkCoords pos) {
         box.setPosAndSize((float) (pos.x * SubChunk.WIDTH), 0.0f, (float) (pos.z * SubChunk.WIDTH), SubChunk.WIDTH,
-                CHUNK_Y_LENGTH, SubChunk.WIDTH);
+                HEIGHT, SubChunk.WIDTH);
     }
 
     public boolean hasGeneratedMeshes() {
@@ -112,7 +108,7 @@ public class Chunk {
     }
 
     public boolean inBounds(final int x, final int y, final int z) {
-        return x < SubChunk.WIDTH && x >= 0 && y < CHUNK_Y_LENGTH && y >= 0 && z < SubChunk.WIDTH && z >= 0;
+        return x < SubChunk.WIDTH && x >= 0 && y < HEIGHT && y >= 0 && z < SubChunk.WIDTH && z >= 0;
     }
 
     public boolean isSurroundedByChunks() {

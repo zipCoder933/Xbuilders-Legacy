@@ -54,7 +54,6 @@ public abstract class Terrain {
     public final FastNoise noise = new FastNoise();//TODO: Perlin noise is significantly slower than fast noise
     private PointerHandler pointerHandler;
     public float frequency;
-
     public PointerHandler getPointerHandler() {
         return this.pointerHandler;
     }

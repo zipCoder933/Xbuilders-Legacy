@@ -3,7 +3,6 @@ package com.xbuilders.game.blockMode.tools;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.ItemQuantity;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
@@ -54,7 +53,7 @@ public class DefaultTool extends Tool {
     }
 
     public boolean placeItem(ItemQuantity item, int x, int y, int z, BlockData initialBlockData) {
-        if (y >= Chunk.CHUNK_Y_LENGTH - 1 || y == 0) {
+        if (y >= Chunk.HEIGHT - 1 || y == 0) {
             return false;
         }
         boolean wasSet = false;

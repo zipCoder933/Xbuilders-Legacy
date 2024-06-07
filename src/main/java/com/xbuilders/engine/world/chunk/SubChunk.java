@@ -111,6 +111,9 @@ public class SubChunk {
                 (float) (this.getPosition().z * SubChunk.WIDTH));
     }
 
+    int opaqueMeshVerts = 0;
+    int transparentMeshVerts = 0;
+
     public void generateMesh() {
 //        if (lightMap.allDarkness && !hasLightNeighbor) {// Check for any light neighbors
 //            hasLightNeighbor = NaiveCulling.checkAllNeighborsForNonDarkness(this);
@@ -118,6 +121,8 @@ public class SubChunk {
         NaiveCulling.generateMesh(this,
                 this.opaqueMesh = this.getPointerHandler().getApplet().createShape(),
                 this.transparentMesh = this.getPointerHandler().getApplet().createShape(), this.offset);
+        opaqueMeshVerts = this.opaqueMesh.getVertexCount();
+        transparentMeshVerts = this.transparentMesh.getVertexCount();
 
         this.needsRegenerating = false;
         this.getParentChunk().markAsNeedsSaving();
@@ -199,81 +204,47 @@ public class SubChunk {
         return inFrustum;
     }
 
-    private boolean darknessCull() {
-//        return (!lightMap.allDarkness
-//                || distToPlayer < SubChunk.WIDTH * 2
-//                || hasLightNeighbor) && !data.isEmpty();
 
-        return !data.isEmpty();
-    }
 
     Matrix4f modelMatrix = new Matrix4f();
 
-    public void drawOpaqueAndEntities(final ShaderHandler shader, boolean drawEntities) {
+    public void drawOpaqueAndEntities(boolean drawEntities) {
         distToPlayer = VoxelGame.getPlayer().aabb.worldPosition.distance(
                 position.x * SubChunk.WIDTH + WIDTH / 2,
                 position.y * SubChunk.WIDTH + WIDTH / 2,
                 position.z * SubChunk.WIDTH + WIDTH / 2);
-
-        if (darknessCull() && checkInFrustum()) {
-
-            // // Draw chunks as a box for debugging
-            // Main.getPG().pushMatrix();
-            // Main.getPG().translate(offset.x + WIDTH / 2, offset.y + WIDTH / 2, offset.z +
-            // WIDTH / 2);
-            // Main.getPG().resetShader();
-            // Main.getPG().stroke(255, 0, 0);
-            // Main.getPG().strokeWeight(3);
-            // Main.getPG().box(2);
-            // // Main.getPG().strokeWeight(1);
-            // // Main.getPG().stroke(255);
-            // // Main.getPG().box(WIDTH);
-            // VoxelGame.getShaderHandler().setShader(Main.getPG());
-            // Main.getPG().popMatrix();
-            // // -----------------------------------------
-
-
+        checkInFrustum();
+        if (inFrustum) {
             if (this.needsRegenerating) {
-                // (new Thread() {// TODO: Explore this multithreading to see if it leads to
-                // better performance
-                // @Override
-                // public void run() {
                 generateMesh();
-                // }
-                // }).start();
             }
-            if (shader != null) {
+
+            if (!data.isEmpty() && opaqueMeshVerts > 0) { //Render chunk mesh
                 Main.getPG().shader(ShaderHandler.blockShader);
-                shader.setAnimatedTexturesEnabled(true);
-                shader.setWorldSpaceOffset((float) (this.getPosition().x * SubChunk.WIDTH), 0.0f,
+                VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(true);
+                VoxelGame.getShaderHandler().setWorldSpaceOffset((float) (this.getPosition().x * SubChunk.WIDTH), 0.0f,
                         (float) (this.getPosition().z * SubChunk.WIDTH));
-                shader.setBlockShaderModelMatrix(modelMatrix);
-            }
-            Main.getPG().shape(this.opaqueMesh);
-            if (drawEntities) {
-                //Draw static entities
-                if (shader != null) {
-                    shader.setAnimatedTexturesEnabled(false);
-                }
-                for (int i = 0; i < this.entityMeshes.size(); ++i) {
-                    Main.getPG().shape(this.entityMeshes.get(i));
+                VoxelGame.getShaderHandler().setBlockShaderModelMatrix(modelMatrix);
+                Main.getPG().shape(this.opaqueMesh);
+                if (drawEntities) {
+                    VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(false);
+                    for (int i = 0; i < this.entityMeshes.size(); ++i) {
+                        Main.getPG().shape(this.entityMeshes.get(i));
+                    }
                 }
             }
         }
         // The entities must as least be updated even if not in frustum
-        Entity.defaultShader();
-        this.getEntities().updateAndDrawEntities(Main.getPG(), drawEntities);
+        this.getEntities().updateAndDrawEntities(Main.getPG(), drawEntities, inFrustum);
     }
 
-    public void drawTransparent(final ShaderHandler shader) {
-        if (inFrustum && darknessCull()) {
-            if (shader != null) {
-                Main.getPG().shader(ShaderHandler.blockShader);
-                shader.setAnimatedTexturesEnabled(true);
-                shader.setWorldSpaceOffset((float) (this.getPosition().x * SubChunk.WIDTH), 0.0f,
-                        (float) (this.getPosition().z * SubChunk.WIDTH));
-                shader.setBlockShaderModelMatrix(modelMatrix);
-            }
+    public void drawTransparent() {
+        if (inFrustum && !data.isEmpty() && transparentMeshVerts > 0) {
+            Main.getPG().shader(ShaderHandler.blockShader);
+            VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(true);
+            VoxelGame.getShaderHandler().setWorldSpaceOffset((float) (this.getPosition().x * SubChunk.WIDTH), 0.0f,
+                    (float) (this.getPosition().z * SubChunk.WIDTH));
+            VoxelGame.getShaderHandler().setBlockShaderModelMatrix(modelMatrix);
             Main.getPG().shape(this.transparentMesh);
         }
     }

@@ -4,6 +4,8 @@ import com.xbuilders.game.terrain.cityTerrain.CityTerrain;
 import com.xbuilders.game.terrain.defaultTerrain.TerrainV1;
 import com.xbuilders.game.terrain.defaultTerrain.TerrainV2;
 
+import java.io.OptionalDataException;
+
 public class TerrainsList {
     public static final String[] terrains = {
             "DEFAULT_V2",
@@ -12,6 +14,12 @@ public class TerrainsList {
             "DEV",
             "CITY",
             "DEFAULT_V1", "DEFAULT_V1_CAVES"};
+
+    public static String[] visibleTerrains = {
+            "DEFAULT_V2",
+            "MOON", "MOON_SHALLOW",
+            "SIMPLE", "SIMPLE_DEEP",
+            "CITY"};
 
     public static Terrain getTerrain(String name) {
         switch (name) {

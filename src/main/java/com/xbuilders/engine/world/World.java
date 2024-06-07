@@ -248,7 +248,7 @@ public class World {
             int ySpawn = 0;
             for (int xSpawn = centerX - 3; xSpawn < centerX + 4; xSpawn++) {
                 for (int zSpawn = centerZ - 3; zSpawn < centerZ + 4; zSpawn++) {
-                    for (ySpawn = 0; ySpawn < Chunk.CHUNK_Y_LENGTH; ySpawn++) { // Start from the top and go down
+                    for (ySpawn = 0; ySpawn < Chunk.HEIGHT; ySpawn++) { // Start from the top and go down
                         Block baseBlock = getBlock(xSpawn, ySpawn, zSpawn);
                         Block l1Block = getBlock(xSpawn, ySpawn - 1, zSpawn);
                         if (baseBlock.isSolid()) {
@@ -264,7 +264,7 @@ public class World {
         }
         System.out.println("Nothing found!");
         UserControlledPlayer userControlledPlayer = ph.getPlayer();
-        userControlledPlayer.worldPos.set(centerX, Chunk.CHUNK_Y_LENGTH / 2, centerZ);
+        userControlledPlayer.worldPos.set(centerX, Chunk.HEIGHT / 2, centerZ);
     }
 
     private void finishWorldGeneration(final ProgressData prog, final boolean newWorld)
@@ -376,12 +376,12 @@ public class World {
         // frameTester.startProcess();
         this.subChunks.values().forEach(chunk -> {// Draw opaque meshes of all chunks
             if (chunk.getParentChunk().hasGeneratedMeshes() && chunk.lightMap.inBoundsOfSLM()) { //If it is outside of the SLM, Dont render it!
-                chunk.drawOpaqueAndEntities(VoxelGame.getShaderHandler(), drawEntities);
+                chunk.drawOpaqueAndEntities(drawEntities);
             }
         });
         this.subChunks.values().forEach(chunk -> {// Draw transparent meshes of all chunks
             if (chunk.getParentChunk().hasGeneratedMeshes() && chunk.lightMap.inBoundsOfSLM()) {
-                chunk.drawTransparent(VoxelGame.getShaderHandler());
+                chunk.drawTransparent();
             }
         });
         // frameTester.endProcess("Draw Chunks");
@@ -396,11 +396,11 @@ public class World {
     }
 
     public boolean inPlacableBounds(int y) {
-        return y < Chunk.CHUNK_Y_LENGTH - 1 && y > 0;
+        return y < Chunk.HEIGHT - 1 && y > 0;
     }
 
     public boolean inBounds(final int y) {
-        return y >= 0 && y <= Chunk.CHUNK_Y_LENGTH - 1;
+        return y >= 0 && y <= Chunk.HEIGHT - 1;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getChunk block/block data">

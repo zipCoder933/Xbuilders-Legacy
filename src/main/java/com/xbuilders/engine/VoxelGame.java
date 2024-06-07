@@ -52,7 +52,7 @@ public class VoxelGame extends BaseWindow {
 
 
     public static List<Player> playerList = new ArrayList<>();
-    public static  boolean LOAD_WORLD_ON_STARTUP = false;
+    public static boolean LOAD_WORLD_ON_STARTUP = false;
 
     public PointerHandler init(String[] args, boolean devMode, ProgramMode mode) throws IOException {
         List<String> argList = Arrays.asList(args);
@@ -282,11 +282,19 @@ public class VoxelGame extends BaseWindow {
         LEGACY_CONVERSION;
     }
 
+    int mywidth, myheight;
+
     @Override
     public void render() {
         if (frameCount % 10 == 0) {
             setTitle();
         }
+        if (mywidth != width || myheight != height) {
+            mywidth = width;
+            myheight = height;
+            onResizeEvent(width, height);
+        }
+
 
         try {
             if (getPage() == Page.GAME) {
@@ -298,6 +306,15 @@ public class VoxelGame extends BaseWindow {
             ErrorHandler.handleFatalError(e);
             noLoop();
         }
+    }
+
+
+
+    private void onResizeEvent(int width, int height) {
+//        System.out.println("RESIZE: " + width + "x" + height);
+//        width = width / 2;
+//        height = height / 2;
+//        getGraphics().setSize(width/2, height/2);
     }
 
     /**

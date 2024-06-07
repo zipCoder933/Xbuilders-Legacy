@@ -122,7 +122,7 @@ public class BannerEntityLink extends EntityLink {
 
         @Override
         public void draw(PGraphics g) {
-            if (distToPlayer > Chunk.CHUNK_X_LENGTH)
+            if (distToPlayer > Chunk.WIDTH)
                 return;
                 
             if (xzOrientation == 0) {

@@ -29,7 +29,7 @@ public class TerrainUpdater {
     public void update() {
         int extraDistMultiplier = VoxelGame.getSettings().getSettingsFile().extraChunkDistMultiplier;
         int chunkDist2 = ph.getSettingsFile().chunkRadius;
-        chunkDist2 += (extraDistMultiplier * Chunk.CHUNK_X_LENGTH);
+        chunkDist2 += (extraDistMultiplier * Chunk.WIDTH);
         if (ph.getPlayer().isInDarkness()) {
             chunkDist2 *= 0.4f;
         }

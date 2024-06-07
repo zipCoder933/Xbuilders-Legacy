@@ -29,7 +29,7 @@ import processing.core.UIFrame;
 public class GrassGrower {
 
     final int SCAN_RADIUS = 10;
-    long delayMS = 5000;
+    long delayMS;
     long lastUpdate = 0;
     static ArrayList<Node> initialNodes = new ArrayList<>();
     static ListQueue<Node> queue = new ListQueue<>();
@@ -48,11 +48,11 @@ public class GrassGrower {
             if (initialNodes.isEmpty() || outOfRange(initialNodes, p)) {
 //                VoxelGame.printDev("Regenerating new grass node list...");
                 scanAndAddNodes();
-                delayMS = 20000;
+                delayMS = 10000;
             } else {
 //                VoxelGame.printDev("Grass node list size: " + initialNodes.size());
                 queue.addNodes(initialNodes);
-                delayMS = 6000;
+                delayMS = 3000;
             }
 
             int blocksChanged = 0;

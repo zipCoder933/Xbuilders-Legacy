@@ -1,23 +1,13 @@
 package com.xbuilders.engine.legacyConversion;
 
-import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.items.entity.EntityLink;
-import static com.xbuilders.engine.world.chunk.Chunk.CHUNK_X_LENGTH;
-import static com.xbuilders.engine.world.chunk.Chunk.CHUNK_Z_LENGTH;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
 import com.xbuilders.engine.world.chunk.lightMap.TorchChannelSet;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**

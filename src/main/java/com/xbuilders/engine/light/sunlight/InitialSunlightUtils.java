@@ -15,7 +15,6 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.light.torch.TorchUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.ChunkSet;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.wcc.WCCi;
@@ -55,10 +54,10 @@ public class InitialSunlightUtils {
         int chunkLocation, blockLocation;
         queue.clear();
 
-        for (int x = 0; x < Chunk.CHUNK_X_LENGTH; ++x) {
-            for (int z = 0; z < Chunk.CHUNK_Z_LENGTH; ++z) {
+        for (int x = 0; x < Chunk.WIDTH; ++x) {
+            for (int z = 0; z < Chunk.WIDTH; ++z) {
                 boolean addSun = true;
-                for (int y = 0; y < Chunk.CHUNK_Y_LENGTH; ++y) {
+                for (int y = 0; y < Chunk.HEIGHT; ++y) {
                     chunkLocation = WCCi.chunkDiv(y);
                     blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
                     SubChunk subChunk = chunk.getSubChunks()[chunkLocation];

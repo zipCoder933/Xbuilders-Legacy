@@ -6,6 +6,7 @@ import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.WorldUtils;
 import com.xbuilders.engine.world.info.WorldInfo;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.game.terrain.TerrainsList;
 import processing.event.KeyEvent;
@@ -27,12 +28,14 @@ public class NewWorld extends UIExtension implements MenuPage {
     int worldType;
     PointerHandler ph;
     private final float DEFAULT_RESOLUTION = 1f;
+    final String[] terrainStrings;
 
 
     public NewWorld(final PointerHandler ph, VoxelGame main, final MainMenu menu, UIExtension f) {
         super(f);
         this.ph = ph;
         worldType = 0;
+        terrainStrings = Main.DEV_MODE ? TerrainsList.terrains : TerrainsList.visibleTerrains;
 
         resolution = new NumberBox(this);
         resolution.setValue(DEFAULT_RESOLUTION);
@@ -44,7 +47,8 @@ public class NewWorld extends UIExtension implements MenuPage {
             @Override
             public void run() {
                 int index = worldType + 1;
-                worldType = index % TerrainsList.terrains.length;
+                worldType = index % terrainStrings.length;
+
             }
         });
         worldNameBox = new TextBox(this, "World Name");
@@ -95,7 +99,7 @@ public class NewWorld extends UIExtension implements MenuPage {
                         VoxelGame.getMessageBox().show("Error creating world", "A World already exists under that name.");
                         return;
                     }
-                    WorldInfo info = new WorldInfo(worldNameBox.getValue(), TerrainsList.terrains[worldType], ph);
+                    WorldInfo info = new WorldInfo(worldNameBox.getValue(), terrainStrings[worldType], ph);
                     if (seed.getValue() > 0) {
                         info.setSeed((int) seed.getValue());
                     }
@@ -141,7 +145,7 @@ public class NewWorld extends UIExtension implements MenuPage {
 
         y = label("World Type", y);
         worldTypeButton.draw(MiscUtils.toTitleCase(
-                        TerrainsList.terrains[worldType].replace("_", " "))
+                        terrainStrings[worldType].replace("_", " "))
                 , (w / 2) - (textBoxWidth / 2), y, textBoxWidth);
 
         y += 85;
