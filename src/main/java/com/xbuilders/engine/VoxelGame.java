@@ -267,6 +267,8 @@ public class VoxelGame extends BaseWindow {
 
             System.out.println("OpenGL: " + PGraphicsOpenGL.OPENGL_VERSION);
             textureMode(NORMAL);
+            frameRate(5000); //Disable vsync
+
             surface.setResizable(true);
             setPage(Page.MENU);
         } catch (Exception ex) {

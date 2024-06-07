@@ -8,7 +8,7 @@ import java.io.OptionalDataException;
 
 public class TerrainsList {
     public static final String[] terrains = {
-            "DEFAULT_V2",
+            "DEFAULT_V2", "DEFAULT_V2_CAVES",
             "MOON", "MOON_SHALLOW",
             "SIMPLE", "SIMPLE_DEEP",
             "DEV",
@@ -16,7 +16,7 @@ public class TerrainsList {
             "DEFAULT_V1", "DEFAULT_V1_CAVES"};
 
     public static String[] visibleTerrains = {
-            "DEFAULT_V2",
+            "DEFAULT_V2", "DEFAULT_V2_CAVES",
             "MOON", "MOON_SHALLOW",
             "SIMPLE", "SIMPLE_DEEP",
             "CITY"};
@@ -48,6 +48,9 @@ public class TerrainsList {
                 return new TerrainV1(false);
             }
             case "DEFAULT_V1_CAVES" -> {
+                return new TerrainV1(true);
+            }
+            case "DEFAULT_V2_CAVES" -> {
                 return new TerrainV1(true);
             }
             default -> {
