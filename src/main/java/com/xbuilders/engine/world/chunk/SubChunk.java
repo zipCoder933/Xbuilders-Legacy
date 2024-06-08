@@ -73,6 +73,10 @@ public class SubChunk {
         return this.opaqueMesh != null;
     }
 
+    public boolean isTerrainLoaded() {
+        return parentChunk.terrainLoaded;
+    }
+
     public void regenerateMesh(final int x, final int y, final int z) {
         this.getParentChunk().markChunksAsNeedsRegenerating(this.position.y, x, y, z);
     }
@@ -122,6 +126,7 @@ public class SubChunk {
         NaiveCulling.generateMesh(this,
                 this.opaqueMesh = this.getPointerHandler().getApplet().createShape(),
                 this.transparentMesh = this.getPointerHandler().getApplet().createShape(), this.offset);
+
         opaqueMeshVerts = this.opaqueMesh.getVertexCount();
         transparentMeshVerts = this.transparentMesh.getVertexCount();
 
@@ -266,4 +271,6 @@ public class SubChunk {
     public int hashCode() {
         return position.hashCode();
     }
+
+
 }

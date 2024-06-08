@@ -186,11 +186,8 @@ class UpdaterThread extends Thread {
         if (!chunk.hasGeneratedMeshes()
             // && chunk.isSurroundedByChunks()
         ) {
-            // (new Thread() {
-            // public void run() {
-            chunk.generateInitialMeshes();
-            // }
-            // }).start();
+            chunk.generateInitialMeshes(); //This is already running on another thread
+
         }
     }
 

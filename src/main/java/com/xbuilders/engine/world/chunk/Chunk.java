@@ -18,10 +18,13 @@ import com.xbuilders.engine.VoxelGame;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.info.WorldInfo;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.game.terrain.Terrain;
 import org.joml.Vector3i;
 
 public class Chunk {
@@ -98,6 +101,7 @@ public class Chunk {
         this.position = new ChunkCoords(coords);
         this.modifiedByUser = false;
         this.needsSaving = false;
+        terrainLoaded = false;
         this.lightmapInit = false;
         setChunkAABB(this.aabb, coords);
         for (int y = 0; y < SUB_CHUNK_QUANTITY; ++y) {
@@ -167,9 +171,17 @@ public class Chunk {
         }
     }
 
-    public synchronized void load(final File f) {
+    protected boolean terrainLoaded;
+
+    public void load(WorldInfo infoFile, Terrain terrain) {
         try {
-            ChunkSavingLoading.readChunkFromFile(this, f);
+            final File file = World.chunkFile(infoFile, position);
+            if (file.exists()) {
+                ChunkSavingLoading.readChunkFromFile(this, file);
+            } else {
+                terrain.createTerrainOnChunk(this);
+            }
+            terrainLoaded = true;
             markAsModifiedByUser();
         } catch (IOException e) {
             ErrorHandler.handleFatalError("Error", "The chunk was unable to load.", e);
@@ -177,7 +189,6 @@ public class Chunk {
             ErrorHandler.handleFatalError("Error", "The chunk was unable to load.", e2);
         }
     }
-    // <editor-fold defaultstate="collapsed" desc="chunk updating">
 
     public void update(final int x, final int y, final int z) {
         final int chunkLocation = WCCi.chunkDiv(y);
@@ -193,7 +204,7 @@ public class Chunk {
     }
 
     public void markChunksAsNeedsRegenerating(final int chunkYLoc, final int blockX, final int blockY,
-            final int blockZ) {
+                                              final int blockZ) {
         // System.out.println("\nREGEN \t " + blockX + "," + blockY + "," + blockZ);
         if (blockY == 15 && chunkYLoc + 1 < this.subChunks.length) {
             this.subChunks[chunkYLoc + 1].needsRegenerating = true;

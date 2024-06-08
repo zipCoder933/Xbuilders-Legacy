@@ -149,15 +149,6 @@ public class NaiveCulling {
                         }
                         // }
 
-                        if(!block.isLiquid()){ //Draw sides of null chunks unless it's a liquid
-                            if(nx == null) nx = BlockList.BLOCK_AIR;
-                            if(px == null) px = BlockList.BLOCK_AIR;
-                            if(ny == null) ny = BlockList.BLOCK_AIR;
-                            if(py == null) py = BlockList.BLOCK_AIR;
-                            if(nz == null) nz = BlockList.BLOCK_AIR;
-                            if(pz == null) pz = BlockList.BLOCK_AIR;
-                        }
-
                         BlockData data = grid.getBlockData(x, y, z);
                         ItemList.blocks.getBlockType(block.type).constructBlock(
                                 block.isOpaque() ? opaqueMesh : transparentMesh, block, data,

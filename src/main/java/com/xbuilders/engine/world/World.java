@@ -214,12 +214,7 @@ public class World {
         Chunk existingChunk = this.getChunk(coords);
         if (existingChunk == null) {
             final Chunk chunk = createNew(coords);
-            final File file = chunkFile(infoFile, coords);
-            if (file.exists()) {
-                chunk.load(file);
-            } else {
-                this.terrain.createTerrainOnChunk(chunk);
-            }
+            chunk.load(infoFile, terrain);
             return chunk;
         }
         return existingChunk;

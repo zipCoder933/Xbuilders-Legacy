@@ -27,7 +27,7 @@ public class NewWorld extends UIExtension implements MenuPage {
     NumberBox seed, resolution;
     int worldType;
     PointerHandler ph;
-    private final float DEFAULT_RESOLUTION = 1f;
+    private final float DEFAULT_RESOLUTION = 0.5f;
     final String[] terrainStrings;
 
 
@@ -80,7 +80,9 @@ public class NewWorld extends UIExtension implements MenuPage {
             @Override
             public void run(NumberBox e) {
                 //A resolution that is too small is not allowed for performance reasons
-                resolution.setValue(MathUtils.clamp(resolution.getValue(), DEFAULT_RESOLUTION / 2, DEFAULT_RESOLUTION * 2));
+                resolution.setValue(MathUtils.clamp(resolution.getValue(),
+                        DEFAULT_RESOLUTION / 8,
+                        DEFAULT_RESOLUTION * 8));
             }
         });
 
