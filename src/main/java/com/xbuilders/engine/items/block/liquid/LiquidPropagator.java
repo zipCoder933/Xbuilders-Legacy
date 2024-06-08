@@ -12,53 +12,27 @@ import com.xbuilders.engine.utils.BFS.HashQueue;
 import com.xbuilders.engine.utils.BFS.TravelNode;
 import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.blocks.liquid.BlockWater;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author zipCoder933
  */
 class LiquidPropagator {
 
     int maxSpread;
     int speed;
-    public HashQueue<TravelNode> queue;
+    public final HashQueue<TravelNode> queue = new HashQueue<>();
     PropagatorThread thread;
     public final Object addLock = new Object();
     Liquid parent;
 
-    /**
-     *
-     * @param block
-     * @param VoxelGame.getPointerHandler()
-     * @param queue
-     * @param speed the speed of each interval
-     * @param maxSpread the maximum horizontal spread of the water.
-     */
     public LiquidPropagator(Liquid parent, final int speed, final int maxSpread) {
         this.parent = parent;
         this.speed = speed;
         this.maxSpread = maxSpread;
-
-        queue = new HashQueue<>();
         thread = new PropagatorThread(this);
-
-//        if (travelQueueSaver == null) {
-//            travelQueueSaver = new QueueSaver<TravelNode>() {
-//                @Override
-//                public TravelNode nodeFromString(String line, char delimiter) {
-//                    TravelNode travelNode = new TravelNode();
-//                    travelNode.fromFileString(line, delimiter);
-//                    return travelNode;
-//                }
-//
-//                @Override
-//                public String nodeToFileString(TravelNode node, char delimiter) {
-//                    return node.toFileString(delimiter);
-//                }
-//            };
-//        }
         thread.start();
     }
 
@@ -69,25 +43,11 @@ class LiquidPropagator {
                 && parent.isPenetrableCustom(block);
     }
 
- 
 
     public void newWorld() {
-        //        queueFile = new File(VoxelGame.getPointerHandler().getWorld().getInfo().getDirectory(), "liquid_queue_" + block.getName() + ".txt");
-//        System.out.println(block.getName().toUpperCase() + " THREAD STARTED");
-//        queue.clear();
-//        if (queueFile.exists()) {
-//            travelQueueSaver.loadWorld(queue, queueFile);
-//        }
-//        if (!queue.isEmpty()) {
-//            thread.wake();
-//        }
     }
 
     public void closeWorld() {
-//        System.out.println(block.getName().toUpperCase() + " THREAD STOPPED");
-//        if (queueFile != null) {
-//            travelQueueSaver.save(queue, queueFile);
-//        }
         thread.interrupt();
     }
 
@@ -130,7 +90,7 @@ class LiquidPropagator {
                     if (!isCenterBlock) {
                         Item item = VoxelGame.ph().getWorld().getBlock(x2, y2, z2);
                         if (item.id
-                        == parent.id) {
+                                == parent.id) {
                             connections++;
                         }
                     }

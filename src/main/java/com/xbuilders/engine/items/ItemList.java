@@ -1,6 +1,5 @@
 package com.xbuilders.engine.items;
 
-import com.xbuilders.engine.items.exporting.ItemExporting;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.icons.IconManager;
@@ -44,11 +43,11 @@ public class ItemList {
      */
     public static void setAllItems(Block[] blocks2, EntityLink[] entity2, Tool[] tool2) {
         System.out.println("Blocks: " + blocks2.length);
-        blocks.setItems(blocks2);
+        blocks.setAndInitItems(blocks2);
         System.out.println("Entities: " + entity2.length);
-        entities.setItems(entity2);
+        entities.setAndInitItems(entity2);
         System.out.println("Tools: " + tool2.length);
-        tools.setItems(tool2);
+        tools.setAndInitItems(tool2);
 
         allItems = concatArrays(entities.getList(), tools.getList(), blocks.getList()
         );
@@ -87,15 +86,15 @@ public class ItemList {
     }
 
     public static Block getBlock(short blockID) {
-        return blocks.getIdMap().get(blockID);
+        return blocks.getItem(blockID);
     }
 
     public static EntityLink getEntity(short blockID) {
-        return entities.getIdMap().get(blockID);
+        return entities.getItem(blockID);
     }
 
     public static Tool getTool(short blockID) {
-        return tools.getIdMap().get(blockID);
+        return tools.getItem(blockID);
     }
 
     public static Item getItem(short blockID, ItemType type) {

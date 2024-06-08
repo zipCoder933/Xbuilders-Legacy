@@ -5,7 +5,7 @@
 package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.items.tool.Tool;
-import java.io.File;
+
 import java.io.IOException;
 
 /**
@@ -15,21 +15,12 @@ import java.io.IOException;
 public class ToolList extends ItemGroup<Tool> {
 
     public ToolList() throws IOException {
-        super();
+        super(Tool.class);
     }
 
     @Override
-    public void setItems(Tool[] inputBlocks) {
-        if (inputBlocks == null) {
-            itemList = new Tool[0];return;
-        }
-        assignIDMapAndCheckIDs(inputBlocks);
-        itemList = new Tool[idMap.size()];
-        int i = 0;
-        for (Tool block : getIdMap().values()) {
-            itemList[i] = block;
-            i++;
-        }
+    public void setAndInitItems(Tool[] inputBlocks) {
+        assignItems(inputBlocks);
     }
 
 }

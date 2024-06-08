@@ -122,12 +122,7 @@ public class ShaderLightMap {
         lightmapCoords.set(x2, y, z2);
     }
 
-    public static int getChunkRadius(final PointerHandler ph) {
-        int value =  (int) (ph.getSettingsFile().chunkRadius * ph.getSettingsFile().SLM_RadiusMultiplier);
-        if(value < TerrainUpdater.MIN_CHUNK_DIST)
-            value = TerrainUpdater.MIN_CHUNK_DIST;
-        return value;
-    }
+
 
     public static String boundariesToString() {
         return "min: " + minX + ", " + minZ
@@ -142,7 +137,7 @@ public class ShaderLightMap {
 
         synchronized (ShaderLightMap.lightmapInitializationLock) {
             ShaderLightMap.initializing = true;
-            final int diameter = getChunkRadius(ph) * 2;
+            final int diameter = VoxelGame.getSettings().getSettingsFile().chunkRadius * 2;
             ShaderLightMap.Ydim = 257;
             ShaderLightMap.Xdim = diameter;
             ShaderLightMap.Zdim = diameter;

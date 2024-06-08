@@ -103,9 +103,8 @@ void main() {
     }
 
     float fogAmt = 0.0;
-    float DT = 32;
-    if (frag_distance > DT) {
-        fogAmt = clamp(map(frag_distance, DT, fog_dist, 0.0, 1.0), 0.0, 1.0);
+    if (frag_distance > fog_dist) {
+        fogAmt = clamp(map(frag_distance, fog_dist, fog_dist+24, 0.0, 1.0), 0.0, 1.0);
     }
 
     gl_FragColor = vec4(mix(blockTexture, fog_color, fogAmt), fragColor.w);

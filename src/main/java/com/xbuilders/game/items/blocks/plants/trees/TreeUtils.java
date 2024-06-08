@@ -7,9 +7,12 @@ package com.xbuilders.game.items.blocks.plants.trees;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.BFS.HashQueue;
+import com.xbuilders.engine.utils.BFS.ListQueue;
 import com.xbuilders.engine.utils.BFS.TravelNode;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.terrain.Terrain;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import org.joml.Vector3i;
 
@@ -105,11 +108,11 @@ public class TreeUtils {
     //so there is nothing we have to change here.
     public static void diamondLeavesLayer(int x, int y, int z, int travelDist, Block leaves) {
         HashSet<TravelNode> exploredNodes = new HashSet<>();
-        HashQueue<TravelNode> queue = new HashQueue<>();
+        ListQueue<TravelNode> queue = new ListQueue<>();
         queue.add(new TravelNode(x, y, z, 0));
 
         while (!queue.isEmpty()) {
-            TravelNode node = queue.getAndRemove();
+            TravelNode node = queue.remove(0);
             Vector3i coords = node.getCoords();
 
             if (!exploredNodes.contains(node) && node.getTravel() < travelDist) {
@@ -130,11 +133,11 @@ public class TreeUtils {
     }
 
     public static void diamondLeavesLayer(Terrain terrain, Chunk source, int x, int y, int z, int travelDist, Block leaves) {
-        HashQueue<TravelNode> queue = new HashQueue<>();
+        ArrayList<TravelNode> queue = new ArrayList<>();
         queue.add(new TravelNode(x, y, z, 0));
 
         while (!queue.isEmpty()) {
-            TravelNode node = queue.getAndRemove();
+            TravelNode node = queue.remove(0);
             Vector3i coords = node.getCoords();
             Block block = VoxelGame.getWorld().getBlock(coords);
 

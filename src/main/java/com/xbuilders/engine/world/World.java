@@ -332,10 +332,10 @@ public class World {
                         centerZ = (int) playerPos.z;
                     }
 
-                    final int xStart = WCCi.chunkDiv(centerX - ph.getSettingsFile().chunkRadius);
-                    final int xEnd = WCCi.chunkDiv(centerX + ph.getSettingsFile().chunkRadius);
-                    final int zStart = WCCi.chunkDiv(centerZ - ph.getSettingsFile().chunkRadius);
-                    final int zEnd = WCCi.chunkDiv(centerZ + ph.getSettingsFile().chunkRadius);
+                    final int xStart = WCCi.chunkDiv(centerX - initialWorldChunkRadius());
+                    final int xEnd = WCCi.chunkDiv(centerX + initialWorldChunkRadius());
+                    final int zStart = WCCi.chunkDiv(centerZ - initialWorldChunkRadius());
+                    final int zEnd = WCCi.chunkDiv(centerZ + initialWorldChunkRadius());
                     final int max = (xEnd - xStart) * (zEnd - zStart) / 2;
                     prog.getBar().setProgress(0.0);
                     prog.getBar().setMax(max);
@@ -345,7 +345,7 @@ public class World {
                             final ChunkCoords coords = new ChunkCoords(x, z);
                             if (WCCi.chunkDistToPlayer(
                                     coords.x, coords.z,
-                                    (float) centerX, (float) centerZ) <= ph.getSettingsFile().chunkRadius) {
+                                    (float) centerX, (float) centerZ) <= initialWorldChunkRadius()) {
                                 World.this.makeChunk(coords);
                                 prog.getBar().setValue(i);
                                 ++i;
@@ -357,15 +357,17 @@ public class World {
                     World.this.fatalError(error, prog);
                 }
             }
+
         }.start();
     }
 
-    public void draw(final PGraphics graphics, boolean drawEntities) throws Exception {
-        // frameTester.startFrame();
 
-        // frameTester.startProcess();
+    private int initialWorldChunkRadius() {
+        return VoxelGame.getSettings().getSettingsFile().chunkRadius + (Chunk.WIDTH * 3);
+    }
+
+    public void draw(final PGraphics graphics, boolean drawEntities) throws Exception {
         this.infoFile.checkAndRemoveNoQuantityItems();
-        this.updater.update();
         graphics.shader(VoxelGame.getShaderHandler().blockShader);
         BlockPipeline.resolvePipeline();
         if (ShaderLightMap.hasChanged) {

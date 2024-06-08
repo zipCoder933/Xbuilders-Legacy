@@ -15,6 +15,7 @@ import com.xbuilders.engine.utils.ErrorHandler;
 
 import static com.xbuilders.engine.utils.ResourceUtils.resourcePath;
 
+import com.xbuilders.engine.utils.preformance.MemoryGraph;
 import com.xbuilders.engine.utils.preformance.MemoryProfiler;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.game.MainThread;
@@ -50,11 +51,24 @@ public class VoxelGame extends BaseWindow {
         return pointerHandler.getPlayer();
     }
 
-
+    public final boolean devMode;
     public static List<Player> playerList = new ArrayList<>();
     public static boolean LOAD_WORLD_ON_STARTUP = false;
+    static final MemoryGraph memoryGraph = new MemoryGraph();
+    private String windowTitle;
+    private File iconPath;
+    private int sizeX, sizeY;
 
-    public PointerHandler init(String[] args, boolean devMode, ProgramMode mode) throws IOException {
+    public VoxelGame(int sizeX, int sizeY, File iconPath, String windowTitle, boolean devMode) throws IOException, InterruptedException {
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.iconPath = iconPath;
+        this.devMode = devMode;
+        this.windowTitle = windowTitle;
+        settings = new Settings(devMode);
+    }
+
+    public PointerHandler init(String[] args, ProgramMode mode) throws IOException {
         List<String> argList = Arrays.asList(args);
         LOAD_WORLD_ON_STARTUP = argList.contains("loadWorldOnStartup");
         //===========================================
@@ -65,7 +79,9 @@ public class VoxelGame extends BaseWindow {
         game = new GameScene(this, messageBox.getBackground());
         world = new World();
         mainThread = new MainThread();
-
+        if (devMode) {
+            memoryGraph.enable();
+        }
         ph = new PointerHandler(this, world, game, devMode, getSettings(), mainThread);
         world.setPointerHandler(ph);
         menu = new MainMenu(ph, this, messageBox.getBackground());
@@ -87,6 +103,7 @@ public class VoxelGame extends BaseWindow {
             startWindow();
             return ph;
         }
+
     }
 
     private static PointerHandler pointerHandler;
@@ -240,18 +257,6 @@ public class VoxelGame extends BaseWindow {
         setIcon(iconPath);
     }
 
-    private String windowTitle;
-    private File iconPath;
-    private int sizeX, sizeY;
-
-    public VoxelGame(int sizeX, int sizeY, File iconPath, String windowTitle) throws IOException, InterruptedException {
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
-        this.iconPath = iconPath;
-        this.windowTitle = windowTitle;
-        settings = new Settings();
-    }
-
     @Override
     public void setup() {
         try {
@@ -308,6 +313,7 @@ public class VoxelGame extends BaseWindow {
             ErrorHandler.handleFatalError(e);
             noLoop();
         }
+        memoryGraph.update();
     }
 
 

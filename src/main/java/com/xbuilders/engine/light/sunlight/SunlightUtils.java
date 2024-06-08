@@ -21,12 +21,12 @@ public class SunlightUtils {
 
     public static synchronized void updateFromQueue(final ListQueue<SubChunkNode> opaqueToTransparent, final ListQueue<SubChunkNode> transparentToOpaque) {
         if (transparentToOpaque.containsNodes()) {
-            HashSet<SubChunkNode> adjacentNodes = new HashSet<>();
-            eraseSection(transparentToOpaque, adjacentNodes);
-            if (!adjacentNodes.isEmpty()) {
+            HashSet<SubChunkNode> repropagationNodes = new HashSet<>();
+            eraseSection(transparentToOpaque, repropagationNodes);
+            if (!repropagationNodes.isEmpty()) {
                 transparentToOpaque.clear();
                 transparentToOpaque.add(opaqueToTransparent);
-                transparentToOpaque.addNodes(adjacentNodes);
+                transparentToOpaque.addNodes(repropagationNodes);
                 propagateSunlight(transparentToOpaque);
             } else if (opaqueToTransparent.containsNodes()) {
                 propagateSunlight(opaqueToTransparent);

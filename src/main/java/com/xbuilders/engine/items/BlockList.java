@@ -6,22 +6,13 @@ package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockAir;
-import com.xbuilders.game.items.blockType.BlockRenderType;
+import com.xbuilders.engine.utils.IntMap;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
 import com.xbuilders.engine.items.block.construction.blockTypes.DefaultBlockType;
 import com.xbuilders.engine.items.block.construction.texture.BlockTextureAtlas;
-import com.xbuilders.engine.utils.ResourceUtils;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
-
-import static com.xbuilders.engine.utils.ResourceUtils.LOCAL_DIR;
 
 /**
  * @author zipCoder933
@@ -29,15 +20,18 @@ import static com.xbuilders.engine.utils.ResourceUtils.LOCAL_DIR;
 public class BlockList extends ItemGroup<Block> {
 
     public final BlockTextureAtlas textureAtlas;
-    private final HashMap<Integer, BlockType> blockTypes;
+    private final IntMap<BlockType> blockTypes = new IntMap<>(BlockType.class);
+    private final HashMap<Integer, BlockType> blockTypesPrivateHashmap = new HashMap<>();
 
     public final static int DEFAULT_BLOCK_TYPE_ID = 0;
     public final static DefaultBlockType defaultBlockType = new DefaultBlockType();
+    public static final BlockAir BLOCK_AIR = new BlockAir();
 
     public BlockList() throws IOException {
+        super(Block.class);
         textureAtlas = new BlockTextureAtlas();
-        blockTypes = new HashMap<>();
-        blockTypes.put(DEFAULT_BLOCK_TYPE_ID, defaultBlockType);
+        blockTypesPrivateHashmap.put(DEFAULT_BLOCK_TYPE_ID, defaultBlockType);
+        blockTypes.setList(blockTypesPrivateHashmap);
     }
 
     public BlockType getBlockType(int typeID) {
@@ -46,26 +40,22 @@ public class BlockList extends ItemGroup<Block> {
     }
 
     public void addBlockType(int typeID, BlockType type) {
-        if (blockTypes.containsKey(typeID)) {
+        if (blockTypes.get(typeID) != null) {
             throw new IllegalArgumentException("Type ID " + DEFAULT_BLOCK_TYPE_ID + " already in use");
         }
-        blockTypes.put(typeID, type);
+        blockTypesPrivateHashmap.put(typeID, type);
+        blockTypes.setList(blockTypesPrivateHashmap);
     }
 
-    public static final BlockAir BLOCK_AIR = new BlockAir();
 
     @Override
-    public void setItems(Block[] inputBlocks) {
-        assignIDMapAndCheckIDs(inputBlocks);
-        idMap.put(BLOCK_AIR.id, BLOCK_AIR);
-        itemList = new Block[getIdMap().size() + 1];
-        itemList[0] = BLOCK_AIR;
-        int i = 1;
-        //Initialize all blocks
-        for (Block block : getIdMap().values()) {
-            itemList[i] = block;
-            i++;
+    public void setAndInitItems(Block[] inputBlocks) {
+        Block[] inputBlocks2 = new Block[inputBlocks.length + 1];
+        inputBlocks2[0] = BLOCK_AIR; //Add the default block first
+        for (int i = 1; i < inputBlocks2.length; i++) {
+            inputBlocks2[i] = inputBlocks[i - 1];
         }
+        assignItems(inputBlocks2);
     }
 
 

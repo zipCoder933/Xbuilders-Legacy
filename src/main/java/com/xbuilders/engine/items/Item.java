@@ -7,14 +7,16 @@ package com.xbuilders.engine.items;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.game.PointerHandler;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author zipCoder933
  */
 public abstract class Item {
 
-    public final HashSet<String> tags = new HashSet<>();
+    public final ArrayList<String> tags = new ArrayList<>();
+    public final HashMap<String, String> properties = new HashMap<>();
 
     public boolean containsTag(String tag) {
         for (String t : tags) {

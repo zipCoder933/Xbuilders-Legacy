@@ -26,6 +26,7 @@ import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import processing.core.PShape;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import com.xbuilders.engine.utils.math.AABB;
 import org.joml.Matrix4f;
@@ -251,5 +252,18 @@ public class SubChunk {
 
     public static boolean inBounds(final int x, final int y, final int z) {
         return x >= 0 && y >= 0 && z >= 0 && x < SubChunk.WIDTH && y < SubChunk.WIDTH && z < SubChunk.WIDTH;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubChunk subChunk = (SubChunk) o;
+        return Objects.equals(position, subChunk.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return position.hashCode();
     }
 }

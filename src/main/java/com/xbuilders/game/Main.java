@@ -30,8 +30,9 @@ public class Main extends VoxelGame {
 
     public final static String VERSION_NOTES = "Updates v3";
 
-    public Main(String args[], int sizeX, int sizeY, File iconPath, ProgramMode mode) throws IOException, InterruptedException {
-        super(sizeX, sizeY, iconPath, "X-Builders");
+    public Main(boolean devMode, int sizeX, int sizeY,
+                File iconPath, ProgramMode mode, String[] args) throws IOException, InterruptedException {
+        super(sizeX, sizeY, iconPath, "X-Builders", devMode);
 
         ItemList.initialize(this);
         ItemList.setAllItems(
@@ -57,7 +58,7 @@ public class Main extends VoxelGame {
         ItemList.blocks.addBlockType(BlockRenderType.WHEEL, new WheelRenderer());
         ItemList.blocks.addBlockType(BlockRenderType.WHEEL_HALF, new HalfWheelRenderer());
 
-        ph = init(args, DEV_MODE, mode);
+        ph = init(args, mode);
     }
 
     private static Main main;
@@ -87,7 +88,8 @@ public class Main extends VoxelGame {
                     !BLOCK_ICON_DIR.exists()) {
                 mode = ProgramMode.BLOCK_ICON_SETUP;
             }
-            main = new Main(args, 1000, 700, ResourceUtils.resource("icon.png"), mode);
+            main = new Main(DEV_MODE,
+                    1000, 700, ResourceUtils.resource("icon.png"), mode,args);
             ph.getMainThread().run(Thread.currentThread());
         } catch (Exception ex) {
             ErrorHandler.handleFatalError(ex);

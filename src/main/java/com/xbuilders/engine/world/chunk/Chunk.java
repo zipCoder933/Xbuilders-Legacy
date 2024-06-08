@@ -254,9 +254,7 @@ public class Chunk {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this.position);
-        return hash;
+        return this.position.hashCode();
     }
 
     public boolean checkInFrustum(final UserControlledPlayer player) {

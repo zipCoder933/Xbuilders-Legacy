@@ -53,7 +53,7 @@ class Menu extends GameMenuPage {
                 try {
                     int value = 0;
                     value = (int) MathUtils.clamp(t.getValue(),
-                            TerrainUpdater.MIN_CHUNK_DIST,
+                            VoxelGame.getSettings().getSettingsFile().minChunkDistance,
                             VoxelGame.getSettings().getSettingsFile().maxChunkDistance);
 
                     chunks.getBox().setValue(value);

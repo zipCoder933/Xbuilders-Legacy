@@ -5,11 +5,9 @@
 package com.xbuilders.engine;
 
 import com.google.gson.Gson;
-import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.game.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,43 +27,43 @@ public class Settings {
 
     public class SettingsFile {
         public boolean additionalFeatures = false;
-        public float SLM_RadiusMultiplier = 0.7f;//(was 0.65) Affects the radius of chunk generation as well
-        public int chunkRadius = 160;
-        public int maxChunkDistance = 208;//Maximum chunk size
+        public int chunkRadius = 100;
+        public int minChunkDistance = 60;
+        public int maxChunkDistance = 200;
+
         public int extraChunkDistMultiplier = 0;
         public boolean switchMouseButtons = false;
         public boolean dayNightCycles = true;
         public float walkSpeed = 1.4f;
-        public float runSpeed = 6.0f;
-        public float flySpeed = 1.5f;
+        public float runSpeed = 7.0f;
+        public float flySpeed = 2f;
         public int playerRayMaxDistance = 22;
         public long blockAutoSetInterval = 200;
         public int playerInventorySlots = 24;
         public long blockAutoSetTimeThreshold = 500;
         public int maxBlockBoundaryArea = 1000000;
-        public float entityMaxDistance = SubChunk.WIDTH * 3; //The distance threshold before an entity is not shown or updated (static meshed entities are still shown)
-        public boolean disableVsync = true;
+        public float entityMaxDistance = 48; //The distance threshold before an entity is not shown or updated (static meshed entities are still shown)
+        public boolean disableVsync = false; //Vsync may improve fps (i havent noticed that) but it also makes memory usage skyrocket
     }
 
     private SettingsFile settingsFile;
     final File filepath;
 
-    public Settings() throws IOException {
-        System.out.println("SETTINGS:");
+    public Settings(boolean devMode) throws IOException {
+        System.out.println("Loading settings...");
         filepath = ResourceUtils.worldsResource("settings.json");
-
         if (filepath.exists()) {
-            System.out.println("Loading settings...");
             String file = Files.readString(filepath.toPath());
             settingsFile = new Gson().fromJson(file, SettingsFile.class);
         } else {
-            System.out.println("Creating new settings...");
             settingsFile = new SettingsFile();
             save();
         }
 
-        if (Main.DEV_MODE) {
-            settingsFile.runSpeed = 15;
+        if (devMode) {
+            System.out.println("DEVMODE: Creating new settings...");
+            settingsFile = new SettingsFile();
+//            settingsFile.runSpeed = 15;
             settingsFile.dayNightCycles = false;
         }
 

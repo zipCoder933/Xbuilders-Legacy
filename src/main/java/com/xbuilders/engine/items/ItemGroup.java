@@ -4,8 +4,8 @@
  */
 package com.xbuilders.engine.items;
 
-import java.io.File;
-import java.io.IOException;
+import com.xbuilders.engine.utils.IntMap;
+
 import java.util.HashMap;
 
 /**
@@ -16,24 +16,20 @@ import java.util.HashMap;
 abstract class ItemGroup<T extends Item> {
 
     // public final File iconDirectory;
-    protected final HashMap<Short, T> idMap;
+    protected final IntMap<T> idMap;
     protected T[] itemList;
+    Class<T> type;
     // protected int defaultIcon;
 
-    public ItemGroup() {
+    public ItemGroup(Class<T> T) {
         // this.iconDirectory = iconDirectory;
         // this.defaultIcon = defaultIcon;
-        idMap = new HashMap<>();
+        type = T;
+        idMap = new IntMap<>(T);
     }
 
-    public abstract void setItems(T[] inputBlocks);
+    public abstract void setAndInitItems(T[] inputBlocks);
 
-    /**
-     * @return the idMap
-     */
-    public HashMap<Short, T> getIdMap() {
-        return idMap;
-    }
 
     /**
      * @return the items
@@ -46,19 +42,23 @@ abstract class ItemGroup<T extends Item> {
         return idMap.get(id);
     }
 
-    protected int assignIDMapAndCheckIDs(T[] inputItems) {
+    protected int assignItems(T[] inputItems) {
         int highestId = 0;
-        idMap.clear();
+        HashMap<Integer, T> itemMap = new HashMap<>();
+
         for (int i = 0; i < inputItems.length; i++) {
             short id = inputItems[i].id;
-            if (idMap.containsKey(id)) {
-                System.err.println("Block " + inputItems[i] + " ID conflicts with an existing ID: " + id);
+            if (itemMap.containsKey(id)) {
+                throw new RuntimeException(type.getName()+" ID " + inputItems[i] + " conflicts with an existing ID: " + id);
             }
-            idMap.put(id, inputItems[i]);
+            itemMap.put((int) id, inputItems[i]);
             if (id > highestId) {
                 highestId = id;
             }
         }
+        itemList = inputItems;
+        idMap.setList(itemMap);
+
         System.out.println("\t(The highest item ID is: " + highestId + ")");
         System.out.println("\tID Gaps: ");
         for (int id = 1; id < highestId; id++) {

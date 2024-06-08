@@ -99,13 +99,8 @@ class UpdaterThread extends Thread {
             // finish them
             // Also, the generation radius must be small enough that you dont have the
             // updater firing up for every small move the player makes
-            chunkDist = ShaderLightMap.getChunkRadius(ph) - SubChunk.WIDTH;
-            chunkDeletionDist = chunkDist + (SubChunk.WIDTH * 2);// There must be some padding between creation and deletion.
-            if (chunkDist < TerrainUpdater.MIN_CHUNK_DIST) {
-                chunkDist = TerrainUpdater.MIN_CHUNK_DIST;
-                chunkDeletionDist = chunkDist + (SubChunk.WIDTH * 4);
-            }
-            chunkDeletionDist *= 5; //Increase the chunk deletion distance drastically
+            chunkDist = VoxelGame.getSettings().getSettingsFile().chunkRadius;
+            chunkDeletionDist = chunkDist + (SubChunk.WIDTH * 20);// There must be some padding between creation and deletion.
 
 
             UserControlledPlayer userControlledPlayer = ph.getPlayer();

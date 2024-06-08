@@ -14,30 +14,18 @@ import com.xbuilders.engine.world.chunk.Chunk;
  * @author zipCoder933
  */
 public class TerrainUpdater {
-
-    /**
-     * @return the terrainChunkDist
-     */
-    public int getTerrainChunkDist() {
-        return terrainChunkDist;
-    }
-    
     UpdaterThread thread;
-    private int terrainChunkDist;
-    public final static int MIN_CHUNK_DIST = 60;
 
-    public void update() {
-        int extraDistMultiplier = VoxelGame.getSettings().getSettingsFile().extraChunkDistMultiplier;
-        int chunkDist2 = ph.getSettingsFile().chunkRadius;
-        chunkDist2 += (extraDistMultiplier * Chunk.WIDTH);
-        if (ph.getPlayer().isInDarkness()) {
-            chunkDist2 *= 0.4f;
-        }
-        if (chunkDist2 < 50) {
-            chunkDist2 = 50;
-        }
-        terrainChunkDist = chunkDist2;
-    }
+//    public int getAdjustedChunkDistance() {
+//        int chunkDist2 = ph.getSettingsFile().chunkRadius;
+//        if (ph.getPlayer().isInDarkness()) {
+//            chunkDist2 *= 0.4f;
+//        }
+//        if (chunkDist2 < VoxelGame.getSettings().getSettingsFile().minChunkDistance) {
+//            chunkDist2 = VoxelGame.getSettings().getSettingsFile().minChunkDistance;
+//        }
+//        return chunkDist2;
+//    }
 
     PointerHandler ph;
 
@@ -46,7 +34,6 @@ public class TerrainUpdater {
     }
 
     public synchronized void begin(PointerHandler pointerHandler) {
-        update();
         thread = new UpdaterThread(pointerHandler, this);
         thread.start();
         thread.setPriority(1); //The setPriority() instance method takes an integer between 1 and 10 for changing the thread’s priority

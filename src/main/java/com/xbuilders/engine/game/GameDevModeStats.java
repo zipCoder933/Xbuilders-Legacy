@@ -78,10 +78,7 @@ public class GameDevModeStats {
                     }
                     gameText2 += "\n    lighmap init:" + subchunk.getLightMap().initialized;
 
-                    gameText2 += "\n\nMISC:"
-//                            + "\n    Terrain heightmap: " + VoxelGame.getWorld().getHeightmapValue(cursorPos.x, cursorPos.z)
-//                            + "\n    in bounds of terrain:" + (wcc.getChunkCoords().chunkDistToPlayer(playerPos) < VoxelGame.getWorld().updater.getTerrainChunkDist())
-                            + "\n    Updater distance: " + VoxelGame.getWorld().updater.getTerrainChunkDist();
+                    gameText2 += "\n\nMISC:";
 
                     TorchChannelSet torch = subchunk.getLightMap().getTorchlight(wcc.subChunkVoxel);
                     int slmVal = ShaderLightMap.getImagePixels()[ShaderLightMap.coordsToIndex(ShaderLightMap.worldCoordsToLightmapCoords(
