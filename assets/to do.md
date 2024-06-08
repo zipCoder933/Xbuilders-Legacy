@@ -1,6 +1,8 @@
-* Add player pinpoint save/load in game menu
-* add boyancy blocks (as weels) to make vehicles float
-* fix bug with paste block not showing anything
-* different sizes for propellors
-* ensure vehicles can be copied and that they dont get deleted when delete boundary is set
-- DONT ADD ANYTHING ELSE!!!!
+# To Do
+1. replace ALL hashmaps and hashets (they are a memory bottleneck)
+2. determine if OpenGl calls can be used in joml
+3. change speed, cursor ray  settings
+4. make block tools more intuitive
+5. add dogs
+6. try sorting chunks front to back?
+7. change how fog blends in frag shader
