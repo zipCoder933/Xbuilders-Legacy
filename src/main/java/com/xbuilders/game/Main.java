@@ -28,7 +28,7 @@ public class Main extends VoxelGame {
     static PointerHandler ph;
     public static final File BLOCK_ICON_DIR = ResourceUtils.resource("items\\blocks\\icons");
 
-    public final static String VERSION_NOTES = "Updates v3";
+    public final static String VERSION_NOTES = "Performance improvements v1";
 
     public Main(boolean devMode, int sizeX, int sizeY,
                 File iconPath, ProgramMode mode, String[] args) throws IOException, InterruptedException {
