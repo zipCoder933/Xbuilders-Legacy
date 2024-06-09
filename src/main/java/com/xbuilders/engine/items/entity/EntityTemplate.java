@@ -4,17 +4,9 @@
  */
 package com.xbuilders.engine.items.entity;
 
-import com.xbuilders.engine.utils.ArrayUtils;
-import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.PointerHandler;
-import org.joml.Vector3f;
-import org.joml.Vector3i;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 /**
  * @author zipCoder933

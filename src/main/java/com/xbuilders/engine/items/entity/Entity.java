@@ -11,7 +11,7 @@ import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
-import com.xbuilders.engine.world.chunk.wcc.WCCf;
+import com.xbuilders.engine.world.wcc.WCCf;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.engine.utils.math.MathUtils;

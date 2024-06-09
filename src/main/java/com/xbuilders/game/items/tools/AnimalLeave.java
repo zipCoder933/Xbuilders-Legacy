@@ -1,11 +1,10 @@
 package com.xbuilders.game.items.tools;
 
 import com.xbuilders.engine.VoxelGame;
-import com.xbuilders.engine.game.GameScene;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.tool.Tool;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.Animal;
 import org.joml.Vector3i;

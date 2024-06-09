@@ -8,8 +8,8 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
-import com.xbuilders.engine.world.chunk.blockData.BlockOrientation;
+import com.xbuilders.engine.world.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockOrientation;
 import org.joml.Vector3f;
 import processing.core.PShape;
 

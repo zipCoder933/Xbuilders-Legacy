@@ -14,7 +14,7 @@ import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.chunk.SubChunk;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
-import com.xbuilders.engine.world.chunk.wcc.WCCf;
+import com.xbuilders.engine.world.wcc.WCCf;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.items.GameItems;
 import org.joml.Vector2f;

@@ -5,25 +5,18 @@
 package com.xbuilders.game.blockMode;
 
 import com.xbuilders.engine.VoxelGame;
-import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemQuantity;
-import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.game.items.entities.mobile.Animal;
 import com.xbuilders.engine.utils.BFS.HashQueue;
 import com.xbuilders.engine.utils.BFS.Node;
-import com.xbuilders.engine.utils.BFS.TravelNode;
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
-import com.xbuilders.engine.world.chunk.blockData.BlockOrientation;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
-import com.xbuilders.game.items.GameItems;
-import com.xbuilders.game.items.other.boundaryBlocks.BoundarySetEvent;
+import com.xbuilders.engine.world.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockOrientation;
 import org.joml.Vector3i;
 
 import java.util.HashSet;

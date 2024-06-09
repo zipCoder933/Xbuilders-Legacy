@@ -1,7 +1,7 @@
 // 
 // Decompiled by Procyon v0.5.36
 // 
-package com.xbuilders.engine.world.chunk.wcc;
+package com.xbuilders.engine.world.wcc;
 
 import com.xbuilders.engine.world.chunk.Chunk;
 import java.util.Objects;

@@ -1,14 +1,14 @@
 // 
 // Decompiled by Procyon v0.5.36
 // 
-package com.xbuilders.engine.world.chunk.lightMap;
+package com.xbuilders.engine.world.lightMap;
 
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.VoxelGame;
 import org.joml.Vector3i;
 import com.xbuilders.engine.rendering.worldLightMap.ShaderLightMap;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 
 import java.util.HashMap;
 

@@ -5,7 +5,7 @@ import com.xbuilders.engine.player.blockPipeline.LocalChangeRecord;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 
 import static com.xbuilders.engine.items.BlockList.BLOCK_AIR;
 

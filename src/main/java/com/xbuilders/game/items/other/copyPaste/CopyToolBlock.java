@@ -15,8 +15,8 @@
 //import com.xbuilders.engine.items.tool.Tool;
 //import com.xbuilders.engine.utils.math.AABB;
 //import com.xbuilders.engine.world.chunk.SubChunk;
-//import com.xbuilders.engine.world.chunk.wcc.WCCi;
-//import com.xbuilders.engine.world.chunk.blockData.BlockData;
+//import com.xbuilders.engine.world.wcc.WCCi;
+//import com.xbuilders.engine.world.blockData.BlockData;
 //import com.xbuilders.game.items.GameItems;
 //import com.xbuilders.game.items.other.boundaryBlocks.BoundarySetEvent;
 //import java.util.HashSet;

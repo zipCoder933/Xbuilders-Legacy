@@ -4,8 +4,7 @@ import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
-import processing.core.PImage;
+import com.xbuilders.engine.world.blockData.BlockData;
 import processing.core.PShape;
 
 public class BlockMesh {

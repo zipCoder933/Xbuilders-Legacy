@@ -8,7 +8,7 @@ import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
-import com.xbuilders.engine.world.chunk.wcc.WCCf;
+import com.xbuilders.engine.world.wcc.WCCf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import processing.core.PGraphics;

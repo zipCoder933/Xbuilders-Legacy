@@ -10,7 +10,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.game.items.GameItems;
 

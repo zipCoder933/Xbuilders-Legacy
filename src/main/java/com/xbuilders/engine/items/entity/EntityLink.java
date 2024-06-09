@@ -11,7 +11,7 @@ import com.xbuilders.engine.world.chunk.SubChunk;
 
 import java.util.function.Supplier;
 
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 
 /**
  * @author sampw

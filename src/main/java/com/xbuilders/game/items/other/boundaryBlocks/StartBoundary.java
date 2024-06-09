@@ -9,7 +9,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.TerrainUpdater;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import org.joml.Vector3i;
 
 /**

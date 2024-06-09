@@ -6,24 +6,20 @@ package com.xbuilders.engine.world.chunk;
 import com.xbuilders.engine.rendering.worldLightMap.ShaderLightMap;
 import com.xbuilders.engine.player.UserControlledPlayer;
 
-import java.util.Objects;
-
 import com.xbuilders.engine.utils.ErrorHandler;
 
 import java.io.IOException;
 import java.io.File;
+import java.util.Arrays;
 
 import com.xbuilders.engine.VoxelGame;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.info.WorldInfo;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.terrain.Terrain;
 import org.joml.Vector3i;
 
@@ -34,10 +30,15 @@ public class Chunk {
     public static final int SUB_CHUNK_QUANTITY = 16;
     public static final int HEIGHT = SubChunk.WIDTH * SUB_CHUNK_QUANTITY;
 
-    public boolean lightmapInit;
+    //Generation status (keep these as separate variables for now)
+    public boolean terrainLoaded;
+    public boolean lightmapInitialized;
+    public boolean meshesGenerated;
+
+
     public AABB aabb;
     public SubChunk[] subChunks;
-    private boolean generated;
+
     private final PointerHandler pointerHandler;
     private boolean modifiedByUser;
     private boolean needsSaving;
@@ -76,13 +77,9 @@ public class Chunk {
                 HEIGHT, SubChunk.WIDTH);
     }
 
-    public boolean hasGeneratedMeshes() {
-        return this.generated;
-    }
-
     public Chunk(final PointerHandler ph) {
-        this.lightmapInit = false;
-        this.generated = false;
+        this.lightmapInitialized = false;
+        this.meshesGenerated = false;
         this.modifiedByUser = false;
         this.needsSaving = false;
         this.pointerHandler = ph;
@@ -102,12 +99,15 @@ public class Chunk {
         this.modifiedByUser = false;
         this.needsSaving = false;
         terrainLoaded = false;
-        this.lightmapInit = false;
+        this.lightmapInitialized = false;
         setChunkAABB(this.aabb, coords);
         for (int y = 0; y < SUB_CHUNK_QUANTITY; ++y) {
             this.subChunks[y].init(coords.x, y, coords.z);
         }
-        this.generated = false;
+        for (int i = 0; i < 8; ++i) {//Reset neighbors TODO: we could replace this with cacheNeighbors
+            this.neighbors[i] = null;
+        }
+        this.meshesGenerated = false;
         return this.position;
     }
 
@@ -115,42 +115,38 @@ public class Chunk {
         return x < SubChunk.WIDTH && x >= 0 && y < HEIGHT && y >= 0 && z < SubChunk.WIDTH && z >= 0;
     }
 
-    public boolean isSurroundedByChunks() {
-        return this.isSurroundedByChunks(null);
+    final Chunk[] neighbors = new Chunk[8];
+
+    public void cacheNeighbors() {
+        neighbors[0] = addChunkToNCList(this.position.x + 1, this.position.z);
+        neighbors[1] = addChunkToNCList(this.position.x - 1, this.position.z);
+        neighbors[2] = addChunkToNCList(this.position.x, this.position.z + 1);
+        neighbors[3] = addChunkToNCList(this.position.x, this.position.z - 1); //The first 4 indicies are facing neighbors
+        neighbors[4] = addChunkToNCList(this.position.x - 1, this.position.z - 1);
+        neighbors[5] = addChunkToNCList(this.position.x + 1, this.position.z + 1);
+        neighbors[6] = addChunkToNCList(this.position.x + 1, this.position.z - 1);
+        neighbors[7] = addChunkToNCList(this.position.x - 1, this.position.z + 1);
+//        System.out.println("Caching neighbors "+ Arrays.toString(neighbors));
     }
 
-    public ArrayList<Chunk> listNeighboringChunks() {
-        final ArrayList<Chunk> list = new ArrayList<Chunk>();
-        this.addChunkToNCList(list, this.position.x + 1, this.position.z);
-        this.addChunkToNCList(list, this.position.x - 1, this.position.z);
-        this.addChunkToNCList(list, this.position.x, this.position.z + 1);
-        this.addChunkToNCList(list, this.position.x, this.position.z - 1);
-        this.addChunkToNCList(list, this.position.x - 1, this.position.z - 1);
-        this.addChunkToNCList(list, this.position.x + 1, this.position.z + 1);
-        this.addChunkToNCList(list, this.position.x + 1, this.position.z - 1);
-        this.addChunkToNCList(list, this.position.x - 1, this.position.z + 1);
-        return list;
-    }
-
-    private void addChunkToNCList(final ArrayList<Chunk> list, final int x, final int z) {
+    private Chunk addChunkToNCList(final int x, final int z) {
         final ChunkCoords coords = new ChunkCoords(this.position.x + x, this.position.z + z);
-        if (this.pointerHandler.getWorld().hasChunk(coords)) {
-            final Chunk chunk = this.pointerHandler.getWorld().getChunk(coords);
-            list.add(chunk);
-        }
+        return VoxelGame.getWorld().getChunk(coords);
     }
 
-    public boolean isSurroundedByChunks(final HashMap<ChunkCoords, Chunk> tempChunks) {
-        for (int x = -1; x < 2; ++x) {
-            for (int z = -1; z < 2; ++z) {
-                final ChunkCoords coords = new ChunkCoords(this.getPosition().x + x, this.getPosition().z + z);
-                if (tempChunks == null) {
-                    if (!VoxelGame.getWorld().hasChunk(coords)) {
-                        return false;
-                    }
-                } else if (!tempChunks.containsKey(coords) && !VoxelGame.getWorld().hasChunk(coords)) {
-                    return false;
-                }
+    public boolean allNeighborsLoaded() {
+        for (int i = 0; i < neighbors.length; i++) {
+            if (neighbors[i] == null || !neighbors[i].terrainLoaded) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean allFacingNeighborsLoaded() {
+        for (int i = 0; i < 4; i++) {
+            if (neighbors[i] == null || !neighbors[i].terrainLoaded) {
+                return false;
             }
         }
         return true;
@@ -171,7 +167,6 @@ public class Chunk {
         }
     }
 
-    protected boolean terrainLoaded;
 
     public void load(WorldInfo infoFile, Terrain terrain) {
         try {
@@ -198,8 +193,10 @@ public class Chunk {
 
     public void update(final int x, final int chunkLocation, final int blockLocation, final int z) {
         this.markAsNeedsSaving();
-        if (this.hasGeneratedMeshes()) {
-            this.markChunksAsNeedsRegenerating(chunkLocation, x, blockLocation, z);
+        if (!this.meshesGenerated) {
+            new Thread(() -> {
+                this.markChunksAsNeedsRegenerating(chunkLocation, x, blockLocation, z);
+            }).start();
         }
     }
 
@@ -246,12 +243,28 @@ public class Chunk {
     }
     // </editor-fold>
 
+    long lastTick = 0;
+
+    public void drawUpdate() {
+//        checkInFrustum(VoxelGame.getPlayer());
+        if (!this.meshesGenerated && terrainLoaded) {
+//            if (System.currentTimeMillis() - lastTick > 1000) { //TODO: only generate a mesh if it has all facing neighbors generated
+//                lastTick = System.currentTimeMillis();
+//                cacheNeighbors();
+//            }
+//            allFacingNeighborsLoaded()
+            new Thread(() -> {
+                generateInitialMeshes();
+            }).start();
+        }
+    }
+
     public void generateInitialMeshes() {
         for (int i = 0; i < this.subChunks.length; ++i) {
             this.subChunks[i].generateMesh();
             this.subChunks[i].generateStaticEntityMesh();
         }
-        this.generated = true;
+        this.meshesGenerated = true;
     }
 
     @Override
@@ -291,4 +304,5 @@ public class Chunk {
             return this.getSubChunks()[0].getLightMap().inSLM();
         }
     }
+
 }

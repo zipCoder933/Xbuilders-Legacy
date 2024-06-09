@@ -2,7 +2,7 @@
 // Decompiled by Procyon v0.5.36
 // 
 
-package com.xbuilders.engine.world.chunk.blockData;
+package com.xbuilders.engine.world.blockData;
 
 public class BlockOrientation extends BlockData
 {

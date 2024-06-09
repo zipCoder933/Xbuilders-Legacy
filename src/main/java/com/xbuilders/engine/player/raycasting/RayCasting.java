@@ -8,8 +8,8 @@ import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.blockData.BlockData;
+import com.xbuilders.engine.world.wcc.WCCi;
 
 import java.util.ArrayList;
 import java.util.HashSet;

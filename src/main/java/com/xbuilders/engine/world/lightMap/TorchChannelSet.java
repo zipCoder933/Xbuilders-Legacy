@@ -2,9 +2,8 @@
 // Decompiled by Procyon v0.5.36
 // 
 
-package com.xbuilders.engine.world.chunk.lightMap;
+package com.xbuilders.engine.world.lightMap;
 
-import java.util.Iterator;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 

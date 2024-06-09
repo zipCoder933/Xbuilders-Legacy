@@ -11,8 +11,8 @@ import com.xbuilders.engine.rendering.worldLightMap.ShaderLightMap;
 import com.xbuilders.engine.utils.BFS.ListQueue;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
-import com.xbuilders.engine.world.chunk.lightMap.TorchChannelSet;
+import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.engine.world.lightMap.TorchChannelSet;
 import java.util.HashSet;
 import org.joml.Vector3i;
 

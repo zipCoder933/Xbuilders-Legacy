@@ -11,8 +11,8 @@
 //import com.xbuilders.engine.items.block.Block;
 //import com.xbuilders.game.items.blockType.BlockRenderType;
 //import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
-//import com.xbuilders.engine.world.chunk.blockData.BlockData;
-//import com.xbuilders.engine.world.chunk.blockData.BlockOrientation;
+//import com.xbuilders.engine.world.blockData.BlockData;
+//import com.xbuilders.engine.world.blockData.BlockOrientation;
 //import static com.xbuilders.game.items.other.copyPaste.PasteRotateBlock.isNeighboringPasteBlock;
 //import org.joml.Vector3i;
 //

@@ -27,7 +27,7 @@ public class NewWorld extends UIExtension implements MenuPage {
     NumberBox seed, resolution;
     int worldType;
     PointerHandler ph;
-    private final float DEFAULT_RESOLUTION = 0.5f;
+    private final double DEFAULT_TERRAIN_DENSITY = 2;//No additional operations are performed to the density value
     final String[] terrainStrings;
 
 
@@ -38,7 +38,7 @@ public class NewWorld extends UIExtension implements MenuPage {
         terrainStrings = Main.DEV_MODE ? TerrainsList.terrains : TerrainsList.visibleTerrains;
 
         resolution = new NumberBox(this);
-        resolution.setValue(DEFAULT_RESOLUTION);
+        resolution.setValue(DEFAULT_TERRAIN_DENSITY);
 
         create = new Button(this);
         back = new Button(this);
@@ -81,8 +81,8 @@ public class NewWorld extends UIExtension implements MenuPage {
             public void run(NumberBox e) {
                 //A resolution that is too small is not allowed for performance reasons
                 resolution.setValue(MathUtils.clamp(resolution.getValue(),
-                        DEFAULT_RESOLUTION / 8,
-                        DEFAULT_RESOLUTION * 8));
+                        DEFAULT_TERRAIN_DENSITY / 8,
+                        DEFAULT_TERRAIN_DENSITY * 8));
             }
         });
 
@@ -171,7 +171,7 @@ public class NewWorld extends UIExtension implements MenuPage {
     @Override
     public void onOpen() {
         worldType = 0;
-        resolution.setValue(DEFAULT_RESOLUTION);
+        resolution.setValue(DEFAULT_TERRAIN_DENSITY);
         seed.setValue(0);
 //        size.setValue(VoxelGame.getSettings().getSettingsFile().maxWorldSize);
         worldNameBox.setValue("World " + Long.toHexString(System.currentTimeMillis()).toUpperCase());

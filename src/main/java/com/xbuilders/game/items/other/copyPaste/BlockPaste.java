@@ -11,8 +11,8 @@
 //import com.xbuilders.engine.items.block.Block;
 //import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
 //import com.xbuilders.engine.items.entity.EntityTemplate;
-//import com.xbuilders.engine.world.chunk.blockData.BlockData;
-//import com.xbuilders.engine.world.chunk.blockData.BlockOrientation;
+//import com.xbuilders.engine.world.blockData.BlockData;
+//import com.xbuilders.engine.world.blockData.BlockOrientation;
 //import com.xbuilders.game.items.GameItems;
 //import com.xbuilders.game.items.other.BlockGrid;
 //import static com.xbuilders.game.items.other.copyPaste.BlockAdditivePaste.makePasteBox;

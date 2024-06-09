@@ -17,7 +17,7 @@ import com.xbuilders.engine.light.torch.TorchUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 
 public class InitialSunlightUtils {
@@ -30,7 +30,7 @@ public class InitialSunlightUtils {
         prog.getBar().set(0, uninitializedChunks);
         for (final Map.Entry<ChunkCoords, Chunk> set : VoxelGame.getWorld().chunks.entrySet()) {
             final Chunk chunk = set.getValue();
-            if (!chunk.lightmapInit) {
+            if (!chunk.lightmapInitialized) {
                 InitialSunlightUtils.generateInitialSunlight(chunk, true);
                 prog.getBar().changeValue(1);
                 prog.setTask("Propagating Sunlight", prog.getBar());
@@ -45,10 +45,10 @@ public class InitialSunlightUtils {
     private static ListQueue<SubChunkNode> queue = new ListQueue<SubChunkNode>();
 
     public static synchronized boolean generateInitialSunlight(final Chunk chunk, final HashMap<ChunkCoords, Chunk> otherChunks, final boolean checkForNeighboringChunks) {
-        if (chunk.lightmapInit) {
+        if (chunk.lightmapInitialized) {
             return true;
         }
-        if (checkForNeighboringChunks && !chunk.isSurroundedByChunks(otherChunks)) {
+        if (checkForNeighboringChunks && !chunk.allNeighborsLoaded()) {
             return false;
         }
         int chunkLocation, blockLocation;
@@ -88,7 +88,7 @@ public class InitialSunlightUtils {
         for (final SubChunk sc : chunk.getSubChunks()) {
             sc.getLightMap().initialized = true;
         }
-        return chunk.lightmapInit = true;
+        return chunk.lightmapInitialized = true;
     }
 
     protected static void setSunlight(Chunk chunk, final int x, final int y, final int z, final byte b) {

@@ -17,10 +17,10 @@ import processing.core.PImage;
 
 import java.util.HashMap;
 
-import com.xbuilders.engine.world.chunk.meshing.NaiveCulling;
+import com.xbuilders.engine.world.meshing.NaiveCulling;
 import com.xbuilders.game.PointerHandler;
 import org.joml.Vector3i;
-import com.xbuilders.engine.world.chunk.lightMap.ChunkLightMap;
+import com.xbuilders.engine.world.lightMap.ChunkLightMap;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import processing.core.PShape;
@@ -71,10 +71,6 @@ public class SubChunk {
 
     public boolean hasGeneratedMeshes() {
         return this.opaqueMesh != null;
-    }
-
-    public boolean isTerrainLoaded() {
-        return parentChunk.terrainLoaded;
     }
 
     public void regenerateMesh(final int x, final int y, final int z) {

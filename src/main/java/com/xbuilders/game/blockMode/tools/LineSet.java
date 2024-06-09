@@ -5,7 +5,7 @@ import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRaycast;
 import com.xbuilders.engine.utils.preformance.Stopwatch;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.game.blockMode.BlockTools;
 import com.xbuilders.window.BaseWindow;
 import processing.core.KeyCode;

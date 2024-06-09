@@ -1,7 +1,7 @@
 // 
 // Decompiled by Procyon v0.5.36
 // 
-package com.xbuilders.engine.world.chunk.wcc;
+package com.xbuilders.engine.world.wcc;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.utils.MiscUtils;
@@ -11,7 +11,7 @@ import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.ChunkCoords;
 import com.xbuilders.engine.world.chunk.SubChunk;
 import java.nio.IntBuffer;
-import org.joml.Vector3f;
+
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 

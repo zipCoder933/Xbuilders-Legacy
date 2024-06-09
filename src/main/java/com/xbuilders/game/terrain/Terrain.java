@@ -13,8 +13,8 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.random.FastNoise;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.blockData.BlockData;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.PointerHandler;
 
 import java.util.Random;

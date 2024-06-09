@@ -1,9 +1,8 @@
 package com.xbuilders.game.blockMode.tools;
 
-import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.ItemQuantity;
 import com.xbuilders.engine.player.CursorRaycast;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.game.blockMode.BlockTools;
 import com.xbuilders.game.blockMode.BulkBlockSetter;
 import com.xbuilders.game.blockMode.SettingUtils;

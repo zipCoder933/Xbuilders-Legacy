@@ -10,9 +10,9 @@ import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.rendering.worldLightMap.ShaderLightMap;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
-import com.xbuilders.engine.world.chunk.lightMap.ChunkLightMap;
-import com.xbuilders.engine.world.chunk.lightMap.TorchChannelSet;
+import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.engine.world.lightMap.ChunkLightMap;
+import com.xbuilders.engine.world.lightMap.TorchChannelSet;
 import java.io.IOException;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -64,8 +64,8 @@ public class GameDevModeStats {
                             + "\n   coordiantes: " + chunk.getPosition()
                             + "\n    needs saving: " + chunk.needsSaving()
                             + "\n    modified by user: " + chunk.isModifiedByUser()
-                            + "\n    lightmap init: " + chunk.lightmapInit;
-                    gameText2 += "\n    generated mesh:" + chunk.hasGeneratedMeshes();
+                            + "\n    lightmap init: " + chunk.lightmapInitialized;
+                    gameText2 += "\n    generated mesh:" + chunk.meshesGenerated;
 
                     gameText2
                             += "\n\nSUB-CHUNK:"

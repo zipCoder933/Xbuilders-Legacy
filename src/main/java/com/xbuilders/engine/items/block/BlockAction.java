@@ -4,7 +4,7 @@
 package com.xbuilders.engine.items.block;
 
 import com.xbuilders.engine.world.chunk.ChunkCoords;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.PointerHandler;
 import java.util.ArrayList;
 import java.util.Arrays;

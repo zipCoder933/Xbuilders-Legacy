@@ -4,9 +4,9 @@
 package com.xbuilders.engine.world.chunk;
 
 import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import java.util.HashMap;
-import com.xbuilders.engine.items.block.Block;
+
 import org.joml.Vector3i;
 
 public class ChunkVoxels {

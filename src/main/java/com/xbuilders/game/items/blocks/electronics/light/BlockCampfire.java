@@ -7,7 +7,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.game.items.blocks.BlockUtils;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.engine.player.blockPipeline.LocalChangeRecord;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import org.joml.Vector3i;
 
 public class BlockCampfire extends Block {

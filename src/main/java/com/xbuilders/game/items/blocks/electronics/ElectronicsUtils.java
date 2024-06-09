@@ -9,7 +9,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.engine.utils.BFS.Node;
 import com.xbuilders.engine.utils.BFS.HashQueue;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 
 /**
  *

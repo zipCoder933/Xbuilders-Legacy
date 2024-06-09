@@ -11,7 +11,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
 import com.xbuilders.engine.utils.BFS.TravelNode;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 
 import java.awt.Color;
 

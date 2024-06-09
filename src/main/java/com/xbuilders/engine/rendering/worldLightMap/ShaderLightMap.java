@@ -5,8 +5,7 @@ package com.xbuilders.engine.rendering.worldLightMap;
 
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.world.TerrainUpdater;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.ItemList;
 import java.util.Arrays;

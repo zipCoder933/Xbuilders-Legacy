@@ -1,12 +1,11 @@
 // 
 // Decompiled by Procyon v0.5.36
 // 
-package com.xbuilders.engine.world.chunk.meshing;
+package com.xbuilders.engine.world.meshing;
 
 import com.xbuilders.engine.VoxelGame;
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import org.joml.Vector3i;
 import processing.core.PShape;
 import com.xbuilders.engine.world.chunk.SubChunk;

@@ -5,10 +5,9 @@
 package com.xbuilders.engine.utils;
 
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import processing.core.PImage;

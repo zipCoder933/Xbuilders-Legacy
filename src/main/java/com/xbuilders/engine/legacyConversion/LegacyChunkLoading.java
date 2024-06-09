@@ -4,7 +4,7 @@ import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.lightMap.TorchChannelSet;
+import com.xbuilders.engine.world.lightMap.TorchChannelSet;
 
 import java.io.File;
 import java.io.IOException;

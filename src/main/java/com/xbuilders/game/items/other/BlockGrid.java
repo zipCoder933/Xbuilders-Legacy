@@ -3,10 +3,9 @@
 // 
 package com.xbuilders.game.items.other;
 
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.world.chunk.ChunkSavingLoading;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 
 import java.io.IOException;
 import java.util.Arrays;

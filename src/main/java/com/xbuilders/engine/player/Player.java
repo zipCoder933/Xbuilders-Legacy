@@ -1,13 +1,7 @@
 package com.xbuilders.engine.player;
 
-import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.game.PlayerSkin;
-import com.xbuilders.engine.rendering.ShaderHandler;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
-import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.wcc.WCCf;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.event.KeyEvent;

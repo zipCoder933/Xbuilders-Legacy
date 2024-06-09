@@ -7,7 +7,7 @@ package com.xbuilders.game.items.blocks.plants.sunflower;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.blocks.plants.Plant;
 

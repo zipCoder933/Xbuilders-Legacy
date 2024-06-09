@@ -6,7 +6,7 @@ package com.xbuilders.game.terrain.cityTerrain;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.blocks.plants.trees.BirchTreeUtils;
 import com.xbuilders.game.items.blocks.plants.trees.OakTreeUtils;

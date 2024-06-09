@@ -14,7 +14,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.ChunkCoords;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.PointerHandler;
 import org.joml.Vector3f;
 
@@ -145,7 +145,7 @@ class UpdaterThread extends Thread {
 
     public boolean chunkIsUnfinished(ChunkCoords coords) {
         Chunk chunk = ph.getWorld().getChunk(coords);
-        return chunk == null || !chunk.lightmapInit
+        return chunk == null || !chunk.lightmapInitialized
                 // Investigate why this solves the no-lightmap-on-initial-chunks mystery.
                 // It could be that the chunks on the edge get their SLM pasted even though they
                 // have no lightmap
@@ -179,16 +179,11 @@ class UpdaterThread extends Thread {
         parent.ph.getWorld().makeChunk(coords.set(coords.x - 1, coords.z + 1));
         parent.ph.getWorld().makeChunk(coords.set(coords.x - 1, coords.z));
 
-        if (!chunk.lightmapInit) {
+        if (!chunk.lightmapInitialized) {
             InitialSunlightUtils.generateInitialSunlight(chunk, false);
         }
+        chunk.cacheNeighbors();
         pasteSLM(chunk);
-        if (!chunk.hasGeneratedMeshes()
-            // && chunk.isSurroundedByChunks()
-        ) {
-            chunk.generateInitialMeshes(); //This is already running on another thread
-
-        }
     }
 
     public boolean pasteSLM(Chunk chunk) {
@@ -204,7 +199,7 @@ class UpdaterThread extends Thread {
     }
 
     private boolean fillWLMInChunk(Chunk chunk) {
-        if (!ShaderLightMap.inBounds(chunk.getPosition()) || !chunk.lightmapInit) {
+        if (!ShaderLightMap.inBounds(chunk.getPosition()) || !chunk.lightmapInitialized) {
             return false;
         }
         for (int i = 0; i < chunk.getSubChunks().length; i++) {

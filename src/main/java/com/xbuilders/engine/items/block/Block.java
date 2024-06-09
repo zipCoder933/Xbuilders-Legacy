@@ -19,8 +19,8 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.ChunkCoords;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.blockData.BlockData;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.PointerHandler;
 import org.joml.Vector3i;
 
@@ -275,7 +275,7 @@ public class Block extends Item {
                 chunk.getSubChunks()[chunkLocation].getVoxels().setBlockData(data, blockX, blockLocation, blockZ);
 
                 chunk.markAsNeedsSaving();
-                if (chunk.hasGeneratedMeshes()) {
+                if (chunk.meshesGenerated) {
                     chunk.markChunksAsNeedsRegenerating(chunkLocation, blockX, blockLocation, blockZ);
                 }
                 BlockPipeline.put(new Vector3i(x, y, z), new BlockHistory(prevBlock, this));

@@ -14,7 +14,7 @@ import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.imageAtlas.ImageAtlasPosition;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import org.joml.Vector3f;
 import processing.core.PShape;
 import processing.core.PVector;

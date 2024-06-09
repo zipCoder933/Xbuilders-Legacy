@@ -17,8 +17,8 @@ import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.ChunkCoords;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.blockData.BlockData;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.world.holograms.HologramSet;
 import com.xbuilders.engine.world.info.WorldInfo;
 import com.xbuilders.game.PointerHandler;
@@ -62,20 +62,6 @@ public class World {
         return this.subChunks.get(coords);
     }
 
-    private Chunk createNew(final ChunkCoords coords) {
-        Chunk chunk;
-        if (this.unusedChunks.isEmpty()) {
-            chunk = new Chunk(this.ph);
-        } else {
-            chunk = this.unusedChunks.get(0);
-            this.unusedChunks.remove(0);
-        }
-        this.chunks.put(chunk.init(coords), chunk);
-        for (final SubChunk sc : chunk.getSubChunks()) {
-            this.subChunks.put(sc.getPosition(), sc);
-        }
-        return chunk;
-    }
 
     public void removeChunk(final ChunkCoords coords) {
         try {
@@ -213,17 +199,22 @@ public class World {
     public Chunk makeChunk(final ChunkCoords coords) throws IOException {
         Chunk existingChunk = this.getChunk(coords);
         if (existingChunk == null) {
-            final Chunk chunk = createNew(coords);
+            Chunk chunk;
+            if (this.unusedChunks.isEmpty()) {
+                chunk = new Chunk(this.ph);
+            } else {
+                chunk = this.unusedChunks.get(0);
+                this.unusedChunks.remove(0);
+            }
+            this.chunks.put(chunk.init(coords), chunk);
+            for (final SubChunk sc : chunk.getSubChunks()) {
+                this.subChunks.put(sc.getPosition(), sc);
+            }
             chunk.load(infoFile, terrain);
             return chunk;
         }
         return existingChunk;
     }
-
-    // static FrameTester frameTester = new FrameTester("Slowdown bug tester");
-    // static {
-    // frameTester.setStarted(true);
-    // }
 
     private void initializeGeneration(final ProgressData prog) throws IOException {
         prog.setTask("Initializing...");
@@ -262,27 +253,28 @@ public class World {
         userControlledPlayer.worldPos.set(centerX, Chunk.HEIGHT / 2, centerZ);
     }
 
-    private void finishWorldGeneration(final ProgressData prog, final boolean newWorld)
+    private void finishWorldGeneration(final ProgressData prog, int centerX, int centerZ)
             throws InterruptedException, IOException {
         this.hologramList.newGame();
         int max = 0;
         int un_initializedMax = 0;
         for (final Map.Entry<ChunkCoords, Chunk> set : chunks.entrySet()) {
             ++max;
-            if (!set.getValue().lightmapInit) {
+            if (!set.getValue().lightmapInitialized) {
                 ++un_initializedMax;
             }
         }
         InitialSunlightUtils.generateSunlightForWorldInitially(prog, this, un_initializedMax);
         prog.setTask("Generating Chunk Meshes");
         prog.getBar().set(0, max);
-        for (final Map.Entry<ChunkCoords, Chunk> set : chunks.entrySet()) {
-            final Chunk chunk = set.getValue();
-            if (chunk.isSurroundedByChunks()) {
-                chunk.generateInitialMeshes();
-            }
+
+        chunks.values().forEach((chunk) -> {
+            chunk.cacheNeighbors();
+            chunk.generateInitialMeshes(); //TODO: We need to make sure we are not generating meshes on chunks that dont have neighbors loaded
             prog.getBar().changeValue(1);
-        }
+        });
+
+
         this.setPlayerPosition();
         prog.setTask("Initializing Shader Lightmap");
         prog.setSpinMode(true);
@@ -312,7 +304,8 @@ public class World {
                     if (isNewWorld && infoFile.getSeed() <= 0) {
                         infoFile.setSeed((int) (Math.random() * 30000.0));
                     }
-                    World.this.terrain.setTerrainProperties(World.this.infoFile.getSeed(),
+                    World.this.terrain.setTerrainProperties(
+                            World.this.infoFile.getSeed(),
                             World.this.infoFile.getInfoFile().resolution);
                     prog.setTask("Loading Terrain");
                     prog.getBar().setProgress(0.0);
@@ -338,16 +331,12 @@ public class World {
                     for (int x = xStart; x < xEnd; ++x) {
                         for (int z = zStart; z < zEnd; ++z) {
                             final ChunkCoords coords = new ChunkCoords(x, z);
-                            if (WCCi.chunkDistToPlayer(
-                                    coords.x, coords.z,
-                                    (float) centerX, (float) centerZ) <= initialWorldChunkRadius()) {
-                                World.this.makeChunk(coords);
-                                prog.getBar().setValue(i);
-                                ++i;
-                            }
+                            makeChunk(coords);
+                            prog.getBar().setValue(i);
+                            ++i;
                         }
                     }
-                    World.this.finishWorldGeneration(prog, false);
+                    World.this.finishWorldGeneration(prog, centerX, centerZ);
                 } catch (Error | Exception error) {
                     World.this.fatalError(error, prog);
                 }
@@ -358,7 +347,7 @@ public class World {
 
 
     private int initialWorldChunkRadius() {
-        return VoxelGame.getSettings().getSettingsFile().chunkRadius + (Chunk.WIDTH * 3);
+        return VoxelGame.getSettings().getSettingsFile().chunkRadius + (Chunk.WIDTH * 6);
     }
 
     public void draw(final PGraphics graphics, boolean drawEntities) throws Exception {
@@ -370,14 +359,20 @@ public class World {
         }
         // frameTester.endProcess("Update A");
 
+        this.chunks.values().forEach(chunk -> {
+            chunk.drawUpdate();
+        });
+
         // frameTester.startProcess();
         this.subChunks.values().forEach(chunk -> {// Draw opaque meshes of all chunks
-            if (chunk.getParentChunk().hasGeneratedMeshes() && chunk.lightMap.inBoundsOfSLM()) { //If it is outside of the SLM, Dont render it!
+            Chunk chunk1 = chunk.getParentChunk();
+            if (chunk1.meshesGenerated && chunk.lightMap.inBoundsOfSLM()) { //If it is outside of the SLM, Dont render it!
                 chunk.drawOpaqueAndEntities(drawEntities);
             }
         });
         this.subChunks.values().forEach(chunk -> {// Draw transparent meshes of all chunks
-            if (chunk.getParentChunk().hasGeneratedMeshes() && chunk.lightMap.inBoundsOfSLM()) {
+            Chunk chunk1 = chunk.getParentChunk();
+            if (chunk1.meshesGenerated && chunk.lightMap.inBoundsOfSLM()) {
                 chunk.drawTransparent();
             }
         });
@@ -412,7 +407,7 @@ public class World {
     public Block getBlock(final int x, final int y, final int z, final boolean returnNullIfEmpty) {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
-        if (chunk != null) {
+        if (chunk != null && chunk.getParentChunk().terrainLoaded) {
             return ItemList.getBlock(
                     chunk.getVoxels().getBlock(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z));
         }

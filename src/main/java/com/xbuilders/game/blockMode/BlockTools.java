@@ -10,7 +10,7 @@ import com.xbuilders.engine.items.ItemQuantity;
 import com.xbuilders.engine.player.CursorRaycast;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.game.blockMode.tools.*;
 import com.xbuilders.window.BaseWindow;
 import processing.core.KeyCode;

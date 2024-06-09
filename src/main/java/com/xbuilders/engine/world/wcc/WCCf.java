@@ -1,14 +1,14 @@
 // 
 // Decompiled by Procyon v0.5.36
 // 
-package com.xbuilders.engine.world.chunk.wcc;
+package com.xbuilders.engine.world.wcc;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.utils.MiscUtils;
 import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
 import com.xbuilders.engine.world.chunk.ChunkCoords;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import static com.xbuilders.engine.world.chunk.wcc.WCCi.chunkDiv;
+import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import org.joml.Vector3f;

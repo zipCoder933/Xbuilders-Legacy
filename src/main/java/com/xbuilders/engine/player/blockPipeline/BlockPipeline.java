@@ -8,7 +8,7 @@ import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.light.torch.TorchUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 
 import java.util.HashMap;
 import java.util.HashSet;

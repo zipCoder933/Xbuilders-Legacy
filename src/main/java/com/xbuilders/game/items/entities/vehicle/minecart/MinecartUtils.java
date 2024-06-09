@@ -6,8 +6,7 @@ package com.xbuilders.game.items.entities.vehicle.minecart;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.world.chunk.blockData.BlockOrientation;
+import com.xbuilders.engine.world.blockData.BlockOrientation;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.entities.vehicle.minecart.MinecartEntityLink.Minecart;

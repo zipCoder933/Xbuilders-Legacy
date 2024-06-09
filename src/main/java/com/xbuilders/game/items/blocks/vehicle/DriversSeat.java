@@ -1,7 +1,6 @@
 package com.xbuilders.game.items.blocks.vehicle;
 
 import com.xbuilders.engine.VoxelGame;
-import com.xbuilders.engine.game.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
@@ -9,7 +8,7 @@ import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.game.items.other.BlockGrid;

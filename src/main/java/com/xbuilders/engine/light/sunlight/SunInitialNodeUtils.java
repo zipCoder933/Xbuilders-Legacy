@@ -4,7 +4,7 @@
 package com.xbuilders.engine.light.sunlight;
 
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.light.SubChunkNode;
 import static com.xbuilders.engine.light.sunlight.InitialSunlightUtils.getSunlight;
 import com.xbuilders.engine.utils.BFS.ListQueue;

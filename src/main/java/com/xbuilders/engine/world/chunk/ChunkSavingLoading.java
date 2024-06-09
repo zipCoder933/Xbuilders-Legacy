@@ -10,8 +10,8 @@ import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
-import com.xbuilders.engine.world.chunk.lightMap.TorchChannelSet;
+import com.xbuilders.engine.world.blockData.BlockData;
+import com.xbuilders.engine.world.lightMap.TorchChannelSet;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,7 +46,7 @@ public class ChunkSavingLoading {
     }
 
     private static byte[] metadata(final Chunk chunk) {
-        final byte lightmapInit = (byte) (chunk.lightmapInit ? 1 : 0);
+        final byte lightmapInit = (byte) (chunk.lightmapInitialized ? 1 : 0);
         final byte[] bytes = new byte[10];
         bytes[0] = lightmapInit;
         return bytes;

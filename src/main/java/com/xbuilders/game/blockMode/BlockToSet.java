@@ -5,7 +5,7 @@
 package com.xbuilders.game.blockMode;
 
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.blockData.BlockData;
 import java.util.Objects;
 import org.joml.Vector3i;
 

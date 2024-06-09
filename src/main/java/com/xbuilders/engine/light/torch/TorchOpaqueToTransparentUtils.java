@@ -6,10 +6,10 @@ package com.xbuilders.engine.light.torch;
 
 import com.xbuilders.engine.utils.BFS.ListQueue;
 import com.xbuilders.engine.player.blockPipeline.BlockHistory;
-import com.xbuilders.engine.world.chunk.lightMap.TorchChannelSet;
+import com.xbuilders.engine.world.lightMap.TorchChannelSet;
 import com.xbuilders.engine.light.SubChunkNode;
 import java.util.Map;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.wcc.WCCi;
 import java.util.HashMap;
 import com.xbuilders.engine.world.chunk.SubChunk;
 

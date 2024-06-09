@@ -10,8 +10,8 @@ import com.xbuilders.engine.player.blockPipeline.BlockHistory;
 import com.xbuilders.engine.light.torch.TorchUtils;
 import com.xbuilders.engine.light.sunlight.SunlightUtils;
 import com.xbuilders.engine.VoxelGame;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
+import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.engine.world.blockData.BlockData;
 import org.joml.Vector3i;
 import com.xbuilders.engine.items.block.Block;
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ import com.xbuilders.engine.light.SubChunkNode;
 import com.xbuilders.engine.light.sunlight.SunInitialNodeUtils;
 import com.xbuilders.engine.utils.BFS.ListQueue;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.Collections;
 import java.util.Set;

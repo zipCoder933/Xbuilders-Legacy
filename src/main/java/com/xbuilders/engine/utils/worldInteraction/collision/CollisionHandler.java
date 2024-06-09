@@ -7,8 +7,8 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.engine.world.chunk.blockData.BlockData;
-import com.xbuilders.engine.world.chunk.wcc.WCCi;
+import com.xbuilders.engine.world.blockData.BlockData;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.Main;
 import org.lwjgl.system.MemoryStack;
 
