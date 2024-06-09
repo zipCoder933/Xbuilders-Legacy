@@ -7,6 +7,6 @@
 4. make block tools more intuitive
 5. add dogs
 
-optimisation:
-6. try sorting chunks front to back?
-1. try occlusion culling
+### optimisation:
+* try sorting chunks front to back?
+* try occlusion culling
