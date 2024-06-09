@@ -3,8 +3,10 @@ package com.xbuilders.game.blockMode.tools;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.ItemQuantity;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.CursorRaycast;
 import com.xbuilders.engine.player.blockPipeline.BlockPipeline;
@@ -30,13 +32,17 @@ public class DefaultTool extends Tool {
 
     @Override
     public boolean setBlock(ItemQuantity item, CursorRaycast ray, BlockData initialData, boolean isCreationMode) {
+//        Block block = (Block) item.getItem();
+//        BlockType type = ItemList.blocks.getBlockType(block.type);
         if (isCreationMode) {
             Vector3i hitPosNormal = ray.getHitPosPlusNormal();
             Vector3i hitPos = ray.getHitPositionAsInt();
-            if (VoxelGame.getWorld().getBlock(hitPos.x, hitPos.y, hitPos.z).isSolid()) {
-                placeItem(item, hitPosNormal.x, hitPosNormal.y, hitPosNormal.z, initialData);
-            } else { //If the item is not solid, place the block directly inside of it
+
+            BlockType type = ItemList.blocks.getBlockType(VoxelGame.getWorld().getBlock(hitPos.x, hitPos.y, hitPos.z).type);
+            if (type.placeNewBlockOnHitPosition) {
                 placeItem(item, hitPos.x, hitPos.y, hitPos.z, initialData);
+            } else {
+                placeItem(item, hitPosNormal.x, hitPosNormal.y, hitPosNormal.z, initialData);
             }
         } else {
             Vector3i hitPos = ray.getHitPositionAsInt();

@@ -18,6 +18,11 @@ import java.util.function.Consumer;
  */
 public class SpriteRenderer extends BlockType {
 
+    public SpriteRenderer() {
+        super();
+        placeNewBlockOnHitPosition = true;
+    }
+
     static PVector[] vertices = {
             new PVector(0, 0, 0),//0
             new PVector(1, 0, 0),//1

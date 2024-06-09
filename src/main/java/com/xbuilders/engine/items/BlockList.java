@@ -36,6 +36,9 @@ public class BlockList extends ItemGroup<Block> {
 
     public BlockType getBlockType(int typeID) {
         BlockType type = blockTypes.get(typeID);
+        if(type == null) {
+            type = defaultBlockType;
+        }
         return type;
     }
 

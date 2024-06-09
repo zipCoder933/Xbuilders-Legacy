@@ -21,9 +21,9 @@ import processing.event.KeyEvent;
 import java.util.HashSet;
 import java.util.function.BiConsumer;
 
-public class BoundarySet extends Tool {
+public class BoundaryTool extends Tool {
 
-    public BoundarySet(BlockTools tools) {
+    public BoundaryTool(BlockTools tools) {
         super("Boundary", tools);
         boundarySet = (AABB boundary, Boolean isCreationMode) -> {
             HashSet<SubChunk> subChunks = new HashSet<>();

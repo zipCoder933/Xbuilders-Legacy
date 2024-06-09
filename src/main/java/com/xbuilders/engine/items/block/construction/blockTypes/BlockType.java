@@ -29,6 +29,7 @@ public abstract class BlockType {
 
     //<editor-fold defaultstate="collapsed" desc="static methods">
     public static final float ONE_SIXTEENTH = 0.0625f;
+    public boolean placeNewBlockOnHitPosition = false;
 
 
     public static PVector[] rotateVerticiesYAxis(PVector[] verts, int rotationXZ) {

@@ -11,7 +11,7 @@ import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.blockData.BlockOrientation;
-import com.xbuilders.game.blockMode.tools.LineSet;
+import com.xbuilders.game.blockMode.tools.LineTool;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import processing.core.PShape;
@@ -29,7 +29,7 @@ public class SlabRenderer extends BlockType {
     @Override
     public BlockData getInitialBlockData(UserControlledPlayer player, Block block, Ray ray) {
         BlockOrientation orientation = player.cameraBlockOrientation();
-        if (player.blockTools.getSelectedTool() instanceof LineSet) {
+        if (player.blockTools.getSelectedTool() instanceof LineTool) {
             if (Math.abs(ray.getHitNormalAsInt().x) == 0
                     && Math.abs(ray.getHitNormalAsInt().z) == 0) {
                 orientation.setY((byte) 0);

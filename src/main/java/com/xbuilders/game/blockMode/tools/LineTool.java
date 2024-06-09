@@ -12,9 +12,9 @@ import processing.core.KeyCode;
 import processing.core.PGraphics;
 import processing.event.KeyEvent;
 
-public class LineSet extends Tool {
+public class LineTool extends Tool {
 
-    public LineSet(BlockTools tools) {
+    public LineTool(BlockTools tools) {
         super("Line", tools);
         usesSize = true;
     }

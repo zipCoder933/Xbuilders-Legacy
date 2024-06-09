@@ -357,15 +357,15 @@ public class GameItems {
     public static final Block MarblePillarBlock = new Block(449, "Marble Pillar Block",
             new BlockTexture(14, 11, 14, 11, 14, 12), true, true, false, (byte) 0, 0, DEFAULT_BLOCK_TYPE_ID);
     public static final Block PhantomStone = new Block(107, "Phantom Stone", new BlockTexture(1, 0, 1, 0, 1, 0), false,
-            false, false, (byte) 0, 0, DEFAULT_BLOCK_TYPE_ID);
+            true, false, (byte) 0, 0, DEFAULT_BLOCK_TYPE_ID);
 
     public static final Block StoneBrick = new Block(19, "Stone Brick", new BlockTexture(6, 3, 6, 3, 6, 3), true, true,
             DEFAULT_BLOCK_TYPE_ID);
 
     public static final Block PhantomStoneBrick = new Block(108, "Phantom Stone Brick",
-            new BlockTexture(6, 3, 6, 3, 6, 3), false, false, false, (byte) 0, 0, DEFAULT_BLOCK_TYPE_ID);
+            new BlockTexture(6, 3, 6, 3, 6, 3), false, true, false, (byte) 0, 0, DEFAULT_BLOCK_TYPE_ID);
     public static final Block PhantomSandstone = new Block(176, "Phantom Sandstone",
-            new BlockTexture(11, 13, 11, 15, 11, 14), false, false, false, (byte) 0, 0, DEFAULT_BLOCK_TYPE_ID);
+            new BlockTexture(11, 13, 11, 15, 11, 14), false, true, false, (byte) 0, 0, DEFAULT_BLOCK_TYPE_ID);
     public static final Block Wool = new Block(22, "Wool", new BlockTexture(1, 14, 1, 14, 1, 14), true, true, false,
             (byte) 0, 0, DEFAULT_BLOCK_TYPE_ID);
     public static final Block WoolGray = new Block(142, "Wool Gray", new BlockTexture(2, 7, 2, 7, 2, 7), true, true,

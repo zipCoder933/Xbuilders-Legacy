@@ -185,19 +185,10 @@ public class Chunk {
         }
     }
 
-    public void update(final int x, final int y, final int z) {
-        final int chunkLocation = WCCi.chunkDiv(y);
-        final int blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
-        update(x, chunkLocation, blockLocation, z);
-    }
 
     public void update(final int x, final int chunkLocation, final int blockLocation, final int z) {
         this.markAsNeedsSaving();
-        if (!this.meshesGenerated) {
-            new Thread(() -> {
-                this.markChunksAsNeedsRegenerating(chunkLocation, x, blockLocation, z);
-            }).start();
-        }
+        this.markChunksAsNeedsRegenerating(chunkLocation, x, blockLocation, z);
     }
 
     public void markChunksAsNeedsRegenerating(final int chunkYLoc, final int blockX, final int blockY,

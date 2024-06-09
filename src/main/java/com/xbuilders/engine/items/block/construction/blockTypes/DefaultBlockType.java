@@ -60,28 +60,28 @@ public class DefaultBlockType extends BlockType {
 
 //        System.out.println("MAKING MESH: " + block + "," + negativeX + "," + positiveX + "," + negativeZ + "," + positiveZ
 //                + "," + negativeY + "," + positiveY);
-        if (shouldRenderSide(block, negativeX)) {
+        if (shouldRenderSide(block, negativeX) || orRule(block, negativeX)) {
             constructLeft(getTextureManager(), block, buffers, x, y, z //,shading
             );
         }
-        if (shouldRenderSide(block, positiveX)) {
+        if (shouldRenderSide(block, positiveX) || orRule(block, positiveX)) {
             constructRight(getTextureManager(), block, buffers, x, y, z //,shading
             );
         }
-        if (shouldRenderSide(block, negativeY)) {
+        if (shouldRenderSide(block, negativeY) || orRule(block, negativeY)) {
             constructTop(getTextureManager(), block, buffers, x, y, z //,shading
             );
         }
 
-        if (shouldRenderSide(block, positiveY)) {
+        if (shouldRenderSide(block, positiveY) || orRule(block, positiveY)) {
             constructBottom(getTextureManager(), block, buffers, x, y, z //,shading
             );
         }
-        if (shouldRenderSide(block, negativeZ)) {
+        if (shouldRenderSide(block, negativeZ) || orRule(block, negativeZ)) {
             constructBack(getTextureManager(), block, buffers, x, y, z //,shading
             );
         }
-        if (shouldRenderSide(block, positiveZ)) {
+        if (shouldRenderSide(block, positiveZ) || orRule(block, positiveZ)) {
             constructFront(getTextureManager(), block, buffers, x, y, z //,shading
             );
         }
@@ -192,9 +192,10 @@ public class DefaultBlockType extends BlockType {
     }
 
     private boolean orRule(Block block, Block neighbor) {
-//        if (neighbor != null && !block.isOpaque() && (neighbor.isLiquid() || !blockIsBlock(neighbor))) {
-//            return true;
-//        }
+        if (neighbor != null && !block.isOpaque()
+                && (neighbor.isLiquid() || !blockIsBlock(neighbor))) {
+            return true;
+        }
         return false;
     }
 

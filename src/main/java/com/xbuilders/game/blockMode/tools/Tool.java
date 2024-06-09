@@ -48,6 +48,10 @@ public abstract class Tool {
         return false;
     }
 
+    public boolean keyPressed(BaseWindow window, KeyEvent ke) {
+        return false;
+    }
+
     public float getMaxSize() {
         return 20f;
     }

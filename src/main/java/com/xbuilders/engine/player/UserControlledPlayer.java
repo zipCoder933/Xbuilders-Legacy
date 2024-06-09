@@ -538,6 +538,7 @@ public class UserControlledPlayer extends Player {
     @Override
     public void keyPressed(KeyEvent event) {
         if (!VoxelGame.getGame().menu.isShown()) {
+            blockTools.keyPressed(positionHandler.window, event);
             if (keyIsPressed(KeyCode.SPACE)) {
                 positionHandler.jump();
                 if (bedtimeMode) {

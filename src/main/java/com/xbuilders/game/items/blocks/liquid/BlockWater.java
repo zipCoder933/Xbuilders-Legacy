@@ -9,6 +9,7 @@ import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
 import com.xbuilders.engine.items.block.liquid.Liquid;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.game.items.GameItems;
+
 import java.awt.Color;
 
 public class BlockWater extends Liquid {
@@ -26,7 +27,9 @@ public class BlockWater extends Liquid {
 
     @Override
     public boolean isPenetrableCustom(Block block) {
-        if (block.getRenderType() == BlockRenderType.SPRITE) {
+        if (block.isOpaque() || block.isSolid()) {
+            return false;
+        } else if (block.getRenderType() == BlockRenderType.SPRITE) {
             if (block.name.toLowerCase().equals("sea grass")) return false;
             return !block.name.toLowerCase().contains("coral");
         } else {
@@ -40,7 +43,7 @@ public class BlockWater extends Liquid {
     }
 
     private void coolLavaAtVoxel(int x, int y, int z, UserControlledPlayer p) {
-        p.setBlock(BlockList.BLOCK_AIR,null,(int) x, (int) y, (int) z);
+        p.setBlock(BlockList.BLOCK_AIR, null, (int) x, (int) y, (int) z);
         GameItems.Obsidian.set(x, y, z);
     }
 
@@ -70,7 +73,6 @@ public class BlockWater extends Liquid {
 
     private static final Color darkWater = new Color(51, 73, 128);
     private static final Color lightWater = new Color(23, 47, 83);
-
 
 
     @Override
