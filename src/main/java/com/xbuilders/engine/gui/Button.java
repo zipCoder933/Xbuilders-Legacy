@@ -11,8 +11,8 @@ import static processing.core.PConstants.CENTER;
 
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.ui4j.UIExtension;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtension;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 /**
  * @author zipCoder933

@@ -4,8 +4,7 @@
  */
 package com.xbuilders.engine.gui.game.inventory;
 
-import com.xbuilders.engine.utils.math.MathUtils;
-import processing.ui4j.UIExtension;
+import com.xbuilders.window.ui4j.UIExtension;
 import com.xbuilders.engine.gui.GuiUtils;
 
 import java.util.ArrayList;

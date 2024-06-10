@@ -19,7 +19,7 @@ import org.joml.Vector2i;
 import org.joml.Vector3f;
 import processing.core.PApplet;
 import processing.core.PGraphics;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 public class Camera {
     UIExtensionFrame app;

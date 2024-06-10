@@ -8,7 +8,7 @@ import com.xbuilders.engine.game.GameScene;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.game.PointerHandler;
 import java.awt.Rectangle;
-import processing.ui4j.UIExtension;
+import com.xbuilders.window.ui4j.UIExtension;
 
 /**
  *

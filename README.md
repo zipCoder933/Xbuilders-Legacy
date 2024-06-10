@@ -19,7 +19,7 @@ Textures taken mostly from Pixel Perfection:
 * No extra setup is required, You will have the easiest time if you use IntelliJ IDEA since I have profiles setup in the project for that specific IDE.
 
 # Current Features
-This version of XBuilders is a lot more feature heavy than XBuilders w/ LWJGL. I hope to eventually port all of these features over to the LWJGL version at some point:
+Current features include:
 
 * Animals, and Vehicles
   * Horses, Mules, Cats, Foxes, Rabbit, Fish, Sea Turtle

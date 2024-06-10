@@ -26,7 +26,7 @@ import static processing.core.PConstants.TOP;
 import processing.core.PConstants;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.ui4j.components.TextBox;
+import com.xbuilders.window.components.TextBox;
 
 /**
  * @author zipCoder933

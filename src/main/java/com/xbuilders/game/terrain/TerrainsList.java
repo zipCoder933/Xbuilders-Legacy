@@ -4,64 +4,55 @@ import com.xbuilders.game.terrain.cityTerrain.CityTerrain;
 import com.xbuilders.game.terrain.defaultTerrain.TerrainV1;
 import com.xbuilders.game.terrain.defaultTerrain.TerrainV2;
 
-import java.io.OptionalDataException;
+import java.util.HashMap;
 
 public class TerrainsList {
-    public static final String[] terrains = {
-            "DEFAULT_V2", "DEFAULT_V2_CAVES",
-            "MOON", "MOON_SHALLOW",
-            "SIMPLE", "SIMPLE_DEEP",
-            "DEV",
-            "CITY",
-            "DEFAULT_V1", "DEFAULT_V1_CAVES"};
+    private static HashMap<String, Terrain> terrainsMap = new HashMap<>();
 
-    public static String[] visibleTerrains = {
+    public static String[] terrainList;
+
+    public static String[] visibleTerrainList = {
             "DEFAULT_V2", "DEFAULT_V2_CAVES",
             "MOON", "MOON_SHALLOW",
-            "SIMPLE", "SIMPLE_DEEP",
-            "CITY"};
+            "SIMPLE", "SIMPLE_DEEP"};
+
+    static {
+        terrainsMap.put("SIMPLE", new SimpleTerrain());
+        terrainsMap.put("SIMPLE_DEEP", new SimpleTerrainDeep());
+
+        terrainsMap.put("MOON", new MoonTerrain(true));
+        terrainsMap.put("MOON_SHALLOW", new MoonTerrain(false));
+
+        terrainsMap.put("DEV", new DevTerrain());
+        terrainsMap.put("CITY", new CityTerrain());
+
+        //V1
+        terrainsMap.put("DEFAULT_V1", new TerrainV1(false));
+        terrainsMap.put("DEFAULT", new TerrainV1(false));
+        terrainsMap.put("DEFAULT_V1_CAVES", new TerrainV1(true));
+
+        //V2
+        terrainsMap.put("DEFAULT_V2", new TerrainV2(false));
+
+        //V3
+//        terrainsMap.put("DEFAULT_V3", new TerrainV3(false)); //Lets wait for v3
+//        terrainsMap.put("DEFAULT_V3_CAVES", new TerrainV3(true));
+
+        //Set terrains list
+        terrainList = terrainsMap.keySet().toArray(new String[0]);
+    }
+
 
     public static Terrain getTerrain(String name) {
-        switch (name) {
-            case "SIMPLE" -> {
-                return new SimpleTerrain();
-            }
-            case "SIMPLE_DEEP" -> {
-                return new SimpleTerrainDeep();
-            }
-            case "MOON" -> {
-                return new MoonTerrain(true);
-            }
-            case "MOON_SHALLOW" -> {
-                return new MoonTerrain(false);
-            }
-            case "DEV" -> {
-                return new DevTerrain();
-            }
-            case "CITY" -> {
-                return new CityTerrain();
-            }
-            case "DEFAULT_V1" -> {
-                return new TerrainV1(false);
-            }
-            case "DEFAULT" -> {
-                return new TerrainV1(false);
-            }
-            case "DEFAULT_V1_CAVES" -> {
-                return new TerrainV1(true);
-            }
-            case "DEFAULT_V2_CAVES" -> {
-                return new TerrainV1(true);
-            }
-            default -> {
-                return new TerrainV2(false, false);
-            }
+        if (terrainsMap.containsKey(name)) {
+            return terrainsMap.get(name);
         }
+        return new SimpleTerrain(); //Our default terrain
     }
 
     public static String getTerrain(int index) {
         try {
-            return terrains[index];
+            return terrainList[index];
         } catch (IndexOutOfBoundsException e) {
             return null;
         }

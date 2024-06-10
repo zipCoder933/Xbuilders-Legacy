@@ -3,29 +3,22 @@ package com.xbuilders.test.joglDemo;/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-import com.jogamp.opengl.GL2ES3;
 import com.jogamp.opengl.GL4;
 import com.xbuilders.test.joglDemo.mesh.glTextureMesh;
 import com.xbuilders.test.joglDemo.shader.TextureShader;
 import com.xbuilders.window.CameraNavigator;
 import com.xbuilders.window.MVP;
-import com.xbuilders.window.utils.OBJ;
-import com.xbuilders.window.utils.OBJBufferSet;
-import com.xbuilders.window.utils.OBJLoader;
+import com.xbuilders.window.utils.obj.OBJ;
+import com.xbuilders.window.utils.obj.OBJLoader;
+import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;
+import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
-import processing.core.PImage;
 import processing.core.UIFrame;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PJOGL;
-import processing.opengl.Texture;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.color.ColorSpace;
-import java.awt.image.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -33,7 +26,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.Hashtable;
 
 class JOGLMeshDemo extends UIFrame {
 
@@ -44,84 +36,6 @@ class JOGLMeshDemo extends UIFrame {
     }
 
 
-    private final float cubeVerts[] = {
-            -1.0f, -1.0f, -1.0f, // triangle 1 : begin
-            -1.0f, -1.0f, 1.0f,
-            -1.0f, 1.0f, 1.0f, // triangle 1 : end
-            1.0f, 1.0f, -1.0f, // triangle 2 : begin
-            -1.0f, -1.0f, -1.0f,
-            -1.0f, 1.0f, -1.0f, // triangle 2 : end
-            1.0f, -1.0f, 1.0f,
-            -1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f, 1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f, -1.0f,
-            -1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f, -1.0f,
-            1.0f, -1.0f, 1.0f,
-            -1.0f, -1.0f, 1.0f,
-            -1.0f, -1.0f, -1.0f,
-            -1.0f, 1.0f, 1.0f,
-            -1.0f, -1.0f, 1.0f,
-            1.0f, -1.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f, 1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f, 1.0f, 1.0f,
-            1.0f, -1.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, -1.0f,
-            -1.0f, 1.0f, -1.0f,
-            1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f, -1.0f,
-            -1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f, 1.0f,
-            1.0f, -1.0f, 1.0f
-    };
-
-    private final float cuveUV[] = {
-            -1.0f, -1.0f, // triangle 1 : begin
-            -1.0f, 1.0f,
-            1.0f, 1.0f, // triangle 1 : end
-            1.0f, -1.0f, // triangle 2 : begin
-            -1.0f, -1.0f,
-            1.0f, -1.0f, // triangle 2 : end
-            -1.0f, 1.0f,
-            -1.0f, -1.0f,
-            -1.0f, -1.0f,
-            1.0f, -1.0f,
-            -1.0f, -1.0f,
-            -1.0f, -1.0f,
-            -1.0f, -1.0f,
-            1.0f, 1.0f,
-            1.0f, -1.0f,
-            -1.0f, 1.0f,
-            -1.0f, 1.0f,
-            -1.0f, -1.0f,
-            1.0f, 1.0f,
-            -1.0f, 1.0f,
-            -1.0f, 1.0f,
-            1.0f, 1.0f,
-            -1.0f, -1.0f,
-            1.0f, -1.0f,
-            -1.0f, -1.0f,
-            1.0f, 1.0f,
-            -1.0f, 1.0f,
-            1.0f, 1.0f,
-            1.0f, -1.0f,
-            1.0f, -1.0f,
-            1.0f, 1.0f,
-            1.0f, -1.0f,
-            1.0f, 1.0f,
-            1.0f, 1.0f,
-            1.0f, 1.0f,
-            -1.0f, 1.0f
-    };
-
     TextureShader shader;
     glTextureMesh mesh;
     float a;
@@ -131,52 +45,25 @@ class JOGLMeshDemo extends UIFrame {
     FloatBuffer uvBuffer;
 
     PJOGL pgl;
-    GL2ES3 gl;
+    GL4 gl;
 
 
     public JOGLMeshDemo() {
         super();
         startWindow();
+
+//        //Make cuveUV match uv coordinate style, but the X coordinate is the vert index
+//        int vertexIndex = 0;
+//        for (int i = 0; i < cubeUV.length; i++) {
+//            cubeUV[i] = 0;
+//        }
+//        for (int i = 0; i < cubeUV.length; i += 2) {
+//            cubeUV[i] =(float) vertexIndex / ((float)cubeVerts.length/3);
+//            vertexIndex++;
+//        }
+
     }
 
-    private ByteBuffer convertImageData(BufferedImage bufferedImage) {
-        ColorModel glAlphaColorModel = new ComponentColorModel(
-                ColorSpace.getInstance(ColorSpace.CS_sRGB),
-                new int[]{8, 8, 8, 8},
-                true,
-                false,
-                Transparency.TRANSLUCENT,
-                DataBuffer.TYPE_BYTE
-        );
-
-        WritableRaster raster = Raster.createInterleavedRaster(
-                DataBuffer.TYPE_BYTE,
-                bufferedImage.getWidth(),
-                bufferedImage.getHeight(),
-                4,
-                null
-        );
-
-        BufferedImage texImage = new BufferedImage(
-                glAlphaColorModel,
-                raster,
-                true,
-                new Hashtable<>()
-        );
-
-        Graphics g = texImage.getGraphics();
-        g.setColor(new Color(0f, 0f, 0f, 0f));
-        g.fillRect(0, 0, 256, 256);
-        g.drawImage(bufferedImage, 0, 0, null);
-
-        byte[] data = ((DataBufferByte) texImage.getRaster().getDataBuffer()).getData();
-        ByteBuffer imageBuffer = ByteBuffer.allocateDirect(data.length);
-        imageBuffer.order(ByteOrder.nativeOrder());
-        imageBuffer.put(data, 0, data.length);
-        imageBuffer.flip();
-
-        return imageBuffer;
-    }
 
     public static void main(String[] args) {
         new JOGLMeshDemo();
@@ -188,9 +75,17 @@ class JOGLMeshDemo extends UIFrame {
     }
 
     CameraNavigator cameraNavigator = new CameraNavigator(this);
-    MVP mvp = new MVP();
+    MVP mvp;
 
     public void setup() {
+
+
+        pgl = (PJOGL) beginPGL();
+        gl = pgl.gl.getGL4();
+        mvp = new MVP(gl);
+
+
+
 
         projMatrix.identity().perspective(
                 (float) Math.toRadians(60.0f),
@@ -201,11 +96,13 @@ class JOGLMeshDemo extends UIFrame {
         cameraNavigator.getViewMatrix();
 
         pgl = (PJOGL) beginPGL();
-        gl = pgl.gl.getGL2ES3();
-        GL4 gl4 = pgl.gl.getGL4();
-        shader = new TextureShader(this, gl);
+        try {
+            shader = new TextureShader(gl);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        mesh = new glTextureMesh(this, shader.attributePosition, shader.attributeUV);
+        mesh = new glTextureMesh(gl, shader.attributePosition, shader.attributeUV);
 
 
         OBJ o = null;
@@ -218,8 +115,6 @@ class JOGLMeshDemo extends UIFrame {
 
 
         bufferSet.makeBuffers();
-        bufferSet.vertBuffer = cubeVerts;
-        bufferSet.uvBuffer = cuveUV;
 
         posBuffer = allocateDirectFloatBuffer(bufferSet.vertBuffer.length);
         uvBuffer = allocateDirectFloatBuffer(bufferSet.uvBuffer.length);
@@ -234,50 +129,31 @@ class JOGLMeshDemo extends UIFrame {
 
         mesh.sendToGPU(posBuffer, uvBuffer);
 
-//        try {
-//            image = TextureUtils.loadTexture("C:\\Users\\Patron\\Desktop\\Xbuilders-2-main\\res\\items\\entities\\animals\\fox\\red.png", false);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-
-        IntBuffer ib = IntBuffer.allocate(1);
+        //Load texture
+        Texture tex;
         try {
-            BufferedImage img = ImageIO.read(new File(basePath + "\\res\\items\\entities\\animals\\fox\\red.png"));
-            ByteBuffer imageBuffer =
-                    convertImageData(img);
-
-
-            gl.glGenTextures(1, ib);
-            gl.glBindTexture(gl.GL_TEXTURE_2D, ib.get(0));
-            gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR);
-            gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR);
-            gl.glTexImage2D(gl.GL_TEXTURE_2D, 0, gl.GL_RGBA, img.getWidth(), img.getHeight(), 0, gl.GL_RGBA, gl.GL_UNSIGNED_BYTE, imageBuffer);
+            tex = TextureUtils.loadTexture(gl, basePath + "\\res\\items\\entities\\animals\\fox\\red.png", false);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        mesh.setTexture(ib.get(0));
-
-        endPGL();
+        mesh.setTexture(tex.id);
     }
 
     public void draw() {
+
+
+        //Enable backface culling
+        gl.glEnable(GL4.GL_CULL_FACE);
+        gl.glCullFace(GL4.GL_BACK);
+
         background(255);
-
-        pgl = (PJOGL) beginPGL();
-        gl = pgl.gl.getGL2ES3();
-
         shader.bind();
         cameraNavigator.update();
         mvp.update(projMatrix, cameraNavigator.getViewMatrix());
-//        mvp.sendToShader(shader.shader.getID(), shader.uniformMVP);
-        shader.setMVP(mvp.mvp);
+        mvp.sendToShader(shader.getID(), shader.uniformMVP);
 
         mesh.draw();
         shader.unbind();
-
-
-        endPGL();
         a += 0.01;
     }
 

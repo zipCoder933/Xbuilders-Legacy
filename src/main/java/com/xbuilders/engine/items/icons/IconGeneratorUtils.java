@@ -5,13 +5,9 @@
 package com.xbuilders.engine.items.icons;
 
 import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
-import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.blockType.BlockRenderType;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.PointerHandler;
 
@@ -23,7 +19,7 @@ import static processing.core.PConstants.TRIANGLE;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 /**
  * @author zipCoder933

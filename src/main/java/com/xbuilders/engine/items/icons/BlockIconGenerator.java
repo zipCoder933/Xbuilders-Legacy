@@ -1,11 +1,9 @@
 package com.xbuilders.engine.items.icons;
 
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 
 import static com.xbuilders.engine.items.icons.IconGeneratorUtils.deleteAllExistingIcons;
-import static com.xbuilders.engine.utils.MiscUtils.readYesOrNoInput;
 
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.Main;
@@ -14,7 +12,7 @@ import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PShader;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 /**
  * @author zipCoder933

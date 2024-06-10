@@ -17,7 +17,7 @@ import processing.core.KeyCode;
 import processing.core.PGraphics;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 import java.util.List;
 import java.util.function.BiConsumer;

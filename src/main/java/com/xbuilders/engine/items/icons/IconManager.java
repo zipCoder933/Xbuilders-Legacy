@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 /**
  *

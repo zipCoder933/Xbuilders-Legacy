@@ -22,11 +22,10 @@ import static processing.core.PConstants.CENTER;
 import static processing.core.PConstants.LEFT;
 import static processing.core.PConstants.TOP;
 
-import com.xbuilders.game.terrain.TerrainsList;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.ui4j.EventAction;
-import processing.ui4j.UIExtension;
+import com.xbuilders.window.ui4j.EventAction;
+import com.xbuilders.window.ui4j.UIExtension;
 
 public class LoadWorld extends UIExtension implements MenuPage {
 

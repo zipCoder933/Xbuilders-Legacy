@@ -6,7 +6,7 @@ import com.xbuilders.engine.items.icons.IconManager;
 import com.xbuilders.engine.items.tool.Tool;
 
 import java.io.IOException;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 public class ItemList {
 

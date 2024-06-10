@@ -23,7 +23,7 @@ public class Shader {
     private int programID;
     private int vertexID;
     private int fragmentID;
-    private final GL4 gl;
+    public final GL4 gl;
 
     public Shader(GL4 gl) {
         this.gl = gl;
@@ -148,8 +148,8 @@ public class Shader {
         gl.glUseProgram(programID);
     }
 
-    public static void unbind() {
-        //reset to default render mode
+    public void unbind() {
+        gl.glUseProgram(0);
     }
 
     public void bindAttributes() {

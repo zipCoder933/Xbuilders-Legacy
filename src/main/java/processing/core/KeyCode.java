@@ -20,8 +20,6 @@ public enum KeyCode {
     CAPS_LOCK(20),
     ESCAPE(27),
     SPACE(32),
-    //    PAGE_UP(33),
-    //    PAGE_DOWN(34),
     END(3),
     HOME(2),
     LEFT(37),
@@ -68,7 +66,6 @@ public enum KeyCode {
     K(75),
     L(76),
     SEMICOLON(59),
-    //    QUOTE(222),
     Z(90),
     X(88),
     C(67),
@@ -92,7 +89,6 @@ public enum KeyCode {
     F11(107),
     F12(108),
     NUM_LOCK(148),
-    //    SCROLL_LOCK(145),
     NUMPAD_0(128),
     NUMPAD_1(129),
     NUMPAD_2(130),
@@ -109,7 +105,6 @@ public enum KeyCode {
     NUMPAD_MULTIPLY(141),
     NUMPAD_DIVIDE(142),
     UNKNOWN(0);
-//    NUMPAD_ENTER(13),
     private final int code;
 
     KeyCode(int code) {

@@ -5,13 +5,17 @@
 package com.xbuilders.engine.gui;
 
 import com.xbuilders.engine.utils.math.MathUtils;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
+
+import java.awt.*;
 
 /**
  *
  * @author zipCoder933
  */
 public class GuiUtils {
+
+    public static final Color ACTIVE = new Color(0, 100, 255);
 
     /**
      * Draws a scroll-bar.width = 14

@@ -1,8 +1,6 @@
 package com.xbuilders.window;
 
-import processing.ui4j.UIExtensionFrame;
-
-import static org.lwjgl.glfw.GLFW.glfwGetTime;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 public abstract class BaseWindow extends UIExtensionFrame {
 

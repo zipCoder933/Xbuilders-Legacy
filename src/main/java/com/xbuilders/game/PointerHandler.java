@@ -9,7 +9,7 @@ import com.xbuilders.engine.game.GameScene;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.world.TerrainUpdater;
 import com.xbuilders.engine.world.World;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 /**
  *

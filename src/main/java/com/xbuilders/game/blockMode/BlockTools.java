@@ -16,7 +16,7 @@ import com.xbuilders.window.BaseWindow;
 import processing.core.KeyCode;
 import processing.core.PGraphics;
 import processing.event.KeyEvent;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 import java.util.ArrayList;
 import java.util.List;

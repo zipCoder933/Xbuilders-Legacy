@@ -7,9 +7,9 @@ package com.xbuilders.engine.gui;
 import static processing.core.PConstants.LEFT;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.ui4j.UIExtension;
-import processing.ui4j.UIExtensionFrame;
-import processing.ui4j.components.NumberBox;
+import com.xbuilders.window.ui4j.UIExtension;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
+import com.xbuilders.window.components.NumberBox;
 
 /**
  *

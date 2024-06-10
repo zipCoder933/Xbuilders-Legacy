@@ -82,27 +82,7 @@ public class DefaultTerrainUtils {
         return true;
     }
 
-    public void randomFlower(final Chunk chunk, final int cx, final int wy, final int cz) {
-        Block block = null;
-        switch (terrain.getRandom().nextInt(4)) {
-            case 0 -> {
-                block = GameItems.Roses;
-            }
-            case 1 -> {
-                block = GameItems.Pansies;
-            }
-            case 2 -> {
-                block = GameItems.AzureBluet;
-            }
-            case 3 -> {
-                block = GameItems.Dandelion;
-            }
-            default -> {
-                block = GameItems.BlueOrchid;
-            }
-        }
-        terrain.setBlock(chunk, block, cx, wy, cz);
-    }
+
 
     public void propagateCoral(final int x, final int y, final int z, final Block block, final Block coralBlock1, final Block coralBlock2) {
         final ListQueue<TravelNode> queue = new ListQueue<>();

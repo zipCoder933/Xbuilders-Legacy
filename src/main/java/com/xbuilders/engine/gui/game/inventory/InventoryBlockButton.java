@@ -4,9 +4,8 @@
  */
 package com.xbuilders.engine.gui.game.inventory;
 
-import processing.ui4j.UIExtension;
-import processing.ui4j.UIExtensionFrame;
-import static processing.core.PConstants.CENTER;
+import com.xbuilders.window.ui4j.UIExtension;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 

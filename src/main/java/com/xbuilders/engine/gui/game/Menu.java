@@ -12,10 +12,8 @@ import com.xbuilders.engine.gui.LabeledNumberBox;
 import com.xbuilders.engine.rendering.worldLightMap.ShaderLightMap;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.TerrainUpdater;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.game.PointerHandler;
-import com.xbuilders.game.items.GameItemList;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -26,8 +24,8 @@ import static processing.core.PConstants.LEFT;
 
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.ui4j.EventAction;
-import processing.ui4j.components.NumberBox;
+import com.xbuilders.window.ui4j.EventAction;
+import com.xbuilders.window.components.NumberBox;
 
 /**
  * @author zipCoder933

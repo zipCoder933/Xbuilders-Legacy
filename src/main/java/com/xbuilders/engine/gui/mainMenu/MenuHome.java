@@ -15,7 +15,7 @@ import static processing.core.PConstants.CENTER;
 import static processing.core.PConstants.TOP;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.ui4j.UIExtension;
+import com.xbuilders.window.ui4j.UIExtension;
 
 /**
  *

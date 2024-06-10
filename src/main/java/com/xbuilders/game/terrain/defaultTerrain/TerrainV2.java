@@ -17,40 +17,42 @@ public class TerrainV2 extends Terrain {
 
     Block fern, deadBush;
     final int WORLD_HEIGHT_OFFSET = 138;
+    final float OCEAN_THRESH = 25;
+    final float MOUNTAIN_THRESH = 20;
     final int WATER_LEVEL = WORLD_HEIGHT_OFFSET + 20;
     DefaultTerrainUtils utils;
     boolean caves = false;
-    boolean mountains = true;
+    float caveFrequency;
 
-
-    public TerrainV2(boolean caves, boolean mountains) {
+    public TerrainV2(boolean caves) {
         this.caves = caves;
-        this.mountains = mountains;
         fern = GameItems.Fern;
         deadBush = GameItems.DeadBush;
         utils = new DefaultTerrainUtils(this, WATER_LEVEL);
+        caveFrequency = MathUtils.clamp(3.9f * this.getFrequency(), 7.0f, 7.5f);
     }
 
 
     @Override
     public void generateChunkInner(final Chunk chunk) {
-        final float caveFrequency = MathUtils.clamp(3.9f * this.getFrequency(), 7.0f, 7.5f);
+        int wx, wz, heightmap;
+        float valley, heat;
+        Biome biome;
+
         for (int x = 0; x < SubChunk.WIDTH; ++x) {
             for (int z = 0; z < SubChunk.WIDTH; ++z) {
-                final int wx = x + chunk.getPosition().x * SubChunk.WIDTH;
-                final int wz = z + chunk.getPosition().z * SubChunk.WIDTH;
-                final float valley = valley(wx, wz);
-                final int heightmap = getHeightmapOfVoxel(valley, wx, wz);
+                wx = x + chunk.getPosition().x * SubChunk.WIDTH;
+                wz = z + chunk.getPosition().z * SubChunk.WIDTH;
+                valley = valley(wx, wz);
+                heightmap = getTerrainHeight(valley, wx, wz);
                 boolean placeWater = true;
-                float heat = getHeat(wx, wz);
-                Biome biome = Biome.DEFAULT;
+                heat = getHeat(wx, wz);
 
                 for (int y = 0; y < 256; ++y) {
 
                     if (y > 252) {
                         this.setBlock(chunk, GameItems.BlockBedrock, x, y, z);
                     } else if (y == heightmap && y > 1) {//Place sod
-
                         biome = getBiomeOfVoxel(valley, heat, heightmap, wx, y, wz);
                         final float alpha = getValueFractal((float) wx * 3, (float) wz * 3 - 500.0f);
                         plantSod(x, y, z, wx, wz, alpha, biome, chunk);
@@ -72,9 +74,10 @@ public class TerrainV2 extends Terrain {
         }
     }
 
+
     @Override
     public int getHeightmapOfVoxel(int x, int z) {
-        return getHeightmapOfVoxel(valley(x, z), x, z);
+        return getTerrainHeight(valley(x, z), x, z);
     }
 
     @Override
@@ -84,6 +87,26 @@ public class TerrainV2 extends Terrain {
                 getHeat(x, z),
                 getHeightmapOfVoxel(x, z),
                 x, y, z);
+    }
+
+    Block randomFlower() {
+        switch (getRandom().nextInt(4)) {
+            case 0 -> {
+                return GameItems.Roses;
+            }
+            case 1 -> {
+                return GameItems.Pansies;
+            }
+            case 2 -> {
+                return GameItems.AzureBluet;
+            }
+            case 3 -> {
+                return GameItems.Dandelion;
+            }
+            default -> {
+                return GameItems.BlueOrchid;
+            }
+        }
     }
 
     final float treeOdds = 0.998f;
@@ -108,7 +131,7 @@ public class TerrainV2 extends Terrain {
                     } else if (f > 0.9) {
                         this.setBlock(chunk, GameItems.GRASS_PLANT, x, y - 1, z);
                     } else if (f > 0.89) {
-                        utils.randomFlower(chunk, x, y - 1, z);
+                        this.setBlock(chunk, randomFlower(), x, y - 1, z);
                     }
                 }
             }
@@ -208,15 +231,13 @@ public class TerrainV2 extends Terrain {
         }
     }
 
-    final float OCEAN_THRESH = 25;
-    final float MOUNTAIN_THRESH = 20;
 
     public float valley(final int wx, final int wz) {
         return getValueFractal((float) wz - 10000, (float) wx);
     }
 
 
-    public int getHeightmapOfVoxel(float valley, final int wx, final int wz) {
+    public int getTerrainHeight(float valley, final int wx, final int wz) {
         int val = (int) (getValueFractal((float) wx, (float) wz) * 50f);
 
         if (val > OCEAN_THRESH) {

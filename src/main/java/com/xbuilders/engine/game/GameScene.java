@@ -38,7 +38,7 @@ import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import processing.opengl.PGL;
 import processing.opengl.PJOGL;
-import processing.ui4j.UIExtension;
+import com.xbuilders.window.ui4j.UIExtension;
 
 /**
  * @author zipCoder933

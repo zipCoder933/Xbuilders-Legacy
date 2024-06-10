@@ -4,9 +4,8 @@
  */
 package com.xbuilders.window;
 
+import com.jogamp.opengl.GL4;
 import org.joml.Matrix4f;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.ARBShaderObjects;
 
 import java.nio.FloatBuffer;
 
@@ -17,6 +16,7 @@ public class MVP {
 
     FloatBuffer buffer;
     public final Matrix4f mvp; //final just means the object cannot be reassigned
+    private final GL4 gl;
     /*
     TODO: Think About loading projection and view into the constructor
         - we will no longer be putting projection and view matricies into draw mehtods
@@ -25,8 +25,9 @@ public class MVP {
     final Matrix4f view = new Matrix4f();
      */
 
-    public MVP() {
-        buffer = BufferUtils.createFloatBuffer(16);
+    public MVP(GL4 gl) {
+        this.gl = gl;
+        buffer = BufferUtils.allocateDirectFloatBuffer(16);
         mvp = new Matrix4f();
     }
 
@@ -52,8 +53,8 @@ public class MVP {
         mvp.get(buffer);
     }
 
-    public void sendToShader(int shaderID, int uniformID) {
-        ARBShaderObjects.glUseProgramObjectARB(shaderID);
-        ARBShaderObjects.glUniformMatrix4fvARB(uniformID, false, buffer);
+    public void sendToShader(int programID, int uniformID) {
+        gl.glUseProgram(programID);
+        gl.glUniformMatrix4fv(uniformID, 1, false, buffer);
     }
 }

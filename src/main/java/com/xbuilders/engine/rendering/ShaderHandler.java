@@ -22,7 +22,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 /**
  * @author zipCoder933

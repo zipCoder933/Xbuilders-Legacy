@@ -8,7 +8,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import java.util.Objects;
 import static processing.core.PConstants.RIGHT;
 import static processing.core.PConstants.TOP;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 /**
  *

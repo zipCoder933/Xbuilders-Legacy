@@ -11,10 +11,10 @@ import com.xbuilders.game.PointerHandler;
 import com.xbuilders.game.terrain.TerrainsList;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.ui4j.EventAction;
-import processing.ui4j.UIExtension;
-import processing.ui4j.components.NumberBox;
-import processing.ui4j.components.TextBox;
+import com.xbuilders.window.ui4j.EventAction;
+import com.xbuilders.window.ui4j.UIExtension;
+import com.xbuilders.window.components.NumberBox;
+import com.xbuilders.window.components.TextBox;
 
 import static com.xbuilders.engine.gui.mainMenu.MainMenu.menuBackdrop;
 import static processing.core.PConstants.LEFT;
@@ -35,7 +35,7 @@ public class NewWorld extends UIExtension implements MenuPage {
         super(f);
         this.ph = ph;
         worldType = 0;
-        terrainStrings = Main.DEV_MODE ? TerrainsList.terrains : TerrainsList.visibleTerrains;
+        terrainStrings = Main.DEV_MODE ? TerrainsList.terrainList : TerrainsList.visibleTerrainList;
 
         resolution = new NumberBox(this);
         resolution.setValue(DEFAULT_TERRAIN_DENSITY);

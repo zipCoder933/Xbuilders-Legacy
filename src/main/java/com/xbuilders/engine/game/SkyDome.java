@@ -13,7 +13,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 import static processing.core.PConstants.SPHERE;
 import processing.core.PShape;
-import processing.ui4j.UIExtensionFrame;
+import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 /**
  *
