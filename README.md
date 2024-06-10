@@ -1,7 +1,7 @@
 <!--
 ![screenshot (3).png](./assets/screenshots/city2.png)
 -->
-# XBuilders
+# XBuilders 2
 A Voxel game written in java and using Processing 4.0 (https://github.com/benfry/processing4)
 (XBuilders v1 was originally built using Godot) 
 
