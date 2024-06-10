@@ -1,4 +1,6 @@
+<!--
 ![screenshot (3).png](./assets/screenshots/city2.png)
+-->
 # XBuilders
 A Voxel game written in java and using Processing 4.0 (https://github.com/benfry/processing4)
 (XBuilders v1 was originally built using Godot) 
@@ -34,6 +36,7 @@ This version of XBuilders is a lot more feature heavy than XBuilders w/ LWJGL. I
 * Custom vehicles can be build, in a driving, underwater or flying configuration configuration
   * Build a helecopter with the helecopter blade, Make a fast flying jet, Build a boat or underwater submarine or Make an off roader or sports car
 
+<!--
 # Screenshots
 
 A wide range of blocks are available:
@@ -63,3 +66,4 @@ Minecarts can be used as a railroad system in your very own city!
 The default terrain has 6 biomes!
 
 ![screenshot (5).png](./assets/screenshots/home.png)
+-->
