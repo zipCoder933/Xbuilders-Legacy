@@ -3,6 +3,7 @@ package com.xbuilders.game.terrain;
 import com.xbuilders.game.terrain.cityTerrain.CityTerrain;
 import com.xbuilders.game.terrain.defaultTerrain.TerrainV1;
 import com.xbuilders.game.terrain.defaultTerrain.TerrainV2;
+import com.xbuilders.game.terrain.defaultTerrain.TerrainV3;
 
 import java.util.HashMap;
 
@@ -12,7 +13,7 @@ public class TerrainsList {
     public static String[] terrainList;
 
     public static String[] visibleTerrainList = {
-            "DEFAULT_V2", "DEFAULT_V2_CAVES",
+            "DEFAULT_V2", "DEFAULT_V2_CAVES",//Lets wait for v3
             "MOON", "MOON_SHALLOW",
             "SIMPLE", "SIMPLE_DEEP"};
 
@@ -35,8 +36,8 @@ public class TerrainsList {
         terrainsMap.put("DEFAULT_V2", new TerrainV2(false));
 
         //V3
-//        terrainsMap.put("DEFAULT_V3", new TerrainV3(false)); //Lets wait for v3
-//        terrainsMap.put("DEFAULT_V3_CAVES", new TerrainV3(true));
+        terrainsMap.put("DEFAULT_V3", new TerrainV3(false));
+        terrainsMap.put("DEFAULT_V3_CAVES", new TerrainV3(true));
 
         //Set terrains list
         terrainList = terrainsMap.keySet().toArray(new String[0]);
