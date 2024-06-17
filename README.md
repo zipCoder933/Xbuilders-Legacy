@@ -16,7 +16,7 @@ Textures taken mostly from Pixel Perfection:
 
 ## It wont run?
 to better diagnose the problem, run the jarfile in a terminal with
-''' java -jar XBuildersUI4J.jar'''
+`java -jar XBuildersUI4J.jar`
 
 the most likely cause could be that you dont have jdk 21 installed on your computer
 you can install it from oracles website or from openjdk:
