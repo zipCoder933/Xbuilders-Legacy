@@ -1,6 +1,6 @@
-<!--
+
 ![screenshot (3).png](./assets/screenshots/city2.png)
--->
+
 # XBuilders 2
 A Voxel game written in java and using Processing 4.0 (https://github.com/benfry/processing4)
 (XBuilders v1 was originally built using Godot) 
@@ -13,6 +13,14 @@ Textures taken mostly from Pixel Perfection:
 1. the build artifact, "XBuildersUI4J.jar" is in the root directory
 2. upon first run, the jarfile will generate all block icons
 3. run it again to start the game
+
+## It wont run?
+to better diagnose the problem, run the jarfile in a terminal with
+''' java -jar XBuildersUI4J.jar'''
+
+the most likely cause could be that you dont have jdk 21 installed on your computer
+you can install it from oracles website or from openjdk:
+https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-21
 
 # Setting up source code
 * Dependencies for processing 4.0 were pre-compiled into a a few packed jars. The jarfiles are in the /dependencies folder. Just make sure to add them into the project using whatever IDE you have chosen.
@@ -36,7 +44,7 @@ Current features include:
 * Custom vehicles can be build, in a driving, underwater or flying configuration configuration
   * Build a helecopter with the helecopter blade, Make a fast flying jet, Build a boat or underwater submarine or Make an off roader or sports car
 
-<!--
+
 # Screenshots
 
 A wide range of blocks are available:
@@ -66,4 +74,3 @@ Minecarts can be used as a railroad system in your very own city!
 The default terrain has 6 biomes!
 
 ![screenshot (5).png](./assets/screenshots/home.png)
--->
