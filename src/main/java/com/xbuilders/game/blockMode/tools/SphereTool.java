@@ -22,7 +22,7 @@ public class SphereTool extends Tool {
 
     @Override
     public boolean shouldActivate(BaseWindow window, KeyEvent ke) {
-        return window.keyIsPressed(KeyCode.FIVE);
+        return window.keyIsPressed(KeyCode.SIX);
     }
 
     @Override

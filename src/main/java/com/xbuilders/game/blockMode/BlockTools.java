@@ -37,7 +37,8 @@ public class BlockTools {
         //-------------------------------------------------------
         tools.add(new LineTool(this));
         tools.add(new BoundaryTool(this));
-        tools.add(new Fill(this));
+        tools.add(new PlaneTool(this));
+        tools.add(new Repaint(this));
         tools.add(new PasteTool(this));
         tools.add(new CopyTool(this));
         tools.add(new SphereTool(this));

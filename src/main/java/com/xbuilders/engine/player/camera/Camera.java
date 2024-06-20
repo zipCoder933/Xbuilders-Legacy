@@ -23,7 +23,7 @@ import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 public class Camera {
     UIExtensionFrame app;
- public final   CursorRaycast cursorRay;
+    public final CursorRaycast cursorRay;
     public final Vector3f up = new Vector3f(0f, 1f, 0f);
     public final Vector3f right = new Vector3f(1f, 0f, 0f);
     public final Vector3f look = new Vector3f(0f, 0.5f, 1f);

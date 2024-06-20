@@ -104,6 +104,17 @@ public class CursorRaycast {
                     return true;
                 }),
                 VoxelGame.getWorld());
+
+        //Keep the boundary flat
+        if (boundary_lockToPlane && boundary_isStartNodeSet) {
+            if (simplifiedPanTilt.y != 0) {
+                cursorRay.hitPostition.y = boundary_startNode.y;
+            } else if (simplifiedPanTilt.x == 1 || simplifiedPanTilt.x == 3) {
+                cursorRay.hitPostition.x = boundary_startNode.x;
+            } else {
+                cursorRay.hitPostition.z = boundary_startNode.z;
+            }
+        }
     }
 
     public Entity getEntity() {
@@ -116,6 +127,8 @@ public class CursorRaycast {
     }
 
     protected void drawCursor(BlockTools blockModes, PGraphics pg) {
+        if (!camera.cursorRay.hitTarget()) return;
+
         if (useBoundary) {
             if (!boundary_isStartNodeSet) {
                 setBoundaryStartNode(boundary_startNode);
@@ -127,7 +140,7 @@ public class CursorRaycast {
             if (boundaryIsTooBig()) drawBox(pg, boundary_aabb, 255, 0, 0, 255);
             else drawBox(pg, boundary_aabb, 255, 255, 255, 255);
         } else if (blockModes.drawCursor(this, pg)) {
-        } else if (camera.cursorRay.hitTarget()) {
+        } else {
             drawCursorBlock(pg);
         }
     }
@@ -197,6 +210,7 @@ public class CursorRaycast {
     public void enableBoundaryMode(BiConsumer<AABB, Boolean> createBoundaryConsumer) {
         useBoundary = true;
         boundary_isStartNodeSet = false;
+        boundary_lockToPlane = false;
         this.boundaryConsumer = createBoundaryConsumer;
     }
 
@@ -242,9 +256,6 @@ public class CursorRaycast {
             });
         } else if (ke.getKeyCode() == BOUNDARY_PARAM1) {
             boundary_useHitPos = false;
-        } else if (ke.getKeyCode() == BOUNDARY_PARAM2) {
-            boundary_lockToPlane = !boundary_lockToPlane;
-            System.out.println("boundary lock to plane " + boundary_lockToPlane);
         }
     }
 

@@ -21,7 +21,7 @@ public class LineTool extends Tool {
 
     @Override
     public boolean shouldActivate(BaseWindow window, KeyEvent ke) {
-        return window.keyIsPressed(KeyCode.THREE);
+        return window.keyIsPressed(KeyCode.FOUR);
     }
 
     @Override

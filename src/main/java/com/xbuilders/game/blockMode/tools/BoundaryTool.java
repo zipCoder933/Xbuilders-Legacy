@@ -133,20 +133,13 @@ public class BoundaryTool extends Tool {
 
     @Override
     public String toolDescription() {
-        return VoxelGame.getPlayer().camera.cursorRay.boundary_lockToPlane ? "Plane (Boundary)" : "Boundary";
-    }
-
-    @Override
-    public void changeMode() {
-        VoxelGame.getPlayer().camera.cursorRay.boundary_lockToPlane = !VoxelGame.getPlayer().camera.cursorRay.boundary_lockToPlane;
-        if (VoxelGame.getPlayer().camera.cursorRay.boundary_lockToPlane == false) {
-            VoxelGame.getPlayer().camera.cursorRay.boundary_useHitPos = false;
-        }
+        return "Boundary";
     }
 
     @Override
     public void activate() {
         VoxelGame.getPlayer().camera.cursorRay.enableBoundaryMode(boundarySet);
+        VoxelGame.getPlayer().camera.cursorRay.boundary_lockToPlane = false;
     }
 
     @Override
