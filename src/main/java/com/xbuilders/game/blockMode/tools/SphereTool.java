@@ -71,7 +71,7 @@ public class SphereTool extends Tool {
     public String toolDescription() {
         String str = mode.toString().replace("_", " ").toLowerCase() + " sphere";
         if (mode == SphereMode.CENTERED || mode == SphereMode.HOLLOW_CENTERED)
-            str += " (x" + blockTools.getSize() + ")";
+            str += " (x" + toolSize + ")";
         return str;
     }
 
@@ -79,7 +79,7 @@ public class SphereTool extends Tool {
     public boolean drawCursor(CursorRaycast ray, PGraphics g) {
         if (mode == SphereMode.CENTERED || mode == SphereMode.HOLLOW_CENTERED) {
             BlockOrientation orientation = VoxelGame.getPlayer().cameraBlockOrientation();
-            int size = blockTools.getSize();
+
             int add = 0;
             g.strokeWeight(1.5f);
             g.noFill();
@@ -90,7 +90,7 @@ public class SphereTool extends Tool {
                     ray.cursorRay.hitPostition.z + 0.5f);
 
             g.translate(ray.cursorRay.hitNormal.x, ray.cursorRay.hitNormal.y, ray.cursorRay.hitNormal.z);
-            g.box((size * 2) - 1f, (size * 2) - 1f, (size * 2) - 1f);
+            g.box((toolSize * 2) - 1f, (toolSize * 2) - 1f, (toolSize * 2) - 1f);
 
             return true;
         }
@@ -102,20 +102,20 @@ public class SphereTool extends Tool {
         Vector3i hitPosition = ray.cursorRay.getHitPositionAsInt();
         switch (mode) {
             case CENTERED -> {
-                int size2 = blockTools.getSize() * 2;
+                int size2 = toolSize * 2;
                 sphereBoundaryEvent.event.accept(
-                        new AABB().setPosAndSize(hitPosition.x - blockTools.getSize(),
-                                hitPosition.y - blockTools.getSize(),
-                                hitPosition.z - blockTools.getSize(),
+                        new AABB().setPosAndSize(hitPosition.x - toolSize,
+                                hitPosition.y - toolSize,
+                                hitPosition.z - toolSize,
                                 size2, size2, size2), isCreationMode);
                 return true;
             }
             case HOLLOW_CENTERED -> {
-                int size2 = blockTools.getSize() * 2;
+                int size2 = toolSize * 2;
                 hollowSphereBoundaryEvent.event.accept(
-                        new AABB().setPosAndSize(hitPosition.x - blockTools.getSize(),
-                                hitPosition.y - blockTools.getSize(),
-                                hitPosition.z - blockTools.getSize(),
+                        new AABB().setPosAndSize(hitPosition.x - toolSize,
+                                hitPosition.y - toolSize,
+                                hitPosition.z - toolSize,
                                 size2, size2, size2), isCreationMode);
                 return true;
             }

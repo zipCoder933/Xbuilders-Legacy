@@ -56,11 +56,7 @@ public class BulkBlockSetter {
 
     public void addToBlockQueue(final Block block, final Vector3i vec, final BlockData data) {
         Block prevBlock = VoxelGame.getWorld().getBlock(vec);
-
-        if (prevBlock != block
-                && VoxelGame.getWorld().inPlacableBounds(vec.y)
-                && !willCollideWithPlayer(block,vec)) {
-
+        if (VoxelGame.getWorld().inPlacableBounds(vec.y)) {
             this.fastBlockQueue.add(new BlockToSet(block, prevBlock, vec, data));
             VoxelGame.getWorld().setBlockAndUpdate(block, data, vec.x, vec.y, vec.z);
         } else {

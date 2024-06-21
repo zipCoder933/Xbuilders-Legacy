@@ -10,16 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97088633-1bd4-4482-a1bb-f362d22b9a51" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/PlaneTool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/XBuildersUI4J.jar" beforeDir="false" afterPath="$PROJECT_DIR$/XBuildersUI4J.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/CursorRaycast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/CursorRaycast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/Camera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/BlockTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/BlockTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/BoundaryTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/BoundaryTool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/Fill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/Repaint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/BulkBlockSetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/BulkBlockSetter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/LineTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/LineTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/PlaneTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/PlaneTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/Repaint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/Repaint.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/SphereTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/SphereTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/Tool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockMode/tools/Tool.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,23 +46,23 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Application.JOGLMeshDemo.executor": "Run",
-    "Application.Main Dev.executor": "Run",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Xbuilders2/src/main/java/com/xbuilders/window",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.20099668"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Application.JOGLMeshDemo.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main Dev.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Xbuilders2/src/main/java/com/xbuilders/window&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.20099668&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Xbuilders2\src\main\java\com\xbuilders\window" />

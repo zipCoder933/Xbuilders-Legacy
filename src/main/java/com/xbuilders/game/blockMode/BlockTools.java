@@ -32,7 +32,6 @@ public class BlockTools {
     public BlockTools(UserControlledPlayer player) {
         blockSetter = new BulkBlockSetter();
         setting = new SettingUtils(this);
-        size = 6;
         tools.add(new DefaultTool(this)); //Always the first item on the list
         //-------------------------------------------------------
         tools.add(new LineTool(this));
@@ -50,10 +49,9 @@ public class BlockTools {
     int selectedTool = 0;
 
     public void keyReleased(BaseWindow window, KeyEvent ke) {
-        modeView=null;
+        modeView = null;
         if (!window.keyIsPressed(KeyCode.SHIFT)
                 && VoxelGame.getGame().mode == GameMode.FREEPLAY) {
-
             if (window.keyIsPressed(KeyCode.M)) {
                 getSelectedTool().changeMode();
             } else if (getSelectedTool().keyReleased(window, ke)) {
@@ -73,21 +71,6 @@ public class BlockTools {
         blockSetter.stop();
     }
 
-    /**
-     * @return the size
-     */
-    public int getSize() {
-        return size;
-    }
-
-    /**
-     * @param size the size to set
-     */
-    public void setSize(int size) {
-        this.size = (int) MathUtils.clamp(size, 1, getSelectedTool().getMaxSize());
-    }
-
-    private int size;
 
     public void resetBlockMode() {
         setSelectedTool(0);
@@ -95,7 +78,6 @@ public class BlockTools {
 
     private void setSelectedTool(int selectedTool) {
         if (this.selectedTool != selectedTool) getSelectedTool().deactivate();
-        else getSelectedTool().changeMode();
         if (selectedTool < 0) selectedTool = 0;
         if (selectedTool > tools.size() - 1) selectedTool = tools.size() - 1;
         this.selectedTool = selectedTool;
@@ -135,17 +117,21 @@ public class BlockTools {
     public void drawGUI(UIExtensionFrame frame) {
         if (VoxelGame.getGame().mode == GameMode.FREEPLAY) {
 //            if(modeView == null) {
-                String str = "Block Tool: " + getSelectedTool().toolDescription();
-                frame.textAlign(CENTER, TOP);
-                frame.textSize(10);
-                frame.noStroke();
-                frame.fill(10, 200);
-                float boxWidth = frame.textWidth(str) + padding * 2;
-                frame.rect((frame.width / 2) - (boxWidth / 2), yOffset, boxWidth, 20 + padding, 2);
-                frame.fill(255);
-                frame.text(str, frame.width / 2, yOffset + padding - 2);
+            String str = "Block Tool: " + getSelectedTool().toolDescription();
+            frame.textAlign(CENTER, TOP);
+            frame.textSize(10);
+            frame.noStroke();
+            frame.fill(10, 200);
+            float boxWidth = frame.textWidth(str) + padding * 2;
+            frame.rect((frame.width / 2) - (boxWidth / 2), yOffset, boxWidth, 20 + padding, 2);
+            frame.fill(255);
+            frame.text(str, frame.width / 2, yOffset + padding - 2);
 //            }
         }
+    }
+
+    public void mouseWheel(int count) {
+        getSelectedTool().mouseWheel(count);
     }
 
 //    private void textBox(UIExtensionFrame frame, String str) {

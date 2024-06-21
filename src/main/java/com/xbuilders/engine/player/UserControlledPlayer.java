@@ -523,7 +523,7 @@ public class UserControlledPlayer extends Player {
             if (camera.cursorRay.mouseEvent(event, getParentFrame())) {
 
             } else if (VoxelGame.getGame().mode == GameMode.FREEPLAY && keyIsPressed(KeyCode.SHIFT)) {
-                blockTools.setSize(blockTools.getSize() - event.getCount());
+                blockTools.mouseWheel(event.getCount());
             } else if (keyIsPressed(KEY_CHANGE_VIEW) || positionLock != null) {
                 camera.setThirdPersonDist(camera.getThirdPersonDist() - (event.getCount() * 2));
                 scrollView = true;

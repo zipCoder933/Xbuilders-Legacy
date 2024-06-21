@@ -24,8 +24,7 @@ import java.util.HashSet;
 
 public class Repaint extends Tool {
     public Repaint(BlockTools blockTools) {
-        super("Fill", blockTools);
-        usesSize = true;
+        super("Repaint", blockTools);
     }
 
     @Override
@@ -36,9 +35,6 @@ public class Repaint extends Tool {
 
     @Override
     public boolean setBlock(ItemQuantity item, CursorRaycast ray, BlockData data, boolean isCreationMode) {
-
-        int size = blockTools.getSize();
-
         if (isCreationMode) {
 //            if (mode == FillMode.PLANAR) {
 //                (new Thread() {
@@ -52,14 +48,14 @@ public class Repaint extends Tool {
 //                }).start();
 //            } else {
             (new Thread(() -> {//Repaint
-                if(item == null) return;
-                repaint((Block) item.getItem(), ray.cursorRay, size, data, false);
+                if (item == null) return;
+                repaint((Block) item.getItem(), ray.cursorRay, toolSize, data, false);
                 blockSetter.wakeUp();
             })).start();
 //            }
         } else {
             (new Thread(() -> {
-                erase(ray.cursorRay, size);
+                erase(ray.cursorRay, toolSize);
                 blockSetter.wakeUp();
             })).start();
         }
@@ -168,7 +164,7 @@ public class Repaint extends Tool {
     @Override
     public boolean drawCursor(CursorRaycast ray, PGraphics g) {
         BlockOrientation orientation = VoxelGame.getPlayer().cameraBlockOrientation();
-        int size = blockTools.getSize();
+
         int add = 0;
         g.strokeWeight(1.5f);
         g.noFill();
@@ -191,13 +187,13 @@ public class Repaint extends Tool {
 //            }
 //        } else {
         g.translate(ray.cursorRay.hitNormal.x, ray.cursorRay.hitNormal.y, ray.cursorRay.hitNormal.z);
-        g.box((size * 2) - 1f, (size * 2) - 1f, (size * 2) - 1f);
+        g.box((toolSize * 2) - 1f, (toolSize * 2) - 1f, (toolSize * 2) - 1f);
 //        }
         return true;
     }
 
     public String toolDescription() {
-        return "Repaint" + (usesSize ? " (x" + blockTools.getSize() + ")" : "");
+        return "Repaint (x" + toolSize + ")";
     }
 
     @Override
@@ -208,5 +204,15 @@ public class Repaint extends Tool {
     public boolean keyReleased(BaseWindow window, KeyEvent ke) {
         return false;
     }
+
+    public void mouseWheel(int count) {
+        toolSize -= count;
+        if (toolSize < 1) {
+            toolSize = 1;
+        } else if (toolSize > 10) {
+            toolSize = 10;
+        }
+    }
+
 }
 

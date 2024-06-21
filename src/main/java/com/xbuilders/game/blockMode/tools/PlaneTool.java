@@ -80,7 +80,7 @@ public class PlaneTool extends Tool {
         Stopwatch watch = new Stopwatch();
         watch.start();
         long timeSinceStart = System.currentTimeMillis();
-        int size = blockTools.getSize();
+        int size = this.toolSize;
 
         if (isCreationMode) {
             if (centeredMode) {
@@ -126,7 +126,7 @@ public class PlaneTool extends Tool {
     public boolean drawCursor(CursorRaycast ray, PGraphics g) {
         if (centeredMode) {
             BlockOrientation orientation = VoxelGame.getPlayer().cameraBlockOrientation();
-            int size = blockTools.getSize();
+
             int add = 0;
             g.strokeWeight(1.5f);
             g.noFill();
@@ -139,12 +139,12 @@ public class PlaneTool extends Tool {
             g.translate(ray.cursorRay.hitNormal.x, ray.cursorRay.hitNormal.y, ray.cursorRay.hitNormal.z);
             if (ray.cursorRay.hitNormal.y == 0 && orientation.getY() == 0) {
                 if (orientation.getXZ() == 0 || orientation.getXZ() == 2) {
-                    g.box((size * 2) - 1f, (size * 2) - 1f, 1 + add);
+                    g.box((toolSize * 2) - 1f, (toolSize * 2) - 1f, 1 + add);
                 } else {
-                    g.box(1 + add, (size * 2) - 1f, (size * 2) - 1f);
+                    g.box(1 + add, (toolSize * 2) - 1f, (toolSize * 2) - 1f);
                 }
             } else {
-                g.box((size * 2) - 1f, 1 + add, (size * 2) - 1f);
+                g.box((toolSize * 2) - 1f, 1 + add, (toolSize * 2) - 1f);
             }
         }
         return true;
@@ -153,6 +153,15 @@ public class PlaneTool extends Tool {
     @Override
     public void deactivate() {
         VoxelGame.getPlayer().camera.cursorRay.disableBoundaryMode();
+    }
+
+    public void mouseWheel(int count) {
+        toolSize -= count;
+        if(toolSize < 2) {
+            toolSize = 2;
+        }else if(toolSize > 10) {
+            toolSize = 10;
+        }
     }
 
 }

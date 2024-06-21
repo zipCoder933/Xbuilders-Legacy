@@ -16,7 +16,6 @@ public class LineTool extends Tool {
 
     public LineTool(BlockTools tools) {
         super("Line", tools);
-        usesSize = true;
     }
 
     @Override
@@ -33,9 +32,9 @@ public class LineTool extends Tool {
         if (isCreationMode) {
             if (item != null && item.getItem().itemType == ItemType.BLOCK) {
                 Block block = (Block) item.getItem();
-                setting.setLine(block, ray.cursorRay, timeSinceStart, blockTools.getSize(), data);
+                setting.setLine(block, ray.cursorRay, timeSinceStart, toolSize, data);
             }
-        } else setting.eraseLine(ray.cursorRay, timeSinceStart, blockTools.getSize());
+        } else setting.eraseLine(ray.cursorRay, timeSinceStart, toolSize);
 
         blockSetter.wakeUp();
         return true;
@@ -48,38 +47,37 @@ public class LineTool extends Tool {
                 ray.cursorRay.hitPostition.y + 0.5f,
                 ray.cursorRay.hitPostition.z + 0.5f);
 
-        int size = blockTools.getSize();
         float add = 0f;
         g.strokeWeight(1.5f);
         g.noFill();
         g.stroke(255);
 
         g.pushMatrix();
-        float transSize = ((int) size / 2) + 0.5f;
-        if (size % 2 != 0) {
+        float transSize = ((int) toolSize / 2) + 0.5f;
+        if (toolSize % 2 != 0) {
             transSize += 0.5f;
         }
         if (ray.cursorRay.hitNormal.x > 0) {
             g.translate(transSize, 0, 0);
-            g.box(size + 0.1f, 1 + add, 1 + add);
+            g.box(toolSize + 0.1f, 1 + add, 1 + add);
         } else if (ray.cursorRay.hitNormal.x < 0) {
             g.translate(-transSize, 0, 0);
-            g.box(size + 0.1f, 1 + add, 1 + add);
+            g.box(toolSize + 0.1f, 1 + add, 1 + add);
         } else {
             if (ray.cursorRay.hitNormal.y > 0) {
                 g.translate(0, transSize, 0);
-                g.box(1 + add, size + 0.1f, 1 + add);
+                g.box(1 + add, toolSize + 0.1f, 1 + add);
             } else {
                 if (ray.cursorRay.hitNormal.y < 0) {
                     g.translate(0, -transSize, 0);
-                    g.box(1 + add, size + 0.1f, 1 + add);
+                    g.box(1 + add, toolSize + 0.1f, 1 + add);
                 } else {
                     if (ray.cursorRay.hitNormal.z > 0) {
                         g.translate(0, 0, transSize);
-                        g.box(1 + add, 1 + add, size + 0.1f);
+                        g.box(1 + add, 1 + add, toolSize + 0.1f);
                     } else {
                         g.translate(0, 0, -transSize);
-                        g.box(1 + add, 1 + add, size + 0.1f);
+                        g.box(1 + add, 1 + add, toolSize + 0.1f);
                     }
                 }
             }
@@ -87,31 +85,31 @@ public class LineTool extends Tool {
 
             g.stroke(255, 0, 0);
             g.pushMatrix();
-            transSize = ((int) size / 2);
-            if (size % 2 == 0) {
+            transSize = ((int) toolSize / 2);
+            if (toolSize % 2 == 0) {
                 transSize -= 0.5f;
             }
             if (ray.cursorRay.hitNormal.x > 0) {
                 g.translate(-transSize, 0, 0);
-                g.box(size + 0.1f, 1 + add, 1 + add);
+                g.box(toolSize + 0.1f, 1 + add, 1 + add);
             } else if (ray.cursorRay.hitNormal.x < 0) {
                 g.translate(transSize, 0, 0);
-                g.box(size + 0.1f, 1 + add, 1 + add);
+                g.box(toolSize + 0.1f, 1 + add, 1 + add);
             } else {
                 if (ray.cursorRay.hitNormal.y > 0) {
                     g.translate(0, -transSize, 0);
-                    g.box(1 + add, size + 0.1f, 1 + add);
+                    g.box(1 + add, toolSize + 0.1f, 1 + add);
                 } else {
                     if (ray.cursorRay.hitNormal.y < 0) {
                         g.translate(0, transSize, 0);
-                        g.box(1 + add, size + 0.1f, 1 + add);
+                        g.box(1 + add, toolSize + 0.1f, 1 + add);
                     } else {
                         if (ray.cursorRay.hitNormal.z > 0) {
                             g.translate(0, 0, -transSize);
-                            g.box(1 + add, 1 + add, size + 0.1f);
+                            g.box(1 + add, 1 + add, toolSize + 0.1f);
                         } else {
                             g.translate(0, 0, transSize);
-                            g.box(1 + add, 1 + add, size + 0.1f);
+                            g.box(1 + add, 1 + add, toolSize + 0.1f);
                         }
                     }
                 }

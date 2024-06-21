@@ -15,11 +15,7 @@ public abstract class Tool {
     public final SettingUtils setting;
     public final BulkBlockSetter blockSetter;
     public final BlockTools blockTools;
-    public boolean usesSize = false;
 
-    public String toolDescription(){
-        return name + (usesSize ? " (x" + blockTools.getSize() + ")" : "");
-    }
 
     public Tool(String name, BlockTools blockTools) {
         this.name = name;
@@ -33,7 +29,8 @@ public abstract class Tool {
     public void activate() {
     }
 
-    public void changeMode() {}
+    public void changeMode() {
+    }
 
     public void deactivate() {
     }
@@ -52,7 +49,19 @@ public abstract class Tool {
         return false;
     }
 
-    public float getMaxSize() {
-        return 20f;
+
+    public String toolDescription() {
+        return name + " (x" + toolSize + ")";
+    }
+
+    public int toolSize = 2;
+
+    public void mouseWheel(int count) {
+        toolSize -= count;
+        if (toolSize < 1) {
+            toolSize = 1;
+        } else if (toolSize > 10) {
+            toolSize = 10;
+        }
     }
 }
