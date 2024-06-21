@@ -16,7 +16,7 @@ public class MVP {
 
     FloatBuffer buffer;
     public final Matrix4f mvp; //final just means the object cannot be reassigned
-    private final GL4 gl;
+
     /*
     TODO: Think About loading projection and view into the constructor
         - we will no longer be putting projection and view matricies into draw mehtods
@@ -25,10 +25,14 @@ public class MVP {
     final Matrix4f view = new Matrix4f();
      */
 
-    public MVP(GL4 gl) {
-        this.gl = gl;
+    public MVP() {
         buffer = BufferUtils.allocateDirectFloatBuffer(16);
         mvp = new Matrix4f();
+    }
+
+    public MVP(Matrix4f mvp) {
+        buffer = BufferUtils.allocateDirectFloatBuffer(16);
+        this.mvp = mvp;
     }
 
     public void update(final Matrix4f projection, final Matrix4f view, final Matrix4f model) {
@@ -36,11 +40,11 @@ public class MVP {
         mvp.get(buffer);
     }
 
-    public void update(){
+    public void update() {
         mvp.get(buffer);
     }
 
-    public void update(Matrix4f matrix){
+    public void update(Matrix4f matrix) {
         mvp.set(matrix);
         mvp.get(buffer);
     }
@@ -53,7 +57,7 @@ public class MVP {
         mvp.get(buffer);
     }
 
-    public void sendToShader(int programID, int uniformID) {
+    public void sendToShader(GL4 gl, int programID, int uniformID) {
         gl.glUseProgram(programID);
         gl.glUniformMatrix4fv(uniformID, 1, false, buffer);
     }

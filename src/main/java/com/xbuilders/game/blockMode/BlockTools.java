@@ -9,7 +9,6 @@ import com.xbuilders.engine.game.GameMode;
 import com.xbuilders.engine.items.ItemQuantity;
 import com.xbuilders.engine.player.CursorRaycast;
 import com.xbuilders.engine.player.UserControlledPlayer;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.game.blockMode.tools.*;
 import com.xbuilders.window.BaseWindow;
@@ -51,7 +50,7 @@ public class BlockTools {
     public void keyReleased(BaseWindow window, KeyEvent ke) {
         modeView = null;
         if (!window.keyIsPressed(KeyCode.SHIFT)
-                && VoxelGame.getGame().mode == GameMode.FREEPLAY) {
+                && VoxelGame.getGameScene().mode == GameMode.FREEPLAY) {
             if (window.keyIsPressed(KeyCode.M)) {
                 getSelectedTool().changeMode();
             } else if (getSelectedTool().keyReleased(window, ke)) {
@@ -115,7 +114,7 @@ public class BlockTools {
     int padding = 12;
 
     public void drawGUI(UIExtensionFrame frame) {
-        if (VoxelGame.getGame().mode == GameMode.FREEPLAY) {
+        if (VoxelGame.getGameScene().mode == GameMode.FREEPLAY) {
 //            if(modeView == null) {
             String str = "Block Tool: " + getSelectedTool().toolDescription();
             frame.textAlign(CENTER, TOP);
@@ -151,7 +150,7 @@ public class BlockTools {
 
     public void keyPressed(BaseWindow window, KeyEvent ke) {
         if (!window.keyIsPressed(KeyCode.SHIFT)
-                && VoxelGame.getGame().mode == GameMode.FREEPLAY) {
+                && VoxelGame.getGameScene().mode == GameMode.FREEPLAY) {
 
             if (window.keyIsPressed(KeyCode.M)) {
                 modeView = PalletView.MODES;

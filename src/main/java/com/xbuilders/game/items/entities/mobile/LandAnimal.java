@@ -72,7 +72,7 @@ public abstract class LandAnimal extends Animal {
 
     public LandAnimal(Vector3f aabbSize, float animalRadius) {
         super(aabbSize, true, animalRadius);
-        this.player = VoxelGame.getGame().player;
+        this.player = VoxelGame.getGameScene().player;
         setNeedsConstantSaving(true);
     }
 
@@ -223,8 +223,8 @@ public abstract class LandAnimal extends Animal {
                 switch (getAction().getType()) {
                     case FOLLOW:
                         if (getAction().getTimeSinceCreatedMS() < 50 || getPointerHandler().getApplet().frameCount % 25 == 0) {
-                            UserControlledPlayer userControlledPlayer = VoxelGame.getGame().player;
-                            UserControlledPlayer userControlledPlayer1 = VoxelGame.getGame().player;
+                            UserControlledPlayer userControlledPlayer = VoxelGame.getGameScene().player;
+                            UserControlledPlayer userControlledPlayer1 = VoxelGame.getGameScene().player;
                             dist2 = (float) MathUtils.dist(worldPosition.x, worldPosition.z,
                                     userControlledPlayer1.worldPos.x, userControlledPlayer.worldPos.z);
                         }

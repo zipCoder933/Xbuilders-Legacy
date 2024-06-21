@@ -78,8 +78,8 @@ public class LoadWorld extends UIExtension implements MenuPage {
 
             @Override
             public void run() {
-                int modeIndex = Arrays.asList(GameMode.values()).indexOf(VoxelGame.getGame().mode) + 1;
-                VoxelGame.getGame().mode = GameMode.values()[modeIndex % GameMode.values().length];
+                int modeIndex = Arrays.asList(GameMode.values()).indexOf(VoxelGame.getGameScene().mode) + 1;
+                VoxelGame.getGameScene().mode = GameMode.values()[modeIndex % GameMode.values().length];
             }
         });
         delete.setAction(new Runnable() {
@@ -124,7 +124,7 @@ public class LoadWorld extends UIExtension implements MenuPage {
 
     @Override
     public void onOpen() {
-        VoxelGame.getGame().mode = GameMode.FREEPLAY;
+        VoxelGame.getGameScene().mode = GameMode.FREEPLAY;
         loadSavedWorlds();
         if (VoxelGame.LOAD_WORLD_ON_STARTUP && Main.DEV_MODE && savedWorlds.size() > 0) {
             try {
@@ -256,7 +256,7 @@ public class LoadWorld extends UIExtension implements MenuPage {
 
             translate(-40, 0);
 
-            gameModeButton.draw(MiscUtils.snakeToCamel(VoxelGame.getGame().mode.toString()) + " Mode", 10, y, (w / 2 - 20) + centerPointOffset);
+            gameModeButton.draw(MiscUtils.snakeToCamel(VoxelGame.getGameScene().mode.toString()) + " Mode", 10, y, (w / 2 - 20) + centerPointOffset);
             y += 50;
             load.draw("Load World", 10, y, (w / 2 - 20) + centerPointOffset);
             y += 50;

@@ -10,6 +10,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.BlockAction;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
+import com.xbuilders.engine.player.camera.frustum.Frustum;
 import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -24,6 +25,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import processing.core.KeyCode;
 
 import static processing.core.PConstants.BOTTOM;
@@ -59,8 +62,6 @@ public class GameScene extends UIExtension {
         this.devStatsOpen = devStatsOpen;
     }
 
-    public GameMenu menu;
-    boolean drawEntities = true;
 
     /**
      * @return the ready
@@ -69,11 +70,13 @@ public class GameScene extends UIExtension {
         return ready;
     }
 
-    public String worldName = "";
+    public GameMenu menu;
+    boolean drawEntities = true;
     public UserControlledPlayer player;
+    public final Matrix4f projection = new Matrix4f();
+    public final Matrix4f view = new Matrix4f();
 
     VoxelGame main;
-
     public GameMode mode = GameMode.FREEPLAY;
 
     public GameScene(final VoxelGame main, final UIExtension frame) throws IOException {
@@ -127,6 +130,7 @@ public class GameScene extends UIExtension {
         menu.initialize(VoxelGame.getWorld());
         ready = true;
         drawEntities = true;
+        updateProjectionMatrix();
     }
 
     SkyDome skyDome;
@@ -153,24 +157,15 @@ public class GameScene extends UIExtension {
     PJOGL pgl;
     GrassGrower grassGrower;
 
-    public static final float cameraFOV = (float) (90 * (Math.PI / 180));
+    public static final float cameraFOV = (float) (80/*degrees*/ * (Math.PI / 180));
     public static final float cameraNearDist = 0.1f;
     public static final float cameraFarDist = 400;
     PointerHandler ph;
 
-    public float getCameraRatio() {
-        return (float) getParentFrame().width / (float) getParentFrame().height;
-    }
-
 
     public void draw() throws IOException, Exception {
         if (ready) {  //frameTester.startFrame();
-//            getParentFrame().getGraphics().clear();
-//            getParentFrame().background(255);
-//            getParentFrame().fill(255, 0, 0);
-//            getParentFrame().stroke(255);
-//            getParentFrame().strokeWeight(5);
-//            getParentFrame().box(200);
+            updateProjectionMatrix();
             skyDome.draw(getParentFrame(), VoxelGame.getShaderHandler());
             //------------------------------------------------------------------
 
@@ -182,12 +177,6 @@ public class GameScene extends UIExtension {
             pgl = (PJOGL) getParentFrame().beginPGL();
             pgl.frontFace(PGL.CCW);
             pgl.enable(PGL.CULL_FACE);
-//            pgl.gl.getGL2().glBegin(TOP);
-            getParentFrame().perspective(cameraFOV, getCameraRatio(), cameraNearDist, cameraFarDist);
-            //shader(lightingEnabled ? blockShader : blockShaderUnlit);
-            //shader(lightingEnabled ? blockShader : depthBufferShader);
-//          
-
             //frameTester.startProcess();
             VoxelGame.getWorld().draw(getParentFrame().getGraphics(), drawEntities);
             //frameTester.endProcess("World Draw");
@@ -224,6 +213,22 @@ public class GameScene extends UIExtension {
 
         }
 
+    }
+
+    public final Frustum frustum = new Frustum();
+
+    public void updateProjectionMatrix() {
+        float screenRatio = (float) getParentFrame().width / getParentFrame().height;
+        getParentFrame().perspective(cameraFOV, screenRatio, cameraNearDist, cameraFarDist);
+        projection.identity().perspective(cameraFOV, screenRatio, cameraNearDist, cameraFarDist);
+        frustum.setCamInternals(cameraFOV, screenRatio, cameraNearDist, cameraFarDist);
+    }
+
+    public void updateViewMatrix(PGraphics graphics, Vector3f position, Vector3f target, Vector3f up) {
+        graphics.camera(position.x, position.y, position.z, //p (camera position)
+                target.x, target.y, target.z, //l (3D scene origin)
+                up.x, up.y, up.z);//u (up)
+        view.identity().lookAt(position, target, up);
     }
 
     //<editor-fold defaultstate="collapsed" desc="World Saving">
@@ -316,7 +321,7 @@ public class GameScene extends UIExtension {
         if (!menu.isShown()) {
             boolean drawBar = player.breakItem != null
                     && getParentFrame().mousePressed
-                    && VoxelGame.getGame().mode == GameMode.WALKTHOUGH
+                    && mode == GameMode.WALKTHOUGH
                     && player.mouseButton == UserControlledPlayer.MouseButton.DESTROY;
             float val = drawBar == false ? 1 : (float) (System.currentTimeMillis() - player.lastMousePress) / player.breakItem.breakTimeMS();
             drawCrosshair(drawBar, val);
@@ -415,16 +420,16 @@ public class GameScene extends UIExtension {
     }
 
     private void printTextStatus() {
-        String gameText = "Esc: Menu"
-                + "\nX: " + Math.round(player.worldPos.x)
-                + "  Y: " + Math.round(player.worldPos.y)
-                + "  Z: " + Math.round(player.worldPos.z);
+        String gameText = "Esc: Menu";
+        if (isDevStatsOpen()) {
+            gameText += "\nX: " + Math.round(player.worldPos.x)
+                    + "  Y: " + Math.round(player.worldPos.y)
+                    + "  Z: " + Math.round(player.worldPos.z);
+            gameText += "\n" + ph.getWorld().updater.getStatusString();
+        }
         if (player.passThroughMode) {
             gameText += "\n  (Passthough mode)";
         }
-
-
-        gameText += "\n" + ph.getWorld().updater.getStatusString();
         gameText += "\nLast saved: " + ph.getMainThread().getTimeSinceLastSaved();
         player.blockTools.drawGUI(getParentFrame());
         textAlign(LEFT, TOP);

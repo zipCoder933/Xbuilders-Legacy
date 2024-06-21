@@ -72,7 +72,7 @@ public class ProgressBarScreen extends UIExtension {
                     ) {
                 try {
                     main.setPage(GAME);
-                    main.getGame().startGame();
+                    main.getGameScene().startGame();
                     mainMenu.setPage(MainMenu.MenuPages.HOME);
                 } catch (Exception ex) {
                     ErrorHandler.handleFatalError(ex);

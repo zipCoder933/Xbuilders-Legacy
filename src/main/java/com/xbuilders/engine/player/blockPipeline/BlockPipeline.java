@@ -79,12 +79,12 @@ public class BlockPipeline {
                             if (hist.getNew().isOpaque() != hist.getOld().isOpaque()) {
                                 sunlightNodesWereAdded = true;
                             }
-                            VoxelGame.getGame().player.blockTools.blockSetter.setSunlightNodes(wcc, hist.getNew(), hist.getOld());
+                            VoxelGame.getGameScene().player.blockTools.blockSetter.setSunlightNodes(wcc, hist.getNew(), hist.getOld());
                         }
                     }
                     blockPipeline.clear();
                     if (sunlightNodesWereAdded) {
-                        VoxelGame.getGame().player.blockTools.blockSetter.wakeUp();
+                        VoxelGame.getGameScene().player.blockTools.blockSetter.wakeUp();
                     }
                 }
             }

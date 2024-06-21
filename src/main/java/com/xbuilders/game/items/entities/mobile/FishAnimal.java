@@ -142,7 +142,7 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
         if (distToPlayer < 6) {
             return true;
         } else if (!inWater
-                || (inWater && VoxelGame.getGame().player.getBlockPlayerIsIn().isLiquid())) {
+                || (inWater && VoxelGame.getGameScene().player.getBlockPlayerIsIn().isLiquid())) {
             return true;
         }
         return false;

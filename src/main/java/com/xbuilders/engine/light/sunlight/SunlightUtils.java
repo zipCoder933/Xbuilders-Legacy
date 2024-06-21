@@ -59,7 +59,7 @@ public class SunlightUtils {
 //    }
     public static synchronized void eraseSection(final ListQueue<SubChunkNode> queue, HashSet<SubChunkNode> totalNodes) {
         long timeStart = System.currentTimeMillis();
-        VoxelGame.getGame().showProgressMessage("Erasing Sunlight");
+        VoxelGame.getGameScene().showProgressMessage("Erasing Sunlight");
         while (queue.containsNodes() && System.currentTimeMillis() - timeStart < 10000) {
             final SubChunkNode node = queue.getAndRemove(0);
             if (node == null) {
@@ -106,7 +106,7 @@ public class SunlightUtils {
 
     public static synchronized void propagateSunlight(final ListQueue<SubChunkNode> queue) {
         int originalSize = queue.size();
-        UIFrame applet = VoxelGame.getGame().getParentFrame();
+        UIFrame applet = VoxelGame.getGameScene().getParentFrame();
         while (queue.containsNodes()
                 && !applet.keysArePressed(KeyCode.SHIFT, KeyCode.X)) {
             final SubChunkNode node = queue.getAndRemove(0);
@@ -121,10 +121,10 @@ public class SunlightUtils {
             checkNeighbor(node.chunk, node.coords.x, node.coords.y + 1, node.coords.z, lightValue, queue);
             checkNeighbor(node.chunk, node.coords.x, node.coords.y - 1, node.coords.z, lightValue, queue);
             float percentage = 1 - ((float) queue.size() / originalSize);
-            VoxelGame.getGame().showProgressMessage("Propagating Sunlight (" + Math.round(percentage * 100) + "%)", percentage);
+            VoxelGame.getGameScene().showProgressMessage("Propagating Sunlight (" + Math.round(percentage * 100) + "%)", percentage);
         }
         queue.clear();
-        VoxelGame.getGame().clearProgressMessage();
+        VoxelGame.getGameScene().clearProgressMessage();
     }
 
     private static void checkNeighbor(SubChunk chunk, int x, int y, int z, final int lightLevel, final ListQueue<SubChunkNode> queue) {

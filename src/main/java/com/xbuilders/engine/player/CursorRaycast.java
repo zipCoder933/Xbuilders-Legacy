@@ -236,7 +236,7 @@ public class CursorRaycast {
     }
 
     public void keyPressed(KeyEvent ke, UIExtensionFrame f) {
-        if (VoxelGame.getGame().mode != GameMode.FREEPLAY) return;
+        if (VoxelGame.getGameScene().mode != GameMode.FREEPLAY) return;
         if (ke.getKeyCode() == RAYCASTING_HIT_ALL_BLOCKS) {
             cursorRayHitAllBlocks = true;
             maxCursorRayDist = 4;
@@ -246,7 +246,7 @@ public class CursorRaycast {
     }
 
     public void keyReleased(KeyEvent ke, UIExtensionFrame f) {
-        if (VoxelGame.getGame().mode != GameMode.FREEPLAY) return;
+        if (VoxelGame.getGameScene().mode != GameMode.FREEPLAY) return;
         if (ke.getKeyCode() == RAYCASTING_HIT_ALL_BLOCKS) {
             cursorRayHitAllBlocks = false;
             maxCursorRayDist = VoxelGame.ph().getSettingsFile().playerRayMaxDistance;
@@ -291,7 +291,7 @@ public class CursorRaycast {
 
 
     public boolean mouseEvent(MouseEvent event, UIExtensionFrame f) {
-        if (VoxelGame.getGame().mode == GameMode.FREEPLAY && f.keyIsPressed(RAYCASTING_HIT_ALL_BLOCKS)) {
+        if (VoxelGame.getGameScene().mode == GameMode.FREEPLAY && f.keyIsPressed(RAYCASTING_HIT_ALL_BLOCKS)) {
             maxCursorRayDist =
                     MathUtils.clamp(camera.cursorRay.maxCursorRayDist - event.getCount(),
                             4, VoxelGame.ph().getSettingsFile().playerRayMaxDistance);

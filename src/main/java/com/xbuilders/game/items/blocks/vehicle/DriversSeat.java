@@ -96,7 +96,7 @@ public class DriversSeat extends Block {
     }
 
     private void computeVehicle(int x, int y, int z) {
-        VoxelGame.getGame().alert("Computing vehicle...");
+        VoxelGame.getGameScene().alert("Computing vehicle...");
         HashSet<Vector3i> area = new HashSet<>();
         HashSet<Vector3i> checkedNodes = new HashSet<>();
         speed = -1;
@@ -110,7 +110,7 @@ public class DriversSeat extends Block {
             long startTime = System.currentTimeMillis();
             while (!area.isEmpty()) {
                 if (System.currentTimeMillis() - startTime > 5000) {
-                    VoxelGame.getGame().alert("Vehicle compute timed out.");
+                    VoxelGame.getGameScene().alert("Vehicle compute timed out.");
                     return;
                 }
 
@@ -168,18 +168,18 @@ public class DriversSeat extends Block {
                 }
                 box.setMesh(blocks, true, true);
                 box.show();
-                VoxelGame.getGame().alert("Click the drivers seat to create vehicle");
+                VoxelGame.getGameScene().alert("Click the drivers seat to create vehicle");
                 System.out.println("Vehicle created with speed: " + speed + " and direction: " + direction + " found wheel: " + foundWheel
                         + "\n AABB: min: " + MiscUtils.printVector(aabb.minPoint) + " size: " + aabb.getXLength() + " x " + aabb.getYLength() + " x " + aabb.getZLength());
             } else {
                 box.hide();
                 if (speed == -1) {
-                    VoxelGame.getGame().alert("No engine found! The vehicle cannot be created!");
+                    VoxelGame.getGameScene().alert("No engine found! The vehicle cannot be created!");
                 }
                 BlockList.BLOCK_AIR.set(x, y, z, null);
             }
         } else {
-            VoxelGame.getGame().alert("No wheels found! The vehicle cannot be created!");
+            VoxelGame.getGameScene().alert("No wheels found! The vehicle cannot be created!");
         }
     }
 
@@ -214,9 +214,9 @@ public class DriversSeat extends Block {
             entity.allTerrain = allTerrain;
             entity.initialize(null, true);
             box.hide();
-            VoxelGame.getGame().alert("vehicle created!");
+            VoxelGame.getGameScene().alert("vehicle created!");
         } else {
-            VoxelGame.getGame().alert("The vehicle cannot be created!");
+            VoxelGame.getGameScene().alert("The vehicle cannot be created!");
         }
         return false;
     }

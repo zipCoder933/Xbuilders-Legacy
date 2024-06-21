@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import org.joml.Vector3f;
-import org.joml.Vector3i;
 import processing.core.PImage;
 
 import static com.xbuilders.engine.items.block.construction.blockTypes.BlockType.ONE_SIXTEENTH;
@@ -140,10 +139,10 @@ public class BedEntityLink extends EntityLink {
                 if (VoxelGame.getShaderHandler().getDaylightLevel() < 0.3) {
                     getPointerHandler().getPlayer().setBedtimeMode(new PositionLock(this));
                 } else {
-                    VoxelGame.getGame().alert("It isn't dark enough to go to sleep!");
+                    VoxelGame.getGameScene().alert("It isn't dark enough to go to sleep!");
                 }
             } else {
-                VoxelGame.getGame().alert("You are too far away to go to sleep!");
+                VoxelGame.getGameScene().alert("You are too far away to go to sleep!");
             }
             return false;
         }

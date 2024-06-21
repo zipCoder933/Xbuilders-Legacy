@@ -291,8 +291,8 @@ public abstract class Animal extends Entity {
     }
 
     public float getAngleToPlayer() {
-        UserControlledPlayer userControlledPlayer = VoxelGame.getGame().player;
-        UserControlledPlayer userControlledPlayer1 = VoxelGame.getGame().player;
+        UserControlledPlayer userControlledPlayer = VoxelGame.getGameScene().player;
+        UserControlledPlayer userControlledPlayer1 = VoxelGame.getGameScene().player;
         return TrigUtils.getAngleOfPoints(worldPosition.x, worldPosition.z, userControlledPlayer1.worldPos.x,
                 userControlledPlayer.worldPos.z);
     }
@@ -307,10 +307,10 @@ public abstract class Animal extends Entity {
     }
 
     public boolean playerHasAnimalFeed() {
-        if (VoxelGame.getGame().player.blockPanel.curItemIsNull()) {
+        if (VoxelGame.getGameScene().player.blockPanel.curItemIsNull()) {
             return false;
         }
-        Item curItem = VoxelGame.getGame().player.blockPanel.getCurItem().getItem();
+        Item curItem = VoxelGame.getGameScene().player.blockPanel.getCurItem().getItem();
         if (curItem.itemType == ItemType.TOOL) {
             Tool t = (Tool) curItem;
             return t == GameItems.ANIMAL_FEED || t == GameItems.ANIMAL_LEAVE;
@@ -320,7 +320,7 @@ public abstract class Animal extends Entity {
 
     public void eatAnimalFeed() {
         if (getPointerHandler().getApplet().frameCount % 10 == 0 && playerHasAnimalFeed() && distToPlayer < 3) {
-            VoxelGame.getGame().player.blockPanel.getCurItem().addQuantity(-1);
+            VoxelGame.getGameScene().player.blockPanel.getCurItem().addQuantity(-1);
         }
     }
 

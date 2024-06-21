@@ -190,7 +190,7 @@ public class WorldInfo
     public void checkAndRemoveNoQuantityItems() {
         for (int i = 0; i < this.getInfoFile().backpack.length; ++i) {
             if (this.getInfoFile().backpack[i] != null) {
-                if (VoxelGame.getGame().mode == GameMode.WALKTHOUGH && this.getInfoFile().backpack[i].getQuantity() == Item.INFINITE_RESOURCE_AMT) {
+                if (VoxelGame.getGameScene().mode == GameMode.WALKTHOUGH && this.getInfoFile().backpack[i].getQuantity() == Item.INFINITE_RESOURCE_AMT) {
                     this.getInfoFile().backpack[i].setQuantity(this.getInfoFile().backpack[i].getItem().maxStackSize());
                 }
                 else if (this.getInfoFile().backpack[i].getQuantity() <= 0) {

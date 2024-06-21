@@ -34,6 +34,7 @@ public class Camera {
     public final Vector3f cameraForward = new Vector3f();
     private Point mouse;
     public final Frustum frustum;
+
     UserControlledPlayer player;
     GameScene game;
     float sensitivity = 0.15f;
@@ -85,6 +86,7 @@ public class Camera {
         this.game = game;
         this.player = player;
         cursorRay = new CursorRaycast(this);
+        frustum = VoxelGame.getGameScene().frustum;
         try {
             robot = new Robot();
         } catch (Exception e) {
@@ -93,14 +95,9 @@ public class Camera {
         cameraViewRay = new Ray();
         pan = 0;
         tilt = 0f;
-        frustum = new Frustum();
-        lastWidth = player.getParentFrame().width;
-        lastHeight = player.getParentFrame().height;
-        frustum.setCamInternals(game.cameraFOV, game.getCameraRatio(), game.cameraNearDist, game.cameraFarDist);
+
     }
 
-    int lastWidth = 0;
-    int lastHeight = 0;
 
     public void centerMouse() {
         if (app.focused) {
@@ -222,20 +219,8 @@ public class Camera {
         }
         cursorRay.cast(position, cursorRaycastLook, player);
 
-
-        //Update frustum
-//        if (app.keyIsPressed(KeyCode.K)) { //To test frustum
-        if (width != lastWidth || height != lastHeight) {
-            frustum.setCamInternals(game.cameraFOV, game.getCameraRatio(), game.cameraNearDist, game.cameraFarDist);
-            lastWidth = width;
-            lastHeight = height;
-        }
-        frustum.setCamDef(position, target, up);
-//        }
-
-        graphics.camera(position.x, position.y, position.z, //p (camera position)
-                target.x, target.y, target.z, //l (3D scene origin)
-                up.x, up.y, up.z);//u (up)
+        VoxelGame.getGameScene().frustum.setCamDef(position, target, up);
+        VoxelGame.getGameScene().updateViewMatrix(graphics, position, target, up);
     }
 
 }

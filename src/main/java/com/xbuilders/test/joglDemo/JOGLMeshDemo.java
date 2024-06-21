@@ -82,7 +82,7 @@ class JOGLMeshDemo extends UIFrame {
 
         pgl = (PJOGL) beginPGL();
         gl = pgl.gl.getGL4();
-        mvp = new MVP(gl);
+        mvp = new MVP();
 
 
 
@@ -150,7 +150,7 @@ class JOGLMeshDemo extends UIFrame {
         shader.bind();
         cameraNavigator.update();
         mvp.update(projMatrix, cameraNavigator.getViewMatrix());
-        mvp.sendToShader(shader.getID(), shader.uniformMVP);
+        mvp.sendToShader(gl, shader.getID(), shader.uniformMVP);
 
         mesh.draw();
         shader.unbind();

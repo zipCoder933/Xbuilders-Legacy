@@ -91,14 +91,14 @@ public class Repaint extends Tool {
         }
 
         if (!fillMode && selectedBlock.type != replaceBlock.type) {
-            VoxelGame.getGame().alert("Can't repaint blocks of different types.");
+            VoxelGame.getGameScene().alert("Can't repaint blocks of different types.");
             return;
         }
 
 
         while (!queue.isEmpty()) {
             if (System.currentTimeMillis() - timeSinceStart > SettingUtils.MAX_SET_TIME) {
-                VoxelGame.getGame().alert("Maximum time reached. Aborting.");
+                VoxelGame.getGameScene().alert("Maximum time reached. Aborting.");
                 return;
             }
             Node node = queue.getAndRemove();
@@ -136,7 +136,7 @@ public class Repaint extends Tool {
         queue.add(new TravelNode(ray.getHitPositionAsInt(), 0));
         while (!queue.isEmpty()) {
             if (System.currentTimeMillis() - timeSinceStart > SettingUtils.MAX_SET_TIME) {
-                VoxelGame.getGame().alert("Maximum time reached. Aborting.");
+                VoxelGame.getGameScene().alert("Maximum time reached. Aborting.");
                 return;
             }
             Node node = queue.getAndRemove();

@@ -46,7 +46,7 @@ public class AnimalLeave extends Tool {
                 }
             }
         }
-        VoxelGame.getGame().alert("\"Leave, animals!\"");
+        VoxelGame.getGameScene().alert("\"Leave, animals!\"");
         return false;
     }
 

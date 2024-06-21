@@ -99,10 +99,10 @@ public class CopyTool extends Tool {
         }
 //</editor-fold>
         if (foundNonAirBlock) {
-            VoxelGame.getGame().alert("Boundary Copied");
+            VoxelGame.getGameScene().alert("Boundary Copied");
         } else {
             clipboard = null;
-            VoxelGame.getGame().alert("Nothing to copy!");
+            VoxelGame.getGameScene().alert("Nothing to copy!");
         }
     }
 

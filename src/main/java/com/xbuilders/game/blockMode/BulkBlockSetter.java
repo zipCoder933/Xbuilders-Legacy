@@ -126,7 +126,7 @@ public class BulkBlockSetter {
                         //<editor-fold defaultstate="collapsed" desc="Set blocks initially">
                         final BlockToSet b = threadQueue.get(i);
                         final WCCi wcc = new WCCi().set(b.coords);
-                        VoxelGame.getGame().showProgressMessage("Setting Blocks", i / (float) threadQueue.size());
+                        VoxelGame.getGameScene().showProgressMessage("Setting Blocks", i / (float) threadQueue.size());
 
                         final SubChunk subChunk = wcc.getSubChunk();
                         if (subChunk != null) {
@@ -143,18 +143,18 @@ public class BulkBlockSetter {
                         //</editor-fold>
                     }
                     if (hasSunNodes()) {
-                        VoxelGame.getGame().showProgressMessage("Setting Sunlight");
+                        VoxelGame.getGameScene().showProgressMessage("Setting Sunlight");
                         SunlightUtils.updateFromQueue(opaqueToTransparentQueue, transparentToOpaqueQueue);
                     }
                     for (int i = 0; i < threadQueue.size(); ++i) {
                         final BlockToSet b = threadQueue.get(i);
-                        VoxelGame.getGame().showProgressMessage("Setting Events", i / (float) threadQueue.size());
+                        VoxelGame.getGameScene().showProgressMessage("Setting Events", i / (float) threadQueue.size());
                         if (b.block.isLiquid()) {
                             b.block.setBlock(b.coords.x, b.coords.y, b.coords.z, null);
                         }
                         BlockPipeline.startLocalChange( b.coords, b.block);
                     }
-                    VoxelGame.getGame().clearProgressMessage();
+                    VoxelGame.getGameScene().clearProgressMessage();
                     fastBlockQueue.removeAll(threadQueue);
                 } catch (Exception ex) {
                     ErrorHandler.saveErrorToLogFile(ex);

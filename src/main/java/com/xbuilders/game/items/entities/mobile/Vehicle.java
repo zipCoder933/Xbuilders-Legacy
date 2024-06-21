@@ -97,8 +97,8 @@ public abstract class Vehicle extends Entity {
     }
 
     public float getAngleToPlayer() {
-        UserControlledPlayer userControlledPlayer = VoxelGame.getGame().player;
-        UserControlledPlayer userControlledPlayer1 = VoxelGame.getGame().player;
+        UserControlledPlayer userControlledPlayer = VoxelGame.getGameScene().player;
+        UserControlledPlayer userControlledPlayer1 = VoxelGame.getGameScene().player;
         return TrigUtils.getAngleOfPoints(worldPosition.x, worldPosition.z, userControlledPlayer1.worldPos.x,
                 userControlledPlayer.worldPos.z);
     }
@@ -148,7 +148,7 @@ public abstract class Vehicle extends Entity {
     }
 
     public UserControlledPlayer getPlayer() {
-        return VoxelGame.getGame().player;
+        return VoxelGame.getGameScene().player;
     }
 
     public void goForward(float amount, float rotationDegrees) {

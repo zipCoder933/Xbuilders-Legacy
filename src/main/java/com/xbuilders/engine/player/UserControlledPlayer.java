@@ -52,7 +52,7 @@ public class UserControlledPlayer extends Player {
 
     public void setBedtimeMode(PositionLock pos) {
         setPositionLock(pos);
-        VoxelGame.getGame().alert("Goodnight!");
+        VoxelGame.getGameScene().alert("Goodnight!");
         bedTimeModeStart = System.currentTimeMillis();
         bedtime_timeChanged = false;
         bedtimeMode = true;
@@ -163,7 +163,7 @@ public class UserControlledPlayer extends Player {
 
     //</editor-fold>
     public void initialize() {
-        this.camera = new Camera(getParentFrame(), VoxelGame.getGame(), this);
+        this.camera = new Camera(getParentFrame(), VoxelGame.getGameScene(), this);
         this.worldPos.set(0, 0, 0);
 
         positionHandler = new PositionHandler(VoxelGame.getWorld(), Main.getMain(), aabb, this, VoxelGame.playerList);
@@ -212,42 +212,42 @@ public class UserControlledPlayer extends Player {
     }
 
     public boolean forwardKeyPressed() {
-        if (VoxelGame.getGame().menu.isShown()) {
+        if (VoxelGame.getGameScene().menu.isShown()) {
             return false;
         }
         return keyIsPressed(KeyCode.UP) || keyIsPressed(KeyCode.W) || autoForwardEnabled;
     }
 
     public boolean leftKeyPressed() {
-        if (VoxelGame.getGame().menu.isShown()) {
+        if (VoxelGame.getGameScene().menu.isShown()) {
             return false;
         }
         return keyIsPressed(KeyCode.LEFT) || keyIsPressed(KeyCode.A);
     }
 
     public boolean rightKeyPressed() {
-        if (VoxelGame.getGame().menu.isShown()) {
+        if (VoxelGame.getGameScene().menu.isShown()) {
             return false;
         }
         return keyIsPressed(KeyCode.RIGHT) || keyIsPressed(KeyCode.D);
     }
 
     public boolean backKeyPressed() {
-        if (VoxelGame.getGame().menu.isShown()) {
+        if (VoxelGame.getGameScene().menu.isShown()) {
             return false;
         }
         return keyIsPressed(KeyCode.DOWN) || (keyIsPressed(KeyCode.S) && !keyIsPressed(KeyCode.CTRL));
     }
 
     public boolean upKeyPressed() {
-        if (VoxelGame.getGame().menu.isShown()) {
+        if (VoxelGame.getGameScene().menu.isShown()) {
             return false;
         }
         return keyIsPressed(KeyCode.F) && !keyIsPressed(KeyCode.SHIFT);
     }
 
     public boolean downKeyPressed() {
-        if (VoxelGame.getGame().menu.isShown()) {
+        if (VoxelGame.getGameScene().menu.isShown()) {
             return false;
         }
         return keyIsPressed(KeyCode.SHIFT) && keyIsPressed(KeyCode.F);
@@ -259,14 +259,14 @@ public class UserControlledPlayer extends Player {
 
         headBlock = getPointerHandler().getWorld().getBlock((int) Math.floor(camera.position.x), (int) Math.floor(camera.position.y), (int) Math.floor(camera.position.z));
 
-        if (!VoxelGame.getGame().menu.isShown()) {
+        if (!VoxelGame.getGameScene().menu.isShown()) {
             if (positionLock != null) {
                 worldPos.set(positionLock.getPosition());
                 aabb.updateBox();
             } else {
                 if (!positionHandler.isFrozen()) {
                     float speed = 0;
-                    if (VoxelGame.getGame().mode == GameMode.FREEPLAY && keyIsPressed(KeyCode.SHIFT)) {
+                    if (VoxelGame.getGameScene().mode == GameMode.FREEPLAY && keyIsPressed(KeyCode.SHIFT)) {
 //                        System.out.println("RUNNING SPEED: " + getPointerHandler().getSettingsFile().runSpeed);
                         speed = getPointerHandler().getSettingsFile().runSpeed * (1.0f / getParentFrame().frameRate);
                     } else {
@@ -326,7 +326,7 @@ public class UserControlledPlayer extends Player {
                         if (!keyIsPressed(KeyCode.F)) {
                             isClimbing = false;
                         }
-                    } else if (VoxelGame.getGame().mode == GameMode.FREEPLAY) {
+                    } else if (VoxelGame.getGameScene().mode == GameMode.FREEPLAY) {
                         if (this.flying && downKeyPressed()) {
                             positionHandler.velocity.sub(flying);
                         } else if (upKeyPressed()) {
@@ -387,7 +387,7 @@ public class UserControlledPlayer extends Player {
     public Item breakItem = null;
 
     private boolean shouldDestroy(Item item) {
-        if (VoxelGame.getGame().mode == GameMode.FREEPLAY) {
+        if (VoxelGame.getGameScene().mode == GameMode.FREEPLAY) {
             return true;
         }
         if (!item.equals(breakItem)) {
@@ -446,7 +446,7 @@ public class UserControlledPlayer extends Player {
                     camera.cursorRay.getEntity().onDestroyClickEvent();
                     camera.cursorRay.getEntity().markAsModifiedByUser();
                     boolean isAnimal = camera.cursorRay.getEntity() instanceof Animal;
-                    if (!isAnimal && (!camera.cursorRay.getEntity().link.isInfiniteResource() || VoxelGame.getGame().mode == GameMode.WALKTHOUGH)) {
+                    if (!isAnimal && (!camera.cursorRay.getEntity().link.isInfiniteResource() || VoxelGame.getGameScene().mode == GameMode.WALKTHOUGH)) {
                         createDrop((int) camera.cursorRay.getEntity().worldPosition.x, (int) camera.cursorRay.getEntity().worldPosition.y, (int) camera.cursorRay.getEntity().worldPosition.z, new ItemQuantity(camera.cursorRay.getEntity().link, (byte) 1));
                     }
                 } else if (shouldDestroy(hitBlock)) {
@@ -516,13 +516,13 @@ public class UserControlledPlayer extends Player {
                         getPointerHandler().getSettingsFile().switchMouseButtons ? MouseButton.CREATE : MouseButton.DESTROY;
                 default -> MouseButton.MIDDLE;
             };
-            if (!(VoxelGame.getGame().mode == GameMode.WALKTHOUGH && mouseButton == MouseButton.DESTROY)) {
+            if (!(VoxelGame.getGameScene().mode == GameMode.WALKTHOUGH && mouseButton == MouseButton.DESTROY)) {
                 clickEvent(mouseButton);
             }
         } else if (event.getAction() == MouseEvent.WHEEL) {
             if (camera.cursorRay.mouseEvent(event, getParentFrame())) {
 
-            } else if (VoxelGame.getGame().mode == GameMode.FREEPLAY && keyIsPressed(KeyCode.SHIFT)) {
+            } else if (VoxelGame.getGameScene().mode == GameMode.FREEPLAY && keyIsPressed(KeyCode.SHIFT)) {
                 blockTools.mouseWheel(event.getCount());
             } else if (keyIsPressed(KEY_CHANGE_VIEW) || positionLock != null) {
                 camera.setThirdPersonDist(camera.getThirdPersonDist() - (event.getCount() * 2));
@@ -537,7 +537,7 @@ public class UserControlledPlayer extends Player {
 
     @Override
     public void keyPressed(KeyEvent event) {
-        if (!VoxelGame.getGame().menu.isShown()) {
+        if (!VoxelGame.getGameScene().menu.isShown()) {
             blockTools.keyPressed(positionHandler.window, event);
             if (keyIsPressed(KeyCode.SPACE)) {
                 positionHandler.jump();
@@ -574,13 +574,13 @@ public class UserControlledPlayer extends Player {
 
     @Override
     public void keyReleased(KeyEvent ke) {
-        if (!VoxelGame.getGame().menu.isShown()) {
+        if (!VoxelGame.getGameScene().menu.isShown()) {
             blockTools.keyReleased(positionHandler.window, ke);
 
             if (keyIsPressed(KeyCode.J)) {
                 autoForwardEnabled = !autoForwardEnabled;
-                VoxelGame.getGame().alert("Auto forward " + (autoForwardEnabled ? "enabled" : "disabled"));
-            } else if (VoxelGame.getGame().mode == GameMode.FREEPLAY && keyIsPressed(KeyCode.P)) {
+                VoxelGame.getGameScene().alert("Auto forward " + (autoForwardEnabled ? "enabled" : "disabled"));
+            } else if (VoxelGame.getGameScene().mode == GameMode.FREEPLAY && keyIsPressed(KeyCode.P)) {
                 passThroughMode = !passThroughMode;
                 if (passThroughMode) {
                     flying = true;

@@ -3,6 +3,7 @@ package com.xbuilders.engine;
 import static com.xbuilders.engine.VoxelGame.Page.GAME;
 import static com.xbuilders.engine.VoxelGame.Page.MENU;
 
+import com.jogamp.opengl.GL4;
 import com.xbuilders.engine.game.GameScene;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.gui.MessageBox;
@@ -36,6 +37,7 @@ import processing.core.PFont;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import processing.opengl.PGraphicsOpenGL;
+import processing.opengl.PJOGL;
 
 public class VoxelGame extends BaseWindow {
 
@@ -146,7 +148,7 @@ public class VoxelGame extends BaseWindow {
     /**
      * @return the game
      */
-    public static GameScene getGame() {
+    public static GameScene getGameScene() {
         return game;
     }
 
@@ -225,14 +227,15 @@ public class VoxelGame extends BaseWindow {
     private static World world;
     private static ShaderHandler shaderHandler;
     private static PointerHandler ph;
+    public static GL4 gl;
 
     public void setPage(Page page) {
         if (page == Page.MENU) {
             getMenu().enable();
-            getGame().disable();
+            getGameScene().disable();
         } else if (page == Page.GAME) {
             getMenu().disable();
-            getGame().enable();
+            getGameScene().enable();
         }
 
         if (this.getPage() == GAME && page == MENU) {
@@ -259,6 +262,8 @@ public class VoxelGame extends BaseWindow {
 
     @Override
     public void setup() {
+        PJOGL pgl = (PJOGL) beginPGL();
+        gl = pgl.gl.getGL4();
         try {
             PFont font = createFont(resourcePath("fonts/Press_Start_2P/PressStart2P-Regular.ttf"), 16);
             textFont(font, 18);
@@ -289,23 +294,14 @@ public class VoxelGame extends BaseWindow {
         LEGACY_CONVERSION;
     }
 
-    int mywidth, myheight;
-
     @Override
     public void render() {
         if (frameCount % 10 == 0) {
             setTitle();
         }
-        if (mywidth != width || myheight != height) {
-            mywidth = width;
-            myheight = height;
-            onResizeEvent(width, height);
-        }
-
-
         try {
             if (getPage() == Page.GAME) {
-                getGame().draw();
+                getGameScene().draw();
             } else {
                 getMenu().draw();
             }
@@ -314,14 +310,6 @@ public class VoxelGame extends BaseWindow {
             noLoop();
         }
         memoryGraph.update();
-    }
-
-
-    private void onResizeEvent(int width, int height) {
-//        System.out.println("RESIZE: " + width + "x" + height);
-//        width = width / 2;
-//        height = height / 2;
-//        getGraphics().setSize(width/2, height/2);
     }
 
     /**

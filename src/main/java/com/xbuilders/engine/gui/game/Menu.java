@@ -68,8 +68,8 @@ class Menu extends GameMenuPage {
 
         gameMode = new Button(this);
         gameMode.setAction(() -> {
-            int modeIndex = Arrays.asList(GameMode.values()).indexOf(VoxelGame.getGame().mode) + 1;
-            VoxelGame.getGame().mode = GameMode.values()[modeIndex % GameMode.values().length];
+            int modeIndex = Arrays.asList(GameMode.values()).indexOf(VoxelGame.getGameScene().mode) + 1;
+            VoxelGame.getGameScene().mode = GameMode.values()[modeIndex % GameMode.values().length];
         });
 
         screenshots = new Button(this);
@@ -202,7 +202,7 @@ class Menu extends GameMenuPage {
             textAlign(LEFT);
             text("Game Mode:", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth, 20);
             y2 += 20;
-            gameMode.draw(VoxelGame.getGame().mode.toString(), x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
+            gameMode.draw(VoxelGame.getGameScene().mode.toString(), x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
             y2 += 74;
             settings.draw("Back", x1 + (width / 2) - (innerWidth / 2), y2, innerWidth);
         }

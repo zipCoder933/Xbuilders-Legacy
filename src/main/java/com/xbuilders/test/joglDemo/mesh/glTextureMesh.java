@@ -3,7 +3,16 @@ package com.xbuilders.test.joglDemo.mesh;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL4;
 import com.xbuilders.window.BufferUtils;
+import com.xbuilders.window.utils.obj.OBJ;
+import com.xbuilders.window.utils.obj.OBJLoader;
+import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;
+import com.xbuilders.window.utils.texture.Texture;
+import com.xbuilders.window.utils.texture.TextureUtils;
 import processing.opengl.PGL;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
@@ -58,6 +67,30 @@ public class glTextureMesh {
         gl.glBindVertexArray(0);
     }
 
+    public void setOBJ(File objModel) throws FileNotFoundException {
+        FloatBuffer posBuffer;
+        FloatBuffer uvBuffer;
+
+        OBJ o = OBJLoader.loadModel(objModel);
+
+        OBJBufferSet bufferSet = new OBJBufferSet(o);
+
+        bufferSet.makeBuffers();
+
+        posBuffer = BufferUtils.allocateDirectFloatBuffer(bufferSet.vertBuffer.length);
+        uvBuffer = BufferUtils.allocateDirectFloatBuffer(bufferSet.uvBuffer.length);
+
+        posBuffer.rewind();
+        posBuffer.put(bufferSet.vertBuffer);
+        posBuffer.rewind();
+
+        uvBuffer.rewind();
+        uvBuffer.put(bufferSet.uvBuffer);
+        uvBuffer.rewind();
+
+        sendToGPU(posBuffer, uvBuffer);
+    }
+
     public void sendToGPU(FloatBuffer posBuffer, FloatBuffer uvBuffer) {
         // Copy vertex data to VBOs
         gl.glBindVertexArray(vao);
@@ -78,8 +111,13 @@ public class glTextureMesh {
         this.textureID = textureID;
     }
 
-    public void draw() {
+    public void setTexture(File texture) throws IOException {
+        Texture tex = TextureUtils.loadTexture(gl, texture.getAbsolutePath(), false);
+        this.textureID = tex.id;
 
+    }
+
+    public void draw() {
         gl.glBindVertexArray(vao);
         gl.glBindTexture(GL.GL_TEXTURE_2D, textureID);
         gl.glDrawArrays(PGL.TRIANGLES, 0, length);
