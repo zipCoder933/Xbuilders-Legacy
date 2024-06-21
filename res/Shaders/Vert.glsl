@@ -238,7 +238,7 @@ void main() {
                 totalLight = clamp(totalLight + flashlight, 0.0, 15.0);
             }
 
-            float minLight = 0.05;  // 0.02
+            float minLight = 0.1;
 
             float minAO = 0.1;
             float maxAO = 1.2;

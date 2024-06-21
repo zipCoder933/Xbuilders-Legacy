@@ -66,7 +66,7 @@ public class ShaderHandler {
 
     public final Vector3i blackColor = new Vector3i(0, 0, 0);
     public final Vector3i daytimeColor = new Vector3i(180, 204, 255);
-    public final Vector3i nightTimeColor = new Vector3i(10, 15, 38);
+    public final Vector3i nightTimeColor = new Vector3i(0, 0, 30);
 
     /**
      * @return the daylightLevel
@@ -169,7 +169,7 @@ public class ShaderHandler {
     public void setDaylightLevel(float value) {
         value = MathUtils.clamp(value, 0, 1);
         daylightLevel = value;
-        setSunlightMultiplier(MathUtils.map(value, 0, 1, 0.1f, 1.1f));
+        setSunlightMultiplier(MathUtils.map(value, 0, 1, 0.3f, 1.1f));
         if (isNaturalBackgroundEnabled()) {
             if (playerLight < 0.5f) {
                 setSkyColor(
