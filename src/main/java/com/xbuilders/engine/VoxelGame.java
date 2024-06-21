@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.xbuilders.test.joglDemo.mesh.TestTriangleMesh;
 import com.xbuilders.window.BaseWindow;
 import processing.core.KeyCode;
 import processing.core.PFont;
@@ -40,7 +41,6 @@ import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PJOGL;
 
 public class VoxelGame extends BaseWindow {
-
 
     /**
      * @return the pointerHandler
@@ -55,13 +55,16 @@ public class VoxelGame extends BaseWindow {
 
     public final boolean devMode;
     public static List<Player> playerList = new ArrayList<>();
-    public static boolean LOAD_WORLD_ON_STARTUP = false;
+    public static boolean LOAD_WORLD_ON_STARTUP = true;
     static final MemoryGraph memoryGraph = new MemoryGraph();
     private String windowTitle;
     private File iconPath;
     private int sizeX, sizeY;
 
-    public VoxelGame(int sizeX, int sizeY, File iconPath, String windowTitle, boolean devMode) throws IOException, InterruptedException {
+    TestTriangleMesh testTriangle;
+
+    public VoxelGame(int sizeX, int sizeY, File iconPath, String windowTitle, boolean devMode)
+            throws IOException, InterruptedException {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.iconPath = iconPath;
@@ -73,9 +76,9 @@ public class VoxelGame extends BaseWindow {
     public PointerHandler init(String[] args, ProgramMode mode) throws IOException {
         List<String> argList = Arrays.asList(args);
         LOAD_WORLD_ON_STARTUP = argList.contains("loadWorldOnStartup");
-        //===========================================
-        //INITIALIZATION
-        //===========================================
+        // ===========================================
+        // INITIALIZATION
+        // ===========================================
 
         messageBox = new MessageBox(this);
         game = new GameScene(this, messageBox.getBackground());
@@ -227,6 +230,8 @@ public class VoxelGame extends BaseWindow {
     private static World world;
     private static ShaderHandler shaderHandler;
     private static PointerHandler ph;
+
+    public static PJOGL pgl;
     public static GL4 gl;
 
     public void setPage(Page page) {
@@ -262,7 +267,7 @@ public class VoxelGame extends BaseWindow {
 
     @Override
     public void setup() {
-        PJOGL pgl = (PJOGL) beginPGL();
+        pgl = (PJOGL) beginPGL();
         gl = pgl.gl.getGL4();
         try {
             PFont font = createFont(resourcePath("fonts/Press_Start_2P/PressStart2P-Regular.ttf"), 16);
@@ -270,20 +275,24 @@ public class VoxelGame extends BaseWindow {
             shaderHandler = new ShaderHandler(this,
                     ItemList.blocks.textureAtlas, ItemList.blocks.getList());
 
-            hint(DISABLE_TEXTURE_MIPMAPS);//see https://processing.org/reference/hint_.html
+            hint(DISABLE_TEXTURE_MIPMAPS);// see https://processing.org/reference/hint_.html
             ((PGraphicsOpenGL) g).textureSampling(2);
 
             game.setPointerHandler(ph);
 
             System.out.println("OpenGL: " + PGraphicsOpenGL.OPENGL_VERSION);
             textureMode(NORMAL);
-            if (getSettings().getSettingsFile().disableVsync) frameRate(5000); //Disable vsync
+            if (getSettings().getSettingsFile().disableVsync)
+                frameRate(5000); // Disable vsync
 
             surface.setResizable(true);
             setPage(Page.MENU);
+            testTriangle = new TestTriangleMesh(gl);
         } catch (Exception ex) {
             ErrorHandler.handleFatalError(ex);
         }
+
+
     }
 
     MainThread mainThread;
@@ -296,6 +305,8 @@ public class VoxelGame extends BaseWindow {
 
     @Override
     public void render() {
+//        pgl = (PJOGL) beginPGL();
+//        gl = pgl.gl.getGL4();
         if (frameCount % 10 == 0) {
             setTitle();
         }
@@ -310,6 +321,7 @@ public class VoxelGame extends BaseWindow {
             noLoop();
         }
         memoryGraph.update();
+//        testTriangle.draw(gl);//Test triangle
     }
 
     /**

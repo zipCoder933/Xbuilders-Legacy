@@ -37,14 +37,15 @@ public abstract class EntityLink extends Item {
 //        SubChunk chunk = VoxelGame.getWorld().getSubChunk(WCCi.getSubChunkAtWorldPos((int) worldX, (int) worldY, (int) worldZ));
 //        return makeNew(chunk, worldX, worldY, worldZ, bytes, setByUser);
 //    }
+
     /**
      * Makes a new entity but does not place it in the world.
      *
-     * @param chunk the chunk to place the entity in
-     * @param worldX the world position of the entity
-     * @param worldY the world position of the entity
-     * @param worldZ the world position of the entity
-     * @param bytes the bytes of the entity for initialization
+     * @param chunk     the chunk to place the entity in
+     * @param worldX    the world position of the entity
+     * @param worldY    the world position of the entity
+     * @param worldZ    the world position of the entity
+     * @param bytes     the bytes of the entity for initialization
      * @param setByUser if true, will mark the chunk as modified by the user
      * @return the new entity
      */
@@ -59,8 +60,8 @@ public abstract class EntityLink extends Item {
         entity.link = this;
         entity.chunk = chunk;
         entity.worldPosition.set(worldX, worldY, worldZ);
+        entity.needsInit = true;
         entity.loadBytes = bytes;
-        entity.initialize(bytes, false);
         return entity;
     }
 
@@ -70,9 +71,9 @@ public abstract class EntityLink extends Item {
      * @param worldPosX
      * @param worldPosY
      * @param worldPosZ
-     * @param setByUser if true, will mark the chunk as modified by the user
+     * @param setByUser       if true, will mark the chunk as modified by the user
      * @param checkCollisions if true, will check if the entity is colliding
-     * with any other entities
+     *                        with any other entities
      * @return the new entity
      */
     public final Entity placeNew(int worldPosX, int worldPosY, int worldPosZ, boolean setByUser) {
@@ -85,10 +86,10 @@ public abstract class EntityLink extends Item {
      * @param worldPosX
      * @param worldPosY
      * @param worldPosZ
-     * @param bytes the bytes of the entity for initialization
-     * @param setByUser if true, will mark the chunk as modified by the user
+     * @param bytes           the bytes of the entity for initialization
+     * @param setByUser       if true, will mark the chunk as modified by the user
      * @param checkCollisions if true, will check if the entity is colliding
-     * with any other entities
+     *                        with any other entities
      * @return the new entity
      */
     public final Entity placeNew(int worldPosX, int worldPosY, int worldPosZ, byte[] bytes, boolean setByUser) {

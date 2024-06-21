@@ -4,7 +4,6 @@
  */
 package com.xbuilders.game.items.entities.animals;
 
-import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.rendering.EntityMesh;
 import com.xbuilders.game.Main;
@@ -17,9 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
-import com.xbuilders.test.joglDemo.mesh.glTextureMesh;
-import com.xbuilders.test.joglDemo.shader.TextureShader;
-import com.xbuilders.window.MVP;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -40,9 +36,7 @@ public class FoxEntityLink extends EntityLink {
     }
 
 
-    public glTextureMesh model;
-    public MVP mvp;
-    public TextureShader shader;
+    public EntityMesh model;
     public String texturePath;
 
 
@@ -58,11 +52,7 @@ public class FoxEntityLink extends EntityLink {
 
         @Override
         public void renderAnimal(PGraphics g) {
-//            mvp.update(VoxelGame.getGameScene().projection, VoxelGame.getGameScene().view, modelMatrix);
-//            shader.bind();
-//            mvp.sendToShader(VoxelGame.gl, shader.getID(), shader.uniformMVP);
-//            model.draw();
-//            shader.unbind();
+            model.draw(g);
         }
 
 
@@ -70,12 +60,9 @@ public class FoxEntityLink extends EntityLink {
         public void initAnimal(byte[] bytes) {
             if (model == null) {
                 try {
-                    mvp = new MVP(); //TODO: This is causing a crash because it needs to happen on the main thread
-                    System.out.println("GL: "+VoxelGame.gl);
-                    shader = new TextureShader(VoxelGame.gl);
-                    model = new glTextureMesh(VoxelGame.gl, shader.attributePosition, shader.attributeUV);
-                    model.setOBJ(ResourceUtils.resource("items\\entities\\animals\\fox\\fox.obj"));
-                    model.setTexture(ResourceUtils.resource("items\\entities\\animals\\fox\\" + texturePath));
+                    PImage texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\animals\\fox\\" + texturePath)));
+                    model = new EntityMesh(Main.getPG(), ResourceUtils.resourcePath("items\\entities\\animals\\fox\\fox.obj"));
+                    model.setTexture(texture);
                 } catch (IOException ex) {
                     Logger.getLogger(BirchTrapdoorLink.class.getName()).log(Level.SEVERE, null, ex);
                 }

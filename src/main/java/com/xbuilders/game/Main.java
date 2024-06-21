@@ -13,6 +13,7 @@ import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.blockType.wheel.HalfWheelRenderer;
 import com.xbuilders.game.items.blockType.wheel.WheelRenderer;
 import processing.core.PGraphics;
+import processing.opengl.PJOGL;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +68,14 @@ public class Main extends VoxelGame {
         return main.getGraphics();
     }
 
+    public static PJOGL beginPJOGL() {
+        return (PJOGL) main.beginPGL();
+    }
+
+    public static void endPJOGL() {
+        main.endPGL();
+    }
+
     public static Main getMain() {
         return main;
     }
@@ -89,7 +98,7 @@ public class Main extends VoxelGame {
                 mode = ProgramMode.BLOCK_ICON_SETUP;
             }
             main = new Main(DEV_MODE,
-                    1000, 700, ResourceUtils.resource("icon.png"), mode,args);
+                    1000, 700, ResourceUtils.resource("icon.png"), mode, args);
             ph.getMainThread().run(Thread.currentThread());
         } catch (Exception ex) {
             ErrorHandler.handleFatalError(ex);

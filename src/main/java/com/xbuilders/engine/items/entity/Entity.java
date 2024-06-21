@@ -31,6 +31,8 @@ import processing.core.PImage;
 public abstract class Entity {
 
 
+    public boolean needsInit;
+
     public final boolean playerIsRidingThis() {
         if (getPointerHandler().getPlayer().positionLock == null) return false;
         return getPointerHandler().getPlayer().positionLock.entity == this;
@@ -139,6 +141,7 @@ public abstract class Entity {
         chunkPosition = new WCCf();
         worldPosition = aabb.worldPosition;
         lastWorldPosition = new Vector3f();
+        needsInit = true;
     }
 
     public abstract void initialize(byte[] bytes, boolean setByUser);

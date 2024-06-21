@@ -5,7 +5,7 @@ package com.xbuilders.test.joglDemo;/*
 
 import com.jogamp.opengl.GL4;
 import com.xbuilders.test.joglDemo.mesh.glTextureMesh;
-import com.xbuilders.test.joglDemo.shader.TextureShader;
+import com.xbuilders.test.joglDemo.shader.glTextureShader;
 import com.xbuilders.window.CameraNavigator;
 import com.xbuilders.window.MVP;
 import com.xbuilders.window.utils.obj.OBJ;
@@ -36,7 +36,7 @@ class JOGLMeshDemo extends UIFrame {
     }
 
 
-    TextureShader shader;
+    glTextureShader shader;
     glTextureMesh mesh;
     float a;
     Matrix4f projMatrix = new Matrix4f();
@@ -97,7 +97,7 @@ class JOGLMeshDemo extends UIFrame {
 
         pgl = (PJOGL) beginPGL();
         try {
-            shader = new TextureShader(gl);
+            shader = new glTextureShader(gl);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

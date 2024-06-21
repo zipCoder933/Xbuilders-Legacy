@@ -36,7 +36,7 @@ j  jogamp.opengl.gl4.GL4bcImpl.dispatch_glCreateShader1(IJ)I+0
 j  jogamp.opengl.gl4.GL4bcImpl.glCreateShader(I)I+40
 j  com.xbuilders.window.Shader.loadShader(Ljava/io/File;I)I+85
 j  com.xbuilders.window.Shader.init(Ljava/io/File;Ljava/io/File;)V+5
-j  com.xbuilders.test.joglDemo.shader.TextureShader.<init>(Lcom/jogamp/opengl/GL4;)V+36
+j  com.xbuilders.test.joglDemo.shader.glTextureShader.<init>(Lcom/jogamp/opengl/GL4;)V+36
 j  com.xbuilders.game.items.entities.animals.FoxEntityLink$Fox.initAnimal([B)V+52
 j  com.xbuilders.game.items.entities.mobile.Animal.initialize([BZ)V+321
 j  com.xbuilders.engine.items.entity.EntityLink.makeNew(Lcom/xbuilders/engine/world/chunk/SubChunk;FFF[BZ)Lcom/xbuilders/engine/items/entity/Entity;+87

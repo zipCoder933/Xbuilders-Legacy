@@ -40,6 +40,12 @@ public class ChunkEntitySet {
         for (int i = list.size() - 1; i >= 0; i--) { // Loop through the list of entities in reverse order
             Entity e = get(i); // Get the entity at index i
 
+            if (e.needsInit) { //Initialize the entity if it has bytes
+                e.initialize(e.loadBytes, true);
+                e.loadBytes = null;
+                e.needsInit = false;
+            }
+
             UserControlledPlayer userControlledPlayer = Main.ph().getPlayer();
             e.distToPlayer = e.worldPosition.distance(userControlledPlayer.worldPos); // Calculate the distance to the
 
@@ -68,7 +74,7 @@ public class ChunkEntitySet {
                 } else {
                     e.inFrustum = chunkInFrustum &&
                             VoxelGame.getPlayer().camera.frustum.isSphereInside(e.worldPosition,
-                            e.getFrustumSphereRadius());
+                                    e.getFrustumSphereRadius());
                 }
 
                 // update the entity

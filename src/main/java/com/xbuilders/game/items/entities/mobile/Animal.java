@@ -23,21 +23,22 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public abstract class Animal extends Entity {
 
     /**
-     * @param g the graphics
-     * @param x the left/right coordinate
-     * @param y the y coordinate
-     * @param z the forward/backward coordinate
+     * @param g              the graphics
+     * @param x              the left/right coordinate
+     * @param y              the y coordinate
+     * @param z              the forward/backward coordinate
      * @param animationSpeed the speed of the walk cycle (negative means the leg
-     * goes backwards)
-     * @param animationAdd the addition to the existing frame count to offset
-     * the animation
+     *                       goes backwards)
+     * @param animationAdd   the addition to the existing frame count to offset
+     *                       the animation
      */
     public void drawLeg(PGraphics g, PShape leg, float x, float y, float z,
-            float animationSpeed, float animationAdd, int frameCount) {
+                        float animationSpeed, float animationAdd, int frameCount) {
         modelMatrix.translate(x, y, z);
 
         float rot = (float) Math.sin((frameCount * animationSpeed) + animationAdd) / 2;
@@ -60,20 +61,20 @@ public abstract class Animal extends Entity {
                 (int) this.worldPosition.z
         ).isLiquid()
                 || this.getPointerHandler().getWorld().getBlock(
-                        (int) this.worldPosition.x - 1,
-                        (int) this.worldPosition.y,
-                        (int) this.worldPosition.z
-                ).isLiquid()
+                (int) this.worldPosition.x - 1,
+                (int) this.worldPosition.y,
+                (int) this.worldPosition.z
+        ).isLiquid()
                 || this.getPointerHandler().getWorld().getBlock(
-                        (int) this.worldPosition.x + 1,
-                        (int) this.worldPosition.y,
-                        (int) this.worldPosition.z
-                ).isLiquid()
+                (int) this.worldPosition.x + 1,
+                (int) this.worldPosition.y,
+                (int) this.worldPosition.z
+        ).isLiquid()
                 || this.getPointerHandler().getWorld().getBlock(
-                        (int) this.worldPosition.x,
-                        (int) this.worldPosition.y,
-                        (int) this.worldPosition.z - 1
-                ).isLiquid()) {
+                (int) this.worldPosition.x,
+                (int) this.worldPosition.y,
+                (int) this.worldPosition.z - 1
+        ).isLiquid()) {
             return true;
         }
         return (this.getPointerHandler().getWorld().getBlock(
@@ -144,7 +145,7 @@ public abstract class Animal extends Entity {
     private PositionHandler posHandler;
     private boolean pendingDestruction = false;
     private boolean collisionEnabledWithPlayer = true;
-    private AnimalRandom random;
+    private AnimalRandom random = new AnimalRandom(this);
     public int SEED_MAXIMUM = 100000;
     Vector3f renderOffset;
     private boolean alwaysInFrustum = false;
@@ -214,7 +215,7 @@ public abstract class Animal extends Entity {
     @Override
     public void initialize(byte[] bytes, boolean setByUser) {
         setFrustumSphereRadius(animalRadius);
-        random = new AnimalRandom(this);
+
         posHandler = new PositionHandler(VoxelGame.getWorld(), Main.getMain(), aabb,
                 VoxelGame.getPlayer(), VoxelGame.playerList);
         alwaysInFrustum = false;
