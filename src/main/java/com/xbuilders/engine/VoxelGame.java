@@ -287,7 +287,7 @@ public class VoxelGame extends BaseWindow {
 
             surface.setResizable(true);
             setPage(Page.MENU);
-            testTriangle = new TestTriangleMesh(gl);
+            testTriangle = new TestTriangleMesh(pgl);
         } catch (Exception ex) {
             ErrorHandler.handleFatalError(ex);
         }

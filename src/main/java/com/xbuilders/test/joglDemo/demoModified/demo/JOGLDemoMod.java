@@ -1,10 +1,10 @@
-package com.xbuilders.test.joglDemo.demoModified.demo;/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+package com.xbuilders.test.joglDemo.demoModified.demo;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL4;
+import com.xbuilders.window.CameraNavigator;
+import com.xbuilders.window.MVP;
+
 import processing.core.UIFrame;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
@@ -18,10 +18,11 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-class JOGLDemoMod extends UIFrame {
-    PShader shader;
-    float a;
+import org.joml.Matrix4f;
 
+class JOGLDemoMod extends UIFrame {
+    BasicShader shader;
+    float a;
 
     PJOGL pgl;
     GL4 gl;
@@ -32,6 +33,11 @@ class JOGLDemoMod extends UIFrame {
     }
 
     BasicMesh mesh;
+    Matrix4f projectMatrix = new Matrix4f();
+    Matrix4f viewMatrix;
+    Matrix4f modelMatrix = new Matrix4f().scale(0.01f);
+    MVP mvp = new MVP();
+    CameraNavigator cameraNavigator;
 
     public static void main(String[] args) {
         new JOGLDemoMod();
@@ -44,24 +50,19 @@ class JOGLDemoMod extends UIFrame {
     }
 
     public void setup() {
-
-        String localDir = new File("").getAbsolutePath();
-        shader = loadShader(
-                localDir + "\\src/main/java/com/xbuilders/test/joglDemo/demo/frag.glsl",
-                localDir + "\\src/main/java/com/xbuilders/test/joglDemo/demo/vert.glsl");
-
-
         pgl = (PJOGL) beginPGL();
         gl = pgl.gl.getGL4();
 
+        cameraNavigator = new CameraNavigator(this);
+        projectMatrix.identity().perspective(
+                (float) Math.toRadians(60.0f),
+                (float) width / (float) height,
+                0.1f,
+                1000.0f);
+        viewMatrix = cameraNavigator.getViewMatrix();
 
-        // Get the location of the attribute variables.
-        shader.bind();
-        int posLoc = gl.glGetAttribLocation(shader.glProgram, "position");
-        int colorLoc = gl.glGetAttribLocation(shader.glProgram, "color");
-        shader.unbind();
-
-        mesh = new BasicMesh(gl, posLoc, colorLoc);
+        shader = new BasicShader(this, pgl);
+        mesh = new BasicMesh(gl, shader.attribute_pos, shader.attribute_uv);
         mesh.updateMesh(pgl, gl);
 
         endPGL();
@@ -76,23 +77,19 @@ class JOGLDemoMod extends UIFrame {
             rect(100, 100, 100, 100);
         }
 
-        // Geometry transformations from Processing are automatically passed to the shader
-        // as long as the uniforms in the shader have the right names.
-        translate(width / 2, height / 2);
-        rotateX(a);
-        rotateY(a * 2);
-
-
-
         pgl = (PJOGL) beginPGL();
         gl = pgl.gl.getGL4();
 
         shader.bind();
+
+        cameraNavigator.update();
+        mvp.update(projectMatrix, viewMatrix,modelMatrix);
+        mvp.sendToShader(gl, shader.getID(), shader.uniform_MVP);
+
         mesh.drawMesh(pgl, gl);
         shader.unbind();
 
         endPGL();
-
 
         a += 0.01;
     }
@@ -136,7 +133,6 @@ class JOGLDemoMod extends UIFrame {
     public void windowResized() {
 
     }
-
 
     FloatBuffer allocateDirectFloatBuffer(int n) {
         return ByteBuffer.allocateDirect(n * Float.BYTES).order(ByteOrder.nativeOrder()).asFloatBuffer();

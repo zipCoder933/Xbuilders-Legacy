@@ -1,26 +1,26 @@
 /* -*- mode: java; c-basic-offset: 2; indent-tabs-mode: nil -*- */
 
- /*
-  Part of the Processing project - http://processing.org
+/*
+ Part of the Processing project - http://processing.org
 
-  Copyright (c) 2012-21 The Processing Foundation
-  Copyright (c) 2004-12 Ben Fry and Casey Reas
-  Copyright (c) 2001-04 Massachusetts Institute of Technology
+ Copyright (c) 2012-21 The Processing Foundation
+ Copyright (c) 2004-12 Ben Fry and Casey Reas
+ Copyright (c) 2001-04 Massachusetts Institute of Technology
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation, version 2.1.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation, version 2.1.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General
-  Public License along with this library; if not, write to the
-  Free Software Foundation, Inc., 59 Temple Place, Suite 330,
-  Boston, MA  02111-1307  USA
- */
+ You should have received a copy of the GNU Lesser General
+ Public License along with this library; if not, write to the
+ Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ Boston, MA  02111-1307  USA
+*/
 package processing.opengl;
 
 import processing.opengl.PGraphicsOpenGL.GLResourceShader;
@@ -50,7 +50,7 @@ import processing.core.UIFrame;
  *
  * @webref rendering:shaders
  * @webBrief This class encapsulates a GLSL shader program, including a vertex
- * and a fragment shader
+ *           and a fragment shader
  */
 public class PShader implements PConstants {
 
@@ -62,44 +62,31 @@ public class PShader implements PConstants {
     static protected final int TEXTURE = 5;
     static protected final int TEXLIGHT = 6;
 
-    static protected String pointShaderAttrRegexp
-            = "attribute *vec2 *offset";
-    static protected String pointShaderInRegexp
-            = "in *vec2 *offset;";
-    static protected String lineShaderAttrRegexp
-            = "attribute *vec4 *direction";
-    static protected String lineShaderInRegexp
-            = "in *vec4 *direction";
-    static protected String pointShaderDefRegexp
-            = "#define *PROCESSING_POINT_SHADER";
-    static protected String lineShaderDefRegexp
-            = "#define *PROCESSING_LINE_SHADER";
-    static protected String colorShaderDefRegexp
-            = "#define *PROCESSING_COLOR_SHADER";
-    static protected String lightShaderDefRegexp
-            = "#define *PROCESSING_LIGHT_SHADER";
-    static protected String texShaderDefRegexp
-            = "#define *PROCESSING_TEXTURE_SHADER";
-    static protected String texlightShaderDefRegexp
-            = "#define *PROCESSING_TEXLIGHT_SHADER";
-    static protected String polyShaderDefRegexp
-            = "#define *PROCESSING_POLYGON_SHADER";
-    static protected String triShaderAttrRegexp
-            = "#define *PROCESSING_TRIANGLES_SHADER";
-    static protected String quadShaderAttrRegexp
-            = "#define *PROCESSING_QUADS_SHADER";
+    static protected String pointShaderAttrRegexp = "attribute *vec2 *offset";
+    static protected String pointShaderInRegexp = "in *vec2 *offset;";
+    static protected String lineShaderAttrRegexp = "attribute *vec4 *direction";
+    static protected String lineShaderInRegexp = "in *vec4 *direction";
+    static protected String pointShaderDefRegexp = "#define *PROCESSING_POINT_SHADER";
+    static protected String lineShaderDefRegexp = "#define *PROCESSING_LINE_SHADER";
+    static protected String colorShaderDefRegexp = "#define *PROCESSING_COLOR_SHADER";
+    static protected String lightShaderDefRegexp = "#define *PROCESSING_LIGHT_SHADER";
+    static protected String texShaderDefRegexp = "#define *PROCESSING_TEXTURE_SHADER";
+    static protected String texlightShaderDefRegexp = "#define *PROCESSING_TEXLIGHT_SHADER";
+    static protected String polyShaderDefRegexp = "#define *PROCESSING_POLYGON_SHADER";
+    static protected String triShaderAttrRegexp = "#define *PROCESSING_TRIANGLES_SHADER";
+    static protected String quadShaderAttrRegexp = "#define *PROCESSING_QUADS_SHADER";
 
-    protected UIFrame parent;
+    public UIFrame parent;
     // The main renderer associated to the parent UIFrame.
-    //protected PGraphicsOpenGL pgMain;
+    // protected PGraphicsOpenGL pgMain;
     // We need a reference to the renderer since a shader might
     // be called by different renderers within a single application
     // (the one corresponding to the main surface, or other offscreen
     // renderers).
-    protected PGraphicsOpenGL primaryPG;
-    protected PGraphicsOpenGL currentPG;
-    protected PGL pgl;
-    protected int context;      // The context that created this shader.
+    public PGraphicsOpenGL primaryPG;
+    public PGraphicsOpenGL currentPG;
+    public PGL pgl;
+    protected int context; // The context that created this shader.
 
     // The shader type: POINT, LINE, POLY, etc.
     protected int type;
@@ -209,7 +196,7 @@ public class PShader implements PConstants {
     /**
      * Creates a shader program using the specified vertex and fragment shaders.
      *
-     * @param parent the parent program
+     * @param parent       the parent program
      * @param vertFilename name of the vertex shader
      * @param fragFilename name of the fragment shader
      */
@@ -393,78 +380,82 @@ public class PShader implements PConstants {
      * @webref rendering:shaders
      * @webBrief Sets a variable within the shader
      * @param name the name of the uniform variable to modify
-     * @param x first component of the variable to modify
+     * @param x    first component of the variable to modify
      */
     public void set(String name, int x) {
-        setUniformImpl(name, UniformValue.INT1, new int[]{x});
+        setUniformImpl(name, UniformValue.INT1, new int[] { x });
     }
 
     /**
      * @param y second component of the variable to modify. The variable has to
-     * be declared with an array/vector type in the shader (i.e.: int[2], vec2)
+     *          be declared with an array/vector type in the shader (i.e.: int[2],
+     *          vec2)
      */
     public void set(String name, int x, int y) {
-        setUniformImpl(name, UniformValue.INT2, new int[]{x, y});
+        setUniformImpl(name, UniformValue.INT2, new int[] { x, y });
     }
 
     /**
      * @param z third component of the variable to modify. The variable has to
-     * be declared with an array/vector type in the shader (i.e.: int[3], vec3)
+     *          be declared with an array/vector type in the shader (i.e.: int[3],
+     *          vec3)
      */
     public void set(String name, int x, int y, int z) {
-        setUniformImpl(name, UniformValue.INT3, new int[]{x, y, z});
+        setUniformImpl(name, UniformValue.INT3, new int[] { x, y, z });
     }
 
     /**
      * @param w fourth component of the variable to modify. The variable has to
-     * be declared with an array/vector type in the shader (i.e.: int[4], vec4)
+     *          be declared with an array/vector type in the shader (i.e.: int[4],
+     *          vec4)
      */
     public void set(String name, int x, int y, int z, int w) {
-        setUniformImpl(name, UniformValue.INT4, new int[]{x, y, z, w});
+        setUniformImpl(name, UniformValue.INT4, new int[] { x, y, z, w });
     }
 
     public void set(String name, float x) {
-        setUniformImpl(name, UniformValue.FLOAT1, new float[]{x});
+        setUniformImpl(name, UniformValue.FLOAT1, new float[] { x });
     }
 
     public void set(String name, float x, float y) {
-        setUniformImpl(name, UniformValue.FLOAT2, new float[]{x, y});
+        setUniformImpl(name, UniformValue.FLOAT2, new float[] { x, y });
     }
 
     public void set(String name, float x, float y, float z) {
-        setUniformImpl(name, UniformValue.FLOAT3, new float[]{x, y, z});
+        setUniformImpl(name, UniformValue.FLOAT3, new float[] { x, y, z });
     }
 
     public void set(String name, float x, float y, float z, float w) {
-        setUniformImpl(name, UniformValue.FLOAT4, new float[]{x, y, z, w});
+        setUniformImpl(name, UniformValue.FLOAT4, new float[] { x, y, z, w });
     }
 
     /**
      * @param vec modifies all the components of an array/vector uniform
-     * variable. PVector can only be used if the type of the variable is vec3.
+     *            variable. PVector can only be used if the type of the variable is
+     *            vec3.
      */
     public void set(String name, PVector vec) {
         setUniformImpl(name, UniformValue.FLOAT3,
-                new float[]{vec.x, vec.y, vec.z});
+                new float[] { vec.x, vec.y, vec.z });
     }
 
     public void set(String name, boolean x) {
-        setUniformImpl(name, UniformValue.INT1, new int[]{(x) ? 1 : 0});
+        setUniformImpl(name, UniformValue.INT1, new int[] { (x) ? 1 : 0 });
     }
 
     public void set(String name, boolean x, boolean y) {
         setUniformImpl(name, UniformValue.INT2,
-                new int[]{(x) ? 1 : 0, (y) ? 1 : 0});
+                new int[] { (x) ? 1 : 0, (y) ? 1 : 0 });
     }
 
     public void set(String name, boolean x, boolean y, boolean z) {
         setUniformImpl(name, UniformValue.INT3,
-                new int[]{(x) ? 1 : 0, (y) ? 1 : 0, (z) ? 1 : 0});
+                new int[] { (x) ? 1 : 0, (y) ? 1 : 0, (z) ? 1 : 0 });
     }
 
     public void set(String name, boolean x, boolean y, boolean z, boolean w) {
         setUniformImpl(name, UniformValue.INT4,
-                new int[]{(x) ? 1 : 0, (y) ? 1 : 0, (z) ? 1 : 0, (w) ? 1 : 0});
+                new int[] { (x) ? 1 : 0, (y) ? 1 : 0, (z) ? 1 : 0, (w) ? 1 : 0 });
     }
 
     public void set(String name, int[] vec) {
@@ -528,8 +519,8 @@ public class PShader implements PConstants {
      * @param mat matrix of values
      */
     public void set(String name, PMatrix2D mat) {
-        float[] matv = {mat.m00, mat.m01,
-            mat.m10, mat.m11};
+        float[] matv = { mat.m00, mat.m01,
+                mat.m10, mat.m11 };
         setUniformImpl(name, UniformValue.MAT2, matv);
     }
 
@@ -542,22 +533,22 @@ public class PShader implements PConstants {
      */
     public void set(String name, PMatrix3D mat, boolean use3x3) {
         if (use3x3) {
-            float[] matv = {mat.m00, mat.m01, mat.m02,
-                mat.m10, mat.m11, mat.m12,
-                mat.m20, mat.m21, mat.m22};
+            float[] matv = { mat.m00, mat.m01, mat.m02,
+                    mat.m10, mat.m11, mat.m12,
+                    mat.m20, mat.m21, mat.m22 };
             setUniformImpl(name, UniformValue.MAT3, matv);
         } else {
-            float[] matv = {mat.m00, mat.m01, mat.m02, mat.m03,
-                mat.m10, mat.m11, mat.m12, mat.m13,
-                mat.m20, mat.m21, mat.m22, mat.m23,
-                mat.m30, mat.m31, mat.m32, mat.m33};
+            float[] matv = { mat.m00, mat.m01, mat.m02, mat.m03,
+                    mat.m10, mat.m11, mat.m12, mat.m13,
+                    mat.m20, mat.m21, mat.m22, mat.m23,
+                    mat.m30, mat.m31, mat.m32, mat.m33 };
             setUniformImpl(name, UniformValue.MAT4, matv);
         }
     }
 
     /**
      * @param tex sets the sampler uniform variable to read from this image
-     * texture
+     *            texture
      */
     public void set(String name, PImage tex) {
         setUniformImpl(name, UniformValue.SAMPLER2D, tex);
@@ -714,16 +705,17 @@ public class PShader implements PConstants {
         }
     }
 
-//    public void set(String name, Matrix4f mat) {
-//        float[] matv = new float[]{
-//            mat.m00(), mat.m01(), mat.m02(), mat.m03(),
-//            mat.m10(), mat.m11(), mat.m12(), mat.m13(),
-//            mat.m20(), mat.m21(), mat.m22(), mat.m23(),
-//            mat.m30(), mat.m31(), mat.m32(), mat.m33()
-//        };
-//        this.setUniformImpl(name, 18, matv);
-//    }
+    // public void set(String name, Matrix4f mat) {
+    // float[] matv = new float[]{
+    // mat.m00(), mat.m01(), mat.m02(), mat.m03(),
+    // mat.m10(), mat.m11(), mat.m12(), mat.m13(),
+    // mat.m20(), mat.m21(), mat.m22(), mat.m23(),
+    // mat.m30(), mat.m31(), mat.m32(), mat.m33()
+    // };
+    // this.setUniformImpl(name, 18, matv);
+    // }
     private final float[] matvJOML = new float[4 * 4];
+
     public void set(String name, Matrix4f mat) {
         matvJOML[0] = mat.m00();
         matvJOML[1] = mat.m01();
@@ -1095,7 +1087,7 @@ public class PShader implements PConstants {
         return texUnits == null ? -1 : texUnits.size() - 1;
     }
 
-    protected void setRenderer(PGraphicsOpenGL pg) {
+    public void setRenderer(PGraphicsOpenGL pg) {
         this.currentPG = pg;
     }
 

@@ -3,6 +3,8 @@ package com.xbuilders.test.joglDemo.mesh;
 import com.jogamp.opengl.GL4;
 import com.xbuilders.test.joglDemo.shader.glTestShader;
 
+import processing.opengl.PJOGL;
+
 import java.io.IOException;
 
 public class TestTriangleMesh {
@@ -22,9 +24,9 @@ public class TestTriangleMesh {
     };
 
 
-    public TestTriangleMesh(GL4 gl) throws IOException {
-        shader = new glTestShader(gl);
-        mesh = new glTextureMesh(gl, shader.attributePosition, shader.attributeUV);
+    public TestTriangleMesh(PJOGL pgl) throws IOException {
+        shader = new glTestShader(pgl);
+        mesh = new glTextureMesh(pgl.gl.getGL4(), shader.attributePosition, shader.attributeUV);
         mesh.sendToGPU(vertex, uv);
     }
 

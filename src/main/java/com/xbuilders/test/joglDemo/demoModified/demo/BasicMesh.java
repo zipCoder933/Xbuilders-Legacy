@@ -11,36 +11,33 @@ import java.nio.IntBuffer;
 
 public class BasicMesh {
 
-
     FloatBuffer posBuffer;
-    FloatBuffer colorBuffer;
+    FloatBuffer uvBuffer;
     IntBuffer indexBuffer;
 
     int posVboId;
-    int colorVboId;
+    int uvVboId;
     int indexVboId;
 
     int posLoc;
     int colorLoc;
+    GL4 gl;
 
     public BasicMesh(GL4 gl, int posLoc, int colorLoc) {
+        this.gl = gl;
         this.posLoc = posLoc;
         this.colorLoc = colorLoc;
 
         // Get GL ids for all the buffers
         IntBuffer intBuffer = IntBuffer.allocate(3);
         gl.glGenBuffers(3, intBuffer);// Generate 3 VBOs
-// Now buffers[0], buffers[1], and buffers[2] contain the names of the VBOs
+        // Now buffers[0], buffers[1], and buffers[2] contain the names of the VBOs
 
         posVboId = intBuffer.get(0);
-        colorVboId = intBuffer.get(1);
+        uvVboId = intBuffer.get(1);
         indexVboId = intBuffer.get(2);
 
-        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, posVboId);
-        gl.glVertexAttribPointer(posLoc, 4, GL.GL_FLOAT, false, 4 * Float.BYTES, 0);
-
-        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, colorVboId);
-        gl.glVertexAttribPointer(colorLoc, 4, GL.GL_FLOAT, false, 4 * Float.BYTES, 0);
+        setVBOProperties();
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
 
@@ -48,6 +45,13 @@ public class BasicMesh {
         gl.glEnableVertexAttribArray(colorLoc);
     }
 
+    private void setVBOProperties() {
+        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, posVboId);
+        gl.glVertexAttribPointer(posLoc, 4, GL.GL_FLOAT, false, 4 * Float.BYTES, 0);
+
+        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, uvVboId);
+        gl.glVertexAttribPointer(colorLoc, 4, GL.GL_FLOAT, false, 4 * Float.BYTES, 0);
+    }
 
     final float HALF_PI = (float) Math.PI / 2.0f;
     float[] positions, colors;
@@ -105,8 +109,8 @@ public class BasicMesh {
 
         // Vertex 5
         positions[16] = -200;
-        positions[17] = -200 * (float)Math.cos(HALF_PI);
-        positions[18] = -200 * (float)Math.sin(HALF_PI);
+        positions[17] = -200 * (float) Math.cos(HALF_PI);
+        positions[18] = -200 * (float) Math.sin(HALF_PI);
         positions[19] = 1;
 
         colors[16] = 0.0f;
@@ -116,8 +120,8 @@ public class BasicMesh {
 
         // Vertex 6
         positions[20] = +200;
-        positions[21] = -200 *(float)Math.cos(HALF_PI);
-        positions[22] = -200 * (float)Math.sin(HALF_PI);
+        positions[21] = -200 * (float) Math.cos(HALF_PI);
+        positions[22] = -200 * (float) Math.sin(HALF_PI);
         positions[23] = 1;
 
         colors[20] = 1.0f;
@@ -127,8 +131,8 @@ public class BasicMesh {
 
         // Vertex 7
         positions[24] = -200;
-        positions[25] = +200 *(float)Math. cos(HALF_PI);
-        positions[26] = +200 * (float)Math.sin(HALF_PI);
+        positions[25] = +200 * (float) Math.cos(HALF_PI);
+        positions[26] = +200 * (float) Math.sin(HALF_PI);
         positions[27] = 1;
 
         colors[24] = 0.0f;
@@ -138,8 +142,8 @@ public class BasicMesh {
 
         // Vertex 8
         positions[28] = +200;
-        positions[29] = +200 *(float)Math. cos(HALF_PI);
-        positions[30] = +200 * (float)Math.sin(HALF_PI);
+        positions[29] = +200 * (float) Math.cos(HALF_PI);
+        positions[30] = +200 * (float) Math.sin(HALF_PI);
         positions[31] = 1;
 
         colors[28] = 1.0f;
@@ -168,21 +172,20 @@ public class BasicMesh {
         indices[11] = 5;
 
         posBuffer = BufferUtils.allocateDirectFloatBuffer(32);
-        colorBuffer = BufferUtils.allocateDirectFloatBuffer(32);
+        uvBuffer = BufferUtils.allocateDirectFloatBuffer(32);
         indexBuffer = BufferUtils.allocateDirectIntBuffer(12);
 
         posBuffer.rewind();
         posBuffer.put(positions);
         posBuffer.rewind();
 
-        colorBuffer.rewind();
-        colorBuffer.put(colors);
-        colorBuffer.rewind();
+        uvBuffer.rewind();
+        uvBuffer.put(colors);
+        uvBuffer.rewind();
 
         indexBuffer.rewind();
         indexBuffer.put(indices);
         indexBuffer.rewind();
-
 
         // Copy vertex data to VBOs
         gl.glBindBuffer(PGL.ELEMENT_ARRAY_BUFFER, indexVboId);
@@ -191,24 +194,18 @@ public class BasicMesh {
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, posVboId);
         gl.glBufferData(GL.GL_ARRAY_BUFFER, Float.BYTES * positions.length, posBuffer, GL.GL_DYNAMIC_DRAW);
 
-        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, colorVboId);
-        gl.glBufferData(GL.GL_ARRAY_BUFFER, Float.BYTES * colors.length, colorBuffer, GL.GL_DYNAMIC_DRAW);
+        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, uvVboId);
+        gl.glBufferData(GL.GL_ARRAY_BUFFER, Float.BYTES * colors.length, uvBuffer, GL.GL_DYNAMIC_DRAW);
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     }
 
     public void drawMesh(PJOGL pgl, GL4 gl) {
-        //Specify the vertex attributes
-        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, posVboId);
-        gl.glVertexAttribPointer(posLoc, 4, GL.GL_FLOAT, false, 4 * Float.BYTES, 0);
-        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, colorVboId);
-        gl.glVertexAttribPointer(colorLoc, 4, GL.GL_FLOAT, false, 4 * Float.BYTES, 0);
-
+        setVBOProperties(); // Required otherwise the mesh will disappear when p3d components are added to
+                            // the scene
         // Draw the triangle elements
         gl.glBindBuffer(PGL.ELEMENT_ARRAY_BUFFER, indexVboId);
         gl.glDrawElements(PGL.TRIANGLES, indices.length, GL.GL_UNSIGNED_INT, 0);
         gl.glBindBuffer(PGL.ELEMENT_ARRAY_BUFFER, 0);
     }
 }
-
-

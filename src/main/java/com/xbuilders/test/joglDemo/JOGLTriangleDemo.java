@@ -72,7 +72,7 @@ class JOGLTriangleDemo extends UIFrame {
         mvp = new MVP();
 
         try {
-            mesh = new TestTriangleMesh(gl);
+            mesh = new TestTriangleMesh(pgl);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

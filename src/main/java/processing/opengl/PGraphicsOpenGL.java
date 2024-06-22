@@ -1489,7 +1489,7 @@ public class PGraphicsOpenGL extends PGraphics {
     currentPG = this;
   }
 
-  protected PGraphicsOpenGL getCurrentPG() {
+  public PGraphicsOpenGL getCurrentPG() {
     return currentPG;
   }
 

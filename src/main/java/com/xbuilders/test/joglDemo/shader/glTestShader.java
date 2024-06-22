@@ -3,6 +3,8 @@ package com.xbuilders.test.joglDemo.shader;
 import com.jogamp.opengl.GL4;
 import com.xbuilders.window.Shader;
 
+import processing.opengl.PJOGL;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -12,8 +14,8 @@ public class glTestShader extends Shader {
     public final int uniformMVP;
     final static String basePath = new File("").getAbsolutePath();
 
-    public glTestShader(GL4 gl) throws IOException {
-        super(gl);
+    public glTestShader(PJOGL pgl) throws IOException {
+        super(pgl);
         init(
                 new File(basePath + "\\src\\main\\java\\com\\xbuilders\\test\\joglDemo\\testVert.glsl"),
                 new File(basePath + "\\src\\main\\java\\com\\xbuilders\\test\\joglDemo\\testFrag.glsl"));

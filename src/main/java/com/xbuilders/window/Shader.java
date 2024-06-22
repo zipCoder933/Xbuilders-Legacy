@@ -3,6 +3,10 @@ package com.xbuilders.window;
 
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.util.GLBuffers;
+
+import processing.opengl.PGL;
+import processing.opengl.PJOGL;
+
 import org.joml.*;
 
 import java.io.BufferedReader;
@@ -24,9 +28,11 @@ public class Shader {
     private int vertexID;
     private int fragmentID;
     public final GL4 gl;
+    public final PJOGL pgl;
 
-    public Shader(GL4 gl) {
-        this.gl = gl;
+    public Shader(PJOGL pgl) {
+        this.pgl = pgl;
+        this.gl = pgl.gl.getGL4();
     }
 
     public void delete() {
@@ -37,12 +43,12 @@ public class Shader {
         gl.glDeleteProgram(getID());
     }
 
-    public Shader(GL4 gl, File Vert, File Frag) throws IOException {
+    public Shader(PJOGL gl, File Vert, File Frag) throws IOException {
         this(gl);
         init(Vert, Frag);
     }
 
-    public Shader(GL4 gl, String Vert, String Frag) throws IOException {
+    public Shader(PJOGL gl, String Vert, String Frag) throws IOException {
         this(gl);
         init(Vert, Frag);
     }
