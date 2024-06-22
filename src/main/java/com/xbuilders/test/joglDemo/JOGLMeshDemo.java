@@ -140,20 +140,31 @@ class JOGLMeshDemo extends UIFrame {
     }
 
     public void draw() {
-
+        background(255);
 
         //Enable backface culling
         gl.glEnable(GL4.GL_CULL_FACE);
         gl.glCullFace(GL4.GL_BACK);
 
-        background(255);
+        if (mousePressed) {
+            fill(255, 0, 0);
+            rect(100, 100, 100, 100);
+        }
+
+
+        pgl = (PJOGL) beginPGL();
+        gl = pgl.gl.getGL4();
+
+
         shader.bind();
         cameraNavigator.update();
         mvp.update(projMatrix, cameraNavigator.getViewMatrix());
         mvp.sendToShader(gl, shader.getID(), shader.uniformMVP);
-
         mesh.draw();
         shader.unbind();
+
+        endPGL();
+
         a += 0.01;
     }
 

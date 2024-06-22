@@ -10,32 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97088633-1bd4-4482-a1bb-f362d22b9a51" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/hs_err_pid15992.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/JOGLTriangleDemo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/mesh/TestTriangleMesh.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/shader/glTestShader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/testFrag.glsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/testVert.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demo/Plan to render JOGL meshes and P3D components simultaneously.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demo/frag.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demo/vert.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/BasicMesh.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/JOGLDemoMod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/Plan to render JOGL meshes and P3D components simultaneously.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/frag.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/vert.glsl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/XBuildersUI4J.jar" beforeDir="false" afterPath="$PROJECT_DIR$/XBuildersUI4J.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hs_err_pid10380.log" beforeDir="false" afterPath="$PROJECT_DIR$/hs_err_pid10380.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hs_err_pid12632.log" beforeDir="false" afterPath="$PROJECT_DIR$/hs_err_pid12632.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hs_err_pid2332.log" beforeDir="false" afterPath="$PROJECT_DIR$/hs_err_pid2332.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hs_err_pid6656.log" beforeDir="false" afterPath="$PROJECT_DIR$/hs_err_pid6656.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hs_err_pid7964.log" beforeDir="false" afterPath="$PROJECT_DIR$/hs_err_pid7964.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/VoxelGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/VoxelGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/ChunkEntitySet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/ChunkEntitySet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/EntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/EntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/FoxEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/FoxEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/mobile/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/mobile/Animal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/JOGLDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demo/JOGLDemo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/JOGLMeshDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/JOGLMeshDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/frag.glsl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/mesh/glTextureMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/mesh/glTextureMesh.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/shader/ColorShader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/shader/TextureShader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/shader/glTextureShader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/vert.glsl" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +53,8 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Application.JOGLDemo.executor": "Run",
+    "Application.JOGLDemoMod.executor": "Run",
     "Application.JOGLMeshDemo.executor": "Run",
     "Application.JOGLMeshDemoV2.executor": "Run",
     "Application.JOGLTriangleDemo.executor": "Run",
@@ -75,7 +64,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Local Files/github/Xbuilders-2/src/main/java/com/xbuilders/test/joglDemo",
+    "last_opened_file_path": "D:/Xbuilders2/src/main/java/com/xbuilders/test/joglDemo/demoModified",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.20099668"
@@ -83,10 +72,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Xbuilders2\src\main\java\com\xbuilders\test\joglDemo\demoModified" />
+      <recent name="D:\Xbuilders2\src\main\java\com\xbuilders\test\joglDemo" />
+      <recent name="D:\Xbuilders2\src\main\java\com\xbuilders\test\joglDemo\demo" />
       <recent name="C:\Local Files\github\Xbuilders-2\src\main\java\com\xbuilders\test\joglDemo" />
       <recent name="D:\Xbuilders2\src\main\java\com\xbuilders\window" />
-      <recent name="D:\Xbuilders2\src\main\java\com\xbuilders\window\utils\obj" />
-      <recent name="C:\Local Files\github\Xbuilders-2\src\main\java\com\xbuilders\game\terrain\defaultTerrain" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Xbuilders2\src\main\java\com\xbuilders\window" />
@@ -99,9 +89,9 @@
       <recent name="com.xbuilders.game.terrain.defaultTerrain" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main Dev">
-    <configuration name="JOGLTriangleDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xbuilders.test.joglDemo.JOGLTriangleDemo" />
+  <component name="RunManager">
+    <configuration name="JOGLMeshDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xbuilders.test.joglDemo.JOGLMeshDemo" />
       <module name="XBuildersUI4J" />
       <extension name="coverage">
         <pattern>
@@ -131,11 +121,11 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.Main Dev" />
-      <item itemvalue="Application.JOGLTriangleDemo" />
+      <item itemvalue="Application.JOGLMeshDemo" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.JOGLTriangleDemo" />
+        <item itemvalue="Application.JOGLMeshDemo" />
       </list>
     </recent_temporary>
   </component>

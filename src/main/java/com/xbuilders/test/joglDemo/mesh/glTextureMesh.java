@@ -23,7 +23,7 @@ public class glTextureMesh {
     int length;
     int textureID;
 
-     int vao, posVboId, uvVboId;
+    int posVboId, uvVboId;
     final int shaderPosition, shaderUV;
 
     public glTextureMesh(GL4 gl, int posLoc, int uvLoc) {
@@ -31,32 +31,20 @@ public class glTextureMesh {
         this.shaderPosition = posLoc;
         this.shaderUV = uvLoc;
 
-        IntBuffer vaoBuffer = BufferUtils.allocateDirectIntBuffer(1);
-        gl.glGenVertexArrays(1, vaoBuffer); //Create the VAO
-        vao = vaoBuffer.get(0);
-        gl.glBindVertexArray(vao);
+
+//Create the VAO
+//        IntBuffer vaoBuffer = BufferUtils.allocateDirectIntBuffer(1);
+//        gl.glGenVertexArrays(1, vaoBuffer);
+//        vao = vaoBuffer.get(0);
+//        gl.glBindVertexArray(vao);
 
         //Create the VBOs
-        IntBuffer intBuffer = IntBuffer.allocate(3);
+        IntBuffer intBuffer = IntBuffer.allocate(2);
         gl.glGenBuffers(2, intBuffer);
         posVboId = intBuffer.get(0);
         uvVboId = intBuffer.get(1);
 
-        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, posVboId);
-        gl.glVertexAttribPointer( //Set VBO properties
-                posLoc,
-                3,
-                GL.GL_FLOAT,
-                false,
-                3 * Float.BYTES,
-                0);
-
-        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, uvVboId);
-        gl.glVertexAttribPointer(uvLoc,
-                2, GL.GL_FLOAT,
-                false,
-                2 * Float.BYTES,
-                0);
+        setVboProperties();
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
 
         gl.glEnableVertexAttribArray(posLoc);
@@ -64,6 +52,24 @@ public class glTextureMesh {
 //        gl.glBindVertexArray(0); //TODO: For some reason this gl command causes
         //OpenGL error 1282 at top endDraw(): invalid operation
         //OpenGL error 1282 at bot endDraw(): invalid operation
+    }
+
+    private void setVboProperties() {
+        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, posVboId);
+        gl.glVertexAttribPointer( //Set VBO properties
+                shaderPosition,
+                3,
+                GL.GL_FLOAT,
+                false,
+                3 * Float.BYTES,
+                0);
+
+        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, uvVboId);
+        gl.glVertexAttribPointer(shaderUV,
+                2, GL.GL_FLOAT,
+                false,
+                2 * Float.BYTES,
+                0);
     }
 
     public void setOBJ(File objModel) throws FileNotFoundException {
@@ -108,9 +114,6 @@ public class glTextureMesh {
     }
 
     public void sendToGPU(FloatBuffer posBuffer, FloatBuffer uvBuffer) {
-        // Copy vertex data to VBOs
-        gl.glBindVertexArray(vao);
-
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, posVboId); // position VBO
         gl.glBufferData(GL.GL_ARRAY_BUFFER, (long) Float.BYTES * posBuffer.capacity(), posBuffer, GL.GL_DYNAMIC_DRAW);
 
@@ -118,8 +121,6 @@ public class glTextureMesh {
         gl.glBufferData(GL.GL_ARRAY_BUFFER, (long) Float.BYTES * uvBuffer.capacity(), uvBuffer, GL.GL_DYNAMIC_DRAW);
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
-//        gl.glBindVertexArray(0);
-
         length = posBuffer.capacity() / 3;
     }
 
@@ -134,7 +135,8 @@ public class glTextureMesh {
     }
 
     public void draw() {
-        gl.glBindVertexArray(vao);
+        setVboProperties();
+
         gl.glBindTexture(GL.GL_TEXTURE_2D, textureID);
         gl.glDrawArrays(PGL.TRIANGLES, 0, length);
     }
