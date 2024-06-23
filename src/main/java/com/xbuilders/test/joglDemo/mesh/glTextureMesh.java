@@ -80,8 +80,6 @@ public class glTextureMesh {
 
         OBJBufferSet bufferSet = new OBJBufferSet(o);
 
-        bufferSet.makeBuffers();
-
         posBuffer = BufferUtils.allocateDirectFloatBuffer(bufferSet.vertBuffer.length);
         uvBuffer = BufferUtils.allocateDirectFloatBuffer(bufferSet.uvBuffer.length);
 

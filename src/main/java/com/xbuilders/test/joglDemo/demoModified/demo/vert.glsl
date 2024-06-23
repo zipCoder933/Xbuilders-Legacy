@@ -4,9 +4,9 @@
 uniform mat4 transform;
 
 in vec4 position;
-in vec4 color;
+in vec2 color;
 
-out vec4 vertColor;
+out vec2 vertColor;
 
 void main() {
   gl_Position = transform * position;

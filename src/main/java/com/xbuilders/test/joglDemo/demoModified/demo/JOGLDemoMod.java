@@ -1,18 +1,18 @@
 package com.xbuilders.test.joglDemo.demoModified.demo;
 
-import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL4;
 import com.xbuilders.window.CameraNavigator;
 import com.xbuilders.window.MVP;
 
+import com.xbuilders.window.utils.texture.Texture;
+import com.xbuilders.window.utils.texture.TextureUtils;
 import processing.core.UIFrame;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.opengl.PGL;
 import processing.opengl.PJOGL;
-import processing.opengl.PShader;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -21,7 +21,7 @@ import java.nio.IntBuffer;
 import org.joml.Matrix4f;
 
 class JOGLDemoMod extends UIFrame {
-    BasicShader shader;
+    BasicTextureShader shader;
     float a;
 
     PJOGL pgl;
@@ -32,7 +32,7 @@ class JOGLDemoMod extends UIFrame {
         startWindow();
     }
 
-    BasicMesh mesh;
+    BasicTextureMesh mesh;
     Matrix4f projectMatrix = new Matrix4f();
     Matrix4f viewMatrix;
     Matrix4f modelMatrix = new Matrix4f().scale(0.01f);
@@ -61,9 +61,18 @@ class JOGLDemoMod extends UIFrame {
                 1000.0f);
         viewMatrix = cameraNavigator.getViewMatrix();
 
-        shader = new BasicShader(this, pgl);
-        mesh = new BasicMesh(gl, shader.attribute_pos, shader.attribute_uv);
+        shader = new BasicTextureShader(this, pgl);
+        mesh = new BasicTextureMesh(pgl, shader.attribute_pos, shader.attribute_uv);
+
         mesh.updateMesh(pgl, gl);
+        try {
+            String basePath = new File("").getAbsolutePath();
+            mesh.setTexture(new File(basePath + "\\res\\items\\entities\\animals\\fox\\red.png"));
+//            mesh.setOBJ(new File(basePath + "\\res\\items\\entities\\animals\\fox\\fox.obj")); //TODO: Fix
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
         endPGL();
 

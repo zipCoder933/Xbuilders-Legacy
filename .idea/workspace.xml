@@ -10,19 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97088633-1bd4-4482-a1bb-f362d22b9a51" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demo/Plan to render JOGL meshes and P3D components simultaneously.docx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demo/frag.glsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demo/vert.glsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/BasicMesh.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/JOGLDemoMod.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/Plan to render JOGL meshes and P3D components simultaneously.docx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/frag.glsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/vert.glsl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/XBuildersUI4J.jar" beforeDir="false" afterPath="$PROJECT_DIR$/XBuildersUI4J.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/JOGLDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demo/JOGLDemo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/JOGLMeshDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/JOGLMeshDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/BasicMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/BasicTextureMesh.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/BasicShader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/BasicTextureShader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/JOGLDemoMod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/JOGLDemoMod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/frag.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/frag.glsl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/vert.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/vert.glsl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/mesh/glTextureMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/mesh/glTextureMesh.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/utils/obj/buffers/OBJBufferSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/utils/obj/buffers/OBJBufferSet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,27 +46,27 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Application.JOGLDemo.executor": "Run",
-    "Application.JOGLDemoMod.executor": "Run",
-    "Application.JOGLMeshDemo.executor": "Run",
-    "Application.JOGLMeshDemoV2.executor": "Run",
-    "Application.JOGLTriangleDemo.executor": "Run",
-    "Application.Main Dev.executor": "Run",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Xbuilders2/src/main/java/com/xbuilders/test/joglDemo/demoModified",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.20099668"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Application.JOGLDemo.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JOGLDemoMod.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JOGLMeshDemo.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JOGLMeshDemoV2.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JOGLTriangleDemo.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main Dev.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Xbuilders2/src/main/java/com/xbuilders/test/joglDemo/demoModified&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.20099668&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Xbuilders2\src\main\java\com\xbuilders\test\joglDemo\demoModified" />

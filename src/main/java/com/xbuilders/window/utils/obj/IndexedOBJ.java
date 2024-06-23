@@ -71,6 +71,7 @@ public class IndexedOBJ {
             this.uv = uv;
             this.normals = normals;
         }
+
         Vector3f position;
         Vector2f uv;
         Vector3f normals;
@@ -89,19 +90,19 @@ public class IndexedOBJ {
 
                 int vertexIndex = face.getVertexCoordinates()[i];
                 int textureIndex = face.getTextureCoords()[i];
-                int normalIndex = face.getNormals()[i];
+                int normalIndex = face.getNormals() == null ? 0 : face.getNormals()[i];
 
                 Vertex newVertex = new Vertex(
                         obj.getVertexCoordinates().get(vertexIndex - 1),
                         obj.getTextureCoordinates().get(textureIndex - 1),
-                        obj.getNormals().get(normalIndex - 1)
+                        face.getNormals() == null ? null : obj.getNormals().get(normalIndex - 1)
                 );
 
                 if (!uniqueVertices.containsKey(newVertex)) {
                     uniqueVertices.put(newVertex, indexedVertices.size());
                     indexedVertices.add(newVertex.position);
                     indexedTextureCoords.add(newVertex.uv);
-                    indexedNormals.add(newVertex.normals);
+                    if (newVertex.normals != null) indexedNormals.add(newVertex.normals);
                 }
 
                 indicesList.add(uniqueVertices.get(newVertex));

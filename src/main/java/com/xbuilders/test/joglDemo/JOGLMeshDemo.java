@@ -115,9 +115,6 @@ class JOGLMeshDemo extends UIFrame {
         }
         OBJBufferSet bufferSet = new OBJBufferSet(o);
 
-
-        bufferSet.makeBuffers();
-
         posBuffer = allocateDirectFloatBuffer(bufferSet.vertBuffer.length);
         uvBuffer = allocateDirectFloatBuffer(bufferSet.uvBuffer.length);
 
@@ -131,14 +128,11 @@ class JOGLMeshDemo extends UIFrame {
 
         mesh.sendToGPU(posBuffer, uvBuffer);
 
-        //Load texture
-        Texture tex;
         try {
-            tex = TextureUtils.loadTexture(gl, basePath + "\\res\\items\\entities\\animals\\fox\\red.png", false);
+            mesh.setTexture(new File(basePath + "\\res\\items\\entities\\animals\\fox\\red.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        mesh.setTexture(tex.id);
         endPGL();
     }
 

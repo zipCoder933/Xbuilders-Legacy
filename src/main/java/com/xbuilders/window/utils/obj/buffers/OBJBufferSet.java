@@ -54,9 +54,8 @@ public class OBJBufferSet {
             uvs.add(obj.getTextureCoordinates().get(uv3 - 1));
         }
 
-    }
 
-    public void makeBuffers() {
+        //Make the buffers
         vertBuffer = new float[verts.size() * 3];
         uvBuffer = new float[verts.size() * 2];
         normalsBuffer = new float[verts.size() * 3];
@@ -89,5 +88,6 @@ public class OBJBufferSet {
             uvBuffer[vertIndex] = -uvs.get(i).y;
             vertIndex++;
         }
+
     }
 }

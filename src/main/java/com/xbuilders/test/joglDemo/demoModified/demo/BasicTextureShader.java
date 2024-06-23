@@ -7,7 +7,7 @@ import processing.core.UIFrame;
 import processing.opengl.PJOGL;
 import processing.opengl.PShader;
 
-public class BasicShader extends Shader {
+public class BasicTextureShader extends Shader {
 
     public int attribute_pos, attribute_uv;
     public int uniform_MVP;
@@ -16,7 +16,7 @@ public class BasicShader extends Shader {
     PJOGL pgl;
     GL4 gl;
 
-    public BasicShader(UIFrame uiFrame, PJOGL pgl) {
+    public BasicTextureShader(UIFrame uiFrame, PJOGL pgl) {
         super(pgl);
         this.pgl = pgl;
         this.gl = pgl.gl.getGL4();
