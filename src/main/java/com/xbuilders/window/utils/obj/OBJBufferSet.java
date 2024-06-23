@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.window.utils.obj.buffers;
+package com.xbuilders.window.utils.obj;
 
-import com.xbuilders.window.utils.obj.OBJ;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -21,8 +20,9 @@ public class OBJBufferSet {
     ArrayList<Vector2f> uvs = new ArrayList<>();
 
     public float[] vertBuffer, uvBuffer, normalsBuffer;
+    public int[] indices;
 
-    public OBJBufferSet(OBJ obj) {
+    public OBJBufferSet(OBJ obj, boolean vec4Position, boolean generateIndicies) {
         verts = new ArrayList<>();
         normals = new ArrayList<>();
         uvs = new ArrayList<>();
@@ -56,9 +56,16 @@ public class OBJBufferSet {
 
 
         //Make the buffers
-        vertBuffer = new float[verts.size() * 3];
+        vertBuffer = new float[verts.size() * (vec4Position ? 4 : 3)];
         uvBuffer = new float[verts.size() * 2];
         normalsBuffer = new float[verts.size() * 3];
+
+        if (generateIndicies) {
+            indices = new int[verts.size()];
+            for (int i = 0; i < indices.length; i++) {
+                indices[i] = i;
+            }
+        }
 
         int vertIndex = 0;
 
@@ -69,6 +76,11 @@ public class OBJBufferSet {
             vertIndex++;
             vertBuffer[vertIndex] = verts.get(i).z;
             vertIndex++;
+
+            if (vec4Position) {
+                vertBuffer[vertIndex] = 1.0f;
+                vertIndex++;
+            }
         }
         vertIndex = 0;
 

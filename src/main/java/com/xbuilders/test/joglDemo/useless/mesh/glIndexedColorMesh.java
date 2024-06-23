@@ -1,4 +1,4 @@
-package com.xbuilders.test.joglDemo.mesh;
+package com.xbuilders.test.joglDemo.useless.mesh;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2ES3;

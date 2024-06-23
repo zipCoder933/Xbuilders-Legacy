@@ -75,6 +75,51 @@ public class IndexedOBJ {
         Vector3f position;
         Vector2f uv;
         Vector3f normals;
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + getEnclosingInstance().hashCode();
+            result = prime * result + ((position == null) ? 0 : position.hashCode());
+            result = prime * result + ((uv == null) ? 0 : uv.hashCode());
+            result = prime * result + ((normals == null) ? 0 : normals.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Vertex other = (Vertex) obj;
+            if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+                return false;
+            if (position == null) {
+                if (other.position != null)
+                    return false;
+            } else if (!position.equals(other.position))
+                return false;
+            if (uv == null) {
+                if (other.uv != null)
+                    return false;
+            } else if (!uv.equals(other.uv))
+                return false;
+            if (normals == null) {
+                if (other.normals != null)
+                    return false;
+            } else if (!normals.equals(other.normals))
+                return false;
+            return true;
+        }
+
+        private IndexedOBJ getEnclosingInstance() {
+            return IndexedOBJ.this;
+        }
+
     }
 
     // Constructor
@@ -83,7 +128,10 @@ public class IndexedOBJ {
         List<Integer> indicesList = new ArrayList<>();
         indexedVertices = new ArrayList<>();
         indexedTextureCoords = new ArrayList<>();
-        indexedNormals = new ArrayList<>();
+
+        if (obj.hasNormals()) {
+            indexedNormals = new ArrayList<>();
+        }
 
         for (Face face : obj.getFaces()) {
             for (int i = 0; i < face.getVertexCoordinates().length; i++) {
@@ -95,20 +143,20 @@ public class IndexedOBJ {
                 Vertex newVertex = new Vertex(
                         obj.getVertexCoordinates().get(vertexIndex - 1),
                         obj.getTextureCoordinates().get(textureIndex - 1),
-                        face.getNormals() == null ? null : obj.getNormals().get(normalIndex - 1)
-                );
+                        obj.hasNormals() ? obj.getNormals().get(normalIndex - 1) : null);
 
-                if (!uniqueVertices.containsKey(newVertex)) {
+                if (!uniqueVertices.containsKey(newVertex)) { //Only add the vertex to the unique list if it doesn't already exist
                     uniqueVertices.put(newVertex, indexedVertices.size());
                     indexedVertices.add(newVertex.position);
                     indexedTextureCoords.add(newVertex.uv);
-                    if (newVertex.normals != null) indexedNormals.add(newVertex.normals);
+                    if (obj.hasNormals())
+                        indexedNormals.add(newVertex.normals);
                 }
-
-                indicesList.add(uniqueVertices.get(newVertex));
+                indicesList.add(uniqueVertices.get(newVertex));//We always have this in order, we just include the index
             }
         }
-
+        
+        System.out.println("Indexed vertices: " + indexedVertices.size());
         // Convert lists to arrays if needed
         this.indices = indicesList.stream().mapToInt(i -> i).toArray();
     }

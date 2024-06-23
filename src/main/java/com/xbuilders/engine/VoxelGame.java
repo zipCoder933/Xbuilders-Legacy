@@ -30,8 +30,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.xbuilders.test.joglDemo.mesh.TestTriangleMesh;
 import com.xbuilders.window.BaseWindow;
 import processing.core.KeyCode;
 import processing.core.PFont;
@@ -60,8 +58,6 @@ public class VoxelGame extends BaseWindow {
     private String windowTitle;
     private File iconPath;
     private int sizeX, sizeY;
-
-    TestTriangleMesh testTriangle;
 
     public VoxelGame(int sizeX, int sizeY, File iconPath, String windowTitle, boolean devMode)
             throws IOException, InterruptedException {
@@ -287,7 +283,6 @@ public class VoxelGame extends BaseWindow {
 
             surface.setResizable(true);
             setPage(Page.MENU);
-            testTriangle = new TestTriangleMesh(pgl);
         } catch (Exception ex) {
             ErrorHandler.handleFatalError(ex);
         }

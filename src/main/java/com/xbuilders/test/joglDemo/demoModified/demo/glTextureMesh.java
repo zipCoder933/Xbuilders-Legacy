@@ -4,10 +4,10 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL4;
 import com.xbuilders.window.BufferUtils;
 import com.xbuilders.window.utils.obj.IndexedOBJ;
+import com.xbuilders.window.utils.obj.IndexedOBJBufferSet;
 import com.xbuilders.window.utils.obj.OBJ;
+import com.xbuilders.window.utils.obj.OBJBufferSet;
 import com.xbuilders.window.utils.obj.OBJLoader;
-import com.xbuilders.window.utils.obj.buffers.IndexedOBJBufferSet;
-import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import processing.opengl.PGL;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-public class BasicTextureMesh {
+public class glTextureMesh {
 
     FloatBuffer posBuffer;
     FloatBuffer uvBuffer;
@@ -34,7 +34,7 @@ public class BasicTextureMesh {
     GL4 gl;
     PJOGL pgl;
 
-    public BasicTextureMesh(PJOGL pgl, int posLoc, int colorLoc) {
+    public glTextureMesh(PJOGL pgl, int posLoc, int colorLoc) {
         this.pgl = pgl;
         this.gl = pgl.gl.getGL4();
         this.posLoc = posLoc;
@@ -66,21 +66,18 @@ public class BasicTextureMesh {
     }
 
     final float HALF_PI = (float) Math.PI / 2.0f;
-    float[] positions, colors;
-    int[] indices;
-
 
     public void setOBJ(File objModel) throws FileNotFoundException {
         FloatBuffer posBuffer;
         FloatBuffer uvBuffer;
 
         OBJ o = OBJLoader.loadModel(objModel);
-        IndexedOBJ indexedOBJ = new IndexedOBJ(o);
-        IndexedOBJBufferSet bufferSet = new IndexedOBJBufferSet(indexedOBJ);
+        IndexedOBJ i = new IndexedOBJ(o);
+        IndexedOBJBufferSet bufferSet = new IndexedOBJBufferSet(i, true);
 
         posBuffer = BufferUtils.allocateDirectFloatBuffer(bufferSet.vertBuffer.length);
         uvBuffer = BufferUtils.allocateDirectFloatBuffer(bufferSet.uvBuffer.length);
-        indexBuffer = BufferUtils.allocateDirectIntBuffer(bufferSet.indicies.length);
+        indexBuffer = BufferUtils.allocateDirectIntBuffer(bufferSet.indices.length);
 
         posBuffer.rewind();
         posBuffer.put(bufferSet.vertBuffer);
@@ -91,7 +88,7 @@ public class BasicTextureMesh {
         uvBuffer.rewind();
 
         indexBuffer.rewind();
-        indexBuffer.put(bufferSet.indicies);
+        indexBuffer.put(bufferSet.indices);
         indexBuffer.rewind();
 
         sendToGPU(posBuffer, uvBuffer, indexBuffer);
@@ -99,9 +96,9 @@ public class BasicTextureMesh {
 
     public void updateMesh(PJOGL pgl, GL4 gl) {
 
-        positions = new float[32];
-        colors = new float[16];
-        indices = new int[12];
+        float[] positions = new float[32];
+        float[] colors = new float[16];
+        int[] indices = new int[12];
 
         colors[0] = 1.0f;
         colors[1] = 0.0f;
@@ -161,8 +158,6 @@ public class BasicTextureMesh {
         positions[30] = +200 * (float) Math.sin(HALF_PI);
         positions[31] = 1;
 
-
-
         // Triangle 1
         indices[0] = 0;
         indices[1] = 1;
@@ -199,21 +194,25 @@ public class BasicTextureMesh {
         indexBuffer.put(indices);
         indexBuffer.rewind();
 
-        sendToGPU(posBuffer, uvBuffer,indexBuffer); //sendToGPU
+        sendToGPU(posBuffer, uvBuffer, indexBuffer); // sendToGPU
     }
 
-    public void sendToGPU(FloatBuffer posBuffer, FloatBuffer uvBuffer,IntBuffer indexBuffer){
+    int drawElements = 0;
+
+    public void sendToGPU(FloatBuffer posBuffer, FloatBuffer uvBuffer, IntBuffer indexBuffer) {
         // Copy vertex data to VBOs
         gl.glBindBuffer(PGL.ELEMENT_ARRAY_BUFFER, indexVboId);
-        pgl.bufferData(PGL.ELEMENT_ARRAY_BUFFER, Integer.BYTES * indices.length, indexBuffer, GL.GL_DYNAMIC_DRAW);
+        pgl.bufferData(PGL.ELEMENT_ARRAY_BUFFER, Integer.BYTES * indexBuffer.capacity(), indexBuffer,
+                GL.GL_DYNAMIC_DRAW);
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, posVboId);
-        gl.glBufferData(GL.GL_ARRAY_BUFFER, Float.BYTES * positions.length, posBuffer, GL.GL_DYNAMIC_DRAW);
+        gl.glBufferData(GL.GL_ARRAY_BUFFER, Float.BYTES * posBuffer.capacity(), posBuffer, GL.GL_DYNAMIC_DRAW);
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, uvVboId);
-        gl.glBufferData(GL.GL_ARRAY_BUFFER, Float.BYTES * colors.length, uvBuffer, GL.GL_DYNAMIC_DRAW);
+        gl.glBufferData(GL.GL_ARRAY_BUFFER, Float.BYTES * uvBuffer.capacity(), uvBuffer, GL.GL_DYNAMIC_DRAW);
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+        drawElements = indexBuffer.capacity();
     }
 
     int textureID = 0;
@@ -228,14 +227,14 @@ public class BasicTextureMesh {
 
     }
 
-
     public void drawMesh(PJOGL pgl, GL4 gl) {
-        setVBOProperties(); // Required otherwise the mesh will disappear when p3d components are added to the scene
+        setVBOProperties(); // Required otherwise the mesh will disappear when p3d components are added to
+                            // the scene
 
         gl.glBindTexture(GL.GL_TEXTURE_2D, textureID);
 
         gl.glBindBuffer(PGL.ELEMENT_ARRAY_BUFFER, indexVboId);
-        gl.glDrawElements(PGL.TRIANGLES, indices.length, GL.GL_UNSIGNED_INT, 0);
+        gl.glDrawElements(PGL.TRIANGLES, drawElements, GL.GL_UNSIGNED_INT, 0);
         gl.glBindBuffer(PGL.ELEMENT_ARRAY_BUFFER, 0);
     }
 }

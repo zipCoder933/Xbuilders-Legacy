@@ -1,11 +1,11 @@
-package com.xbuilders.test.joglDemo.mesh;
+package com.xbuilders.test.joglDemo.useless.mesh;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL4;
 import com.xbuilders.window.BufferUtils;
 import com.xbuilders.window.utils.obj.OBJ;
+import com.xbuilders.window.utils.obj.OBJBufferSet;
 import com.xbuilders.window.utils.obj.OBJLoader;
-import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import processing.opengl.PGL;
@@ -78,7 +78,7 @@ public class glTextureMesh {
 
         OBJ o = OBJLoader.loadModel(objModel);
 
-        OBJBufferSet bufferSet = new OBJBufferSet(o);
+        OBJBufferSet bufferSet = new OBJBufferSet(o,false,false);
 
         posBuffer = BufferUtils.allocateDirectFloatBuffer(bufferSet.vertBuffer.length);
         uvBuffer = BufferUtils.allocateDirectFloatBuffer(bufferSet.uvBuffer.length);

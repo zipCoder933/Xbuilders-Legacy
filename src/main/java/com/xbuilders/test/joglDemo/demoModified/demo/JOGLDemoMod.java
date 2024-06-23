@@ -21,7 +21,7 @@ import java.nio.IntBuffer;
 import org.joml.Matrix4f;
 
 class JOGLDemoMod extends UIFrame {
-    BasicTextureShader shader;
+    demoTextureShader shader;
     float a;
 
     PJOGL pgl;
@@ -32,10 +32,10 @@ class JOGLDemoMod extends UIFrame {
         startWindow();
     }
 
-    BasicTextureMesh mesh;
+    glTextureMesh mesh;
     Matrix4f projectMatrix = new Matrix4f();
     Matrix4f viewMatrix;
-    Matrix4f modelMatrix = new Matrix4f().scale(0.01f);
+    Matrix4f modelMatrix = new Matrix4f();
     MVP mvp = new MVP();
     CameraNavigator cameraNavigator;
 
@@ -61,14 +61,14 @@ class JOGLDemoMod extends UIFrame {
                 1000.0f);
         viewMatrix = cameraNavigator.getViewMatrix();
 
-        shader = new BasicTextureShader(this, pgl);
-        mesh = new BasicTextureMesh(pgl, shader.attribute_pos, shader.attribute_uv);
+        shader = new demoTextureShader(this, pgl);
+        mesh = new glTextureMesh(pgl, shader.attribute_pos, shader.attribute_uv);
 
         mesh.updateMesh(pgl, gl);
         try {
             String basePath = new File("").getAbsolutePath();
             mesh.setTexture(new File(basePath + "\\res\\items\\entities\\animals\\fox\\red.png"));
-//            mesh.setOBJ(new File(basePath + "\\res\\items\\entities\\animals\\fox\\fox.obj")); //TODO: Fix
+           mesh.setOBJ(new File(basePath + "\\res\\items\\entities\\animals\\fox\\fox.obj")); //TODO: Fix
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -88,6 +88,9 @@ class JOGLDemoMod extends UIFrame {
 
         pgl = (PJOGL) beginPGL();
         gl = pgl.gl.getGL4();
+        //Enable backface culling
+        gl.glEnable(GL4.GL_CULL_FACE);
+        gl.glCullFace(GL4.GL_BACK);
 
         shader.bind();
 

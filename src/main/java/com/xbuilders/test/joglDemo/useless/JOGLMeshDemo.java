@@ -1,12 +1,18 @@
-package com.xbuilders.test.joglDemo;/*
+package com.xbuilders.test.joglDemo.useless;/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
 import com.jogamp.opengl.GL4;
-import com.xbuilders.test.joglDemo.mesh.TestTriangleMesh;
+import com.xbuilders.test.joglDemo.useless.mesh.glTextureMesh;
+import com.xbuilders.test.joglDemo.useless.shader.uiTextureShader;
 import com.xbuilders.window.CameraNavigator;
 import com.xbuilders.window.MVP;
+import com.xbuilders.window.utils.obj.OBJ;
+import com.xbuilders.window.utils.obj.OBJBufferSet;
+import com.xbuilders.window.utils.obj.OBJLoader;
+import com.xbuilders.window.utils.texture.Texture;
+import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
 import processing.core.UIFrame;
 import processing.event.KeyEvent;
@@ -14,13 +20,14 @@ import processing.event.MouseEvent;
 import processing.opengl.PJOGL;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-class JOGLTriangleDemo extends UIFrame {
+class JOGLMeshDemo extends UIFrame {
 
     final static String basePath = new File("").getAbsolutePath();
 
@@ -29,13 +36,19 @@ class JOGLTriangleDemo extends UIFrame {
     }
 
 
+    uiTextureShader shader;
+    glTextureMesh mesh;
+    float a;
     Matrix4f projMatrix = new Matrix4f();
+
+    FloatBuffer posBuffer;
+    FloatBuffer uvBuffer;
 
     PJOGL pgl;
     GL4 gl;
 
 
-    public JOGLTriangleDemo() {
+    public JOGLMeshDemo() {
         super();
         startWindow();
 
@@ -53,7 +66,7 @@ class JOGLTriangleDemo extends UIFrame {
 
 
     public static void main(String[] args) {
-        new JOGLTriangleDemo();
+        new JOGLMeshDemo();
     }
 
     @Override
@@ -71,11 +84,8 @@ class JOGLTriangleDemo extends UIFrame {
         gl = pgl.gl.getGL4();
         mvp = new MVP();
 
-        try {
-            mesh = new TestTriangleMesh(pgl);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+
 
         projMatrix.identity().perspective(
                 (float) Math.toRadians(60.0f),
@@ -86,17 +96,72 @@ class JOGLTriangleDemo extends UIFrame {
         cameraNavigator.getViewMatrix();
 
         pgl = (PJOGL) beginPGL();
-    }
+        gl = pgl.gl.getGL4();
+        try {
+            shader = new uiTextureShader(this,pgl);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-    TestTriangleMesh mesh;
+        mesh = new glTextureMesh(gl, shader.attributePosition, shader.attributeUV);
+
+
+        OBJ o = null;
+        try {
+            o = OBJLoader.loadModel(new File(basePath + "\\res\\items\\entities\\animals\\fox\\fox.obj"));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        OBJBufferSet bufferSet = new OBJBufferSet(o,false,false);
+
+        posBuffer = allocateDirectFloatBuffer(bufferSet.vertBuffer.length);
+        uvBuffer = allocateDirectFloatBuffer(bufferSet.uvBuffer.length);
+
+        posBuffer.rewind();
+        posBuffer.put(bufferSet.vertBuffer);
+        posBuffer.rewind();
+
+        uvBuffer.rewind();
+        uvBuffer.put(bufferSet.uvBuffer);
+        uvBuffer.rewind();
+
+        mesh.sendToGPU(posBuffer, uvBuffer);
+
+        try {
+            mesh.setTexture(new File(basePath + "\\res\\items\\entities\\animals\\fox\\red.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        endPGL();
+    }
 
     public void draw() {
         background(255);
 
+        //Enable backface culling
+        gl.glEnable(GL4.GL_CULL_FACE);
+        gl.glCullFace(GL4.GL_BACK);
 
-        mesh.draw(gl);
+        if (mousePressed) {
+            fill(255, 0, 0);
+            rect(100, 100, 100, 100);
+        }
 
 
+        pgl = (PJOGL) beginPGL();
+        gl = pgl.gl.getGL4();
+
+
+        shader.bind();
+        cameraNavigator.update();
+        mvp.update(projMatrix, cameraNavigator.getViewMatrix());
+        mvp.sendToShader(gl, shader.getID(), shader.uniformMVP);
+        mesh.draw();
+        shader.unbind();
+
+        endPGL();
+
+        a += 0.01;
     }
 
     @Override

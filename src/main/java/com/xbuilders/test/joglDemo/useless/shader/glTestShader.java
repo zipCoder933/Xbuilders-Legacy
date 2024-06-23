@@ -1,4 +1,4 @@
-package com.xbuilders.test.joglDemo.shader;
+package com.xbuilders.test.joglDemo.useless.shader;
 
 import com.jogamp.opengl.GL4;
 import com.xbuilders.window.Shader;
