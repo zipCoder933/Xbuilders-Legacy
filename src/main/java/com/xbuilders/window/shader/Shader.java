@@ -2,6 +2,8 @@ package com.xbuilders.window.shader;
 
 import java.io.File;
 
+import org.joml.Matrix4f;
+
 import com.jogamp.opengl.GL4;
 import com.xbuilders.engine.utils.ResourceUtils;
 
@@ -16,13 +18,10 @@ import processing.opengl.PShader;
 
 public class Shader {
 
-    public int attribute_pos, attribute_uv;
-    public int uniform_MVP;
     public PShader shader;
-
-    PJOGL pgl;
-    GL4 gl;
-    UIFrame uiFrame;
+    public final PJOGL pgl;
+    public final GL4 gl;
+    public final UIFrame uiFrame;
 
     public Shader(UIFrame uiFrame, PJOGL pgl) {
         this.uiFrame = uiFrame;
@@ -38,7 +37,7 @@ public class Shader {
     }
 
     public void init(String vertex, String fragment) {
-        shader = uiFrame.loadShader(vertex, fragment);
+        shader = uiFrame.loadShader(fragment, vertex);
         bind();
         unbind();
     }
@@ -99,6 +98,19 @@ public class Shader {
         shader.set(name, x, y, z, w);
     }
 
+    public void set(String name, int[] arr) {
+        shader.set(name, arr);
+    }
+
+    public void set(String name, float[] arr) {
+        shader.set(name, arr);
+    }
+    
+    public void set(String name, Matrix4f mat){
+        shader.set(name, mat);
+    }
+
+
     /**
      * @param tex sets the sampler uniform variable to read from this image
      *            texture
@@ -109,6 +121,10 @@ public class Shader {
 
     public void bind() {
         shader.bind();
+    }
+
+    public void bind(PGraphics g) {
+        g.shader(this.shader);
     }
 
     public void unbind() {

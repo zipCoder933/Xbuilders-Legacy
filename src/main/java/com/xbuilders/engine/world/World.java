@@ -352,7 +352,7 @@ public class World {
 
     public void draw(final PGraphics graphics, boolean drawEntities) throws Exception {
         this.infoFile.checkAndRemoveNoQuantityItems();
-        graphics.shader(VoxelGame.getShaderHandler().blockShader);
+        VoxelGame.getShaderHandler().blockShader.bind(graphics);
         BlockPipeline.resolvePipeline();
         if (ShaderLightMap.hasChanged) {
             ShaderLightMap.sendLightmapToShader();

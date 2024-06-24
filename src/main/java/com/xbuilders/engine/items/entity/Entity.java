@@ -133,7 +133,7 @@ public abstract class Entity {
     }
 
     public static void defaultShader() {
-        Main.getPG().shader(ShaderHandler.blockShader);
+       ShaderHandler.blockShader.bind(Main.getPG());
     }
 
     public Entity() {

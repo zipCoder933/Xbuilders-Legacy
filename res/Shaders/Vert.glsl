@@ -90,25 +90,26 @@ uniform int tick;
 uniform bool animatedTextures;
 uniform float maxBrightness;
 uniform int numberOfTilesWidth;
-
+uniform bool flashlightMode;
 uniform mat4 modelMatrix;
 
-// DONT TOUCH THESE!!!! They are probabbly ALL given from processing core
+//PROCESSING CORE? --------------------------------------------------
 uniform mat4 transform;  // the orientation of the camera
 uniform mat4 projmodelview;
-uniform mat3 normalMatrix;
-uniform vec3 lightNormal;
-uniform mat4 texMatrix;
-uniform mat4 depthBiasMVP;
-uniform bool flashlightMode;
-attribute vec4 position;  // The position within the chunk
-attribute vec4 color;
-attribute vec3 normal;
-attribute vec2 texCoord;  // the uv texture coordinates at this vertex
-varying vec4 vertColor;
-varying vec2 v_texCoord;
-varying vec3 vertNormal;
-varying vec3 vertLightDir;
+//uniform mat3 normalMatrix;
+//uniform vec3 lightNormal;
+//uniform mat4 texMatrix;
+//uniform mat4 depthBiasMVP;
+
+in vec4 position;  // The position within the chunk
+//in vec4 color;
+//in vec3 normal;
+in vec2 texCoord;  // the uv texture coordinates at this vertex
+
+out vec4 vertColor;
+out vec2 v_texCoord;
+//out vec3 vertNormal;
+//out vec3 vertLightDir;
 //-------------------------------------------------------------------
 
 out float frag_distance;

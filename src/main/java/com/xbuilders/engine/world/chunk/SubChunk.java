@@ -116,9 +116,10 @@ public class SubChunk {
     int transparentMeshVerts = 0;
 
     public void generateMesh() {
-//        if (lightMap.allDarkness && !hasLightNeighbor) {// Check for any light neighbors
-//            hasLightNeighbor = NaiveCulling.checkAllNeighborsForNonDarkness(this);
-//        }
+        // if (lightMap.allDarkness && !hasLightNeighbor) {// Check for any light
+        // neighbors
+        // hasLightNeighbor = NaiveCulling.checkAllNeighborsForNonDarkness(this);
+        // }
         NaiveCulling.generateMesh(this,
                 this.opaqueMesh = this.getPointerHandler().getApplet().createShape(),
                 this.transparentMesh = this.getPointerHandler().getApplet().createShape(), this.offset);
@@ -158,7 +159,8 @@ public class SubChunk {
             if (e.hasStaticMeshes()) {
                 final ArrayList<OrientedShape> shapes = e.getStaticMeshes();
                 for (final OrientedShape shape : shapes) {
-                    if(shape.shape==null) continue;
+                    if (shape.shape == null)
+                        continue;
                     for (int i = 0; i < shape.shape.getChildCount(); ++i) {
                         final PShape child = shape.shape.getChild(i);
                         if (shape.yRotation == 0.0f) {
@@ -207,8 +209,6 @@ public class SubChunk {
         return inFrustum;
     }
 
-
-
     Matrix4f modelMatrix = new Matrix4f();
 
     public void drawOpaqueAndEntities(boolean drawEntities) {
@@ -222,8 +222,8 @@ public class SubChunk {
                 generateMesh();
             }
 
-            if (!data.isEmpty() && opaqueMeshVerts > 0) { //Render chunk mesh
-                Main.getPG().shader(ShaderHandler.blockShader);
+            if (!data.isEmpty() && opaqueMeshVerts > 0) { // Render chunk mesh
+                ShaderHandler.blockShader.bind(Main.getPG());
                 VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(true);
                 VoxelGame.getShaderHandler().setWorldSpaceOffset((float) (this.getPosition().x * SubChunk.WIDTH), 0.0f,
                         (float) (this.getPosition().z * SubChunk.WIDTH));
@@ -243,7 +243,7 @@ public class SubChunk {
 
     public void drawTransparent() {
         if (inFrustum && !data.isEmpty() && transparentMeshVerts > 0) {
-            Main.getPG().shader(ShaderHandler.blockShader);
+            ShaderHandler.blockShader.bind(Main.getPG());
             VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(true);
             VoxelGame.getShaderHandler().setWorldSpaceOffset((float) (this.getPosition().x * SubChunk.WIDTH), 0.0f,
                     (float) (this.getPosition().z * SubChunk.WIDTH));
@@ -258,8 +258,10 @@ public class SubChunk {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         SubChunk subChunk = (SubChunk) o;
         return Objects.equals(position, subChunk.position);
     }
@@ -268,6 +270,5 @@ public class SubChunk {
     public int hashCode() {
         return position.hashCode();
     }
-
 
 }
