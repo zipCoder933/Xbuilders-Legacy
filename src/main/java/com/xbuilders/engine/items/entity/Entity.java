@@ -117,8 +117,6 @@ public abstract class Entity {
     private float frustumSphereRadius = 1;
     public final EntityAABB aabb;
 
-
-
     protected byte[] loadBytes;
     public final Matrix4f modelMatrix = new Matrix4f();
 

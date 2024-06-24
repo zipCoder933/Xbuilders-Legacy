@@ -97,8 +97,7 @@ class JOGLDemoMod extends UIFrame {
         cameraNavigator.update();
         mvp.update(projectMatrix, viewMatrix,modelMatrix);
         mvp.sendToShader(gl, shader.getID(), shader.uniform_MVP);
-
-        mesh.drawMesh(pgl, gl);
+        mesh.draw();
         shader.unbind();
 
         endPGL();

@@ -227,7 +227,7 @@ public class glTextureMesh {
 
     }
 
-    public void drawMesh(PJOGL pgl, GL4 gl) {
+    public void draw() {
         setVBOProperties(); // Required otherwise the mesh will disappear when p3d components are added to
                             // the scene
 

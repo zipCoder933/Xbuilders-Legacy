@@ -94,8 +94,8 @@ uniform bool flashlightMode;
 uniform mat4 modelMatrix;
 
 //PROCESSING CORE? --------------------------------------------------
-uniform mat4 transform;  // the orientation of the camera
-uniform mat4 projmodelview;
+uniform mat4 transform;  // the processing core transformatino matrix method
+//uniform mat4 projmodelview;
 //uniform mat3 normalMatrix;
 //uniform vec3 lightNormal;
 //uniform mat4 texMatrix;
