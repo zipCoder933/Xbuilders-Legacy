@@ -30,11 +30,10 @@ public class Chunk {
     public static final int SUB_CHUNK_QUANTITY = 16;
     public static final int HEIGHT = SubChunk.WIDTH * SUB_CHUNK_QUANTITY;
 
-    //Generation status (keep these as separate variables for now)
+    // Generation status (keep these as separate variables for now)
     public boolean terrainLoaded;
     public boolean lightmapInitialized;
     public boolean meshesGenerated;
-
 
     public AABB aabb;
     public SubChunk[] subChunks;
@@ -104,7 +103,7 @@ public class Chunk {
         for (int y = 0; y < SUB_CHUNK_QUANTITY; ++y) {
             this.subChunks[y].init(coords.x, y, coords.z);
         }
-        for (int i = 0; i < 8; ++i) {//Reset neighbors TODO: we could replace this with cacheNeighbors
+        for (int i = 0; i < 8; ++i) {// Reset neighbors TODO: we could replace this with cacheNeighbors
             this.neighbors[i] = null;
         }
         this.meshesGenerated = false;
@@ -121,12 +120,13 @@ public class Chunk {
         neighbors[0] = addChunkToNCList(this.position.x + 1, this.position.z);
         neighbors[1] = addChunkToNCList(this.position.x - 1, this.position.z);
         neighbors[2] = addChunkToNCList(this.position.x, this.position.z + 1);
-        neighbors[3] = addChunkToNCList(this.position.x, this.position.z - 1); //The first 4 indicies are facing neighbors
+        neighbors[3] = addChunkToNCList(this.position.x, this.position.z - 1); // The first 4 indicies are facing
+                                                                               // neighbors
         neighbors[4] = addChunkToNCList(this.position.x - 1, this.position.z - 1);
         neighbors[5] = addChunkToNCList(this.position.x + 1, this.position.z + 1);
         neighbors[6] = addChunkToNCList(this.position.x + 1, this.position.z - 1);
         neighbors[7] = addChunkToNCList(this.position.x - 1, this.position.z + 1);
-//        System.out.println("Caching neighbors "+ Arrays.toString(neighbors));
+        // System.out.println("Caching neighbors "+ Arrays.toString(neighbors));
     }
 
     private Chunk addChunkToNCList(final int x, final int z) {
@@ -160,13 +160,10 @@ public class Chunk {
         try {
             ChunkSavingLoading.writeChunkToFile(this, f);
             this.needsSaving = false;
-        } catch (IOException e) {
-            ErrorHandler.handleFatalError("Error", "The chunk was unable to load.", e);
         } catch (Exception e2) {
-            ErrorHandler.handleFatalError("Error", "The chunk was unable to load.", e2);
+            ErrorHandler.handleFatalError("Error", "Unable to save chunk (" + this.toString() + ").", e2);
         }
     }
-
 
     public void load(WorldInfo infoFile, Terrain terrain) {
         try {
@@ -178,13 +175,10 @@ public class Chunk {
             }
             terrainLoaded = true;
             markAsModifiedByUser();
-        } catch (IOException e) {
-            ErrorHandler.handleFatalError("Error", "The chunk was unable to load.", e);
-        } catch (Exception e2) {
-            ErrorHandler.handleFatalError("Error", "The chunk was unable to load.", e2);
+        } catch (Exception e) {
+            ErrorHandler.handleFatalError("Error", "Unable to load chunk (" + this.toString() + ").", e);
         }
     }
-
 
     public void update(final int x, final int chunkLocation, final int blockLocation, final int z) {
         this.markAsNeedsSaving();
@@ -192,7 +186,7 @@ public class Chunk {
     }
 
     public void markChunksAsNeedsRegenerating(final int chunkYLoc, final int blockX, final int blockY,
-                                              final int blockZ) {
+            final int blockZ) {
         // System.out.println("\nREGEN \t " + blockX + "," + blockY + "," + blockZ);
         if (blockY == 15 && chunkYLoc + 1 < this.subChunks.length) {
             this.subChunks[chunkYLoc + 1].needsRegenerating = true;
@@ -237,13 +231,14 @@ public class Chunk {
     long lastTick = 0;
 
     public void drawUpdate() {
-//        checkInFrustum(VoxelGame.getPlayer());
+        // checkInFrustum(VoxelGame.getPlayer());
         if (!this.meshesGenerated && terrainLoaded) {
-//            if (System.currentTimeMillis() - lastTick > 1000) { //TODO: only generate a mesh if it has all facing neighbors generated
-//                lastTick = System.currentTimeMillis();
-//                cacheNeighbors();
-//            }
-//            allFacingNeighborsLoaded()
+            // if (System.currentTimeMillis() - lastTick > 1000) { //TODO: only generate a
+            // mesh if it has all facing neighbors generated
+            // lastTick = System.currentTimeMillis();
+            // cacheNeighbors();
+            // }
+            // allFacingNeighborsLoaded()
             new Thread(() -> {
                 generateInitialMeshes();
             }).start();

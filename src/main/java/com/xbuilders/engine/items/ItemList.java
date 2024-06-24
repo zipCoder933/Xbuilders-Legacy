@@ -26,22 +26,14 @@ public class ItemList {
      * entity textures, entity tool icons, and default icon number.
      *
      */
-    public static void initialize(UIExtensionFrame applet) throws IOException {
-        blocks = new BlockList();
+    public static void setAllItems(UIExtensionFrame applet,
+            Block[] blocks2, EntityLink[] entity2, Tool[] tool2) throws IOException {
+
+        blocks = new BlockList(); //Initialize everything
         entities = new EntityList();
         tools = new ToolList();
-        iconManager = new IconManager(applet);
-    }
+        iconManager = new IconManager(applet); //New Icon manager
 
-    /**
-     * Sets all the items in the block list, entity list, and tool list.
-     *
-     * @param blocks2 an array of Block objects representing the block list
-     * @param entity2 an array of EntityLink objects representing the entity
-     * list
-     * @param tool2 an array of Tool objects representing the tool list
-     */
-    public static void setAllItems(Block[] blocks2, EntityLink[] entity2, Tool[] tool2) {
         System.out.println("Blocks: " + blocks2.length);
         blocks.setAndInitItems(blocks2);
         System.out.println("Entities: " + entity2.length);
@@ -49,14 +41,15 @@ public class ItemList {
         System.out.println("Tools: " + tool2.length);
         tools.setAndInitItems(tool2);
 
-        allItems = concatArrays(entities.getList(), tools.getList(), blocks.getList()
-        );
+        allItems = concatArrays(entities.getList(), tools.getList(), blocks.getList());
+    }
 
-//        try {
-//            ItemExporting.exportListToXbuilders3(blocks.textureAtlas, blocks.getList());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+    public static void initializeAllItems() {
+        // try {
+        // ItemExporting.exportListToXbuilders3(blocks.textureAtlas, blocks.getList());
+        // } catch (IOException e) {
+        // throw new RuntimeException(e);
+        // }
 
         for (Item i : allItems) {
             i.initialize();
@@ -111,7 +104,7 @@ public class ItemList {
     }
 
     public static void worldClose() {
-        for (final Block b : blocks.getList()) {//Close all stuff in items
+        for (final Block b : blocks.getList()) {// Close all stuff in items
             b.onWorldClose();
         }
         for (final Item b2 : entities.getList()) {

@@ -62,6 +62,7 @@ public abstract class EntityLink extends Item {
         entity.worldPosition.set(worldX, worldY, worldZ);
         entity.needsInit = true;
         entity.loadBytes = bytes;
+        entity.initialize(bytes, false); //Used for loading entities immediately after creation
         return entity;
     }
 

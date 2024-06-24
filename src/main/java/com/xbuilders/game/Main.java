@@ -35,8 +35,7 @@ public class Main extends VoxelGame {
                 File iconPath, ProgramMode mode, String[] args) throws IOException, InterruptedException {
         super(sizeX, sizeY, iconPath, "X-Builders", devMode);
 
-        ItemList.initialize(this);
-        ItemList.setAllItems(
+        ItemList.setAllItems(this,
                 GameItems.getBlockList(),
                 GameItems.getEntityList(),
                 GameItems.getToolList());

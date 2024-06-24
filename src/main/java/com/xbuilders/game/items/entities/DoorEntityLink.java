@@ -56,6 +56,12 @@ public class DoorEntityLink extends EntityLink {
         verifyTexture(textureFile);
     }
 
+    @Override
+    public void initialize(){
+        System.out.println("########################\n########################\\n" + //
+                        "DoorEntityLink initialized!");
+    }
+
     private void verifyTexture(String textureFile) {
         if (!ResourceUtils.resource("items\\entities\\door\\textures\\" + textureFile).exists()) {
             throw new IllegalArgumentException("Error! Entity " + this.toString() + " Has a missing texture!");
@@ -82,7 +88,6 @@ public class DoorEntityLink extends EntityLink {
 
         @Override
         public void initialize(byte[] bytes, boolean setByUser) {
-
             if (texture == null) {
                 try {
                     texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\door\\textures\\" + textureFile)));

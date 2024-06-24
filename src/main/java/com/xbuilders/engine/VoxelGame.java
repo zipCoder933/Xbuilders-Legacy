@@ -89,6 +89,8 @@ public class VoxelGame extends BaseWindow {
         mainThread.initialize(ph);
         this.pointerHandler = ph;
 
+       
+
         if (mode == ProgramMode.LEGACY_CONVERSION) {
             startWindow();
             noLoop();
@@ -268,7 +270,7 @@ public class VoxelGame extends BaseWindow {
         try {
             PFont font = createFont(resourcePath("fonts/Press_Start_2P/PressStart2P-Regular.ttf"), 16);
             textFont(font, 18);
-            shaderHandler = new ShaderHandler(this,
+            shaderHandler = new ShaderHandler(this, pgl,
                     ItemList.blocks.textureAtlas, ItemList.blocks.getList());
 
             hint(DISABLE_TEXTURE_MIPMAPS);// see https://processing.org/reference/hint_.html
@@ -283,11 +285,12 @@ public class VoxelGame extends BaseWindow {
 
             surface.setResizable(true);
             setPage(Page.MENU);
+
+            ItemList.initializeAllItems(); //Init all blocks, entities, etc.
+
         } catch (Exception ex) {
             ErrorHandler.handleFatalError(ex);
         }
-
-
     }
 
     MainThread mainThread;

@@ -2,7 +2,8 @@ package com.xbuilders.test.joglDemo.useless.shader;
 
 import java.io.File;
 import com.jogamp.opengl.GL4;
-import com.xbuilders.window.Shader;
+import com.xbuilders.test.glShader;
+
 import processing.core.UIFrame;
 import processing.opengl.PJOGL;
 import processing.opengl.PShader;

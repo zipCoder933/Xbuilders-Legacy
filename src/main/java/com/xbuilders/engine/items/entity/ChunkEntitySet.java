@@ -41,7 +41,7 @@ public class ChunkEntitySet {
             Entity e = get(i); // Get the entity at index i
 
             if (e.needsInit) { //Initialize the entity if it has bytes
-                e.initialize(e.loadBytes, true);
+                e.initializeOnDraw(e.loadBytes, true);
                 e.loadBytes = null;
                 e.needsInit = false;
             }

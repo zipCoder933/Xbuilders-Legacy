@@ -158,6 +158,7 @@ public class SubChunk {
             if (e.hasStaticMeshes()) {
                 final ArrayList<OrientedShape> shapes = e.getStaticMeshes();
                 for (final OrientedShape shape : shapes) {
+                    if(shape.shape==null) continue;
                     for (int i = 0; i < shape.shape.getChildCount(); ++i) {
                         final PShape child = shape.shape.getChild(i);
                         if (shape.yRotation == 0.0f) {

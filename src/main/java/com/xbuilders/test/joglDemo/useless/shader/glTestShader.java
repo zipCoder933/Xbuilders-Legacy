@@ -1,14 +1,14 @@
 package com.xbuilders.test.joglDemo.useless.shader;
 
 import com.jogamp.opengl.GL4;
-import com.xbuilders.window.Shader;
+import com.xbuilders.test.glShader;
 
 import processing.opengl.PJOGL;
 
 import java.io.File;
 import java.io.IOException;
 
-public class glTestShader extends Shader {
+public class glTestShader extends glShader {
     public int attributePosition;
     public int attributeUV;
     public final int uniformMVP;

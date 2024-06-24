@@ -21,6 +21,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import processing.core.PGraphics;
+import processing.opengl.PJOGL;
 import processing.opengl.PShader;
 import com.xbuilders.window.ui4j.UIExtensionFrame;
 
@@ -229,7 +230,7 @@ public class ShaderHandler {
     public static PShader cloudShader, backgroundShader;
     public static PShader blockShader; //entityShader;
 
-    public ShaderHandler(UIExtensionFrame f, BlockTextureAtlas tex, Block[] blockList) {
+    public ShaderHandler(UIExtensionFrame f, PJOGL pgl, BlockTextureAtlas tex, Block[] blockList) {
         blockShader = f.loadShader(ResourceUtils.resourcePath("Shaders/Frag.glsl"),
                 ResourceUtils.resourcePath("Shaders/Vert.glsl"));
         //entityShader = f.loadShader(ResourceUtils.resourcePath("Shaders/entity/entity_frag.glsl"),

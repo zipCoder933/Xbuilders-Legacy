@@ -31,7 +31,7 @@ import processing.core.PImage;
 public abstract class Entity {
 
 
-    public boolean needsInit;
+   
 
     public final boolean playerIsRidingThis() {
         if (getPointerHandler().getPlayer().positionLock == null) return false;
@@ -144,11 +144,19 @@ public abstract class Entity {
         needsInit = true;
     }
 
-    public abstract void initialize(byte[] bytes, boolean setByUser);
+    protected boolean needsInit;
 
-    public abstract boolean onClickEvent();
+    public abstract void initialize(byte[] bytes, boolean setByUser); //Initialize immediately
 
-    public abstract void onDestroyClickEvent();
+    public void initializeOnDraw(byte[] bytes, boolean setByUser){} //Initialize on draw method
+
+    public boolean onClickEvent(){
+        return true;
+    }
+
+    public void onDestroyClickEvent(){
+
+    }
 
 
     public ArrayList<OrientedShape> getStaticMeshes() {

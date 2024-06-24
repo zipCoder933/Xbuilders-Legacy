@@ -1,5 +1,5 @@
 
-package com.xbuilders.window;
+package com.xbuilders.test;
 
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.util.GLBuffers;
@@ -22,7 +22,7 @@ import java.nio.IntBuffer;
  *
  * @author zipCoder933
  */
-public class Shader {
+public class glShader {
 
     private int programID;
     private int vertexID;
@@ -30,7 +30,7 @@ public class Shader {
     public final GL4 gl;
     public final PJOGL pgl;
 
-    public Shader(PJOGL pgl) {
+    public glShader(PJOGL pgl) {
         this.pgl = pgl;
         this.gl = pgl.gl.getGL4();
     }
@@ -43,12 +43,12 @@ public class Shader {
         gl.glDeleteProgram(getID());
     }
 
-    public Shader(PJOGL gl, File Vert, File Frag) throws IOException {
+    public glShader(PJOGL gl, File Vert, File Frag) throws IOException {
         this(gl);
         init(Vert, Frag);
     }
 
-    public Shader(PJOGL gl, String Vert, String Frag) throws IOException {
+    public glShader(PJOGL gl, String Vert, String Frag) throws IOException {
         this(gl);
         init(Vert, Frag);
     }
