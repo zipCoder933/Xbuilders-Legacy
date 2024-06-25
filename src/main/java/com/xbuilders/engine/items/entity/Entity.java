@@ -7,12 +7,10 @@ package com.xbuilders.engine.items.entity;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.entity.shapeSet.OrientedShape;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.engine.world.wcc.WCCf;
-import com.xbuilders.game.Main;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.SubChunk;
@@ -130,10 +128,6 @@ public abstract class Entity {
         VoxelGame.getShaderHandler().setBlockShaderModelMatrix(matrix);
     }
 
-    public static void defaultShader() {
-       ShaderHandler.blockShader.bind(Main.getPG());
-    }
-
     public Entity() {
         aabb = new EntityAABB();
         chunkPosition = new WCCf();
@@ -144,7 +138,9 @@ public abstract class Entity {
 
     protected boolean needsInit;
 
-    public abstract void initialize(byte[] bytes, boolean setByUser); //Initialize immediately
+    //We can also call initialize() in the entity Link at the start of the game
+
+    public abstract void initializeImmediate(byte[] bytes, boolean setByUser); //Initialize immediately
 
     public void initializeOnDraw(byte[] bytes, boolean setByUser){} //Initialize on draw method
 

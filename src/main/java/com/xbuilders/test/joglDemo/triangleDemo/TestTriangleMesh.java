@@ -1,13 +1,9 @@
-package com.xbuilders.test.joglDemo.useless.mesh;
+package com.xbuilders.test.joglDemo.triangleDemo;
 
 import com.jogamp.opengl.GL4;
 
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.window.MVP;
 import com.xbuilders.window.mesh.glTextureMesh;
-import com.xbuilders.window.shader.DemoTextureShader;
-import com.xbuilders.window.shader.EmptyTextureShader;
-import org.joml.Matrix4f;
 import processing.core.UIFrame;
 import processing.opengl.PJOGL;
 

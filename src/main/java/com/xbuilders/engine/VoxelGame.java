@@ -30,6 +30,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.xbuilders.test.joglDemo.demoModified.demo.WrappedDemo;
+import com.xbuilders.test.joglDemo.triangleDemo.TestTriangleMesh;
 import com.xbuilders.window.BaseWindow;
 import processing.core.KeyCode;
 import processing.core.PFont;
@@ -51,6 +54,8 @@ public class VoxelGame extends BaseWindow {
         return pointerHandler.getPlayer();
     }
 
+//    TestTriangleMesh testTriangleMesh;
+//    WrappedDemo demo;
     public final boolean devMode;
     public static List<Player> playerList = new ArrayList<>();
     public static boolean LOAD_WORLD_ON_STARTUP = true;
@@ -89,7 +94,6 @@ public class VoxelGame extends BaseWindow {
         mainThread.initialize(ph);
         this.pointerHandler = ph;
 
-       
 
         if (mode == ProgramMode.LEGACY_CONVERSION) {
             startWindow();
@@ -287,7 +291,8 @@ public class VoxelGame extends BaseWindow {
             setPage(Page.MENU);
 
             ItemList.initializeAllItems(); //Init all blocks, entities, etc.
-
+//            testTriangleMesh = new TestTriangleMesh(this, pgl);
+//            demo = new WrappedDemo(this, pgl);
         } catch (Exception ex) {
             ErrorHandler.handleFatalError(ex);
         }
@@ -319,7 +324,8 @@ public class VoxelGame extends BaseWindow {
             noLoop();
         }
         memoryGraph.update();
-//        testTriangle.draw(gl);//Test triangle
+//        testTriangleMesh.draw();//Test triangle
+//        demo.draw();
     }
 
     /**

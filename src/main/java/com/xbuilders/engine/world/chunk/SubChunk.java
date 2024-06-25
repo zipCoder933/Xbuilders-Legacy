@@ -238,7 +238,7 @@ public class SubChunk {
             }
         }
         // The entities must as least be updated even if not in frustum
-        this.getEntities().updateAndDrawEntities(Main.getPG(), drawEntities, inFrustum);
+        this.getEntities().updateAndDrawEntities(Main.getFrame(), Main.getPG(), drawEntities, inFrustum);
     }
 
     public void drawTransparent() {

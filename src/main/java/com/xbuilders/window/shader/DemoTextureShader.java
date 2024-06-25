@@ -1,4 +1,4 @@
-package com.xbuilders.test.joglDemo.demoModified.demo;
+package com.xbuilders.window.shader;
 
 import java.io.File;
 import com.jogamp.opengl.GL4;
@@ -8,7 +8,7 @@ import processing.core.UIFrame;
 import processing.opengl.PJOGL;
 import processing.opengl.PShader;
 
-public class demoTextureShader extends glShader {
+public class DemoTextureShader extends glShader {
 
     public int attribute_pos, attribute_uv;
     public int uniform_MVP;
@@ -17,7 +17,7 @@ public class demoTextureShader extends glShader {
     PJOGL pgl;
     GL4 gl;
 
-    public demoTextureShader(UIFrame uiFrame, PJOGL pgl) {
+    public DemoTextureShader(UIFrame uiFrame, PJOGL pgl) {
         super(pgl);
         this.pgl = pgl;
         this.gl = pgl.gl.getGL4();

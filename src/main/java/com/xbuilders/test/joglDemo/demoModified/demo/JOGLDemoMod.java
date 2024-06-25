@@ -4,8 +4,8 @@ import com.jogamp.opengl.GL4;
 import com.xbuilders.window.CameraNavigator;
 import com.xbuilders.window.MVP;
 
-import com.xbuilders.window.utils.texture.Texture;
-import com.xbuilders.window.utils.texture.TextureUtils;
+import com.xbuilders.window.mesh.glTextureMesh;
+import com.xbuilders.window.shader.DemoTextureShader;
 import processing.core.UIFrame;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
@@ -21,23 +21,16 @@ import java.nio.IntBuffer;
 import org.joml.Matrix4f;
 
 class JOGLDemoMod extends UIFrame {
-    demoTextureShader shader;
-    float a;
 
     PJOGL pgl;
     GL4 gl;
+    WrappedDemo demo;
 
     public JOGLDemoMod() {
         super();
         startWindow();
     }
 
-    glTextureMesh mesh;
-    Matrix4f projectMatrix = new Matrix4f();
-    Matrix4f viewMatrix;
-    Matrix4f modelMatrix = new Matrix4f();
-    MVP mvp = new MVP();
-    CameraNavigator cameraNavigator;
 
     public static void main(String[] args) {
         new JOGLDemoMod();
@@ -53,25 +46,8 @@ class JOGLDemoMod extends UIFrame {
         pgl = (PJOGL) beginPGL();
         gl = pgl.gl.getGL4();
 
-        cameraNavigator = new CameraNavigator(this);
-        projectMatrix.identity().perspective(
-                (float) Math.toRadians(60.0f),
-                (float) width / (float) height,
-                0.1f,
-                1000.0f);
-        viewMatrix = cameraNavigator.getViewMatrix();
 
-        shader = new demoTextureShader(this, pgl);
-        mesh = new glTextureMesh(pgl, shader.attribute_pos, shader.attribute_uv);
-
-        mesh.updateMesh(pgl, gl);
-        try {
-            String basePath = new File("").getAbsolutePath();
-            mesh.setTexture(new File(basePath + "\\res\\items\\entities\\animals\\fox\\red.png"));
-           mesh.setOBJ(new File(basePath + "\\res\\items\\entities\\animals\\fox\\fox.obj")); //TODO: Fix
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        demo = new WrappedDemo(this, pgl);
 
 
         endPGL();
@@ -86,23 +62,7 @@ class JOGLDemoMod extends UIFrame {
             rect(100, 100, 100, 100);
         }
 
-        pgl = (PJOGL) beginPGL();
-        gl = pgl.gl.getGL4();
-        //Enable backface culling
-        gl.glEnable(GL4.GL_CULL_FACE);
-        gl.glCullFace(GL4.GL_BACK);
-
-        shader.bind();
-
-        cameraNavigator.update();
-        mvp.update(projectMatrix, viewMatrix,modelMatrix);
-        mvp.sendToShader(gl, shader.getID(), shader.uniform_MVP);
-        mesh.draw();
-        shader.unbind();
-
-        endPGL();
-
-        a += 0.01;
+        demo.draw();
     }
 
     @Override

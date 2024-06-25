@@ -10,16 +10,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97088633-1bd4-4482-a1bb-f362d22b9a51" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/entity/EntityShader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/entity/glEntityMesh.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/DemoMesh.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/WrappedDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/triangleDemo/EmptyTextureShader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/triangleDemo/JOGLTriangleDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/triangleDemo/TestTriangleMesh.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/XBuildersUI4J.jar" beforeDir="false" afterPath="$PROJECT_DIR$/XBuildersUI4J.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/JOGLMeshDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/JOGLMeshDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/BasicMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/BasicTextureMesh.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/BasicShader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/BasicTextureShader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/Shaders/entity/entity_frag.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/res/Shaders/entity/entity_frag.glsl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/Shaders/entity/entity_vert.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/res/Shaders/entity/entity_vert.glsl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/VoxelGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/VoxelGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/game/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/game/GameScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/ChunkEntitySet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/ChunkEntitySet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/EntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/EntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/EntityMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/entity/EntityMesh.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/ShaderHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/ShaderHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/SubChunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/SubChunk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/vehicle/CustomVehicleEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/vehicle/CustomVehicleEntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/vehicle/DriversSeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/vehicle/DriversSeat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/vehicle/EntityHelecopterBlade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/vehicle/EntityHelecopterBlade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/BannerEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/BannerEntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/BedEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/BedEntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/DoorEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/DoorEntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/FenceGateEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/FenceGateEntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/TrapdoorLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/TrapdoorLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/FoxEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/FoxEntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/mobile/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/mobile/Animal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/boat/BoatEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/boat/BoatEntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/minecart/MinecartEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/minecart/MinecartEntityLink.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/JOGLDemoMod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/JOGLDemoMod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/demoTextureShader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/shader/DemoTextureShader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/frag.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/frag.glsl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/glTextureMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/mesh/glTextureMesh.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/vert.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/vert.glsl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/mesh/glTextureMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/mesh/glTextureMesh.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/utils/obj/buffers/OBJBufferSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/utils/obj/buffers/OBJBufferSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/useless/JOGLMeshDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/useless/JOGLMeshDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/useless/JOGLTriangleDemo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/useless/mesh/TestTriangleMesh.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/useless/mesh/glTextureMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/useless/mesh/uselessTextureMesh.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/useless/testFrag.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/testFrag.glsl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/useless/testVert.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/testVert.glsl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/MVP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/MVP.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,8 +96,8 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Xbuilders2/src/main/java/com/xbuilders/test/joglDemo/demoModified&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Local Files/github/Xbuilders-2&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.20099668&quot;
   }
@@ -76,17 +111,18 @@
       <recent name="D:\Xbuilders2\src\main\java\com\xbuilders\window" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Local Files\github\Xbuilders-2\src\main\java\com\xbuilders\test\joglDemo" />
       <recent name="D:\Xbuilders2\src\main\java\com\xbuilders\window" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.xbuilders.engine.rendering" />
+      <recent name="com.xbuilders.window.shader" />
       <recent name="com.xbuilders.test.joglDemo.shader" />
       <recent name="com.xbuilders.test.joglDemo" />
       <recent name="com.xbuilders.test.joglDemo.mesh" />
-      <recent name="com.xbuilders.game.blockMode.tools" />
-      <recent name="com.xbuilders.game.terrain.defaultTerrain" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main Dev">
     <configuration name="JOGLMeshDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.test.joglDemo.JOGLMeshDemo" />
       <module name="XBuildersUI4J" />

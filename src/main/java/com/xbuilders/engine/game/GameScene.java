@@ -37,9 +37,11 @@ import static processing.core.PConstants.TOP;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PMatrix3D;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import processing.opengl.PGL;
+import processing.opengl.PGraphics3D;
 import processing.opengl.PJOGL;
 import com.xbuilders.window.ui4j.UIExtension;
 
@@ -228,7 +230,22 @@ public class GameScene extends UIExtension {
         graphics.camera(position.x, position.y, position.z, //p (camera position)
                 target.x, target.y, target.z, //l (3D scene origin)
                 up.x, up.y, up.z);//u (up)
-        view.identity().lookAt(position, target, up);
+
+        /**
+         * The opengl camera is different than the processing camera.
+         * This means the opengl camera is upside down.
+         *
+         * In order to get the correct view matrix, we can:
+         * - have to flip the up vector
+         *  Doesnt work
+         * - Change the shader to use the builtin projView matrix
+         *  Might work but
+         */
+
+        //The real view matrix is actually upside down
+        view.identity().lookAt(position.x, position.y, position.z, //p (camera position)
+                target.x, target.y, target.z, //l (3D scene origin)
+                up.x, up.y, up.z);
     }
 
     //<editor-fold defaultstate="collapsed" desc="World Saving">

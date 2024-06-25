@@ -70,7 +70,7 @@ public class FenceGateEntityLink extends EntityLink {
         boolean closed = true;
 
         @Override
-        public void initialize(byte[] bytes, boolean setByUser) {
+        public void initializeImmediate(byte[] bytes, boolean setByUser) {
             if (bytes != null) {
                 xzOrientation = bytes[0];
                 closed = bytes[1] == 1;

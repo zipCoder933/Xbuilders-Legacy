@@ -175,7 +175,7 @@ public class TrapdoorLink extends EntityLink {
         }
 
         @Override
-        public void initialize(byte[] bytes, boolean setByUser) {
+        public void initializeImmediate(byte[] bytes, boolean setByUser) {
             if (openTrapdoor == null) {
                 try {
                     openTrapdoor = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\trapdoor\\open.obj"));

@@ -1,5 +1,4 @@
-// frag.glsl
-#version 150
+#version 400 core
 
 uniform mat4 transform;
 uniform sampler2D texture;

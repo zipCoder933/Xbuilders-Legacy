@@ -1,6 +1,8 @@
 package com.xbuilders.game.items.blocks.vehicle;
 
+import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.Main;
 import org.joml.Matrix4f;
@@ -52,6 +54,6 @@ class EntityHelecopterBlade {
     }
 
     public static void stopDrawingBlades() {
-        Entity.defaultShader();
+        ChunkEntitySet.bindEntityShader();
     }
 }

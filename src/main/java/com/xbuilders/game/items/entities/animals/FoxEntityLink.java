@@ -4,29 +4,24 @@
  */
 package com.xbuilders.game.items.entities.animals;
 
-import com.jogamp.opengl.GL4;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.entity.EntityLink;
-import com.xbuilders.engine.rendering.BlockShader;
-import com.xbuilders.engine.rendering.EntityMesh;
 import com.xbuilders.engine.rendering.ShaderHandler;
+import com.xbuilders.engine.rendering.entity.EntityShader;
+import com.xbuilders.engine.rendering.entity.glEntityMesh;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.LandAnimal;
-import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
-import com.xbuilders.test.joglDemo.demoModified.demo.glTextureMesh;
 import com.xbuilders.window.MVP;
-import com.xbuilders.engine.utils.ResourceUtils;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-
+import com.xbuilders.window.shader.DemoTextureShader;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PShape;
 import processing.opengl.PJOGL;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * @author zipCoder933
@@ -45,26 +40,19 @@ public class FoxEntityLink extends EntityLink {
     @Override
     public void initialize() {
 
-        if (model == null) {
+        if (body == null) {
             PJOGL pgl = Main.beginPJOGL();
+
+            body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
             try {
-                // PImage texture = new PImage(
-                // ImageIO.read(ResourceUtils.resource("items\\entities\\animals\\fox\\" +
-                // texturePath)));
-
-                // model = new EntityMesh(Main.getPG(),
-                // ResourceUtils.resourcePath("items\\entities\\animals\\fox\\fox.obj"));
-
-                model = new glTextureMesh(pgl,
-                        VoxelGame.getShaderHandler().blockShader.attribute_pos,
-                        VoxelGame.getShaderHandler().blockShader.attribute_uv);
-
-                model.setTexture(ResourceUtils.resource("items\\entities\\animals\\fox\\" + texturePath));
-                model.setOBJ(ResourceUtils.resource("items\\entities\\animals\\fox\\fox.obj"));
-
-            } catch (IOException ex) {
-                Logger.getLogger(BirchTrapdoorLink.class.getName()).log(Level.SEVERE, null, ex);
+                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\fox\\fox.obj"));
+                body.setTexture(
+                        ResourceUtils.resource("items\\entities\\animals\\fox\\" + texturePath));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+
+
             Main.endPJOGL();
         }
 
@@ -72,7 +60,8 @@ public class FoxEntityLink extends EntityLink {
 
     public MVP mvp = new MVP();
 
-    public glTextureMesh model;
+    glEntityMesh body;
+
     public String texturePath;
 
     class Fox extends LandAnimal {
@@ -87,19 +76,8 @@ public class FoxEntityLink extends EntityLink {
 
         @Override
         public void renderAnimal(PGraphics g) {
-            PJOGL pgl = Main.beginPJOGL();
-            GL4 gl = pgl.gl.getGL4();
-            mvp.update(
-                    VoxelGame.getGameScene().projection,
-                    VoxelGame.getGameScene().view,
-                    modelMatrix);
-
-            // BlockShader blockShader = VoxelGame.getShaderHandler().blockShader;
-            // mvp.sendToShader(gl, blockShader.getID(), blockShader.uniform_ProjViewMatrix);
-            // VoxelGame.getShaderHandler().resetModelMatrix();
-            
-            model.draw();
-            Main.endPJOGL();
+            body.updateModelMatrix(modelMatrix);
+            body.draw();
         }
 
         @Override

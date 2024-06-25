@@ -96,7 +96,7 @@ public class BedEntityLink extends EntityLink {
         }
 
         @Override
-        public void initialize(byte[] bytes, boolean setByUser) {
+        public void initializeImmediate(byte[] bytes, boolean setByUser) {
 
             if (bed == null) {
                 try {

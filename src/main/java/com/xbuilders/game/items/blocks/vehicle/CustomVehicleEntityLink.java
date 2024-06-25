@@ -261,7 +261,7 @@ public class CustomVehicleEntityLink extends EntityLink {
         }
 
         @Override
-        public void initialize(byte[] bytes, boolean setByUser) {
+        public void initializeImmediate(byte[] bytes, boolean setByUser) {
             // //speed,direction,canFly,verticalTakeoff
             if (bytes != null) {
                 // System.out.println("Loading custom vehicle entity! " +

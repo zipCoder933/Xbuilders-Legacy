@@ -212,7 +212,7 @@ public class DriversSeat extends Block {
             entity.canFly = canFly;
             entity.canFloatOnWater = canFloatOnWater;
             entity.allTerrain = allTerrain;
-            entity.initialize(null, true);
+            entity.initializeImmediate(null, true);
             box.hide();
             VoxelGame.getGameScene().alert("vehicle created!");
         } else {

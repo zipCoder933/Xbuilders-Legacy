@@ -327,7 +327,7 @@ public abstract class MinecartEntityLink extends EntityLink {
         }
 
         @Override
-        public void initialize(byte[] bytes, boolean setByUser) {
+        public void initializeImmediate(byte[] bytes, boolean setByUser) {
             if (model == null) {
                 try {
                     texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\minecart\\" + textureFile)));

@@ -11,6 +11,7 @@ import static com.xbuilders.engine.VoxelGame.getShaderHandler;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.texture.BlockTextureAtlas;
+import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 
@@ -230,9 +231,12 @@ public class ShaderHandler {
 
     public static PShader cloudShader, backgroundShader;
     public static BlockShader blockShader; // entityShader;
+    public static EntityShader entityShader;
 
     public ShaderHandler(UIExtensionFrame f, PJOGL pgl, BlockTextureAtlas tex, Block[] blockList) {
         blockShader = new BlockShader(f, pgl);
+        entityShader = new EntityShader(f, pgl);
+
         // entityShader =
         // f.loadShader(ResourceUtils.resourcePath("Shaders/entity/entity_frag.glsl"),
         // ResourceUtils.resourcePath("Shaders/entity/entity_vert.glsl"));

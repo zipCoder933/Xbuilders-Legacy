@@ -1,13 +1,13 @@
 #version 400 core
-//precision mediump float;
-//precision mediump int;
 
-layout(location = 0) in vec4 position;
-layout(location = 1) in vec2 color;
+in vec4 position;
+in vec2 color;
+
+uniform float zAdd;
 
 out vec2 vertUV;
 
 void main() {
-  gl_Position = position;
-  vertUV = uv;
+  gl_Position = vec4(position.x, position.y, position.z + zAdd, 1.0);
+  vertUV = color;
 }

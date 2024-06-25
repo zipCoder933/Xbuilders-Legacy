@@ -1,10 +1,8 @@
-package com.xbuilders.window.shader;
+package com.xbuilders.test.joglDemo.triangleDemo;
 
-import com.jogamp.opengl.GL4;
-import com.xbuilders.test.glShader;
+import com.xbuilders.window.shader.Shader;
 import processing.core.UIFrame;
 import processing.opengl.PJOGL;
-import processing.opengl.PShader;
 
 import java.io.File;
 

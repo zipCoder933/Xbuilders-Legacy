@@ -4,8 +4,11 @@
  */
 package com.xbuilders.engine.items.entity;
 
+import com.jogamp.opengl.GL4;
 import com.xbuilders.engine.VoxelGame;
+import com.xbuilders.engine.game.GameScene;
 import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -14,7 +17,10 @@ import com.xbuilders.game.Main;
 
 import java.util.ArrayList;
 
+import com.xbuilders.game.items.GameItems;
 import processing.core.PGraphics;
+import processing.core.UIFrame;
+import processing.opengl.PJOGL;
 
 /**
  * @author zipCoder933
@@ -35,8 +41,24 @@ public class ChunkEntitySet {
         return list.get(i);
     }
 
-    public void updateAndDrawEntities(PGraphics graphics, boolean drawEntities, boolean chunkInFrustum) {
-        Entity.defaultShader();
+    PJOGL pgl;
+    GL4 gl;
+
+    public static void bindEntityShader(){
+        ShaderHandler.entityShader.bind();
+    }
+
+    public void updateAndDrawEntities(UIFrame f, PGraphics graphics, boolean drawEntities, boolean chunkInFrustum) {
+        bindEntityShader();
+        ShaderHandler.entityShader.updateProjViewMatrix(VoxelGame.getGameScene().projection, VoxelGame.getGameScene().view);
+
+        pgl = (PJOGL) f.beginPGL();
+        gl = pgl.gl.getGL4();
+        //Enable backface culling
+        gl.glEnable(GL4.GL_CULL_FACE);
+        gl.glCullFace(GL4.GL_BACK);
+
+
         for (int i = list.size() - 1; i >= 0; i--) { // Loop through the list of entities in reverse order
             Entity e = get(i); // Get the entity at index i
 
@@ -116,9 +138,9 @@ public class ChunkEntitySet {
                 }
             }
         }
-        VoxelGame.getShaderHandler().
-
-                resetModelMatrix();
+        VoxelGame.getShaderHandler().resetModelMatrix();
+//        ShaderHandler.entityShader.unbind();
+        f.endPGL();
     }
 
 

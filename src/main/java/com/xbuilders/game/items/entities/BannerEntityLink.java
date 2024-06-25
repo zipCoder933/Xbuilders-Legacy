@@ -48,7 +48,7 @@ public class BannerEntityLink extends EntityLink {
         boolean againstFencepost;
 
         @Override
-        public void initialize(byte[] bytes, boolean setByUser) {
+        public void initializeImmediate(byte[] bytes, boolean setByUser) {
             if (banner == null) {
                 banner = getPointerHandler().getApplet()
                         .loadShape(ResourceUtils.resourcePath("items\\entities\\banner\\banner.obj"));

@@ -1,13 +1,10 @@
- package com.xbuilders.test.joglDemo.useless;/*
+ package com.xbuilders.test.joglDemo.triangleDemo;/*
   * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
   * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
   */
 
  import com.jogamp.opengl.GL4;
- import com.xbuilders.engine.utils.math.MathUtils;
- import com.xbuilders.test.joglDemo.useless.mesh.TestTriangleMesh;
  import com.xbuilders.window.CameraNavigator;
- import com.xbuilders.window.MVP;
  import org.joml.Matrix4f;
  import processing.core.UIFrame;
  import processing.event.KeyEvent;

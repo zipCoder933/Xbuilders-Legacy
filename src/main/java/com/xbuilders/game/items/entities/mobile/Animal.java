@@ -213,7 +213,7 @@ public abstract class Animal extends Entity {
     }
 
     @Override
-    public void initialize(byte[] bytes, boolean setByUser) {
+    public void initializeImmediate(byte[] bytes, boolean setByUser) {
         setFrustumSphereRadius(animalRadius);
 
         posHandler = new PositionHandler(VoxelGame.getWorld(), Main.getMain(), aabb,

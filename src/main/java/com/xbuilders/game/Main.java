@@ -13,6 +13,7 @@ import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.blockType.wheel.HalfWheelRenderer;
 import com.xbuilders.game.items.blockType.wheel.WheelRenderer;
 import processing.core.PGraphics;
+import processing.core.UIFrame;
 import processing.opengl.PJOGL;
 
 import java.io.File;
@@ -76,6 +77,10 @@ public class Main extends VoxelGame {
     }
 
     public static Main getMain() {
+        return main;
+    }
+
+    public static UIFrame getFrame() {
         return main;
     }
 

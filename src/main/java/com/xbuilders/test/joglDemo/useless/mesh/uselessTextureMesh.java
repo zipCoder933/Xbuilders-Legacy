@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-public class glTextureMesh {
+public class uselessTextureMesh {
 
     GL4 gl;
 
@@ -26,7 +26,7 @@ public class glTextureMesh {
     int posVboId, uvVboId;
     final int shaderPosition, shaderUV;
 
-    public glTextureMesh(GL4 gl, int posLoc, int uvLoc) {
+    public uselessTextureMesh(GL4 gl, int posLoc, int uvLoc) {
         this.gl = gl;
         this.shaderPosition = posLoc;
         this.shaderUV = uvLoc;

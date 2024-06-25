@@ -87,7 +87,7 @@ public class DoorEntityLink extends EntityLink {
         boolean closed = true;
 
         @Override
-        public void initialize(byte[] bytes, boolean setByUser) {
+        public void initializeImmediate(byte[] bytes, boolean setByUser) {
             if (texture == null) {
                 try {
                     texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\door\\textures\\" + textureFile)));

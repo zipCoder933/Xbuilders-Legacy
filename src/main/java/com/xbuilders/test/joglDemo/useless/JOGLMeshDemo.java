@@ -4,15 +4,13 @@ package com.xbuilders.test.joglDemo.useless;/*
  */
 
 import com.jogamp.opengl.GL4;
-import com.xbuilders.test.joglDemo.useless.mesh.glTextureMesh;
+import com.xbuilders.test.joglDemo.useless.mesh.uselessTextureMesh;
 import com.xbuilders.test.joglDemo.useless.shader.uiTextureShader;
 import com.xbuilders.window.CameraNavigator;
 import com.xbuilders.window.MVP;
 import com.xbuilders.window.utils.obj.OBJ;
 import com.xbuilders.window.utils.obj.OBJBufferSet;
 import com.xbuilders.window.utils.obj.OBJLoader;
-import com.xbuilders.window.utils.texture.Texture;
-import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
 import processing.core.UIFrame;
 import processing.event.KeyEvent;
@@ -37,7 +35,7 @@ class JOGLMeshDemo extends UIFrame {
 
 
     uiTextureShader shader;
-    glTextureMesh mesh;
+    uselessTextureMesh mesh;
     float a;
     Matrix4f projMatrix = new Matrix4f();
 
@@ -103,7 +101,7 @@ class JOGLMeshDemo extends UIFrame {
             throw new RuntimeException(e);
         }
 
-        mesh = new glTextureMesh(gl, shader.attributePosition, shader.attributeUV);
+        mesh = new uselessTextureMesh(gl, shader.attributePosition, shader.attributeUV);
 
 
         OBJ o = null;

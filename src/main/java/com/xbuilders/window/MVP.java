@@ -15,7 +15,7 @@ import java.nio.FloatBuffer;
 public class MVP {
 
     FloatBuffer buffer;
-    public final Matrix4f mvp; //final just means the object cannot be reassigned
+    public final Matrix4f matrix; //final just means the object cannot be reassigned
 
     /*
     TODO: Think About loading projection and view into the constructor
@@ -27,35 +27,40 @@ public class MVP {
 
     public MVP() {
         buffer = BufferUtils.allocateDirectFloatBuffer(16);
-        mvp = new Matrix4f();
+        matrix = new Matrix4f();
     }
 
-    public MVP(Matrix4f mvp) {
+    public MVP(Matrix4f matrix) {
         buffer = BufferUtils.allocateDirectFloatBuffer(16);
-        this.mvp = mvp;
+        this.matrix = matrix;
     }
 
     public void update(final Matrix4f projection, final Matrix4f view, final Matrix4f model) {
-        mvp.identity().mul(projection).mul(view).mul(model);
-        mvp.get(buffer);
+        matrix.identity().mul(projection).mul(view).mul(model);
+        matrix.get(buffer);
     }
 
     public void update() {
-        mvp.get(buffer);
+        matrix.get(buffer);
     }
 
     public void update(Matrix4f matrix) {
-        mvp.set(matrix);
-        mvp.get(buffer);
+        this.matrix.set(matrix);
+        this.matrix.get(buffer);
     }
 
-    public void update(final Matrix4f... matrices) {
-        mvp.identity();
-        for (int i = 0; i < matrices.length; i++) {
-            mvp.mul(matrices[i]);
-        }
-        mvp.get(buffer);
+    public void update(Matrix4f projection, Matrix4f view) {
+        this.matrix.set(projection).mul(view);
+        this.matrix.get(buffer);
     }
+
+//    public void update(final Matrix4f... matrices) {
+//        matrix.identity();
+//        for (int i = 0; i < matrices.length; i++) {
+//            matrix.mul(matrices[i]);
+//        }
+//        matrix.get(buffer);
+//    }
 
     public void sendToShader(GL4 gl, int programID, int uniformID) {
         gl.glUseProgram(programID);
