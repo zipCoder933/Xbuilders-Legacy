@@ -2,12 +2,12 @@
 //precision mediump float;
 //precision mediump int;
 
-layout(location = 0) in vec3 position;
-layout(location = 1) in vec2 uv;
+layout(location = 0) in vec4 position;
+layout(location = 1) in vec2 color;
 
 out vec2 vertUV;
 
 void main() {
-  gl_Position = vec4(position,1.0);
+  gl_Position = position;
   vertUV = uv;
 }
