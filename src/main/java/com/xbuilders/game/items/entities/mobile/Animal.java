@@ -351,10 +351,6 @@ public abstract class Animal extends Entity {
         }
         aabb.updateBox();
 
-        if (distToPlayer > SubChunk.WIDTH * 1.5f) {
-            allow = false;
-        }
-
         if (!allow && isPendingDestruction()) {
             destroy(true);
             return false;

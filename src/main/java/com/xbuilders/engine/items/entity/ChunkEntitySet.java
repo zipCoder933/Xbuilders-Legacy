@@ -6,7 +6,6 @@ package com.xbuilders.engine.items.entity;
 
 import com.jogamp.opengl.GL4;
 import com.xbuilders.engine.VoxelGame;
-import com.xbuilders.engine.game.GameScene;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -17,7 +16,6 @@ import com.xbuilders.game.Main;
 
 import java.util.ArrayList;
 
-import com.xbuilders.game.items.GameItems;
 import processing.core.PGraphics;
 import processing.core.UIFrame;
 import processing.opengl.PJOGL;
@@ -80,7 +78,7 @@ public class ChunkEntitySet {
                 chunk.getParentChunk().markAsNeedsSaving(); // Mark the parent chunk as needing saving
                 continue;
             } else if (!e.playerIsRidingThis()
-                    && e.distToPlayer > VoxelGame.getSettings().getSettingsFile().entityMaxDistance) {
+                    && e.distToPlayer > VoxelGame.getSettings().getSettingsFile().entityFullMaxDistance) {
                 continue; // Skip the rest of the loop for this entity
             } else if (e.needsUpdating) { // Check if the entity needs updating
                 if (e.hasStaticMeshes()) { // Check if the entity has static meshes

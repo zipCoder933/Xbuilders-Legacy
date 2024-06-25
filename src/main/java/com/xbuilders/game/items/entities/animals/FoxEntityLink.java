@@ -37,6 +37,7 @@ public class FoxEntityLink extends EntityLink {
         tags.add("fox");
     }
 
+    glEntityMesh body;
     @Override
     public void initialize() {
 
@@ -51,16 +52,11 @@ public class FoxEntityLink extends EntityLink {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-
             Main.endPJOGL();
         }
-
     }
 
-    public MVP mvp = new MVP();
 
-    glEntityMesh body;
 
     public String texturePath;
 

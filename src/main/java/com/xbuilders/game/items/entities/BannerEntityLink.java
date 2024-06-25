@@ -6,8 +6,11 @@ package com.xbuilders.game.items.entities;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.rendering.ShaderHandler;
+import com.xbuilders.engine.rendering.entity.glEntityMesh;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
@@ -17,6 +20,7 @@ import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
+import processing.opengl.PJOGL;
 
 import java.io.IOException;
 
@@ -28,13 +32,33 @@ import static com.xbuilders.engine.items.block.construction.blockTypes.BlockType
 public class BannerEntityLink extends EntityLink {
 
     String texturePath;
-    PShape banner = null;
 
     public BannerEntityLink(int id, String name, String texturePath) {
         super(id, name);
         setSupplier(() -> new Banner());
         this.texturePath = texturePath;
         setIconAtlasPosition(0, 4);
+    }
+
+
+    glEntityMesh body;
+
+    @Override
+    public void initialize() {
+
+        if (body == null) {
+            PJOGL pgl = Main.beginPJOGL();
+
+            body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+            try {
+                body.setOBJ(ResourceUtils.resource("items\\entities\\banner\\banner.obj"));
+                body.setTexture(
+                        ResourceUtils.resource("items\\entities\\banner\\" + texturePath));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Main.endPJOGL();
+        }
     }
 
     class Banner extends Entity {
@@ -49,14 +73,6 @@ public class BannerEntityLink extends EntityLink {
 
         @Override
         public void initializeImmediate(byte[] bytes, boolean setByUser) {
-            if (banner == null) {
-                banner = getPointerHandler().getApplet()
-                        .loadShape(ResourceUtils.resourcePath("items\\entities\\banner\\banner.obj"));
-                PImage texture = getPointerHandler().getApplet()
-                        .loadImage(ResourceUtils.resourcePath("items\\entities\\banner\\" + texturePath));
-                banner.setTexture(texture);
-            }
-
             if (bytes != null) {
                 xzOrientation = bytes[0];
                 againstFencepost = (bytes[1] == 1);
@@ -122,9 +138,6 @@ public class BannerEntityLink extends EntityLink {
 
         @Override
         public void draw(PGraphics g) {
-            if (distToPlayer > Chunk.WIDTH)
-                return;
-                
             if (xzOrientation == 0) {
                 modelMatrix.translate(0, 0, 1);
                 modelMatrix.rotateY(PConstants.PI / 2);
@@ -143,13 +156,10 @@ public class BannerEntityLink extends EntityLink {
             modelMatrix.translate(1f - (ONE_SIXTEENTH * 2), 0, 0.5f);
             float frameCount = (float) (getPointerHandler().getApplet().frameCount * 0.05) + seed;
             modelMatrix.rotateZ((float) (Math.sin(frameCount) * 0.1) + 0.1f);
-            sendModelMatrixToShader();
-            drawShape(g, banner);
+            body.updateModelMatrix(modelMatrix);
+            body.draw();
         }
 
-        private void drawShape(PGraphics g, PShape shape) {
-            g.shape(shape);
-        }
 
         @Override
         public void toBytes(XBFilterOutputStream fout) throws IOException {

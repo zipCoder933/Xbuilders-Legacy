@@ -7,7 +7,6 @@ package com.xbuilders.engine;
 import com.google.gson.Gson;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.chunk.SubChunk;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +41,7 @@ public class Settings {
         public int playerInventorySlots = 24;
         public long blockAutoSetTimeThreshold = 500;
         public int maxBlockBoundaryArea = 1000000;
-        public float entityMaxDistance = 48; //The distance threshold before an entity is not shown or updated (static meshed entities are still shown)
+        public float entityFullMaxDistance = 50; //The distance threshold before an entity is not shown or updated (static meshed entities are still shown)
         public boolean disableVsync = false; //Vsync may improve fps (i havent noticed that) but it also makes memory usage skyrocket
     }
 
