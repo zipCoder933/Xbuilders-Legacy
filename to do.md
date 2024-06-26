@@ -1,11 +1,10 @@
 # To Do
 
-Most important: **fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet**
-   * Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides
+### fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet
+Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides
 
-### optimisation:
-* try sorting chunks front to back?
-* try occlusion culling
+### Because of entity gl rendering, now regular chunks are doubled up, causing a jitter effect on the surface of the mesh
+Simple Solution: render chunks as gl meshes too
 
 ### Using opengl meshes for entities
 * We dont have to worry about shaders as long as we only bind the shader once per frame

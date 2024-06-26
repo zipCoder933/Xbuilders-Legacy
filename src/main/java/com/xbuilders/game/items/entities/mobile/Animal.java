@@ -10,6 +10,7 @@ import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.tool.Tool;
+import com.xbuilders.engine.rendering.entity.glEntityMesh;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.chunk.SubChunk;
@@ -27,30 +28,18 @@ import java.util.Arrays;
 
 public abstract class Animal extends Entity {
 
-    /**
-     * @param g              the graphics
-     * @param x              the left/right coordinate
-     * @param y              the y coordinate
-     * @param z              the forward/backward coordinate
-     * @param animationSpeed the speed of the walk cycle (negative means the leg
-     *                       goes backwards)
-     * @param animationAdd   the addition to the existing frame count to offset
-     *                       the animation
-     */
-    public void drawLeg(PGraphics g, PShape leg, float x, float y, float z,
-                        float animationSpeed, float animationAdd, int frameCount) {
+
+    public void drawLeg(glEntityMesh shape, float x, float y, float z, float progression) {
         modelMatrix.translate(x, y, z);
-
-        float rot = (float) Math.sin((frameCount * animationSpeed) + animationAdd) / 2;
-        if (animationSpeed != 0) {
-            modelMatrix.rotateX(rot);
+        float rotation = (float) Math.sin(progression) * 0.5f;
+        if (progression != 0) {
+            modelMatrix.rotateX(rotation);
         }
-        sendModelMatrixToShader();
-        g.shape(leg);
-        if (animationSpeed != 0) {
-            modelMatrix.rotateX(-rot);
+        shape.updateModelMatrix(modelMatrix);
+        shape.draw();
+        if (progression != 0) {
+            modelMatrix.rotateX(-rotation);
         }
-
         modelMatrix.translate(-x, -y, -z);
     }
 
@@ -363,6 +352,7 @@ public abstract class Animal extends Entity {
         modelMatrix.translate(renderOffset.x, renderOffset.y, renderOffset.z);
         modelMatrix.rotateY((float) (getRotationY() * (Math.PI / 180)));
         sendModelMatrixToShader();
+
         renderAnimal(g);
     }
 

@@ -5,6 +5,9 @@
 package com.xbuilders.game.items.entities.animals;
 
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.rendering.ShaderHandler;
+import com.xbuilders.engine.rendering.entity.glEntityMesh;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.LandAnimal;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
@@ -12,6 +15,7 @@ import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
+import processing.opengl.PJOGL;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -33,7 +37,24 @@ public class RabbitEntityLink extends EntityLink {
     }
 
     public PImage texture;
-    public PShape model;
+    glEntityMesh body;
+
+    @Override
+    public void initialize() {
+        if (body == null) {
+            PJOGL pgl = Main.beginPJOGL();
+
+            body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+            try {
+                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\rabbit\\body.obj"));
+                body.setTexture(ResourceUtils.resource("items\\entities\\animals\\rabbit\\" + texturePath));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Main.endPJOGL();
+        }
+    }
+
     public String texturePath;
 
     class Rabbit extends LandAnimal {
@@ -48,8 +69,8 @@ public class RabbitEntityLink extends EntityLink {
 
         @Override
         public void renderAnimal(PGraphics g) {
-
-            g.shape(model);
+            body.updateModelMatrix(modelMatrix);
+            body.draw();
         }
 
 //        @Override
@@ -80,15 +101,6 @@ public class RabbitEntityLink extends EntityLink {
 
         @Override
         public void initAnimal(byte[] bytes) {
-            if (model == null) {
-                try {
-                    texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\animals\\rabbit\\" + texturePath)));
-                    model = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\rabbit\\body.obj"));
-                    model.setTexture(texture);
-                } catch (IOException ex) {
-                    Logger.getLogger(BirchTrapdoorLink.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }
 

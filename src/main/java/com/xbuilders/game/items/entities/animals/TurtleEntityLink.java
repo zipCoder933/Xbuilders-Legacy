@@ -5,16 +5,24 @@
 package com.xbuilders.game.items.entities.animals;
 
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.rendering.ShaderHandler;
+import com.xbuilders.engine.rendering.entity.glEntityMesh;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.LandAndWaterAnimal;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
+import com.xbuilders.window.utils.texture.Texture;
+import com.xbuilders.window.utils.texture.TextureUtils;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
+import processing.opengl.PJOGL;
 
 import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,10 +43,37 @@ public class TurtleEntityLink extends EntityLink {
         tags.add("turtle");
     }
 
-    public PImage texture;
-    public PShape fin1, fin2, body;
+    public glEntityMesh fin1, fin2, body;
     //    back_fin1, back_fin2;
     public String textureFile;
+
+
+    @Override
+    public void initialize() {
+
+        if (body == null) {
+            PJOGL pgl = Main.beginPJOGL();
+            body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+            fin1 = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+            fin2 = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+
+            try {
+                int texture = TextureUtils.loadTexture(pgl.gl.getGL4(),
+                        ResourceUtils.resourcePath("items\\entities\\animals\\turtle\\" + textureFile), false).id;
+
+                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\turtle\\body.obj"));
+                fin1.setOBJ(ResourceUtils.resource("items\\entities\\animals\\turtle\\left_fin.obj"));
+                fin2.setOBJ(ResourceUtils.resource("items\\entities\\animals\\turtle\\right_fin.obj"));
+                body.setTexture(texture);
+                fin1.setTexture(texture);
+                fin2.setTexture(texture);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Main.endPJOGL();
+        }
+
+    }
 
 
     public class Turtle extends LandAndWaterAnimal {
@@ -48,6 +83,7 @@ public class TurtleEntityLink extends EntityLink {
             super(new Vector3f(1.0f, 0.6f, 1.0f), 2);
             setMaxSpeed(0.1f);
             setActivity(0.5f);
+            aabb.offset.y += 0.2f;
 //            setFreezeMode(true);
         }
 
@@ -58,23 +94,12 @@ public class TurtleEntityLink extends EntityLink {
         @Override
         public final void renderAnimal(PGraphics g) {
             if (playerCanSeeAnimalUnderwater()) {
-                //Z = animal front
-                //X = animal side
-//                if (youngAnimal) {
-//                    g.scale(0.4f);
-//                    g.pushMatrix();
-//                    g.translate(0, -0.45f, 0);
-//
-//                }
                 float animationTarget = 0f;
-//                float finAnimation = 0;
                 if (getWalkAmt() > 0) {
                     animationTarget = MathUtils.map(getWalkAmt(), 0, getMaxSpeed(), 0, 0.5f);
-//                    if (isInWater()) {
-//                        finAnimation = MathUtils.mapFloat(getWalkAmt(), 0, getMaxSpeed(), 0, 0.25f);
-//                    }
                 }
-                g.shape(body);
+                body.updateModelMatrix(modelMatrix);
+                body.draw();
                 drawFin(g, fin2, 0, 0, ONE_SIXTEENTH * 7,
                         animationTarget, 0.0f, getPointerHandler().getApplet().frameCount, 0.4f);
 
@@ -88,30 +113,24 @@ public class TurtleEntityLink extends EntityLink {
 //                drawFin(g, back_fin2,
 //                        ONE_SIXTEENTH * 4, ONE_SIXTEENTH * -1, ONE_SIXTEENTH * -10,
 //                        -finAnimation, 0.0f, getPointerHandler().getApplet().frameCount, 0.15f);
-//                if (youngAnimal) {
-//                    g.popMatrix();
-//                    g.scale(1 / 0.4f);
-//                }
             }
         }
 
-        private void drawFin(PGraphics g, PShape fin,
+        Matrix4f finModelMatrix = new Matrix4f();
+
+        private void drawFin(PGraphics g, glEntityMesh fin,
                              float x, float y, float z,
                              float animationSpeed, float animationAdd, int frameCount, float multiplier) {
 
-            modelMatrix.translate(x, y, z);
+            finModelMatrix.set(modelMatrix).translate(x, y, z);
             float rot = (float) Math.sin((frameCount * animationSpeed) + animationAdd) * multiplier;
 
             if (animationSpeed != 0) {
-                modelMatrix.rotateY(rot);
+                finModelMatrix.rotateY(rot);
             }
 
-            g.shape(fin);
-
-            if (animationSpeed != 0) {
-                modelMatrix.rotateY(-rot);
-            }
-            modelMatrix.translate(-x, -y, -z);
+            fin.updateModelMatrix(finModelMatrix);
+            fin.draw();
         }
 
         @Override
@@ -122,26 +141,6 @@ public class TurtleEntityLink extends EntityLink {
 
         @Override
         public void initAnimal(byte[] bytes) {
-
-            if (body == null) {
-                try {
-                    texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\animals\\turtle\\" + textureFile)));
-                    body = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\turtle\\body.obj"));
-                    fin1 = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\turtle\\left_fin.obj"));
-                    fin2 = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\turtle\\right_fin.obj"));
-//                back_fin1 = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\turtle\\left_back_fin.obj"));
-//                back_fin2 = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\turtle\\right_back_fin.obj"));
-                    body.setTexture(texture);
-                    fin1.setTexture(texture);
-                    fin2.setTexture(texture);
-                    aabb.offset.y -= 0.5f;
-//                back_fin1.setTexture(texture);
-//                back_fin2.setTexture(texture);
-                } catch (IOException ex) {
-                    Logger.getLogger(BirchTrapdoorLink.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
 //            if (bytes != null && bytes.length > 0) {
 //                youngAnimal = bytes[0] == 1;
 //            } else youngAnimal = Math.random() > 0.75;

@@ -42,7 +42,7 @@ public class ChunkEntitySet {
     PJOGL pgl;
     GL4 gl;
 
-    public static void bindEntityShader(){
+    public static void bindEntityShader() {
         ShaderHandler.entityShader.bind();
     }
 
@@ -78,7 +78,8 @@ public class ChunkEntitySet {
                 chunk.getParentChunk().markAsNeedsSaving(); // Mark the parent chunk as needing saving
                 continue;
             } else if (!e.playerIsRidingThis()
-                    && e.distToPlayer > VoxelGame.getSettings().getSettingsFile().entityFullMaxDistance) {
+                    && e.distToPlayer > VoxelGame.getSettings().getSettingsFile().entityFullMaxDistance
+                    && (e.link.entityMaxDistToPlayer > 0 && e.distToPlayer > e.link.entityMaxDistToPlayer)) {
                 continue; // Skip the rest of the loop for this entity
             } else if (e.needsUpdating) { // Check if the entity needs updating
                 if (e.hasStaticMeshes()) { // Check if the entity has static meshes

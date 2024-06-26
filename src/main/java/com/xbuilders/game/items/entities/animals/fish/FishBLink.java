@@ -5,6 +5,9 @@
 package com.xbuilders.game.items.entities.animals.fish;
 
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.rendering.ShaderHandler;
+import com.xbuilders.engine.rendering.entity.glEntityMesh;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.FishAnimal;
 import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -18,6 +21,7 @@ import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
+import processing.opengl.PJOGL;
 
 /**
  * @author zipCoder933
@@ -29,11 +33,30 @@ public class FishBLink extends EntityLink {
         setSupplier(() -> new FishObject());
         setIconAtlasPosition(1, 3);
         this.textureFile = textureFile;
-
+        entityMaxDistToPlayer = 30;
     }
 
     public PImage texture;
-    public PShape body;
+    glEntityMesh body;
+
+    @Override
+    public void initialize() {
+
+        if (body == null) {
+            PJOGL pgl = Main.beginPJOGL();
+
+            body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+            try {
+                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\fish\\fish_B.obj"));
+                body.setTexture(ResourceUtils.resource("items\\entities\\animals\\fish\\textures\\fish_B\\" + textureFile));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Main.endPJOGL();
+        }
+
+    }
+
     public String textureFile;
 
 
@@ -47,7 +70,8 @@ public class FishBLink extends EntityLink {
 
         @Override
         public final void renderFish(PGraphics g) {
-            g.shape(body);
+            body.updateModelMatrix(modelMatrix);
+            body.draw();
         }
 
         @Override
@@ -57,15 +81,7 @@ public class FishBLink extends EntityLink {
 
         @Override
         public void initAnimal(byte[] bytes) {
-            if (body == null) {
-                try {
-                    texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\animals\\fish\\textures\\fish_B\\" + textureFile)));
-                    body = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\fish\\fish_B.obj"));
-                    body.setTexture(texture);
-                } catch (IOException ex) {
-                    Logger.getLogger(BirchTrapdoorLink.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+
         }
 
         @Override

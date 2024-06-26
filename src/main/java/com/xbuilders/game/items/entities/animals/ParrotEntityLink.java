@@ -5,15 +5,20 @@
 package com.xbuilders.game.items.entities.animals;
 
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.rendering.ShaderHandler;
+import com.xbuilders.engine.rendering.entity.glEntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.FlyingAnimal;
 import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
+import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
+import processing.opengl.PJOGL;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -38,8 +43,26 @@ public class ParrotEntityLink extends EntityLink {
     }
 
     public PImage texture;
-    public PShape body, wing;
+    public glEntityMesh body, wing;
     public String texturePath;
+
+    public void initialize() {
+        if (body == null) {
+            PJOGL pgl = Main.beginPJOGL();
+            body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+            wing = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+            try {
+                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\parrot\\body.obj"));
+                wing.setOBJ(ResourceUtils.resource("items\\entities\\animals\\parrot\\wing.obj"));
+
+                body.setTexture(ResourceUtils.resource("items\\entities\\animals\\parrot\\" + texturePath));
+                wing.setTexture(ResourceUtils.resource("items\\entities\\animals\\parrot\\" + texturePath));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Main.endPJOGL();
+        }
+    }
 
 
     class Parrot extends FlyingAnimal {
@@ -53,31 +76,28 @@ public class ParrotEntityLink extends EntityLink {
         @Override
         public void renderAnimal(PGraphics g) {
             //x=side, z=front
-            g.shape(body);
+            body.updateModelMatrix(modelMatrix);
+            body.draw();
             float animSpeed = getFlyAnimationSpeed();
-            bodyMatrix.set(modelMatrix);
 
-            drawWing(g, wing, ONE_SIXTEENTH * 1.5f, ONE_SIXTEENTH * -7, ONE_SIXTEENTH * 0, animSpeed, 0.0f, -2.0f);
-            drawWing(g, wing, ONE_SIXTEENTH * -1.5f, ONE_SIXTEENTH * -7, ONE_SIXTEENTH * 0, animSpeed, 0.0f, 2.0f);
+
+            drawWing(g, ONE_SIXTEENTH * 1.5f, ONE_SIXTEENTH * -7, ONE_SIXTEENTH * 0, animSpeed, 0.0f, -2.0f);
+            drawWing(g, ONE_SIXTEENTH * -1.5f, ONE_SIXTEENTH * -7, ONE_SIXTEENTH * 0, animSpeed, 0.0f, 2.0f);
         }
 
-        Matrix4f bodyMatrix = new Matrix4f();
+        Matrix4f wingMatrix = new Matrix4f();
 
-        private void drawWing(PGraphics g, PShape fin,
+        private void drawWing(PGraphics g,
                               float x, float y, float z,
                               float animationSpeed, float min, float max) {
-          modelMatrix.set(bodyMatrix);
-            modelMatrix.translate(x, y, z);
+            wingMatrix.set(modelMatrix).translate(x, y, z);
             float rot = (float) MathUtils.map(
                     Math.sin((getPointerHandler().getApplet().frameCount * animationSpeed)), -1, 1, min, max);
             if (animationSpeed != 0) {
-                modelMatrix.rotateZ(rot);
+                wingMatrix.rotateZ(rot);
             }
-            sendModelMatrixToShader();
-            g.shape(fin);
-            if (animationSpeed != 0) {
-                modelMatrix.rotateZ(-rot);
-            }
+            wing.updateModelMatrix(wingMatrix);
+            wing.draw();
         }
 
 
@@ -88,17 +108,6 @@ public class ParrotEntityLink extends EntityLink {
 
         @Override
         public void initAnimal(byte[] bytes) {
-            if (body == null) {
-                try {
-                    texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\animals\\parrot\\" + texturePath)));
-                    body = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\parrot\\body.obj"));
-                    wing = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\parrot\\wing.obj"));
-                    body.setTexture(texture);
-                    wing.setTexture(texture);
-                } catch (IOException ex) {
-                    Logger.getLogger(BirchTrapdoorLink.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }
 }

@@ -19,6 +19,7 @@ import com.xbuilders.engine.world.wcc.WCCi;
 public abstract class EntityLink extends Item {
 
     private Supplier<Entity> supplier;
+    public int entityMaxDistToPlayer = -1;
 
     public EntityLink(int id, String name, Supplier<Entity> supplier) {
         super(id, name, ItemType.ENTITY_LINK);

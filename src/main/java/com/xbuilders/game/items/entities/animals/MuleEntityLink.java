@@ -64,17 +64,17 @@ public class MuleEntityLink extends EntityLink {
                 }
                 //Z = animal front
                 //X = animal side
-                float animationTarget = 0f;
-                if (getWalkAmt() > 0) {
-                    animationTarget = MathUtils.map(getWalkAmt(), 0, getMaxSpeed(), 0, 0.5f);
-                }
-                g.shape(body);
-                int yLegPos = -8;
-                int frameCount = getPointerHandler().getApplet().frameCount;
-                drawLeg(g, leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 8, -animationTarget, 0.0f, frameCount);
-                drawLeg(g, leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -6, animationTarget, 1.5f, frameCount);
-                drawLeg(g, leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 8, -animationTarget, 1.5f, frameCount);
-                drawLeg(g, leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -6, animationTarget, 2.0f, frameCount);
+//                float animationTarget = 0f;
+//                if (getWalkAmt() > 0) {
+//                    animationTarget = MathUtils.map(getWalkAmt(), 0, getMaxSpeed(), 0, 0.5f);
+//                }
+//                g.shape(body);
+//                int yLegPos = -8;
+//                int frameCount = getPointerHandler().getApplet().frameCount;
+//                drawLeg(g, leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 8, -animationTarget, 0.0f, frameCount);
+//                drawLeg(g, leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -6, animationTarget, 1.5f, frameCount);
+//                drawLeg(g, leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 8, -animationTarget, 1.5f, frameCount);
+//                drawLeg(g, leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -6, animationTarget, 2.0f, frameCount);
                 if (youngAnimal) {
                     g.scale(1 / 0.7f);//pony
                 }

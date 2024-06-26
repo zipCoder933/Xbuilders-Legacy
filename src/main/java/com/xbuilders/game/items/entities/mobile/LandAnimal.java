@@ -22,13 +22,6 @@ import processing.core.PGraphics;
  */
 public abstract class LandAnimal extends Animal {
 
-    /**
-     * @return the travelSpeed
-     */
-    public float getTravelSpeed() {
-        return travelSpeed;
-    }
-
 
     /**
      * @return the player
@@ -37,12 +30,6 @@ public abstract class LandAnimal extends Animal {
         return player;
     }
 
-    /**
-     * @return the travelSpeed
-     */
-    public float getWalkAmt() {
-        return getTravelSpeed();
-    }
 
     /**
      * @return the action
@@ -61,10 +48,12 @@ public abstract class LandAnimal extends Animal {
     private float maxSpeed = 0.17f;
     private float activity = 0.8f;
     private float actionVelocity;
-    private float travelSpeed = 0;
+    public float travelSpeed = 0;
+    public float travelAmount = 0;
 
     public void walkForward(float speed) {
         travelSpeed = speed;
+        travelAmount+=speed;
         goForward(speed);
     }
 

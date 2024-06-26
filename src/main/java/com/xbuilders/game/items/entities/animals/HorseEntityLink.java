@@ -6,17 +6,23 @@ package com.xbuilders.game.items.entities.animals;
 
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.PositionLock;
+import com.xbuilders.engine.rendering.ShaderHandler;
+import com.xbuilders.engine.rendering.entity.glEntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.entities.mobile.LandAnimal;
 import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
+import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
+import processing.opengl.PJOGL;
 
 import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,11 +43,35 @@ public class HorseEntityLink extends EntityLink {
         tags.add("horse");
     }
 
-    public PImage texture;
-    public PShape leg;
-    public PShape body;
-    public static PShape saddle;
+    public glEntityMesh leg;
+    public glEntityMesh body;
+    public static glEntityMesh saddle;
     public String textureFile;
+
+    public void initialize() {
+        if (body == null) {
+            try {
+                PJOGL pgl = Main.beginPJOGL();
+                saddle = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+                leg = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+                body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+
+
+                int texture = TextureUtils.loadTexture(pgl.gl.getGL4(),
+                        ResourceUtils.resourcePath("items\\entities\\animals\\horse\\textures\\" + textureFile), false).id;
+
+                saddle.setOBJ(ResourceUtils.resource("items\\entities\\animals\\horse\\horse_saddle.obj"));
+                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\horse\\horse.obj"));
+                leg.setOBJ(ResourceUtils.resource("items\\entities\\animals\\horse\\leg.obj"));
+                body.setTexture(texture);
+                saddle.setTexture(texture);
+                leg.setTexture(texture);
+                Main.endPJOGL();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     public class HorseObject extends LandAnimal {
 
@@ -49,7 +79,7 @@ public class HorseEntityLink extends EntityLink {
         public boolean saddled = false;
 
         public HorseObject() {
-            super( new Vector3f(1.0f, 1.2f, 1.0f), 2);
+            super(new Vector3f(1.0f, 1.2f, 1.0f), 2);
             setMaxSpeed(0.17f);
             setActivity(0.6f);
             jumpWithEntitySideCollision = false;
@@ -73,22 +103,20 @@ public class HorseEntityLink extends EntityLink {
         @Override
         public final void renderAnimal(PGraphics g) {
             if (youngAnimal) {
-               modelMatrix.scale(0.7f);//pony
+                modelMatrix.scale(0.7f);//pony
             }
-            float animationTarget = 0f;
-            if (getWalkAmt() > 0) {
-                animationTarget = MathUtils.map(getWalkAmt(), 0, getMaxSpeed(), 0, 0.5f);
-            }
-            sendModelMatrixToShader();
-            g.shape(body);
+            float animationTarget = travelAmount;
+
+            body.updateModelMatrix(modelMatrix);
+            body.draw();
             if (saddled) {
-                g.shape(saddle);
+                saddle.draw();
             }
             int yLegPos = -12;
-            drawLeg(g, leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 7, -animationTarget, 0.0f, getPointerHandler().getApplet().frameCount);
-            drawLeg(g, leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 7, -animationTarget, 1.5f, getPointerHandler().getApplet().frameCount);
-            drawLeg(g, leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -9, animationTarget, 1.5f, getPointerHandler().getApplet().frameCount);
-            drawLeg(g, leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -9, animationTarget, 2.0f, getPointerHandler().getApplet().frameCount);
+            drawLeg(leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 7, -animationTarget);
+            drawLeg(leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 7, -animationTarget + 1.5f);
+            drawLeg(leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -9, animationTarget + 1.5f);
+            drawLeg(leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -9, animationTarget + 2.0f);
         }
 
 
@@ -101,25 +129,7 @@ public class HorseEntityLink extends EntityLink {
 
         @Override
         public void initAnimal(byte[] bytes) {
-            if (saddle == null) {
-                try {
-                    saddle = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\horse\\horse_saddle.obj"));
-                    saddle.setTexture(new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\animals\\horse\\textures\\brown.png"))));
-                } catch (IOException ex) {
-                    Logger.getLogger(HorseEntityLink.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (body == null) {
-                try {
-                    texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\animals\\horse\\textures\\" + textureFile)));
-                    body = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\horse\\horse.obj"));
-                    leg = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\horse\\leg.obj"));
-                    body.setTexture(texture);
-                    leg.setTexture(texture);
-                } catch (IOException ex) {
-                    Logger.getLogger(BirchTrapdoorLink.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+
             if (bytes != null) {
                 saddled = bytes[0] == 1;
                 youngAnimal = bytes[1] == 1;
