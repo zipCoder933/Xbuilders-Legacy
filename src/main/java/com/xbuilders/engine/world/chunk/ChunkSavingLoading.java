@@ -84,7 +84,7 @@ public class ChunkSavingLoading {
                 for (int subChunkID = chunk.getSubChunks().length - 1; subChunkID >= 0; --subChunkID) {
                     final SubChunk subChunk = chunk.getSubChunks()[subChunkID];
                     XBFilterOutputStream fout = new XBFilterOutputStream(out);
-                    for (final Entity entity : subChunk.getEntities().list) {
+                    for (final Entity entity : subChunk.entities.list) {
                         out.write(ENTITY_BYTE);
                         out.write(shortToBytes(entity.link.id));
                         writeEntityChunkCoordinates(out, entity.getChunkPosition());
@@ -98,9 +98,9 @@ public class ChunkSavingLoading {
                             // boolean layerIsAllSky = true;
                             for (int x = 0; x < SubChunk.WIDTH; ++x) {
                                 for (int z = 0; z < SubChunk.WIDTH; ++z) {
-                                    final Block block = ItemList.getBlock(subChunk.getVoxels().getBlock(x, y, z));
-                                    final TorchChannelSet torch = subChunk.getLightMap().getTorchlight(x, y, z);
-                                    final byte sunlight = subChunk.getLightMap().getSunlight(x, y, z);
+                                    final Block block = ItemList.getBlock(subChunk.data.getBlock(x, y, z));
+                                    final TorchChannelSet torch = subChunk.lightMap.getTorchlight(x, y, z);
+                                    final byte sunlight = subChunk.lightMap.getSunlight(x, y, z);
                                     // if (layerIsAllSky) {
                                     // final boolean fragIsSkyFrag = sunlight == 15 && torch == null;
                                     // if (!block.isAir() || !fragIsSkyFrag
@@ -123,7 +123,7 @@ public class ChunkSavingLoading {
                                         out.write(PIPE_BYTE);
                                         final byte[] b = shortToBytes(block.id);
                                         out.write(b);
-                                        final BlockData blockData = subChunk.getVoxels().getBlockData(x, y, z);
+                                        final BlockData blockData = subChunk.data.getBlockData(x, y, z);
                                         if (blockData != null) {
                                             writeAndVerifyBlockData(out, blockData.bytes);
                                         }
@@ -217,7 +217,7 @@ public class ChunkSavingLoading {
             final int y, final int z, int start) {
         if (startByte != PIPE_BYTE) {
             final byte sunlight = startByte;
-            subChunk.getLightMap().setSunlight(x, y, z, sunlight);
+            subChunk.lightMap.setSunlight(x, y, z, sunlight);
             ++start;
             //Read torch values
             while (true) {
@@ -230,16 +230,16 @@ public class ChunkSavingLoading {
                 }
                 final byte value = bytes[start + 1];
                 if (value > 0) //only add torchlight if value is > 0
-                    subChunk.getLightMap().setTorchlight(x, y, z, b1, value);
+                    subChunk.lightMap.setTorchlight(x, y, z, b1, value);
                 start += 2;
             }
         }
         final short blockID = bytesToShort(bytes[start + 1], bytes[start + 2]);
         final Block block = ItemList.blocks.getItem(blockID);
         if (block == null) {
-            subChunk.getVoxels().setBlock(BlockList.BLOCK_AIR.id, x, y, z);
+            subChunk.data.setBlock(BlockList.BLOCK_AIR.id, x, y, z);
         } else {
-            subChunk.getVoxels().setBlock(block.id, x, y, z);
+            subChunk.data.setBlock(block.id, x, y, z);
         }
         start += 3;
         final ArrayList<Byte> blockDataBytes = new ArrayList<Byte>();
@@ -252,7 +252,7 @@ public class ChunkSavingLoading {
             ++start;
         }
         if (!blockDataBytes.isEmpty()) {
-            subChunk.getVoxels().setBlockData(new BlockData(blockDataBytes), x, y, z);
+            subChunk.data.setBlockData(new BlockData(blockDataBytes), x, y, z);
         }
         return start + 1;
     }
@@ -286,12 +286,12 @@ public class ChunkSavingLoading {
             }
             if (item != null) {
                 try {
-                    float worldX = chunkPos.x + (subChunk.getPosition().x * SubChunk.WIDTH);
-                    float worldY = chunkPos.y + (subChunk.getPosition().y * SubChunk.WIDTH);
-                    float worldZ = chunkPos.z + (subChunk.getPosition().z * SubChunk.WIDTH);
+                    float worldX = chunkPos.x + (subChunk.position.x * SubChunk.WIDTH);
+                    float worldY = chunkPos.y + (subChunk.position.y * SubChunk.WIDTH);
+                    float worldZ = chunkPos.z + (subChunk.position.z * SubChunk.WIDTH);
                     final byte[] entityData = ArrayUtils.ListByteToArray(entityBytes);
                     Entity entity = item.makeNew(subChunk, worldX, worldY, worldZ, entityData, false);
-                    subChunk.getEntities().list.add(entity);
+                    subChunk.entities.list.add(entity);
                 } catch (Exception ex) {
                     ErrorHandler.handleFatalError(ex);
                     ex.printStackTrace();

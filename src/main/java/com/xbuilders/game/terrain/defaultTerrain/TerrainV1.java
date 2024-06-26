@@ -8,7 +8,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.SubChunk;
 import com.xbuilders.game.terrain.Biome;
-import com.xbuilders.game.terrain.Terrain;
+import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.game.items.GameItems;
 
 //TODO: Optimize the default terrain to make it run faster

@@ -143,7 +143,7 @@ public class SettingUtils {
             if (sc == null) {
                 continue;
             }
-            for (Entity e : sc.getEntities().list) {
+            for (Entity e : sc.entities.list) {
                 if (e == null) {
                     continue;
                 }

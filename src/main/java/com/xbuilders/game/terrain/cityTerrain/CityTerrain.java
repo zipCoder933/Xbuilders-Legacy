@@ -12,7 +12,7 @@ import com.xbuilders.game.items.blocks.plants.trees.BirchTreeUtils;
 import com.xbuilders.game.items.blocks.plants.trees.OakTreeUtils;
 import com.xbuilders.game.items.blocks.plants.trees.SpruceTreeUtils;
 import com.xbuilders.game.terrain.Biome;
-import com.xbuilders.game.terrain.Terrain;
+import com.xbuilders.engine.world.Terrain;
 
 public class CityTerrain extends Terrain {
 

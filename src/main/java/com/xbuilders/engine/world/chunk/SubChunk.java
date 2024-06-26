@@ -49,22 +49,6 @@ public class SubChunk {
     boolean needsRegenerating;
     private float distToPlayer;
 
-    public ChunkEntitySet getEntities() {
-        return this.entities;
-    }
-
-    public Vector3i getPosition() {
-        return this.position;
-    }
-
-    public ChunkVoxels getVoxels() {
-        return this.data;
-    }
-
-    public ChunkLightMap getLightMap() {
-        return this.lightMap;
-    }
-
     public Chunk getParentChunk() {
         return this.parentChunk;
     }
@@ -96,9 +80,9 @@ public class SubChunk {
     public void init(final int x, final int y, final int z) {
         this.hasLightNeighbor = false;
         this.position = new Vector3i(x, y, z);
-        this.offset.y = this.getPosition().y * SubChunk.WIDTH;
-        this.currentTransformation.x = this.getPosition().x * SubChunk.WIDTH;
-        this.currentTransformation.z = this.getPosition().z * SubChunk.WIDTH;
+        this.offset.y = this.position.y * SubChunk.WIDTH;
+        this.currentTransformation.x = this.position.x * SubChunk.WIDTH;
+        this.currentTransformation.z = this.position.z * SubChunk.WIDTH;
         this.aabb.setPosAndSize((float) (x * SubChunk.WIDTH), (float) (y * SubChunk.WIDTH),
                 (float) (z * SubChunk.WIDTH), SubChunk.WIDTH, SubChunk.WIDTH, SubChunk.WIDTH);
         this.lightMap.reset(this);
@@ -107,9 +91,9 @@ public class SubChunk {
         this.entities.clear();
 
         modelMatrix.identity().translate(
-                (float) (this.getPosition().x * SubChunk.WIDTH),
+                (float) (this.position.x * SubChunk.WIDTH),
                 0,
-                (float) (this.getPosition().z * SubChunk.WIDTH));
+                (float) (this.position.z * SubChunk.WIDTH));
     }
 
     int opaqueMeshVerts = 0;
@@ -225,8 +209,8 @@ public class SubChunk {
             if (!data.isEmpty() && opaqueMeshVerts > 0) { // Render chunk mesh
                 ShaderHandler.blockShader.bind(Main.getPG());
                 VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(true);
-                VoxelGame.getShaderHandler().setWorldSpaceOffset((float) (this.getPosition().x * SubChunk.WIDTH), 0.0f,
-                        (float) (this.getPosition().z * SubChunk.WIDTH));
+                VoxelGame.getShaderHandler().setWorldSpaceOffset((float) (this.position.x * SubChunk.WIDTH), 0.0f,
+                        (float) (this.position.z * SubChunk.WIDTH));
                 VoxelGame.getShaderHandler().setBlockShaderModelMatrix(modelMatrix);
                 Main.getPG().shape(this.opaqueMesh);
                 if (drawEntities) {
@@ -238,15 +222,15 @@ public class SubChunk {
             }
         }
         // The entities must as least be updated even if not in frustum
-        this.getEntities().updateAndDrawEntities(Main.getFrame(), Main.getPG(), drawEntities, inFrustum);
+        this.entities.updateAndDrawEntities(Main.getFrame(), Main.getPG(), drawEntities, inFrustum);
     }
 
     public void drawTransparent() {
         if (inFrustum && !data.isEmpty() && transparentMeshVerts > 0) {
             ShaderHandler.blockShader.bind(Main.getPG());
             VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(true);
-            VoxelGame.getShaderHandler().setWorldSpaceOffset((float) (this.getPosition().x * SubChunk.WIDTH), 0.0f,
-                    (float) (this.getPosition().z * SubChunk.WIDTH));
+            VoxelGame.getShaderHandler().setWorldSpaceOffset((float) (this.position.x * SubChunk.WIDTH), 0.0f,
+                    (float) (this.position.z * SubChunk.WIDTH));
             VoxelGame.getShaderHandler().setBlockShaderModelMatrix(modelMatrix);
             Main.getPG().shape(this.transparentMesh);
         }

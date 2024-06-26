@@ -69,18 +69,18 @@ public class GameDevModeStats {
 
                     gameText2
                             += "\n\nSUB-CHUNK:"
-                            + "\n   coordiantes: " + subchunk.getPosition()
+                            + "\n   coordiantes: " + subchunk.position
                             + "\n    Generated meshes: " + subchunk.hasGeneratedMeshes();
-                    if (subchunk.getLightMap().inBoundsOfSLM()) {
-                        gameText2 += "\n    lightmap.isInSLM(): " + subchunk.getLightMap().inSLM();
+                    if (subchunk.lightMap.inBoundsOfSLM()) {
+                        gameText2 += "\n    lightmap.isInSLM(): " + subchunk.lightMap.inSLM();
                     } else {
                         gameText2 += "\n    out of bounds for SLM";
                     }
-                    gameText2 += "\n    lighmap init:" + subchunk.getLightMap().initialized;
+                    gameText2 += "\n    lighmap init:" + subchunk.lightMap.initialized;
 
                     gameText2 += "\n\nMISC:";
 
-                    TorchChannelSet torch = subchunk.getLightMap().getTorchlight(wcc.subChunkVoxel);
+                    TorchChannelSet torch = subchunk.lightMap.getTorchlight(wcc.subChunkVoxel);
                     int slmVal = ShaderLightMap.getImagePixels()[ShaderLightMap.coordsToIndex(ShaderLightMap.worldCoordsToLightmapCoords(
                             cursorPos.x, cursorPos.y, cursorPos.z))];
 
@@ -88,7 +88,7 @@ public class GameDevModeStats {
                             + "\n    data: " + VoxelGame.getWorld().getBlockData(cursorPos.x, cursorPos.y, cursorPos.z);
 
                     gameText2 += "\n\nLIGHT:"
-                            + "\n    Light Frag: sun:" + subchunk.getLightMap().getSunlight(wcc.subChunkVoxel)
+                            + "\n    Light Frag: sun:" + subchunk.lightMap.getSunlight(wcc.subChunkVoxel)
                             + "  torch: " + (torch != null ? torch.toString() : "null")
                             + "  brightestChannel: " + (torch != null ? torch.getBrightestChannel() : "null")
                             + "\n    Shader WLM: " + slmVal

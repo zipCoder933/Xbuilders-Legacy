@@ -5,9 +5,8 @@ package com.xbuilders.game.terrain.defaultTerrain;
 
 import java.util.Random;
 
-import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.game.terrain.Terrain;
+import com.xbuilders.engine.world.Terrain;
 import org.joml.Vector3i;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.BFS.TravelNode;

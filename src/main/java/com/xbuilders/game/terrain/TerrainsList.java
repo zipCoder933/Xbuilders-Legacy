@@ -1,5 +1,6 @@
 package com.xbuilders.game.terrain;
 
+import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.game.terrain.cityTerrain.CityTerrain;
 import com.xbuilders.game.terrain.defaultTerrain.TerrainV1;
 import com.xbuilders.game.terrain.defaultTerrain.TerrainV2;

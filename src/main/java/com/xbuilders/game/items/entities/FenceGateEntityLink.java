@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import org.joml.Vector3f;
-import org.joml.Vector3i;
 import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PShape;
@@ -120,7 +119,7 @@ public class FenceGateEntityLink extends EntityLink {
         @Override
         public boolean onClickEvent() {
             closed = !closed;
-            for (Entity e : getChunk().getEntities().list) {
+            for (Entity e : getChunk().entities.list) {
                 int entityYPos = (int) e.worldPosition.y;
                 int thisYPos = (int) worldPosition.y;
                 if (e instanceof FenceGateEntity

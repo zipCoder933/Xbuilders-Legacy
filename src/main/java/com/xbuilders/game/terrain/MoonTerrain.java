@@ -5,6 +5,7 @@ package com.xbuilders.game.terrain;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.SubChunk;
 import com.xbuilders.game.items.GameItems;

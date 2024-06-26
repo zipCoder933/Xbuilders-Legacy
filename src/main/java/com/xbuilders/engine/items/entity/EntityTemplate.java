@@ -25,7 +25,7 @@ public class EntityTemplate {
         SubChunk chunk = ph.getWorld().getSubChunk(WCCi.getSubChunkAtWorldPos(worldX, worldY, worldZ));
         if (chunk != null) {
             Entity newEntity = link.makeNew(chunk, worldX, worldY, worldZ, data, false);
-            chunk.getEntities().list.add(newEntity);
+            chunk.entities.list.add(newEntity);
             chunk.getParentChunk().markAsNeedsSaving();
             chunk.generateStaticEntityMesh();
             return newEntity;

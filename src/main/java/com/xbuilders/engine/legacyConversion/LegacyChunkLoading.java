@@ -30,10 +30,10 @@ public class LegacyChunkLoading {
                 number = (byte) Short.parseShort(string);
             }
             if (i == 0) {
-                subChunk.getLightMap().setSunlight(x, y, z, number);
+                subChunk.lightMap.setSunlight(x, y, z, number);
             } else {
-                subChunk.getLightMap().makeTorchlight(x, y, z);
-                TorchChannelSet tcs = subChunk.getLightMap().getTorchlight(x, y, z);
+                subChunk.lightMap.makeTorchlight(x, y, z);
+                TorchChannelSet tcs = subChunk.lightMap.getTorchlight(x, y, z);
                 if (tcs.list.containsKey((byte) 1)) { //We have no way of determining what the light falloff of the torch is
                     if (tcs.list.get((byte) 1) < number) {
                         tcs.list.put((byte) 1, number);

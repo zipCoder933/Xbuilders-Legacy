@@ -11,7 +11,7 @@ import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.blocks.plants.trees.AcaciaTreeUtils;
 import com.xbuilders.game.items.blocks.plants.trees.JungleTreeUtils;
 import com.xbuilders.game.terrain.Biome;
-import com.xbuilders.game.terrain.Terrain;
+import com.xbuilders.engine.world.Terrain;
 
 public class TerrainV2 extends Terrain {
 

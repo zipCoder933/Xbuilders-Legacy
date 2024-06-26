@@ -61,7 +61,7 @@ public class InitialSunlightUtils {
                     chunkLocation = WCCi.chunkDiv(y);
                     blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
                     SubChunk subChunk = chunk.getSubChunks()[chunkLocation];
-                    Block block = ItemList.getBlock(subChunk.getVoxels().getBlock(x, blockLocation, z));
+                    Block block = ItemList.getBlock(subChunk.data.getBlock(x, blockLocation, z));
 
                     if (block.isLuminous()) {
                         TorchUtils.setTorchlight(subChunk, x, blockLocation, z, block.getLightFalloff());
@@ -76,7 +76,7 @@ public class InitialSunlightUtils {
                             addSun = false;
                         } else {
                             setSunlight(chunk, x, y, z, (byte) 15);
-                            if (!subChunk.getVoxels().isEmpty()) {
+                            if (!subChunk.data.isEmpty()) {
                                 queue.add(new SubChunkNode(subChunk, x, blockLocation, z));
                             }
                         }
@@ -86,7 +86,7 @@ public class InitialSunlightUtils {
         }
         propagateSunlightInitial(queue);
         for (final SubChunk sc : chunk.getSubChunks()) {
-            sc.getLightMap().initialized = true;
+            sc.lightMap.initialized = true;
         }
         return chunk.lightmapInitialized = true;
     }
@@ -94,20 +94,20 @@ public class InitialSunlightUtils {
     protected static void setSunlight(Chunk chunk, final int x, final int y, final int z, final byte b) {
         final int chunkLocation = WCCi.chunkDiv(y);
         final int blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
-        chunk.subChunks[chunkLocation].getLightMap().setSunlight(x, blockLocation, z, b);
+        chunk.subChunks[chunkLocation].lightMap.setSunlight(x, blockLocation, z, b);
     }
 
     protected static byte getSunlight(Chunk chunk, final int x, final int y, final int z) {
         final int chunkLocation = WCCi.chunkDiv(y);
         final int blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
-        return chunk.subChunks[chunkLocation].getLightMap().getSunlight(x, blockLocation, z);
+        return chunk.subChunks[chunkLocation].lightMap.getSunlight(x, blockLocation, z);
     }
 
     private static synchronized void propagateSunlightInitial(final ListQueue<SubChunkNode> queue) {
         while (queue.containsNodes()) {
             final SubChunkNode node = queue.getAndRemove(0);
 //            unusedNodes.add(node);
-            final int lightValue = node.chunk.getLightMap().getSunlight(node.coords);
+            final int lightValue = node.chunk.lightMap.getSunlight(node.coords);
             checkNeighbor(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, lightValue, queue);
             checkNeighbor(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, lightValue, queue);
             checkNeighbor(node.chunk, node.coords.x, node.coords.y, node.coords.z + 1, lightValue, queue);
@@ -119,23 +119,23 @@ public class InitialSunlightUtils {
 
     private static synchronized void checkNeighbor(SubChunk chunk, int x, int y, int z, final int lightLevel, final ListQueue<SubChunkNode> queue) {
         Block neigborBlock = null;
-        if (chunk.getVoxels().inBounds(x, y, z)) {
-            neigborBlock = ItemList.getBlock(chunk.getVoxels().getBlock(x, y, z));
+        if (chunk.data.inBounds(x, y, z)) {
+            neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
         } else {
             final Vector3i neighboringChunk = new Vector3i();
-            WCCi.getNeighboringSubChunk(neighboringChunk, chunk.getPosition(), x, y, z);
+            WCCi.getNeighboringSubChunk(neighboringChunk, chunk.position, x, y, z);
             chunk = VoxelGame.getWorld().getSubChunk(neighboringChunk);
             if (chunk != null) {
                 x = MathUtils.positiveMod(x, SubChunk.WIDTH);
                 y = MathUtils.positiveMod(y, SubChunk.WIDTH);
                 z = MathUtils.positiveMod(z, SubChunk.WIDTH);
-                neigborBlock = ItemList.getBlock(chunk.getVoxels().getBlock(x, y, z));
+                neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
             }
         }
         if (neigborBlock != null && !neigborBlock.isOpaque()) {
-            final int neighborLevel = chunk.getLightMap().getSunlight(x, y, z);
+            final int neighborLevel = chunk.lightMap.getSunlight(x, y, z);
             if (neighborLevel + 2 <= lightLevel) {
-                chunk.getLightMap().setSunlightAndUpdateSLM(x, y, z, (byte) (lightLevel - 1));
+                chunk.lightMap.setSunlightAndUpdateSLM(x, y, z, (byte) (lightLevel - 1));
                 queue.add(new SubChunkNode(chunk, x, y, z));
             }
         }

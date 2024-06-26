@@ -204,10 +204,10 @@ class UpdaterThread extends Thread {
         }
         for (int i = 0; i < chunk.getSubChunks().length; i++) {
             SubChunk subChunk = chunk.getSubChunks()[i];
-            if (subChunk.getLightMap().inSLM()) {
-                subChunk.getLightMap().markAsPastedIntoSLM();
-            } else if (subChunk.getLightMap().pasteIntoSLM()) {
-                subChunk.getLightMap().markAsPastedIntoSLM();
+            if (subChunk.lightMap.inSLM()) {
+                subChunk.lightMap.markAsPastedIntoSLM();
+            } else if (subChunk.lightMap.pasteIntoSLM()) {
+                subChunk.lightMap.markAsPastedIntoSLM();
                 SLMneedsUpdating = true;
             }
         }

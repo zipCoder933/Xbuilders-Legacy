@@ -126,7 +126,7 @@ public abstract class EntityLink extends Item {
 //            }
 //        }
         chunk.getParentChunk().markAsNeedsSaving();
-        chunk.getEntities().list.add(entity);
+        chunk.entities.list.add(entity);
         if (entity.hasStaticMeshes()) {
             chunk.generateStaticEntityMesh();
         }

@@ -1,21 +1,24 @@
 // 
 // Decompiled by Procyon v0.5.36
 // 
-package com.xbuilders.game.terrain;
+package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.HashingUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.random.FastNoise;
 import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.chunk.FutureChunk;
 import com.xbuilders.engine.world.chunk.SubChunk;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.PointerHandler;
+import com.xbuilders.game.terrain.Biome;
 
 import java.util.Random;
 
@@ -54,6 +57,7 @@ public abstract class Terrain {
     public final FastNoise noise = new FastNoise();//TODO: Perlin noise is significantly slower than fast noise
     private PointerHandler pointerHandler;
     public float frequency;
+
     public PointerHandler getPointerHandler() {
         return this.pointerHandler;
     }
@@ -101,13 +105,17 @@ public abstract class Terrain {
 
     final WCCi targetChunk = new WCCi();
 
-    public final void setBlockWorld(final Chunk sourceChunk, final Block block, final int x, final int y, final int z) {
+    public final void setBlockWorld(final Block block, final int x, final int y, final int z) {
         targetChunk.set(x, y, z);
         if (targetChunk.getSubChunk() != null) {
             targetChunk.getSubChunk().data.setBlock(block.id, targetChunk.subChunkVoxel.x, targetChunk.subChunkVoxel.y, targetChunk.subChunkVoxel.z);
-        } else {
-//            OuterBlockCache.addBlockToCache(this.getPointerHandler(), sourceChunk.getPosition(),
-//                    new ChunkCoords(targetChunk.subChunk), new Vector3i(targetChunk.subChunk.x, y, targetChunk.subChunk.z), block);
+        } else {//Add it to the future chunk
+//            System.out.println("Adding block to future chunk: " + MiscUtils.printVector(targetChunk.subChunk));
+            if (!VoxelGame.getWorld().futureSubChunks.containsKey(targetChunk.subChunk)) {
+                VoxelGame.getWorld().futureSubChunks.put(targetChunk.subChunk, new FutureChunk(targetChunk.subChunk));
+            }
+            VoxelGame.getWorld().futureSubChunks.get(targetChunk.subChunk).addBlock(block.id,
+                    targetChunk.subChunkVoxel.x, targetChunk.subChunkVoxel.y, targetChunk.subChunkVoxel.z);
         }
     }
 

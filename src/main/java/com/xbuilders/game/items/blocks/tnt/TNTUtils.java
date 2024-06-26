@@ -132,7 +132,7 @@ public class TNTUtils {
         for (Vector3i cc : chunks) {
             SubChunk chunk = VoxelGame.getWorld().getSubChunk(cc);
             if (chunk != null) {
-                for (Entity e : chunk.getEntities().list) {
+                for (Entity e : chunk.entities.list) {
                     if (MathUtils.dist(setX, setY, setZ, e.worldPosition.x, e.worldPosition.y, e.worldPosition.z) < size
                            && !(e instanceof Animal)) {
                         entitiesToDelete.add(e);

@@ -10,7 +10,7 @@ import com.xbuilders.engine.utils.ErrorHandler;
 
 import java.io.IOException;
 import java.io.File;
-import java.util.Arrays;
+import java.util.HashMap;
 
 import com.xbuilders.engine.VoxelGame;
 
@@ -18,9 +18,7 @@ import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.info.WorldInfo;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.terrain.Terrain;
+import com.xbuilders.engine.world.Terrain;
 import org.joml.Vector3i;
 
 public class Chunk {
@@ -121,7 +119,7 @@ public class Chunk {
         neighbors[1] = addChunkToNCList(this.position.x - 1, this.position.z);
         neighbors[2] = addChunkToNCList(this.position.x, this.position.z + 1);
         neighbors[3] = addChunkToNCList(this.position.x, this.position.z - 1); // The first 4 indicies are facing
-                                                                               // neighbors
+        // neighbors
         neighbors[4] = addChunkToNCList(this.position.x - 1, this.position.z - 1);
         neighbors[5] = addChunkToNCList(this.position.x + 1, this.position.z + 1);
         neighbors[6] = addChunkToNCList(this.position.x + 1, this.position.z - 1);
@@ -165,7 +163,7 @@ public class Chunk {
         }
     }
 
-    public void load(WorldInfo infoFile, Terrain terrain) {
+    public void load(WorldInfo infoFile, Terrain terrain, HashMap<Vector3i, FutureChunk> futureChunks) {
         try {
             final File file = World.chunkFile(infoFile, position);
             if (file.exists()) {
@@ -173,6 +171,15 @@ public class Chunk {
             } else {
                 terrain.createTerrainOnChunk(this);
             }
+
+            //Set future subchunks
+            for (SubChunk sc : this.getSubChunks()) {
+                if (futureChunks.containsKey(sc.position)) {
+                    futureChunks.get(sc.position).setBlocksInChunk(sc);
+                    futureChunks.remove(sc.position);
+                }
+            }
+
             terrainLoaded = true;
             markAsModifiedByUser();
         } catch (Exception e) {
@@ -186,7 +193,7 @@ public class Chunk {
     }
 
     public void markChunksAsNeedsRegenerating(final int chunkYLoc, final int blockX, final int blockY,
-            final int blockZ) {
+                                              final int blockZ) {
         // System.out.println("\nREGEN \t " + blockX + "," + blockY + "," + blockZ);
         if (blockY == 15 && chunkYLoc + 1 < this.subChunks.length) {
             this.subChunks[chunkYLoc + 1].needsRegenerating = true;
@@ -281,13 +288,14 @@ public class Chunk {
 
     public void setLightmapInitialized(final boolean unparseBool) {
         for (final SubChunk sc : this.getSubChunks()) {
-            sc.getLightMap().initialized = unparseBool;
+            sc.lightMap.initialized = unparseBool;
         }
     }
 
     public boolean inSLM() {
         synchronized (ShaderLightMap.lightmapInitializationLock) {
-            return this.getSubChunks()[0].getLightMap().inSLM();
+            SubChunk subChunk = this.getSubChunks()[0];
+            return subChunk.lightMap.inSLM();
         }
     }
 

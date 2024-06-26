@@ -16,13 +16,13 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.ChunkCoords;
+import com.xbuilders.engine.world.chunk.FutureChunk;
 import com.xbuilders.engine.world.chunk.SubChunk;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.world.holograms.HologramSet;
 import com.xbuilders.engine.world.info.WorldInfo;
 import com.xbuilders.game.PointerHandler;
-import com.xbuilders.game.terrain.Terrain;
 import com.xbuilders.game.terrain.TerrainsList;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,18 +41,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class World {
 
-    // <editor-fold defaultstate="collapsed" desc="Chunks">
     public boolean hasChunk(final Vector3i coords) {
         return this.subChunks.containsKey(coords);
     }
 
     public boolean hasChunk(final ChunkCoords coords) {
         return this.chunks.containsKey(coords);
-    }
-
-    public void clear() {
-        this.chunks.clear();
-        this.subChunks.clear();
     }
 
     public Chunk getChunk(final ChunkCoords coords) {
@@ -62,29 +57,6 @@ public class World {
         return this.subChunks.get(coords);
     }
 
-
-    public void removeChunk(final ChunkCoords coords) {
-        try {
-            if (this.chunks.containsKey(coords)) {
-                final Chunk chunk = chunks.get(coords);
-                this.unusedChunks.add(chunk);
-                BlockAction.interruptActionOnChunk(coords);
-                if (this.infoFile != null && chunk.isModifiedByUser()) {
-                    chunk.save(chunkFile(this.infoFile, coords));
-                }
-                for (int i = 0; i < chunk.getSubChunks().length; ++i) {
-                    final SubChunk sc = chunk.getSubChunks()[i];
-                    this.subChunks.remove(sc.getPosition());
-                }
-                this.chunks.remove(coords);
-            }
-        } catch (IOException ex) {
-            ErrorHandler.handleFatalError("Error", "IOException saving chunk before removal", ex);
-        } catch (Exception ex2) {
-            ErrorHandler.handleFatalError("Error", "Exception saving chunk before removal", ex2);
-        }
-    }
-
     public static File chunkFile(final WorldInfo infoFile, final ChunkCoords coords) throws IOException {
         return chunkFile(infoFile.getDirectory(), coords);
     }
@@ -93,22 +65,38 @@ public class World {
         return new File(directory, "\\" + coords.x + "_" + coords.z + ".chunk");
     }
 
-    public boolean chunkIsSaved(final ChunkCoords coords) throws IOException {
-        return chunkFile(this.infoFile, coords).exists();
-    }
-    // </editor-fold>
-
     public HologramSet hologramList;
     public TerrainUpdater updater;
     private boolean open;
-    // private int numberOfChunksX;
-    // private int numberOfChunksZ;
-    // private int x_blocks;
-    // private int z_blocks;
-    // private int y_blocks;
     public Terrain terrain;
+
+
+    public World() {
+        unusedChunks = new ArrayList<>();
+        this.chunks = new ConcurrentHashMap<>();
+        this.subChunks = new ConcurrentHashMap<>();
+        this.hologramList = new HologramSet();
+    }
+
+    public void closeWorld() throws IOException, InterruptedException {
+        this.open = false;
+//        saveChangedChunks();
+        this.ph.getMainThread().end();
+        if (infoFile != null) {
+            ItemList.worldClose();
+            System.out.println("Closing world. Waiting for updater to complete...");
+            this.updater.end();
+            this.chunks.clear();
+            this.subChunks.clear();
+            this.futureSubChunks.clear();
+        }
+    }
+
+
     public final ConcurrentHashMap<ChunkCoords, Chunk> chunks;
     public final ConcurrentHashMap<Vector3i, SubChunk> subChunks;
+    public final HashMap<Vector3i, FutureChunk> futureSubChunks = new HashMap<>();
+
     private final ArrayList<Chunk> unusedChunks;
     private PointerHandler ph;
     public WorldInfo infoFile;
@@ -147,12 +135,6 @@ public class World {
         return this.open;
     }
 
-    public World() {
-        unusedChunks = new ArrayList<>();
-        this.chunks = new ConcurrentHashMap<>();
-        this.subChunks = new ConcurrentHashMap<>();
-        this.hologramList = new HologramSet();
-    }
 
     public void setPointerHandler(final PointerHandler ph) {
         this.ph = ph;
@@ -160,16 +142,6 @@ public class World {
         this.infoFile = null;
     }
 
-    public void closeWorld() throws IOException, InterruptedException {
-        this.open = false;
-        this.ph.getMainThread().end();
-        if (infoFile != null) {
-            ItemList.worldClose();
-            System.out.println("Closing world. Waiting for updater to complete...");
-            this.updater.end();
-            this.chunks.clear();
-        }
-    }
 
     public synchronized final boolean saveChangedChunks() {
         try {
@@ -208,12 +180,36 @@ public class World {
             }
             this.chunks.put(chunk.init(coords), chunk);
             for (final SubChunk sc : chunk.getSubChunks()) {
-                this.subChunks.put(sc.getPosition(), sc);
+                this.subChunks.put(sc.position, sc);
             }
-            chunk.load(infoFile, terrain);
+
+            chunk.load(infoFile, terrain,futureSubChunks);
+
             return chunk;
         }
         return existingChunk;
+    }
+
+    public void removeChunk(final ChunkCoords coords) {
+        try {
+            if (this.chunks.containsKey(coords)) {
+                final Chunk chunk = chunks.get(coords);
+                this.unusedChunks.add(chunk);
+                BlockAction.interruptActionOnChunk(coords);
+                if (this.infoFile != null && chunk.isModifiedByUser()) {
+                    chunk.save(chunkFile(this.infoFile, coords));
+                }
+                for (int i = 0; i < chunk.getSubChunks().length; ++i) {
+                    final SubChunk sc = chunk.getSubChunks()[i];
+                    this.subChunks.remove(sc.position);
+                }
+                this.chunks.remove(coords);
+            }
+        } catch (IOException ex) {
+            ErrorHandler.handleFatalError("Error", "IOException saving chunk before removal", ex);
+        } catch (Exception ex2) {
+            ErrorHandler.handleFatalError("Error", "Exception saving chunk before removal", ex2);
+        }
     }
 
     private void initializeGeneration(final ProgressData prog) throws IOException {
@@ -294,6 +290,11 @@ public class World {
     }
 
     public final void loadWorld(final WorldInfo info, final ProgressData prog, boolean isNewWorld) {
+
+        this.chunks.clear();
+        this.subChunks.clear();
+        this.futureSubChunks.clear();
+
         this.infoFile = info;
         System.gc();
         new Thread() {
@@ -409,7 +410,7 @@ public class World {
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null && chunk.getParentChunk().terrainLoaded) {
             return ItemList.getBlock(
-                    chunk.getVoxels().getBlock(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z));
+                    chunk.data.getBlock(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z));
         }
         return returnNullIfEmpty ? null : BlockList.BLOCK_AIR;
     }
@@ -418,7 +419,7 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            return chunk.getVoxels().getBlockData(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            return chunk.data.getBlockData(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
         }
         return null;
     }
@@ -427,7 +428,7 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.getVoxels().setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
         }
     }
 
@@ -435,8 +436,8 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.getVoxels().setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
-            chunk.getVoxels().setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
         }
     }
 
@@ -444,7 +445,7 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.getVoxels().setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
         }
     }
 
@@ -455,8 +456,8 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.getVoxels().setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
-            chunk.getVoxels().setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
             chunk.getParentChunk().update(wcc.subChunkVoxel.x, wcc.subChunk.y, wcc.subChunkVoxel.y,
                     wcc.subChunkVoxel.z);
         }
@@ -469,7 +470,7 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.getVoxels().setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
             chunk.getParentChunk().update(wcc.subChunkVoxel.x, wcc.subChunk.y, wcc.subChunkVoxel.y,
                     wcc.subChunkVoxel.z);
         }
@@ -479,7 +480,7 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.getVoxels().setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
             chunk.getParentChunk().update(wcc.subChunkVoxel.x, wcc.subChunk.y, wcc.subChunkVoxel.y,
                     wcc.subChunkVoxel.z);
         }

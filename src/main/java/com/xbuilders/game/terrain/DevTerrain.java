@@ -3,9 +3,9 @@
 // 
 package com.xbuilders.game.terrain;
 
+import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.SubChunk;
-import com.xbuilders.game.PointerHandler;
 import com.xbuilders.game.items.GameItems;
 
 public class DevTerrain extends Terrain {

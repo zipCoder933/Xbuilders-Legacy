@@ -55,14 +55,14 @@ public class CopyTool extends Tool {
                         SubChunk chunk = wcc.getSubChunk();
                         chunksEncountered.add(chunk);
 
-                        Block block = ItemList.getBlock(chunk.getVoxels().getBlock(
+                        Block block = ItemList.getBlock(chunk.data.getBlock(
                                 wcc.subChunkVoxel.x,
                                 wcc.subChunkVoxel.y,
                                 wcc.subChunkVoxel.z));
 
                         if (!block.isAir() && block.saveInChunk() && block.isInfiniteResource()) {
                             foundNonAirBlock = true;
-                            BlockData data = chunk.getVoxels().getBlockData(
+                            BlockData data = chunk.data.getBlockData(
                                     wcc.subChunkVoxel.x,
                                     wcc.subChunkVoxel.y,
                                     wcc.subChunkVoxel.z);
@@ -76,7 +76,7 @@ public class CopyTool extends Tool {
 
         //<editor-fold defaultstate="collapsed" desc="copy entities">
         for (SubChunk chunk : chunksEncountered) {
-            for (Entity e : chunk.getEntities().list) {
+            for (Entity e : chunk.entities.list) {
                 if (e.link.saveInChunk()
                         && !(e instanceof Animal)
                         && !(e instanceof Vehicle)) {

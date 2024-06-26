@@ -21,9 +21,9 @@ public class FutureChunk {
         futureBlocks.put(new Vector3i(x, y, z), id);
     }
 
-    public void setBlocksInChunk(Chunk chunk) {
+    public void setBlocksInChunk(SubChunk chunk) {
         futureBlocks.forEach((position, id) -> {
-            chunk.data.setBlock(position.x, position.y, position.z, id);
+            chunk.data.setBlock(id, position.x, position.y, position.z);
         });
     }
 }

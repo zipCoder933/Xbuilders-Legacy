@@ -19,7 +19,7 @@ import org.joml.Vector3i;
 public class TorchUtils {
 
     public static boolean isTorchAtThisPosition(final SubChunk chunk, final int x, final int y, final int z) {
-        final TorchChannelSet torchChannel = chunk.getLightMap().getTorchlight(x, y, z);
+        final TorchChannelSet torchChannel = chunk.lightMap.getTorchlight(x, y, z);
         return torchChannel != null && torchChannel.getChannelWithHighestValue() == 15;
     }
 
@@ -36,7 +36,7 @@ public class TorchUtils {
             lightFallof = (byte) MathUtils.clamp(lightFallof, 1, 15);
             final ListQueue<SubChunkNode> queue = new ListQueue<SubChunkNode>();
             queue.add(new SubChunkNode(chunk, x, y, z));
-            chunk.getLightMap().setTorchlight(x, y, z, lightFallof, (byte) 15);
+            chunk.lightMap.setTorchlight(x, y, z, lightFallof, (byte) 15);
             continueBFS(queue, lightFallof);
             ShaderLightMap.markAsChanged();
         }
@@ -51,7 +51,7 @@ public class TorchUtils {
      * @param lightFallof
      */
     public static void removeTorchlight(final SubChunk chunk, final int x, final int y, final int z, final byte lightFalloff) {
-        final TorchChannelSet channels = chunk.getLightMap().getTorchlight(x, y, z);
+        final TorchChannelSet channels = chunk.lightMap.getTorchlight(x, y, z);
         if (channels != null && channels.get(lightFalloff) == 15) {
             final ListQueue<SubChunkNode> queue = new ListQueue<SubChunkNode>();
             queue.add(new SubChunkNode(chunk, x, y, z));
@@ -75,7 +75,7 @@ public class TorchUtils {
     public static void continueBFS(final ListQueue<SubChunkNode> queue, final byte falloff) {
         while (queue.containsNodes()) {
             final SubChunkNode node = queue.getAndRemove(0);
-            final TorchChannelSet torchChannels = node.chunk.getLightMap().getTorchlight(node.coords.x, node.coords.y, node.coords.z);
+            final TorchChannelSet torchChannels = node.chunk.lightMap.getTorchlight(node.coords.x, node.coords.y, node.coords.z);
             final int lightValue = (torchChannels == null) ? 0 : torchChannels.get(falloff);
             checkNeighborCont(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, lightValue, queue, falloff);
             checkNeighborCont(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, lightValue, queue, falloff);
@@ -87,8 +87,8 @@ public class TorchUtils {
     }
 
     private static void checkNeighborCont(SubChunk chunk, int x, int y, int z, final int lightLevel, final ListQueue<SubChunkNode> queue, final byte lightFallof) {
-        if (!chunk.getVoxels().inBounds(x, y, z)) {
-            final WCCi wcc = WCCi.getNeighboringWCC(chunk.getPosition(), x, y, z);
+        if (!chunk.data.inBounds(x, y, z)) {
+            final WCCi wcc = WCCi.getNeighboringWCC(chunk.position, x, y, z);
             if (!wcc.subChunkExists()) {
                 return;
             }
@@ -98,12 +98,12 @@ public class TorchUtils {
             z = wcc.subChunkVoxel.z;
         }
         final SubChunkNode node = new SubChunkNode(chunk, x, y, z);
-        final TorchChannelSet torchChannel = chunk.getLightMap().getTorchlight(x, y, z);
+        final TorchChannelSet torchChannel = chunk.lightMap.getTorchlight(x, y, z);
         final int neighborLevel = (torchChannel == null) ? 0 : torchChannel.get(lightFallof);
-        final Block block = ItemList.getBlock(chunk.getVoxels().getBlock(x, y, z));
+        final Block block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
         if ((!block.isOpaque() || block.isLuminous()) && neighborLevel + (lightFallof + 1) <= lightLevel) {
-            chunk.getLightMap().setTorchlight(x, y, z, lightFallof, (byte) (lightLevel - lightFallof));
-            chunk.getLightMap().updateSLM(x, y, z, true);
+            chunk.lightMap.setTorchlight(x, y, z, lightFallof, (byte) (lightLevel - lightFallof));
+            chunk.lightMap.updateSLM(x, y, z, true);
             queue.add(node);
         }
     }
@@ -112,10 +112,10 @@ public class TorchUtils {
         final HashSet<SubChunkNode> edgeNodes = new HashSet<SubChunkNode>();
         while (queue.containsNodes()) {
             final SubChunkNode node = queue.getAndRemove(0);
-            final TorchChannelSet torchChannels = node.chunk.getLightMap().getTorchlight(node.coords.x, node.coords.y, node.coords.z);
+            final TorchChannelSet torchChannels = node.chunk.lightMap.getTorchlight(node.coords.x, node.coords.y, node.coords.z);
             final int lightValue = (torchChannels == null) ? 0 : torchChannels.get(falloff);
-            node.chunk.getLightMap().setTorchlight(node.coords.x, node.coords.y, node.coords.z, falloff, (byte) 0);
-            node.chunk.getLightMap().updateSLM(node.coords.x, node.coords.y, node.coords.z, true);
+            node.chunk.lightMap.setTorchlight(node.coords.x, node.coords.y, node.coords.z, falloff, (byte) 0);
+            node.chunk.lightMap.updateSLM(node.coords.x, node.coords.y, node.coords.z, true);
             checkNeighborErase(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, lightValue, queue, edgeNodes, falloff);
             checkNeighborErase(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, lightValue, queue, edgeNodes, falloff);
             checkNeighborErase(node.chunk, node.coords.x, node.coords.y, node.coords.z + 1, lightValue, queue, edgeNodes, falloff);
@@ -127,8 +127,8 @@ public class TorchUtils {
     }
 
     private static void checkNeighborErase(SubChunk chunk, int x, int y, int z, final int lightLevel, final ListQueue<SubChunkNode> queue, final HashSet<SubChunkNode> edgeNodes, final byte falloff) {
-        if (!chunk.getVoxels().inBounds(x, y, z)) {
-            final WCCi wcc = WCCi.getNeighboringWCC(chunk.getPosition(), x, y, z);
+        if (!chunk.data.inBounds(x, y, z)) {
+            final WCCi wcc = WCCi.getNeighboringWCC(chunk.position, x, y, z);
             if (!wcc.subChunkExists()) {
                 return;
             }
@@ -138,7 +138,7 @@ public class TorchUtils {
             z = wcc.subChunkVoxel.z;
         }
         final SubChunkNode node = new SubChunkNode(chunk, x, y, z);
-        final TorchChannelSet torchChannels = chunk.getLightMap().getTorchlight(x, y, z);
+        final TorchChannelSet torchChannels = chunk.lightMap.getTorchlight(x, y, z);
         final int neighborLevel = (torchChannels == null) ? 0 : torchChannels.get(falloff);
         if (neighborLevel < lightLevel) {
             queue.add(node);

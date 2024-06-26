@@ -12,6 +12,7 @@ import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockGeometry;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
+import com.xbuilders.engine.world.chunk.SubChunk;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.game.items.entities.mobile.Animal;
 import com.xbuilders.engine.items.tool.Tool;
@@ -195,7 +196,8 @@ public class UserControlledPlayer extends Player {
             WCCi wcc = new WCCi().set((int) worldPos.x, (int) worldPos.y, (int) worldPos.z);
             byte sunAtHeadPos = 0;
             if (wcc.subChunkExists()) {
-                sunAtHeadPos = wcc.getSubChunk().getLightMap().getSunlight(wcc.subChunkVoxel);
+                SubChunk subChunk = wcc.getSubChunk();
+                sunAtHeadPos = subChunk.lightMap.getSunlight(wcc.subChunkVoxel);
             }
             VoxelGame.getShaderHandler().setLightValueAroundPlayer(sunAtHeadPos);
             isInDarkness = (sunAtHeadPos < 4);

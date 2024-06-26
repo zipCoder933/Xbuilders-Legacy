@@ -269,10 +269,13 @@ public class Block extends Item {
                 final int chunkLocation = WCCi.chunkDiv(y);
                 final int blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
 
-                Block prevBlock = ItemList.getBlock(chunk.getSubChunks()[chunkLocation].getVoxels().getBlock(blockX, blockLocation, blockZ));
+                SubChunk subChunk2 = chunk.getSubChunks()[chunkLocation];
+                Block prevBlock = ItemList.getBlock(subChunk2.data.getBlock(blockX, blockLocation, blockZ));
 
-                chunk.getSubChunks()[chunkLocation].getVoxels().setBlock(this.id, blockX, blockLocation, blockZ);
-                chunk.getSubChunks()[chunkLocation].getVoxels().setBlockData(data, blockX, blockLocation, blockZ);
+                SubChunk subChunk1 = chunk.getSubChunks()[chunkLocation];
+                subChunk1.data.setBlock(this.id, blockX, blockLocation, blockZ);
+                SubChunk subChunk = chunk.getSubChunks()[chunkLocation];
+                subChunk.data.setBlockData(data, blockX, blockLocation, blockZ);
 
                 chunk.markAsNeedsSaving();
                 if (chunk.meshesGenerated) {

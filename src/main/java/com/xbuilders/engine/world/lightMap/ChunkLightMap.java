@@ -47,17 +47,17 @@ public final class ChunkLightMap {
     public boolean inBoundsOfSLM() {
         final int halfWidth = 8;
         return ShaderLightMap.inBounds(
-                this.chunk.getPosition().x * SubChunk.WIDTH + halfWidth,
-                this.chunk.getPosition().y * SubChunk.WIDTH + halfWidth,
-                this.chunk.getPosition().z * SubChunk.WIDTH + halfWidth);
+                this.chunk.position.x * SubChunk.WIDTH + halfWidth,
+                this.chunk.position.y * SubChunk.WIDTH + halfWidth,
+                this.chunk.position.z * SubChunk.WIDTH + halfWidth);
     }
 
     public boolean inSLM() {
         synchronized (ShaderLightMap.lightmapInitializationLock) {
             final int x = 8;
-            final int worldX = x + this.chunk.getPosition().x * SubChunk.WIDTH;
-            final int worldY = x + this.chunk.getPosition().y * SubChunk.WIDTH;
-            final int worldZ = x + this.chunk.getPosition().z * SubChunk.WIDTH;
+            final int worldX = x + this.chunk.position.x * SubChunk.WIDTH;
+            final int worldY = x + this.chunk.position.y * SubChunk.WIDTH;
+            final int worldZ = x + this.chunk.position.z * SubChunk.WIDTH;
             final Vector3i lightmapCoords = ShaderLightMap.worldCoordsToLightmapCoords(worldX, worldY, worldZ);
             final int idx = ShaderLightMap.coordsToIndex(lightmapCoords);
             return ShaderLightMap.getImagePixels()[idx] != -2;
@@ -73,14 +73,14 @@ public final class ChunkLightMap {
         for (int x = -1; x < this.getSizeX() + 1; ++x) {
             for (int z = -1; z < this.getSizeZ() + 1; ++z) {
                 for (int y = 0; y < this.getSizeY(); ++y) {
-                    worldX = x + this.chunk.getPosition().x * SubChunk.WIDTH;
-                    worldY = y + this.chunk.getPosition().y * SubChunk.WIDTH;
-                    worldZ = z + this.chunk.getPosition().z * SubChunk.WIDTH;
+                    worldX = x + this.chunk.position.x * SubChunk.WIDTH;
+                    worldY = y + this.chunk.position.y * SubChunk.WIDTH;
+                    worldZ = z + this.chunk.position.z * SubChunk.WIDTH;
                     if (ShaderLightMap.inBounds(worldX, worldY, worldZ)) {
                         ShaderLightMap.worldCoordsToLightmapCoords(lightmapCoords, worldX, worldY, worldZ);
                         idx = ShaderLightMap.coordsToIndex(lightmapCoords);
 
-                        if (this.chunk.getVoxels().inBounds(x, y, z)) {
+                        if (this.chunk.data.inBounds(x, y, z)) {
                             ShaderLightMap.setImagePixelValue(idx,
                                     ShaderLightMap.getLightmapValue(this.chunk, x, y, z));
                             ++placesSet;
@@ -88,7 +88,7 @@ public final class ChunkLightMap {
                             try {
                                 wcc.set(worldX, worldY, worldZ);
                                 final SubChunk neighboringChunk = VoxelGame.getWorld().getSubChunk(wcc.subChunk);
-                                if (neighboringChunk != null && neighboringChunk.getLightMap().initialized) {
+                                if (neighboringChunk != null && neighboringChunk.lightMap.initialized) {
                                     ShaderLightMap.setImagePixelValue(idx,
                                             ShaderLightMap.getLightmapValue(neighboringChunk,
                                                     wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z));

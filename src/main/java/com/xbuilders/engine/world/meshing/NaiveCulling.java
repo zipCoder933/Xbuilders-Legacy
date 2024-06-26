@@ -85,7 +85,7 @@ public class NaiveCulling {
         Block nz = faceDefault;
         Block pz = faceDefault;
 
-        final ChunkVoxels grid = subChunk.getVoxels();
+        final ChunkVoxels grid = subChunk.data;
         for (int x = 0 - chunkNegXAdd; x < grid.getSizeX() + chunkPosXAdd; ++x) {
             for (int y = 0 - chunkNegYAdd; y < grid.getSizeY() + chunkPosYAdd; ++y) {
                 for (int z = 0 - chunkNegZAdd; z < grid.getSizeZ() + chunkPosZAdd; ++z) {
@@ -102,49 +102,49 @@ public class NaiveCulling {
                         if (x > 0) {
                             nx = getBlock(grid, x - 1, y, z);
                         } else {
-                            nx = VoxelGame.getWorld().getBlock(subChunk.getPosition().x * SubChunk.WIDTH + x - 1,
-                                    subChunk.getPosition().y * SubChunk.WIDTH + y,
-                                    subChunk.getPosition().z * SubChunk.WIDTH + z, true);
+                            nx = VoxelGame.getWorld().getBlock(subChunk.position.x * SubChunk.WIDTH + x - 1,
+                                    subChunk.position.y * SubChunk.WIDTH + y,
+                                    subChunk.position.z * SubChunk.WIDTH + z, true);
                         }
 
                         if (x < grid.getSizeX() - 1) {
                             px = getBlock(grid, x + 1, y, z);
                         } else {
-                            px = VoxelGame.getWorld().getBlock(subChunk.getPosition().x * SubChunk.WIDTH + x + 1,
-                                    subChunk.getPosition().y * SubChunk.WIDTH + y,
-                                    subChunk.getPosition().z * SubChunk.WIDTH + z, true);
+                            px = VoxelGame.getWorld().getBlock(subChunk.position.x * SubChunk.WIDTH + x + 1,
+                                    subChunk.position.y * SubChunk.WIDTH + y,
+                                    subChunk.position.z * SubChunk.WIDTH + z, true);
                         }
 
                         if (y > 0) {
                             ny = getBlock(grid, x, y - 1, z);
                         } else {
-                            ny = VoxelGame.getWorld().getBlock(subChunk.getPosition().x * SubChunk.WIDTH + x,
-                                    subChunk.getPosition().y * SubChunk.WIDTH + y - 1,
-                                    subChunk.getPosition().z * SubChunk.WIDTH + z, true);
+                            ny = VoxelGame.getWorld().getBlock(subChunk.position.x * SubChunk.WIDTH + x,
+                                    subChunk.position.y * SubChunk.WIDTH + y - 1,
+                                    subChunk.position.z * SubChunk.WIDTH + z, true);
                         }
 
                         if (y < grid.getSizeY() - 1) {
                             py = getBlock(grid, x, y + 1, z);
                         } else {
-                            py = VoxelGame.getWorld().getBlock(subChunk.getPosition().x * SubChunk.WIDTH + x,
-                                    subChunk.getPosition().y * SubChunk.WIDTH + y + 1,
-                                    subChunk.getPosition().z * SubChunk.WIDTH + z, true);
+                            py = VoxelGame.getWorld().getBlock(subChunk.position.x * SubChunk.WIDTH + x,
+                                    subChunk.position.y * SubChunk.WIDTH + y + 1,
+                                    subChunk.position.z * SubChunk.WIDTH + z, true);
                         }
 
                         if (z > 0) {
                             nz = getBlock(grid, x, y, z - 1);
                         } else {
-                            nz = VoxelGame.getWorld().getBlock(subChunk.getPosition().x * SubChunk.WIDTH + x,
-                                    subChunk.getPosition().y * SubChunk.WIDTH + y,
-                                    subChunk.getPosition().z * SubChunk.WIDTH + z - 1, true);
+                            nz = VoxelGame.getWorld().getBlock(subChunk.position.x * SubChunk.WIDTH + x,
+                                    subChunk.position.y * SubChunk.WIDTH + y,
+                                    subChunk.position.z * SubChunk.WIDTH + z - 1, true);
                         }
 
                         if (z < grid.getSizeZ() - 1) {
                             pz = getBlock(grid, x, y, z + 1);
                         } else {
-                            pz = VoxelGame.getWorld().getBlock(subChunk.getPosition().x * SubChunk.WIDTH + x,
-                                    subChunk.getPosition().y * SubChunk.WIDTH + y,
-                                    subChunk.getPosition().z * SubChunk.WIDTH + z + 1, true);
+                            pz = VoxelGame.getWorld().getBlock(subChunk.position.x * SubChunk.WIDTH + x,
+                                    subChunk.position.y * SubChunk.WIDTH + y,
+                                    subChunk.position.z * SubChunk.WIDTH + z + 1, true);
                         }
                         // }
 

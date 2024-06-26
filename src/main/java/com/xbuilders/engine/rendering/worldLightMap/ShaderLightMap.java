@@ -82,9 +82,9 @@ public class ShaderLightMap {
     }
 
     public static void updateLightmapVoxel(final SubChunk c, final int x, final int y, final int z) {
-        final int worldPosX = c.getPosition().x * SubChunk.WIDTH + x;
-        final int worldPosY = c.getPosition().y * SubChunk.WIDTH + y;
-        final int worldPosZ = c.getPosition().z * SubChunk.WIDTH + z;
+        final int worldPosX = c.position.x * SubChunk.WIDTH + x;
+        final int worldPosY = c.position.y * SubChunk.WIDTH + y;
+        final int worldPosZ = c.position.z * SubChunk.WIDTH + z;
         final int x2 = worldPosX - ShaderLightMap.minX;
         final int y2 = worldPosY;
         final int z2 = worldPosZ - ShaderLightMap.minZ;
@@ -159,8 +159,8 @@ public class ShaderLightMap {
                         if (VoxelGame.getWorld().inBounds(worldPos)) {
                             final Vector3i chunkCoords = WCCi.getSubChunkAtWorldPos(worldPos.x, worldPos.y, worldPos.z);
                             final SubChunk subChunk = VoxelGame.getWorld().getSubChunk(chunkCoords);
-                            if (subChunk != null && subChunk.getLightMap().initialized) {
-                                subChunk.getLightMap().markAsPastedIntoSLM();
+                            if (subChunk != null && subChunk.lightMap.initialized) {
+                                subChunk.lightMap.markAsPastedIntoSLM();
                                 ShaderLightMap.image.pixels[idx] = getLightmapValue(subChunk,
                                         MathUtils.positiveMod(x2, SubChunk.WIDTH),
                                         MathUtils.positiveMod(y, SubChunk.WIDTH),
@@ -187,11 +187,11 @@ public class ShaderLightMap {
     }
 
     public static int getLightmapValue(final SubChunk c, final int coordsX, final int coordsY, final int coordsZ) {
-        final Block block = ItemList.getBlock(c.getVoxels().getBlock(coordsX, coordsY, coordsZ));
+        final Block block = ItemList.getBlock(c.data.getBlock(coordsX, coordsY, coordsZ));
         if (block.isOpaque() && !block.isLuminous()) {
             return -1;
         }
-        return c.getLightMap().getSunAndTorchAsPackedByte(coordsX, coordsY, coordsZ);
+        return c.lightMap.getSunAndTorchAsPackedByte(coordsX, coordsY, coordsZ);
     }
 
     static {

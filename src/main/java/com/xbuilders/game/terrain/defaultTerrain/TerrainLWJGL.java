@@ -5,7 +5,7 @@
 //import com.xbuilders.engine.world.chunk.Chunk;
 //import com.xbuilders.game.items.GameItems;
 //import com.xbuilders.game.terrain.Biome;
-//import com.xbuilders.game.terrain.Terrain;
+//import com.xbuilders.engine.world.Terrain;
 //
 //public class DefaultTerrain extends Terrain {
 //

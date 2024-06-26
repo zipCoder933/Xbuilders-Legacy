@@ -6,18 +6,17 @@ package com.xbuilders.game.items.blocks.plants.trees;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.utils.BFS.HashQueue;
 import com.xbuilders.engine.utils.BFS.ListQueue;
 import com.xbuilders.engine.utils.BFS.TravelNode;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.terrain.Terrain;
+import com.xbuilders.engine.world.Terrain;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+
 import org.joml.Vector3i;
 
 /**
- *
  * @author zipCoder933
  */
 public class TreeUtils {
@@ -46,7 +45,7 @@ public class TreeUtils {
         for (int x2 = lowerBoundX; x2 <= upperBoundX; x2++) {
             for (int z2 = lowerBoundZ; z2 <= upperBoundZ; z2++) {
                 if (!VoxelGame.getWorld().getBlock(x2, y, z2).isSolid()) {
-                    terrain.setBlockWorld(source, leaves, x2, y, z2);
+                    terrain.setBlockWorld(leaves, x2, y, z2);
                 }
             }
         }
@@ -85,7 +84,7 @@ public class TreeUtils {
                         || (x2 == lowerBoundX && z2 == upperBoundZ)
                         || (x2 == upperBoundX && z2 == lowerBoundZ))) {
                     if (!VoxelGame.getWorld().getBlock(x2, y, z2).isSolid()) {
-                        terrain.setBlockWorld(source, leaves, x2, y, z2);
+                        terrain.setBlockWorld(leaves, x2, y, z2);
                     }
                 }
             }
@@ -128,7 +127,7 @@ public class TreeUtils {
 
     public static void setBlock(Terrain terrain, Chunk sourceChunk, Block b, int x, int y, int z) {
         if (!VoxelGame.getWorld().getBlock(x, y, z).isSolid()) {
-            terrain.setBlockWorld(sourceChunk, b, x, y, z);
+            terrain.setBlockWorld(b, x, y, z);
         }
     }
 
@@ -143,7 +142,7 @@ public class TreeUtils {
 
             if (!block.equals(leaves) && node.getTravel() < travelDist) {
                 if (!block.isSolid()) {
-                    terrain.setBlockWorld(source, leaves, coords.x, coords.y, coords.z);
+                    terrain.setBlockWorld(leaves, coords.x, coords.y, coords.z);
                 }
                 queue.add(new TravelNode(coords.x + 1, coords.y, coords.z, node.getTravel() + 1));
                 queue.add(new TravelNode(coords.x, coords.y, coords.z + 1, node.getTravel() + 1));
@@ -168,9 +167,7 @@ public class TreeUtils {
             x += xDir;
             z += zDir;
             y--;
-            if (!VoxelGame.getWorld().getBlock(x, y, z).isSolid()) {
-                terrain.setBlockWorld(source, logType, x, y, z);
-            }
+            terrain.setBlockWorld(logType, x, y, z);
         }
         return new Vector3i(x, y, z);
     }

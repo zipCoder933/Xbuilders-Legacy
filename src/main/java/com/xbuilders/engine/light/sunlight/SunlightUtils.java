@@ -65,8 +65,8 @@ public class SunlightUtils {
             if (node == null) {
                 continue;
             }
-            final int lightValue = node.chunk.getLightMap().getSunlight(node.coords.x, node.coords.y, node.coords.z);
-            node.chunk.getLightMap().setSunlightAndUpdateSLM(node.coords.x, node.coords.y, node.coords.z, (byte) 0);
+            final int lightValue = node.chunk.lightMap.getSunlight(node.coords.x, node.coords.y, node.coords.z);
+            node.chunk.lightMap.setSunlightAndUpdateSLM(node.coords.x, node.coords.y, node.coords.z, (byte) 0);
             totalNodes.remove(node);
             checkNeighborErase(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, lightValue, queue, totalNodes);
             checkNeighborErase(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, lightValue, queue, totalNodes);
@@ -81,10 +81,10 @@ public class SunlightUtils {
     private static void checkNeighborErase(SubChunk chunk, int x, int y, int z, final int centerLightLevel,
             final ListQueue<SubChunkNode> queue, final HashSet<SubChunkNode> totalNodes) {
         byte thisLevel;
-        if (chunk.getVoxels().inBounds(x, y, z)) {
-            thisLevel = chunk.getLightMap().getSunlight(x, y, z);
+        if (chunk.data.inBounds(x, y, z)) {
+            thisLevel = chunk.lightMap.getSunlight(x, y, z);
         } else {
-            final WCCi newCoords = WCCi.getNeighboringWCC(chunk.getPosition(), x, y, z);
+            final WCCi newCoords = WCCi.getNeighboringWCC(chunk.position, x, y, z);
             chunk = newCoords.getSubChunk();
             x = newCoords.subChunkVoxel.x;
             y = newCoords.subChunkVoxel.y;
@@ -92,7 +92,7 @@ public class SunlightUtils {
             if (chunk == null) {
                 return;
             }
-            thisLevel = chunk.getLightMap().getSunlight(x, y, z);
+            thisLevel = chunk.lightMap.getSunlight(x, y, z);
         }
         if (thisLevel > 0) {
             final SubChunkNode node = new SubChunkNode(chunk, x, y, z);
@@ -113,7 +113,7 @@ public class SunlightUtils {
             if (node == null) {
                 continue;
             }
-            final int lightValue = node.chunk.getLightMap().getSunlight(node.coords);
+            final int lightValue = node.chunk.lightMap.getSunlight(node.coords);
             checkNeighbor(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, lightValue, queue);
             checkNeighbor(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, lightValue, queue);
             checkNeighbor(node.chunk, node.coords.x, node.coords.y, node.coords.z + 1, lightValue, queue);
@@ -129,10 +129,10 @@ public class SunlightUtils {
 
     private static void checkNeighbor(SubChunk chunk, int x, int y, int z, final int lightLevel, final ListQueue<SubChunkNode> queue) {
         Block neigborBlock;
-        if (chunk.getVoxels().inBounds(x, y, z)) {
-            neigborBlock = ItemList.getBlock(chunk.getVoxels().getBlock(x, y, z));
+        if (chunk.data.inBounds(x, y, z)) {
+            neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
         } else {
-            final Vector3i neighboringSubChunk = WCCi.getNeighboringSubChunk(chunk.getPosition(), x, y, z);
+            final Vector3i neighboringSubChunk = WCCi.getNeighboringSubChunk(chunk.position, x, y, z);
             final Vector3i neighboringSubChunkBlockCoords = WCCi.normalizeToChunkSpace(x, y, z);
             chunk = VoxelGame.getWorld().getSubChunk(neighboringSubChunk);
             x = neighboringSubChunkBlockCoords.x;
@@ -141,12 +141,12 @@ public class SunlightUtils {
             if (chunk == null) {
                 return;
             }
-            neigborBlock = ItemList.getBlock(chunk.getVoxels().getBlock(x, y, z));
+            neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
         }
         if (!neigborBlock.isOpaque()) {
-            final int neighborLevel = chunk.getLightMap().getSunlight(x, y, z);
+            final int neighborLevel = chunk.lightMap.getSunlight(x, y, z);
             if (neighborLevel + 2 <= lightLevel) {
-                chunk.getLightMap().setSunlightAndUpdateSLM(x, y, z, (byte) (lightLevel - 1));
+                chunk.lightMap.setSunlightAndUpdateSLM(x, y, z, (byte) (lightLevel - 1));
                 queue.add(new SubChunkNode(chunk, x, y, z));
             }
         }

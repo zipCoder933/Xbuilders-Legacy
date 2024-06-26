@@ -391,7 +391,7 @@ Compiled method (c1)    8370 3495   !   3       com.xbuilders.engine.world.chunk
 
   0x000001495b07a2b0: ; ImmutableOopMap {[104]=Oop [112]=Oop }
                       ;*invokestatic PerfectlyHashThem {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.terrain.Terrain::createTerrainOnChunk@16 (line 95)
+                      ; - com.xbuilders.engine.world.Terrain::createTerrainOnChunk@16 (line 95)
                       ; - com.xbuilders.engine.world.chunk.Chunk::load@26 (line 177)
   0x000001495b07a2b0: cc4d 4f07 
 
@@ -417,7 +417,7 @@ Compiled method (c1)    8370 3495   !   3       com.xbuilders.engine.world.chunk
 
   0x000001495b07a408: ; ImmutableOopMap {[104]=Oop [112]=Oop }
                       ;*invokevirtual setSeed {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.terrain.Terrain::createTerrainOnChunk@26 (line 96)
+                      ; - com.xbuilders.engine.world.Terrain::createTerrainOnChunk@26 (line 96)
                       ; - com.xbuilders.engine.world.chunk.Chunk::load@26 (line 177)
   0x000001495b07a408: 7449 4f07 
 
@@ -437,7 +437,7 @@ Compiled method (c1)    8370 3495   !   3       com.xbuilders.engine.world.chunk
 
   0x000001495b07a4c0: ; ImmutableOopMap {[104]=Oop }
                       ;*invokevirtual generateChunkInner {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.terrain.Terrain::createTerrainOnChunk@31 (line 97)
+                      ; - com.xbuilders.engine.world.Terrain::createTerrainOnChunk@31 (line 97)
                       ; - com.xbuilders.engine.world.chunk.Chunk::load@26 (line 177)
   0x000001495b07a4c0: bc48 4f07 
 
@@ -604,7 +604,7 @@ Compiled method (c1)    8370 3495   !   3       com.xbuilders.engine.world.chunk
 
   0x000001495b07a6f0: ; ImmutableOopMap {r9=Oop rdx=Oop [104]=Oop [112]=Oop }
                       ;*synchronization entry
-                      ; - com.xbuilders.game.terrain.Terrain::createTerrainOnChunk@-1 (line 95)
+                      ; - com.xbuilders.engine.world.Terrain::createTerrainOnChunk@-1 (line 95)
                       ; - com.xbuilders.engine.world.chunk.Chunk::load@26 (line 177)
   0x000001495b07a6f0: c55b 07e9 | 4dfb ffff 
 
@@ -613,14 +613,14 @@ Compiled method (c1)    8370 3495   !   3       com.xbuilders.engine.world.chunk
 
   0x000001495b07a6fc: ; ImmutableOopMap {r9=Oop rdx=Oop r8=Oop [104]=Oop [112]=Oop }
                       ;*getfield x {reexecute=1 rethrow=0 return_oop=0}
-                      ; - (reexecute) com.xbuilders.game.terrain.Terrain::createTerrainOnChunk@4 (line 95)
+                      ; - (reexecute) com.xbuilders.engine.world.Terrain::createTerrainOnChunk@4 (line 95)
                       ; - com.xbuilders.engine.world.chunk.Chunk::load@26 (line 177)
                       ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
   0x000001495b07a6fc: 07e8 fe53 
 
   0x000001495b07a700: ; ImmutableOopMap {r9=Oop rdx=Oop [104]=Oop [112]=Oop }
                       ;*invokevirtual setSeed {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.terrain.Terrain::createTerrainOnChunk@26 (line 96)
+                      ; - com.xbuilders.engine.world.Terrain::createTerrainOnChunk@26 (line 96)
                       ; - com.xbuilders.engine.world.chunk.Chunk::load@26 (line 177)
                       ;   {metadata({method} {0x00000149734e47c8} 'markAsModifiedByUser' '()V' in 'com/xbuilders/engine/world/chunk/Chunk')}
   0x000001495b07a700: 5b07 49ba | c047 4e73 | 4901 0000 | 4c89 5424 | 0848 c704 | 24ff ffff 

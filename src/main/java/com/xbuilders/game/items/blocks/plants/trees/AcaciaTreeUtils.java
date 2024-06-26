@@ -7,7 +7,7 @@ package com.xbuilders.game.items.blocks.plants.trees;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.terrain.Terrain;
+import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.game.items.GameItems;
 import java.util.Random;
 import org.joml.Vector3i;

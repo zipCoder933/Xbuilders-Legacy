@@ -27,8 +27,8 @@ class TorchOpaqueToTransparentUtils
     }
     
     private static void findNeg2(SubChunk chunk, int x, int y, int z, final HashMap<Byte, OTTNode> list) {
-        if (!chunk.getVoxels().inBounds(x, y, z)) {
-            final WCCi wcc = WCCi.getNeighboringWCC(chunk.getPosition(), x, y, z);
+        if (!chunk.data.inBounds(x, y, z)) {
+            final WCCi wcc = WCCi.getNeighboringWCC(chunk.position, x, y, z);
             if (!wcc.subChunkExists()) {
                 return;
             }
@@ -37,7 +37,7 @@ class TorchOpaqueToTransparentUtils
             y = wcc.subChunkVoxel.y;
             z = wcc.subChunkVoxel.z;
         }
-        final TorchChannelSet neigboringChannels = chunk.getLightMap().getTorchlight(x, y, z);
+        final TorchChannelSet neigboringChannels = chunk.lightMap.getTorchlight(x, y, z);
         if (neigboringChannels != null) {
             for (final Map.Entry<Byte, Byte> entry : neigboringChannels.list.entrySet()) {
                 final byte lightVal = entry.getValue();

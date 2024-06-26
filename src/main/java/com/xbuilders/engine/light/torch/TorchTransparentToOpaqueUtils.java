@@ -16,7 +16,7 @@ import com.xbuilders.engine.world.chunk.SubChunk;
 class TorchTransparentToOpaqueUtils
 {
     static void update(final SubChunk chunk, final int x, final int y, final int z, final BlockHistory hist) {
-        final TorchChannelSet channelSet = chunk.getLightMap().getTorchlight(x, y, z);
+        final TorchChannelSet channelSet = chunk.lightMap.getTorchlight(x, y, z);
         if (channelSet != null) {
             for (final byte falloff : channelSet.list.keySet()) {
                 final ListQueue<SubChunkNode> queue = new ListQueue<SubChunkNode>();
@@ -44,8 +44,8 @@ class TorchTransparentToOpaqueUtils
     }
     
     private static SubChunkNode checkNeigbor(SubChunk chunk, int x, int y, int z, final byte channel) {
-        if (!chunk.getVoxels().inBounds(x, y, z)) {
-            final WCCi wcc = WCCi.getNeighboringWCC(chunk.getPosition(), x, y, z);
+        if (!chunk.data.inBounds(x, y, z)) {
+            final WCCi wcc = WCCi.getNeighboringWCC(chunk.position, x, y, z);
             if (!wcc.subChunkExists()) {
                 return null;
             }
@@ -54,7 +54,7 @@ class TorchTransparentToOpaqueUtils
             y = wcc.subChunkVoxel.y;
             z = wcc.subChunkVoxel.z;
         }
-        final TorchChannelSet fragChannels = chunk.getLightMap().getTorchlight(x, y, z);
+        final TorchChannelSet fragChannels = chunk.lightMap.getTorchlight(x, y, z);
         if (fragChannels != null && fragChannels.get(channel) > 0) {
             return new SubChunkNode(chunk, x, y, z);
         }
