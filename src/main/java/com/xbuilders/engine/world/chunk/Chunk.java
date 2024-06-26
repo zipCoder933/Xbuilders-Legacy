@@ -29,9 +29,9 @@ public class Chunk {
     public static final int HEIGHT = SubChunk.WIDTH * SUB_CHUNK_QUANTITY;
 
     // Generation status (keep these as separate variables for now)
-    public boolean terrainLoaded;
-    public boolean lightmapInitialized;
-    public boolean meshesGenerated;
+    public boolean gen_terrainGenerated;
+    public boolean gen_lightmapGenerated;
+    public boolean gen_meshesGenerated;
 
     public AABB aabb;
     public SubChunk[] subChunks;
@@ -75,17 +75,20 @@ public class Chunk {
     }
 
     public Chunk(final PointerHandler ph) {
-        this.lightmapInitialized = false;
-        this.meshesGenerated = false;
+        this.gen_lightmapGenerated = false;
+        this.gen_meshesGenerated = false;
         this.modifiedByUser = false;
         this.needsSaving = false;
         this.pointerHandler = ph;
         this.aabb = new AABB();
         this.subChunks = new SubChunk[SUB_CHUNK_QUANTITY];
+        neighbors = new NeighborCollection(this);
         for (int i = 0; i < SUB_CHUNK_QUANTITY; ++i) {
             this.subChunks[i] = new SubChunk(this);
         }
     }
+
+    public NeighborCollection neighbors;
 
     public ChunkCoords init(final ChunkCoords coords) {
         // if (this.generated = null) {
@@ -95,16 +98,14 @@ public class Chunk {
         this.position = new ChunkCoords(coords);
         this.modifiedByUser = false;
         this.needsSaving = false;
-        terrainLoaded = false;
-        this.lightmapInitialized = false;
+        gen_terrainGenerated = false;
+        this.gen_lightmapGenerated = false;
         setChunkAABB(this.aabb, coords);
         for (int y = 0; y < SUB_CHUNK_QUANTITY; ++y) {
             this.subChunks[y].init(coords.x, y, coords.z);
         }
-        for (int i = 0; i < 8; ++i) {// Reset neighbors TODO: we could replace this with cacheNeighbors
-            this.neighbors[i] = null;
-        }
-        this.meshesGenerated = false;
+        neighbors.reset();
+        this.gen_meshesGenerated = false;
         return this.position;
     }
 
@@ -112,43 +113,6 @@ public class Chunk {
         return x < SubChunk.WIDTH && x >= 0 && y < HEIGHT && y >= 0 && z < SubChunk.WIDTH && z >= 0;
     }
 
-    final Chunk[] neighbors = new Chunk[8];
-
-    public void cacheNeighbors() {
-        neighbors[0] = addChunkToNCList(this.position.x + 1, this.position.z);
-        neighbors[1] = addChunkToNCList(this.position.x - 1, this.position.z);
-        neighbors[2] = addChunkToNCList(this.position.x, this.position.z + 1);
-        neighbors[3] = addChunkToNCList(this.position.x, this.position.z - 1); // The first 4 indicies are facing
-        // neighbors
-        neighbors[4] = addChunkToNCList(this.position.x - 1, this.position.z - 1);
-        neighbors[5] = addChunkToNCList(this.position.x + 1, this.position.z + 1);
-        neighbors[6] = addChunkToNCList(this.position.x + 1, this.position.z - 1);
-        neighbors[7] = addChunkToNCList(this.position.x - 1, this.position.z + 1);
-        // System.out.println("Caching neighbors "+ Arrays.toString(neighbors));
-    }
-
-    private Chunk addChunkToNCList(final int x, final int z) {
-        final ChunkCoords coords = new ChunkCoords(this.position.x + x, this.position.z + z);
-        return VoxelGame.getWorld().getChunk(coords);
-    }
-
-    public boolean allNeighborsLoaded() {
-        for (int i = 0; i < neighbors.length; i++) {
-            if (neighbors[i] == null || !neighbors[i].terrainLoaded) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean allFacingNeighborsLoaded() {
-        for (int i = 0; i < 4; i++) {
-            if (neighbors[i] == null || !neighbors[i].terrainLoaded) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     public void markAsModifiedByUser() {
         this.modifiedByUser = true;
@@ -180,7 +144,7 @@ public class Chunk {
                 }
             }
 
-            terrainLoaded = true;
+            gen_terrainGenerated = true;
             markAsModifiedByUser();
         } catch (Exception e) {
             ErrorHandler.handleFatalError("Error", "Unable to load chunk (" + this.toString() + ").", e);
@@ -236,28 +200,34 @@ public class Chunk {
     // </editor-fold>
 
     long lastTick = 0;
+    public boolean meshGen_LoadedNeighbors;
 
     public void drawUpdate() {
-        // checkInFrustum(VoxelGame.getPlayer());
-        if (!this.meshesGenerated && terrainLoaded) {
-            // if (System.currentTimeMillis() - lastTick > 1000) { //TODO: only generate a
-            // mesh if it has all facing neighbors generated
-            // lastTick = System.currentTimeMillis();
-            // cacheNeighbors();
-            // }
-            // allFacingNeighborsLoaded()
-            new Thread(() -> {
-                generateInitialMeshes();
-            }).start();
+        /**
+         * Waiting for all neighbors to be loaded before generating meshes causes the mesh generation to slow down
+         * Not only that, but it might cause additional memory overhead, maybe?
+         * The only other solution at this point is just to load the mesh of edges of chunks that havent been loaded yet
+         */
+        if (!gen_meshesGenerated && gen_terrainGenerated) {
+            if (neighbors.allFacingNeighborsLoaded()) {
+                new Thread(() -> {
+                    generateInitialMeshes();
+                }).start();
+            } else {
+                if (System.currentTimeMillis() - lastTick > 500) {
+                    neighbors.cacheAllFacingNeighbors();
+                }
+            }
         }
     }
+
 
     public void generateInitialMeshes() {
         for (int i = 0; i < this.subChunks.length; ++i) {
             this.subChunks[i].generateMesh();
             this.subChunks[i].generateStaticEntityMesh();
         }
-        this.meshesGenerated = true;
+        this.gen_meshesGenerated = true;
     }
 
     @Override
@@ -274,8 +244,8 @@ public class Chunk {
         return this.position.hashCode();
     }
 
-    public boolean checkInFrustum(final UserControlledPlayer player) {
-        inFrustum = player.camera.frustum.isAABBInside(this.aabb);
+    public boolean checkInFrustum() {
+        inFrustum = VoxelGame.getPlayer().camera.frustum.isAABBInside(this.aabb);
         return inFrustum;
     }
 
@@ -286,7 +256,7 @@ public class Chunk {
         return this.getPosition().toString();
     }
 
-    public void setLightmapInitialized(final boolean unparseBool) {
+    public void setGen_lightmapGenerated(final boolean unparseBool) {
         for (final SubChunk sc : this.getSubChunks()) {
             sc.lightMap.initialized = unparseBool;
         }
@@ -299,4 +269,7 @@ public class Chunk {
         }
     }
 
+    public String genStatus() {
+        return "mesh=" + (gen_meshesGenerated ? 1 : 0) + " light=" + (gen_lightmapGenerated ? 1 : 0) + " load=" + (gen_terrainGenerated ? 1 : 0);
+    }
 }

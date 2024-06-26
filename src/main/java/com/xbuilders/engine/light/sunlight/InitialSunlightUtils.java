@@ -30,7 +30,7 @@ public class InitialSunlightUtils {
         prog.getBar().set(0, uninitializedChunks);
         for (final Map.Entry<ChunkCoords, Chunk> set : VoxelGame.getWorld().chunks.entrySet()) {
             final Chunk chunk = set.getValue();
-            if (!chunk.lightmapInitialized) {
+            if (!chunk.gen_lightmapGenerated) {
                 InitialSunlightUtils.generateInitialSunlight(chunk, true);
                 prog.getBar().changeValue(1);
                 prog.setTask("Propagating Sunlight", prog.getBar());
@@ -45,10 +45,10 @@ public class InitialSunlightUtils {
     private static ListQueue<SubChunkNode> queue = new ListQueue<SubChunkNode>();
 
     public static synchronized boolean generateInitialSunlight(final Chunk chunk, final HashMap<ChunkCoords, Chunk> otherChunks, final boolean checkForNeighboringChunks) {
-        if (chunk.lightmapInitialized) {
+        if (chunk.gen_lightmapGenerated) {
             return true;
         }
-        if (checkForNeighboringChunks && !chunk.allNeighborsLoaded()) {
+        if (checkForNeighboringChunks && !chunk.neighbors.allNeighborsLoaded()) {
             return false;
         }
         int chunkLocation, blockLocation;
@@ -88,7 +88,7 @@ public class InitialSunlightUtils {
         for (final SubChunk sc : chunk.getSubChunks()) {
             sc.lightMap.initialized = true;
         }
-        return chunk.lightmapInitialized = true;
+        return chunk.gen_lightmapGenerated = true;
     }
 
     protected static void setSunlight(Chunk chunk, final int x, final int y, final int z, final byte b) {

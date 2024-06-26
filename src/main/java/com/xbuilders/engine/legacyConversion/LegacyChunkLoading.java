@@ -19,7 +19,7 @@ public class LegacyChunkLoading {
     private static void metadataFromString(Chunk chunk, String metadata) {
         metadata = metadata.replace("lightmap:", "").replace("used:", "");
         String[] items = metadata.split(Pattern.quote("|"));
-        chunk.setLightmapInitialized(items[0].equals("1"));
+        chunk.setGen_lightmapGenerated(items[0].equals("1"));
     }
 
     public static void lightFragFromString(String str, SubChunk subChunk, int x, int y, int z) {

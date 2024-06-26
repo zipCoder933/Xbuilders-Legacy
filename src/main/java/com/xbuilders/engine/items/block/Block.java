@@ -278,7 +278,7 @@ public class Block extends Item {
                 subChunk.data.setBlockData(data, blockX, blockLocation, blockZ);
 
                 chunk.markAsNeedsSaving();
-                if (chunk.meshesGenerated) {
+                if (chunk.gen_meshesGenerated) {
                     chunk.markChunksAsNeedsRegenerating(chunkLocation, blockX, blockLocation, blockZ);
                 }
                 BlockPipeline.put(new Vector3i(x, y, z), new BlockHistory(prevBlock, this));

@@ -46,7 +46,7 @@ public class ChunkSavingLoading {
     }
 
     private static byte[] metadata(final Chunk chunk) {
-        final byte lightmapInit = (byte) (chunk.lightmapInitialized ? 1 : 0);
+        final byte lightmapInit = (byte) (chunk.gen_lightmapGenerated ? 1 : 0);
         final byte[] bytes = new byte[10];
         bytes[0] = lightmapInit;
         return bytes;
@@ -156,7 +156,7 @@ public class ChunkSavingLoading {
         final byte[] data = new byte[10];
         final int bytesRead = is.readNBytes(data, 0, data.length);
         if (bytesRead != -1) {
-            chunk.setLightmapInitialized(data[0] == 1);
+            chunk.setGen_lightmapGenerated(data[0] == 1);
             return;
         }
         throw new IOException("No metadata in chunk");

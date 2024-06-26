@@ -8,6 +8,11 @@
    3. Convert block mesh to opengl
    3. Optimize the custom vehicle
 
+See if the lightmap has been set to initialized if the chunk was loaded from the file
+We dont need to generate sun for already saved chunks
+
+replace inBoundsOfSLM with  distToPlayer < viewDist
+
 ### switching to P3D+LWJGL?
 * This would take too much time
 * As far as I can tell has no advantages

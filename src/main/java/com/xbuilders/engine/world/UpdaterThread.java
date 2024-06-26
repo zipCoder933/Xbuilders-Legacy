@@ -145,27 +145,13 @@ class UpdaterThread extends Thread {
 
     public boolean chunkIsUnfinished(ChunkCoords coords) {
         Chunk chunk = ph.getWorld().getChunk(coords);
-        return chunk == null || !chunk.lightmapInitialized
-                // Investigate why this solves the no-lightmap-on-initial-chunks mystery.
-                // It could be that the chunks on the edge get their SLM pasted even though they
-                // have no lightmap
+        return chunk == null || !chunk.gen_lightmapGenerated
                 || !ShaderLightMap.inBounds(chunk.getPosition()) || !chunk.inSLM();
     }
 
     // HashSet<ChunkCoords> madeChunks = new HashSet<>();
 
     public void processNode(ChunkCoords coords) throws IOException, InterruptedException {
-        /**
-         * TODO: The memory still increases faster than when the updater is
-         * idle. The culprit was found to be within this method.
-         *
-         * THEROIES: * Sometimes too many new chunks are created * The lightmap
-         * propagation may increase memory usage
-         *
-         * TODO: Investigate the cause of the performance decrease when updating terrain
-         * THEROIES: * The garbage collector
-         * * It is definietly not the deletion and recreation in chunks, a chunks is never created twice iin the similar timeframe
-         */
 
         Chunk chunk = VoxelGame.getWorld().makeChunk(coords);
 
@@ -178,11 +164,12 @@ class UpdaterThread extends Thread {
         parent.ph.getWorld().makeChunk(coords.set(coords.x + 1, coords.z - 1));
         parent.ph.getWorld().makeChunk(coords.set(coords.x - 1, coords.z + 1));
         parent.ph.getWorld().makeChunk(coords.set(coords.x - 1, coords.z));
+        chunk.neighbors.cacheAllNeighbors();
 
-        if (!chunk.lightmapInitialized) {
+        if (!chunk.gen_lightmapGenerated) {
             InitialSunlightUtils.generateInitialSunlight(chunk, false);
         }
-        chunk.cacheNeighbors();
+
         pasteSLM(chunk);
     }
 
@@ -199,7 +186,7 @@ class UpdaterThread extends Thread {
     }
 
     private boolean fillWLMInChunk(Chunk chunk) {
-        if (!ShaderLightMap.inBounds(chunk.getPosition()) || !chunk.lightmapInitialized) {
+        if (!ShaderLightMap.inBounds(chunk.getPosition()) || !chunk.gen_lightmapGenerated) {
             return false;
         }
         for (int i = 0; i < chunk.getSubChunks().length; i++) {

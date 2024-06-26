@@ -23,7 +23,6 @@ import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.world.holograms.HologramSet;
 import com.xbuilders.engine.world.info.WorldInfo;
-import com.xbuilders.game.Main;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.game.terrain.TerrainsList;
 import org.joml.Vector3f;
@@ -257,7 +256,7 @@ public class World {
         int un_initializedMax = 0;
         for (final Map.Entry<ChunkCoords, Chunk> set : chunks.entrySet()) {
             ++max;
-            if (!set.getValue().lightmapInitialized) {
+            if (!set.getValue().gen_lightmapGenerated) {
                 ++un_initializedMax;
             }
         }
@@ -266,8 +265,10 @@ public class World {
         prog.getBar().set(0, max);
 
         chunks.values().forEach((chunk) -> {
-            chunk.cacheNeighbors();
-            chunk.generateInitialMeshes(); //TODO: We need to make sure we are not generating meshes on chunks that dont have neighbors loaded
+            chunk.neighbors.cacheAllNeighbors();
+            if(chunk.neighbors.allFacingNeighborsLoaded()) {
+                chunk.generateInitialMeshes(); //Only generate if we are surrounded by loaded chunks
+            }
             prog.getBar().changeValue(1);
         });
 
@@ -367,23 +368,23 @@ public class World {
 
         // frameTester.startProcess();
         this.subChunks.values().forEach(chunk -> {// Draw opaque meshes of all chunks
-            Chunk chunk1 = chunk.getParentChunk();
-            if (chunk1.meshesGenerated && chunk.lightMap.inBoundsOfSLM()) {
+            Chunk parent = chunk.getParentChunk();
+            if (parent.gen_meshesGenerated && chunk.lightMap.inBoundsOfSLM()) { //TODO: replace inBoundsOfSLM with  distToPlayer < viewDist
                 chunk.drawOpaque();
             }
         });
         this.subChunks.values().forEach(chunk -> {// Draw transparent meshes of all chunks
-            Chunk chunk1 = chunk.getParentChunk();
-            if (chunk1.meshesGenerated && chunk.lightMap.inBoundsOfSLM()) {
+            Chunk parent = chunk.getParentChunk();
+            if (parent.gen_meshesGenerated && chunk.lightMap.inBoundsOfSLM()) {//TODO: replace inBoundsOfSLM with  distToPlayer < viewDist
                 chunk.drawTransparent();
             }
         });
         if(drawEntities){
             ChunkEntitySet.startDrawEntities();
             this.subChunks.values().forEach(chunk -> {// Draw entities
-//                if (chunk.lightMap.inBoundsOfSLM()) {
+                if (chunk.lightMap.inBoundsOfSLM()) { //TODO: replace inBoundsOfSLM with  distToPlayer < viewDist
                     chunk.entities.updateAndDrawEntities(chunk.inFrustum);
-//                }
+                }
             });
             ChunkEntitySet.endDrawEntities();
         }
@@ -418,7 +419,7 @@ public class World {
     public Block getBlock(final int x, final int y, final int z, final boolean returnNullIfEmpty) {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
-        if (chunk != null && chunk.getParentChunk().terrainLoaded) {
+        if (chunk != null && chunk.getParentChunk().gen_terrainGenerated) {
             return ItemList.getBlock(
                     chunk.data.getBlock(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z));
         }
