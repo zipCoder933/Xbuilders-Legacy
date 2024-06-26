@@ -368,21 +368,19 @@ public class World {
 
         // frameTester.startProcess();
         this.subChunks.values().forEach(chunk -> {// Draw opaque meshes of all chunks
-            Chunk parent = chunk.getParentChunk();
-            if (parent.gen_meshesGenerated && chunk.lightMap.inBoundsOfSLM()) { //TODO: replace inBoundsOfSLM with  distToPlayer < viewDist
+            if (chunk.shouldDrawThis()) {
                 chunk.drawOpaque();
             }
         });
         this.subChunks.values().forEach(chunk -> {// Draw transparent meshes of all chunks
-            Chunk parent = chunk.getParentChunk();
-            if (parent.gen_meshesGenerated && chunk.lightMap.inBoundsOfSLM()) {//TODO: replace inBoundsOfSLM with  distToPlayer < viewDist
+            if (chunk.shouldDrawThis()) {
                 chunk.drawTransparent();
             }
         });
         if(drawEntities){
             ChunkEntitySet.startDrawEntities();
             this.subChunks.values().forEach(chunk -> {// Draw entities
-                if (chunk.lightMap.inBoundsOfSLM()) { //TODO: replace inBoundsOfSLM with  distToPlayer < viewDist
+                if (chunk.shouldDrawThis()) {
                     chunk.entities.updateAndDrawEntities(chunk.inFrustum);
                 }
             });

@@ -4,7 +4,6 @@
 package com.xbuilders.engine.world.chunk;
 
 import com.xbuilders.engine.rendering.worldLightMap.ShaderLightMap;
-import com.xbuilders.engine.player.UserControlledPlayer;
 
 import com.xbuilders.engine.utils.ErrorHandler;
 
@@ -218,6 +217,10 @@ public class Chunk {
                     neighbors.cacheAllFacingNeighbors();
                 }
             }
+        }
+        for(int i=0;i<subChunks.length;++i) {
+            SubChunk sc = subChunks[i];
+            sc.drawUpdate();
         }
     }
 

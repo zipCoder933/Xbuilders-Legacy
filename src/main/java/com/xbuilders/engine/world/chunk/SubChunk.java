@@ -186,26 +186,29 @@ public class SubChunk {
     }
 
     public boolean inFrustum;
-
-    private boolean checkInFrustum() {
-        final Frustum frustum = this.parentChunk.getPointerHandler().getPlayer().camera.frustum;
-        inFrustum = frustum.isAABBInside(this.aabb);
-        return inFrustum;
-    }
-
+    public boolean inBoundsOfSLM = false;
     Matrix4f modelMatrix = new Matrix4f();
 
-    public void drawOpaque() {
+    public void drawUpdate() {
+        final Frustum frustum = this.parentChunk.getPointerHandler().getPlayer().camera.frustum;
+        inFrustum = frustum.isAABBInside(this.aabb);
         distToPlayer = VoxelGame.getPlayer().aabb.worldPosition.distance(
                 position.x * SubChunk.WIDTH + WIDTH / 2,
                 position.y * SubChunk.WIDTH + WIDTH / 2,
                 position.z * SubChunk.WIDTH + WIDTH / 2);
-        checkInFrustum();
+        inBoundsOfSLM = lightMap.inBoundsOfSLM();
+    }
+
+    public boolean shouldDrawThis() {
+        return getParentChunk().gen_meshesGenerated && inBoundsOfSLM;
+    }
+
+
+    public void drawOpaque() {
         if (inFrustum) {
             if (this.needsRegenerating) {
                 generateMesh();
             }
-
             if (!data.isEmpty() && opaqueMeshVerts > 0) { // Render chunk mesh
                 ShaderHandler.blockShader.bind(Main.getPG());
                 VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(true);

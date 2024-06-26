@@ -1,7 +1,7 @@
 # To Do
 
-1. fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet
-   * Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides
+~~1. fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet
+   * Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides~~
 2. Optimize custom vehicles and convert chunks to opengl meshes
    1. change block construction to use custom block buffer
    2. Convert chunk meshes to opengl
