@@ -1,10 +1,12 @@
 # To Do
 
-### fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet
-Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides
-
-### Optimize the custom vehicle
-* Switch block mesh to opengl
+1. fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet
+   * Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides
+2. Optimize custom vehicles and convert chunks to opengl meshes
+   1. change block construction to use custom block buffer
+   2. Convert chunk meshes to opengl
+   3. Convert block mesh to opengl
+   3. Optimize the custom vehicle
 
 ### switching to P3D+LWJGL?
 * This would take too much time

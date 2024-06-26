@@ -11,6 +11,7 @@ import static com.xbuilders.engine.VoxelGame.getShaderHandler;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.texture.BlockTextureAtlas;
+import com.xbuilders.engine.rendering.blocks.BlockShader;
 import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;

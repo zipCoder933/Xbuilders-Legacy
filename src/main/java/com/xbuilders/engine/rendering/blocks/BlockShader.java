@@ -1,10 +1,6 @@
-package com.xbuilders.engine.rendering;
+package com.xbuilders.engine.rendering.blocks;
 
-import org.joml.Matrix4f;
-
-import com.jogamp.opengl.GL4;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.window.MVP;
 import com.xbuilders.window.shader.Shader;
 
 import processing.core.UIFrame;
