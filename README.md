@@ -44,7 +44,7 @@ Current features include:
 * Custom vehicles can be build, in a driving, underwater or flying configuration configuration
   * Build a helecopter with the helecopter blade, Make a fast flying jet, Build a boat or underwater submarine or Make an off roader or sports car
 
-
+<!--
 # Screenshots
 
 A wide range of blocks are available:
@@ -74,3 +74,4 @@ Minecarts can be used as a railroad system in your very own city!
 The default terrain has 6 biomes!
 
 ![screenshot (5).png](./assets/screenshots/home.png)
+-->
