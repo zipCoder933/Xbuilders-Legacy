@@ -115,7 +115,8 @@ public abstract class Terrain {
         try {
             final int chunkLocation = WCCi.chunkDiv(y);
             final int blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
-            final Block block = ItemList.getBlock(chunk.getSubChunks()[chunkLocation].getVoxels().getBlock(x, blockLocation, z));
+            SubChunk subChunk = chunk.getSubChunks()[chunkLocation];
+            final Block block = ItemList.getBlock(subChunk.data.getBlock(x, blockLocation, z));
             return block == null ? BlockList.BLOCK_AIR : block;
         } catch (IndexOutOfBoundsException | NullPointerException ex) {
             return BlockList.BLOCK_AIR;
@@ -125,20 +126,24 @@ public abstract class Terrain {
     public final BlockData getBlockData(final Chunk chunk, final int x, final int y, final int z) {
         final int chunkLocation = WCCi.chunkDiv(y);
         final int blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
-        return chunk.getSubChunks()[chunkLocation].getVoxels().getBlockData(x, blockLocation, z);
+        SubChunk subChunk = chunk.getSubChunks()[chunkLocation];
+        return subChunk.data.getBlockData(x, blockLocation, z);
     }
 
     public final void setBlock(final Chunk chunk, final Block block, final BlockData data, final int x, final int y, final int z) {
         final int chunkLocation = WCCi.chunkDiv(y);
         final int blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
-        chunk.getSubChunks()[chunkLocation].getVoxels().setBlock(block.id, x, blockLocation, z);
-        chunk.getSubChunks()[chunkLocation].getVoxels().setBlockData(data, x, blockLocation, z);
+        SubChunk subChunk1 = chunk.getSubChunks()[chunkLocation];
+        subChunk1.data.setBlock(block.id, x, blockLocation, z);
+        SubChunk subChunk = chunk.getSubChunks()[chunkLocation];
+        subChunk.data.setBlockData(data, x, blockLocation, z);
     }
 
     public final void setBlock(final Chunk chunk, final Block block, final int x, final int y, final int z) {
         final int chunkLocation = WCCi.chunkDiv(y);
         final int blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
-        chunk.getSubChunks()[chunkLocation].getVoxels().setBlock(block.id, x, blockLocation, z);
+        SubChunk subChunk = chunk.getSubChunks()[chunkLocation];
+        subChunk.data.setBlock(block.id, x, blockLocation, z);
     }
 
     public final void setEntity(final Chunk chunk, final EntityLink el, final int chunkX, final int worldY, final int chunkZ) {
