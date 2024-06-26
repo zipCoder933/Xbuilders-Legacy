@@ -9,23 +9,14 @@ import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.rendering.entity.glEntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.entities.mobile.LandAnimal;
-import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PShape;
 import processing.opengl.PJOGL;
 
-import javax.imageio.ImageIO;
-import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.xbuilders.engine.items.block.construction.blockTypes.BlockType.ONE_SIXTEENTH;
 
@@ -48,6 +39,10 @@ public class HorseEntityLink extends EntityLink {
     public static glEntityMesh saddle;
     public String textureFile;
 
+    final String TEXTURE_DIR = "items\\entities\\animals\\horse\\textures\\";
+    final String BODY_OBJ ="items\\entities\\animals\\horse\\horse.obj";
+    final String LEG_OBJ = "items\\entities\\animals\\horse\\leg.obj";
+
     public void initialize() {
         if (body == null) {
             try {
@@ -58,11 +53,11 @@ public class HorseEntityLink extends EntityLink {
 
 
                 int texture = TextureUtils.loadTexture(pgl.gl.getGL4(),
-                        ResourceUtils.resourcePath("items\\entities\\animals\\horse\\textures\\" + textureFile), false).id;
+                        ResourceUtils.resourcePath(TEXTURE_DIR + textureFile), false).id;
 
                 saddle.setOBJ(ResourceUtils.resource("items\\entities\\animals\\horse\\horse_saddle.obj"));
-                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\horse\\horse.obj"));
-                leg.setOBJ(ResourceUtils.resource("items\\entities\\animals\\horse\\leg.obj"));
+                body.setOBJ(ResourceUtils.resource(BODY_OBJ));
+                leg.setOBJ(ResourceUtils.resource(LEG_OBJ));
                 body.setTexture(texture);
                 saddle.setTexture(texture);
                 leg.setTexture(texture);
@@ -101,11 +96,11 @@ public class HorseEntityLink extends EntityLink {
 
         //        float animatedSpeed = 0;
         @Override
-        public final void renderAnimal(PGraphics g) {
+        public final void renderAnimal() {
             if (youngAnimal) {
                 modelMatrix.scale(0.7f);//pony
             }
-            float animationTarget = travelAmount;
+            float animationTarget = travelAmount * 2;
 
             body.updateModelMatrix(modelMatrix);
             body.draw();
@@ -129,7 +124,6 @@ public class HorseEntityLink extends EntityLink {
 
         @Override
         public void initAnimal(byte[] bytes) {
-
             if (bytes != null) {
                 saddled = bytes[0] == 1;
                 youngAnimal = bytes[1] == 1;

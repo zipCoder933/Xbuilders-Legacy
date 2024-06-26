@@ -29,34 +29,56 @@ public class ChunkEntitySet {
     SubChunk chunk;
     public ArrayList<Entity> list;
 
+
     public ChunkEntitySet(SubChunk chunk) {
         super();
         list = new ArrayList<>();
         this.chunk = chunk;
+
+
     }
 
     public Entity get(int i) {
         return list.get(i);
     }
 
-    PJOGL pgl;
-    GL4 gl;
+    static UserControlledPlayer userControlledPlayer;
+    static UIFrame uiFrame;
+    static PGraphics pGraphics;
+    static PJOGL pgl;
+    static GL4 gl;
+
+    static {
+        uiFrame = Main.getFrame();
+        pGraphics = Main.getPG();
+        userControlledPlayer = VoxelGame.getPlayer();
+    }
+
 
     public static void bindEntityShader() {
         ShaderHandler.entityShader.bind();
     }
 
-    public void updateAndDrawEntities(UIFrame f, PGraphics graphics, boolean drawEntities, boolean chunkInFrustum) {
+
+    public static void startDrawEntities() {
+        pgl = (PJOGL) uiFrame.beginPGL();
+        gl = pgl.gl.getGL4();
+
         bindEntityShader();
         ShaderHandler.entityShader.updateProjViewMatrix(VoxelGame.getGameScene().projection, VoxelGame.getGameScene().view);
 
-        pgl = (PJOGL) f.beginPGL();
-        gl = pgl.gl.getGL4();
         //Enable backface culling
         gl.glEnable(GL4.GL_CULL_FACE);
         gl.glCullFace(GL4.GL_BACK);
+    }
 
+    public static void endDrawEntities() {
+        VoxelGame.getShaderHandler().resetModelMatrix();
+//        ShaderHandler.entityShader.unbind();
+        uiFrame.endPGL();
+    }
 
+    public void updateAndDrawEntities(boolean chunkInFrustum) {
         for (int i = list.size() - 1; i >= 0; i--) { // Loop through the list of entities in reverse order
             Entity e = get(i); // Get the entity at index i
 
@@ -66,7 +88,7 @@ public class ChunkEntitySet {
                 e.needsInit = false;
             }
 
-            UserControlledPlayer userControlledPlayer = Main.ph().getPlayer();
+
             e.distToPlayer = e.worldPosition.distance(userControlledPlayer.worldPos); // Calculate the distance to the
 
 
@@ -98,18 +120,14 @@ public class ChunkEntitySet {
                                     e.getFrustumSphereRadius());
                 }
 
-                // update the entity
-                if (e.update() && e.inFrustum) {
-                    try {
-                        VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(false);
-                        VoxelGame.getShaderHandler().setWorldSpaceOffset(e.worldPosition);
+
+                if (e.update() && e.inFrustum && drawEntities) { //Update the entity
+                    try {// draw the entity
                         e.modelMatrix.identity().translate(
                                 e.worldPosition.x,
                                 e.worldPosition.y,
                                 e.worldPosition.z);
-                        e.sendModelMatrixToShader();
-//                        ShaderHandler.setEntityLightLevel(e.getLightLevel());
-                        if (drawEntities) e.draw(graphics);
+                        e.draw();
                     } catch (Exception ex) {
                         ErrorHandler.saveErrorToLogFile(ex);
                     }
@@ -137,9 +155,7 @@ public class ChunkEntitySet {
                 }
             }
         }
-        VoxelGame.getShaderHandler().resetModelMatrix();
-//        ShaderHandler.entityShader.unbind();
-        f.endPGL();
+
     }
 
 

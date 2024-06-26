@@ -4,6 +4,7 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.VoxelGame;
+import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.player.blockPipeline.BlockPipeline;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
@@ -22,6 +23,7 @@ import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.world.holograms.HologramSet;
 import com.xbuilders.engine.world.info.WorldInfo;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.PointerHandler;
 import com.xbuilders.game.terrain.TerrainsList;
 import org.joml.Vector3f;
@@ -100,7 +102,6 @@ public class World {
     private final ArrayList<Chunk> unusedChunks;
     private PointerHandler ph;
     public WorldInfo infoFile;
-
 
     public void setPinpoint() {
         File pinpointFile = new File(this.infoFile.getDirectory(), "pinpoint.txt");
@@ -367,8 +368,8 @@ public class World {
         // frameTester.startProcess();
         this.subChunks.values().forEach(chunk -> {// Draw opaque meshes of all chunks
             Chunk chunk1 = chunk.getParentChunk();
-            if (chunk1.meshesGenerated && chunk.lightMap.inBoundsOfSLM()) { //If it is outside of the SLM, Dont render it!
-                chunk.drawOpaqueAndEntities(drawEntities);
+            if (chunk1.meshesGenerated && chunk.lightMap.inBoundsOfSLM()) {
+                chunk.drawOpaque();
             }
         });
         this.subChunks.values().forEach(chunk -> {// Draw transparent meshes of all chunks
@@ -377,6 +378,15 @@ public class World {
                 chunk.drawTransparent();
             }
         });
+        if(drawEntities){
+            ChunkEntitySet.startDrawEntities();
+            this.subChunks.values().forEach(chunk -> {// Draw entities
+//                if (chunk.lightMap.inBoundsOfSLM()) {
+                    chunk.entities.updateAndDrawEntities(chunk.inFrustum);
+//                }
+            });
+            ChunkEntitySet.endDrawEntities();
+        }
         // frameTester.endProcess("Draw Chunks");
 
         // frameTester.startProcess();

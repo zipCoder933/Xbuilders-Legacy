@@ -11,7 +11,6 @@ import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.world.wcc.WCCf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
 
 /**
  *
@@ -25,7 +24,7 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
         setNeedsConstantSaving(false);
     }
 
-    public abstract void renderFish(PGraphics g);
+    public abstract void renderFish();
 
     public enum ActionEnum {
         SWIM,
@@ -149,7 +148,7 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
     }
 
     @Override
-    public final void renderAnimal(PGraphics g) {
+    public final void renderAnimal() {
         if (playerIsInSameMediumAsFish()) {
             if (inWater) {
                 float waggle = (float) (Math.sin(getPointerHandler().getApplet().frameCount / 2) * MathUtils.mapAndClamp(forwardVelocity, 0, maxSpeed, 0, 0.25f));
@@ -157,7 +156,7 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
                 modelMatrix.translate(waggle * -0.1f, 0, 0);
                 sendModelMatrixToShader();
             }
-            renderFish(g);
+            renderFish();
         }
     }
 

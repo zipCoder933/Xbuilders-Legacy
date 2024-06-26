@@ -8,7 +8,6 @@ import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.rendering.entity.glEntityMesh;
-import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.items.blockType.BlockRenderType;
@@ -17,9 +16,6 @@ import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.utils.ResourceUtils;
 
 import processing.core.PConstants;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PShape;
 import processing.opengl.PJOGL;
 
 import java.io.IOException;
@@ -137,7 +133,7 @@ public class BannerEntityLink extends EntityLink {
         }
 
         @Override
-        public void draw(PGraphics g) {
+        public void draw() {
             if (xzOrientation == 0) {
                 modelMatrix.translate(0, 0, 1);
                 modelMatrix.rotateY(PConstants.PI / 2);

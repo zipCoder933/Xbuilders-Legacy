@@ -7,6 +7,7 @@ import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.entities.mobile.Vehicle;
 import com.xbuilders.game.items.entities.vehicle.minecart.MinecartUtils;
@@ -157,12 +158,13 @@ public class CustomVehicleEntityLink extends EntityLink {
         final PositionLock positionLock;
 
         @Override
-        public void renderMob(PGraphics g) {
+        public void renderMob() {
+            PGraphics g = Main.getPG();
             g.shape(mesh);
         }
 
         @Override
-        public void draw(PGraphics g) {
+        public void draw() {
             float yRotationRadians = (float) (smoothYRotation * (Math.PI / 180));
             if (mesh != null) {
                 if (playerIsRidingThis()) {
@@ -181,7 +183,7 @@ public class CustomVehicleEntityLink extends EntityLink {
                 smoothYRotation = (float) MathUtils.curve(smoothYRotation, rotationYDeg, 0.25f);
                 modelMatrix.rotateY(yRotationRadians).translate(renderOffset.x, renderOffset.y, renderOffset.z);
                 sendModelMatrixToShader();
-                renderMob(g);
+                renderMob();
             }
         }
 

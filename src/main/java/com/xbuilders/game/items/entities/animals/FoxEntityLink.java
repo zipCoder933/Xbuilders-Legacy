@@ -4,23 +4,16 @@
  */
 package com.xbuilders.game.items.entities.animals;
 
-import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.rendering.ShaderHandler;
-import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.rendering.entity.glEntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.LandAnimal;
-import com.xbuilders.window.MVP;
 
-import com.xbuilders.window.shader.DemoTextureShader;
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
 import processing.opengl.PJOGL;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -71,7 +64,7 @@ public class FoxEntityLink extends EntityLink {
         }
 
         @Override
-        public void renderAnimal(PGraphics g) {
+        public void renderAnimal() {
             body.updateModelMatrix(modelMatrix);
             body.draw();
         }

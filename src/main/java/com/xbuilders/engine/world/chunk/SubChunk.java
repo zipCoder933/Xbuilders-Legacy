@@ -185,7 +185,7 @@ public class SubChunk {
         return this.entityMesh;
     }
 
-    boolean inFrustum;
+    public boolean inFrustum;
 
     private boolean checkInFrustum() {
         final Frustum frustum = this.parentChunk.getPointerHandler().getPlayer().camera.frustum;
@@ -195,7 +195,7 @@ public class SubChunk {
 
     Matrix4f modelMatrix = new Matrix4f();
 
-    public void drawOpaqueAndEntities(boolean drawEntities) {
+    public void drawOpaque() {
         distToPlayer = VoxelGame.getPlayer().aabb.worldPosition.distance(
                 position.x * SubChunk.WIDTH + WIDTH / 2,
                 position.y * SubChunk.WIDTH + WIDTH / 2,
@@ -213,16 +213,20 @@ public class SubChunk {
                         (float) (this.position.z * SubChunk.WIDTH));
                 VoxelGame.getShaderHandler().setBlockShaderModelMatrix(modelMatrix);
                 Main.getPG().shape(this.opaqueMesh);
-                if (drawEntities) {
-                    VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(false);
-                    for (int i = 0; i < this.entityMeshes.size(); ++i) {
-                        Main.getPG().shape(this.entityMeshes.get(i));
-                    }
+
+                //Draw static entities
+                VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(false);
+                for (int i = 0; i < this.entityMeshes.size(); ++i) {
+                    Main.getPG().shape(this.entityMeshes.get(i));
                 }
+
             }
         }
+    }
+
+    public void drawEntities() {
         // The entities must as least be updated even if not in frustum
-        this.entities.updateAndDrawEntities(Main.getFrame(), Main.getPG(), drawEntities, inFrustum);
+
     }
 
     public void drawTransparent() {

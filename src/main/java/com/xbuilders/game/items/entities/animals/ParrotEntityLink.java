@@ -11,19 +11,13 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.FlyingAnimal;
-import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
-import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.core.PShape;
 import processing.opengl.PJOGL;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.xbuilders.engine.items.block.construction.blockTypes.BlockType.ONE_SIXTEENTH;
 
@@ -74,20 +68,20 @@ public class ParrotEntityLink extends EntityLink {
         }
 
         @Override
-        public void renderAnimal(PGraphics g) {
+        public void renderAnimal() {
             //x=side, z=front
             body.updateModelMatrix(modelMatrix);
             body.draw();
             float animSpeed = getFlyAnimationSpeed();
 
 
-            drawWing(g, ONE_SIXTEENTH * 1.5f, ONE_SIXTEENTH * -7, ONE_SIXTEENTH * 0, animSpeed, 0.0f, -2.0f);
-            drawWing(g, ONE_SIXTEENTH * -1.5f, ONE_SIXTEENTH * -7, ONE_SIXTEENTH * 0, animSpeed, 0.0f, 2.0f);
+            drawWing(ONE_SIXTEENTH * 1.5f, ONE_SIXTEENTH * -7, ONE_SIXTEENTH * 0, animSpeed, 0.0f, -2.0f);
+            drawWing( ONE_SIXTEENTH * -1.5f, ONE_SIXTEENTH * -7, ONE_SIXTEENTH * 0, animSpeed, 0.0f, 2.0f);
         }
 
         Matrix4f wingMatrix = new Matrix4f();
 
-        private void drawWing(PGraphics g,
+        private void drawWing(
                               float x, float y, float z,
                               float animationSpeed, float min, float max) {
             wingMatrix.set(modelMatrix).translate(x, y, z);

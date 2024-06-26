@@ -8,24 +8,21 @@ import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.rendering.ShaderHandler;
+import com.xbuilders.engine.rendering.entity.glEntityMesh;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.Vehicle;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.blockData.BlockOrientation;
 import com.xbuilders.game.items.GameItems;
-import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PShape;
+import processing.opengl.PJOGL;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author zipCoder933
@@ -39,8 +36,22 @@ public abstract class MinecartEntityLink extends EntityLink {
     }
 
     public String textureFile;
-    public PImage texture;
-    public PShape model;
+
+    public void initialize() {
+        if (model == null) {
+            PJOGL pgl = Main.beginPJOGL();
+            model = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+            try {
+                model.setOBJ(ResourceUtils.resource("items\\entities\\minecart\\minecart.obj"));
+                model.setTexture(ResourceUtils.resource("items\\entities\\minecart\\" + textureFile));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Main.endPJOGL();
+        }
+    }
+
+    public glEntityMesh model;
 
     public class Minecart extends Vehicle {
 
@@ -78,13 +89,13 @@ public abstract class MinecartEntityLink extends EntityLink {
         float rotationYCurve;
 
         @Override
-        public void renderMob(PGraphics g) {
-//            g.shape(model);
-            model.drawImpl(g);
+        public void renderMob() {
+            model.updateModelMatrix(modelMatrix);
+            model.draw();
         }
 
         @Override
-        public void draw(PGraphics g) {
+        public void draw() {
             rotationYCurve = (float) MathUtils.curve(rotationYCurve, rotationYDeg, 0.25f);
             modelMatrix.translate(renderOffset.x, renderOffset.y, renderOffset.z);
             modelMatrix.rotateY((float) (rotationYCurve * (Math.PI / 180)));
@@ -102,7 +113,7 @@ public abstract class MinecartEntityLink extends EntityLink {
                 }
             }
             sendModelMatrixToShader();
-            renderMob(g);
+            renderMob();
         }
 
         private boolean alignToNearestTrack() {
@@ -328,15 +339,6 @@ public abstract class MinecartEntityLink extends EntityLink {
 
         @Override
         public void initializeImmediate(byte[] bytes, boolean setByUser) {
-            if (model == null) {
-                try {
-                    texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\minecart\\" + textureFile)));
-                    model = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\minecart\\minecart.obj"));
-                    model.setTexture(texture);
-                } catch (IOException ex) {
-                    Logger.getLogger(BirchTrapdoorLink.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
             if (setByUser) {
                 alignToNearestTrack();
             }

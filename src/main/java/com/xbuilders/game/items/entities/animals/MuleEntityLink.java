@@ -5,16 +5,15 @@
 package com.xbuilders.game.items.entities.animals;
 
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.rendering.ShaderHandler;
+import com.xbuilders.engine.rendering.entity.glEntityMesh;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.LandAnimal;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
+import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PShape;
+import processing.opengl.PJOGL;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,10 +35,35 @@ public class MuleEntityLink extends EntityLink {
 
     }
 
-    public PImage texture;
-    public PShape leg;
-    public PShape body;
+    public glEntityMesh leg;
+    public glEntityMesh body;
     public String textureFile;
+
+    final String TEXTURE_DIR = "items\\entities\\animals\\horse\\textures\\";
+    final String BODY_OBJ = "items\\entities\\animals\\horse\\mule.obj";
+    final String LEG_OBJ = "items\\entities\\animals\\horse\\leg_short.obj";
+
+    public void initialize() {
+        if (body == null) {
+            try {
+                PJOGL pgl = Main.beginPJOGL();
+                leg = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+                body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+
+
+                int texture = TextureUtils.loadTexture(pgl.gl.getGL4(),
+                        ResourceUtils.resourcePath(TEXTURE_DIR + textureFile), false).id;
+
+                body.setOBJ(ResourceUtils.resource(BODY_OBJ));
+                leg.setOBJ(ResourceUtils.resource(LEG_OBJ));
+                body.setTexture(texture);
+                leg.setTexture(texture);
+                Main.endPJOGL();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
 
     public class MuleObject extends LandAnimal {
@@ -55,29 +79,22 @@ public class MuleEntityLink extends EntityLink {
 //            showAABBCollisionBoxes(true);
         }
 
-        //        float animatedSpeed = 0;
         @Override
-        public final void renderAnimal(PGraphics g) {
+        public final void renderAnimal() {
             try {
                 if (youngAnimal) {
-                    g.scale(0.7f);//pony
+                    modelMatrix.scale(0.7f);//pony
                 }
                 //Z = animal front
                 //X = animal side
-//                float animationTarget = 0f;
-//                if (getWalkAmt() > 0) {
-//                    animationTarget = MathUtils.map(getWalkAmt(), 0, getMaxSpeed(), 0, 0.5f);
-//                }
-//                g.shape(body);
-//                int yLegPos = -8;
-//                int frameCount = getPointerHandler().getApplet().frameCount;
-//                drawLeg(g, leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 8, -animationTarget, 0.0f, frameCount);
-//                drawLeg(g, leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -6, animationTarget, 1.5f, frameCount);
-//                drawLeg(g, leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 8, -animationTarget, 1.5f, frameCount);
-//                drawLeg(g, leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -6, animationTarget, 2.0f, frameCount);
-                if (youngAnimal) {
-                    g.scale(1 / 0.7f);//pony
-                }
+                float animationTarget = travelAmount * 2;
+                body.updateModelMatrix(modelMatrix);
+                body.draw();
+                int yLegPos = -8;
+                drawLeg(leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 8, -animationTarget);
+                drawLeg(leg, 0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -6, animationTarget);
+                drawLeg(leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * 8, -animationTarget);
+                drawLeg(leg, -0.25f, ONE_SIXTEENTH * yLegPos, ONE_SIXTEENTH * -6, animationTarget);
             } catch (Exception ex) {
                 Logger.getLogger(MuleEntityLink.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -91,20 +108,6 @@ public class MuleEntityLink extends EntityLink {
 
         @Override
         public void initAnimal(byte[] bytes) {
-
-            if (body == null) {
-                try {
-                    texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\animals\\horse\\textures\\" + textureFile)));
-                    body = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\horse\\mule.obj"));
-                    leg = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\horse\\leg_short.obj"));
-                    body.setTexture(texture);
-                    leg.setTexture(texture);
-                } catch (IOException ex) {
-                    Logger.getLogger(BirchTrapdoorLink.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-
             if (bytes != null && bytes.length > 0) youngAnimal = bytes[0] == 1;
             else youngAnimal = Math.random() > 0.5;
         }

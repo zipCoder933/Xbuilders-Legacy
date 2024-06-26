@@ -12,7 +12,6 @@ import com.xbuilders.engine.utils.random.RandomUtils;
 import com.xbuilders.engine.world.wcc.WCCf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
 
 import static com.xbuilders.game.items.entities.mobile.AnimalAction.ActionType.*;
 
@@ -125,7 +124,7 @@ public abstract class LandAndWaterAnimal extends Animal {
         setAction(new AnimalAction(AnimalAction.ActionType.IDLE, 2000));
     }
 
-    public abstract void renderAnimal(PGraphics g);
+    public abstract void renderAnimal();
 
     public AnimalAction newRandomAction(Enum lastAction) {
         int val = getRandom().nextInt(AnimalAction.ActionType.values().length - 1);

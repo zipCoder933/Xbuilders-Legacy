@@ -15,7 +15,6 @@ import com.xbuilders.game.Main;
 import com.xbuilders.game.items.GameItems;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
 
 public abstract class Vehicle extends Entity {
 
@@ -103,7 +102,7 @@ public abstract class Vehicle extends Entity {
                 userControlledPlayer.worldPos.z);
     }
 
-    public abstract void renderMob(PGraphics g);
+    public abstract void renderMob();
 
     /**
      * @return the entity actually moved
@@ -135,11 +134,11 @@ public abstract class Vehicle extends Entity {
     }
 
     @Override
-    public void draw(PGraphics g) {
+    public void draw() {
         modelMatrix.translate(renderOffset.x, renderOffset.y, renderOffset.z);
         modelMatrix.rotateY((float) (rotationYDeg * (Math.PI / 180)));
         sendModelMatrixToShader();
-        renderMob(g);
+        renderMob();
     }
 
     @Override

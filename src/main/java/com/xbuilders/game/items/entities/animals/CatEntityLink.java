@@ -9,18 +9,12 @@ import com.xbuilders.engine.rendering.ShaderHandler;
 import com.xbuilders.engine.rendering.entity.glEntityMesh;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.LandAnimal;
-import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
 import com.xbuilders.engine.utils.ResourceUtils;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 
 import org.joml.Vector3f;
-import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.core.PShape;
 import processing.opengl.PJOGL;
 
 /**
@@ -72,7 +66,7 @@ public class CatEntityLink extends EntityLink {
         }
 
         @Override
-        public void renderAnimal(PGraphics g) {
+        public void renderAnimal() {
             body.updateModelMatrix(modelMatrix);
             body.draw();
         }

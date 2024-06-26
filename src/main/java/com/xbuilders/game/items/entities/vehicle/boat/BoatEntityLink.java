@@ -7,20 +7,17 @@ package com.xbuilders.game.items.entities.vehicle.boat;
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.rendering.ShaderHandler;
+import com.xbuilders.engine.rendering.entity.glEntityMesh;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.Vehicle;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PShape;
+import processing.opengl.PJOGL;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author zipCoder933
@@ -33,8 +30,22 @@ public class BoatEntityLink extends EntityLink {
         this.texturePath = texturePath;
     }
 
-    public PImage texture;
-    public PShape model;
+
+    public void initialize() {
+        if (model == null) {
+            PJOGL pgl = Main.beginPJOGL();
+            model = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
+            try {
+                model.setOBJ(ResourceUtils.resource("items\\entities\\boat\\boat.obj"));
+                model.setTexture(ResourceUtils.resource("items\\entities\\boat\\textures\\" + texturePath));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Main.endPJOGL();
+        }
+    }
+
+    public glEntityMesh model;
     public String texturePath;
 
     class Boat extends Vehicle {
@@ -45,8 +56,9 @@ public class BoatEntityLink extends EntityLink {
         }
 
         @Override
-        public void renderMob(PGraphics g) {
-            g.shape(model);
+        public void renderMob() {
+            model.updateModelMatrix(modelMatrix);
+            model.draw();
         }
 
         boolean inWater = false;
@@ -117,10 +129,6 @@ public class BoatEntityLink extends EntityLink {
 
         float speedCurve;
 
-//        @Override
-//        public void postProcessMovement(EntityCollisionHandler.CollisionOutput lastPenetration) {
-//        }
-
         @Override
         public void onDestructionInitiated() {
         }
@@ -128,7 +136,6 @@ public class BoatEntityLink extends EntityLink {
         @Override
         public void onDestructionCancel() {
         }
-
 
         @Override
         public boolean onClickEvent() {
@@ -155,35 +162,7 @@ public class BoatEntityLink extends EntityLink {
 
         @Override
         public void initializeImmediate(byte[] bytes, boolean setByUser) {
-            if (model == null) {
-                try {
-                    texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\boat\\textures\\" + texturePath)));
-                    model = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\boat\\boat.obj"));
-                    model.setTexture(texture);
-                } catch (IOException ex) {
-                    Logger.getLogger(BirchTrapdoorLink.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
             posHandler.setGravityEnabled(false);
         }
-
-
-//        @Override
-//        public ArrayList<OrientedShape> getStaticMeshes() {
-//            if (playerIsRidingThis()) {
-//                return null;
-//            } else {
-//                ArrayList<OrientedShape> list = new ArrayList<OrientedShape>();
-//                list.add(new OrientedShape(getRotationY(), worldPosition, model));
-//                return list;
-//            }
-//        }
-//
-//        @Override
-//        public PImage getStaticTexture() {
-//            return  texture;
-//        }
-
     }
-
 }

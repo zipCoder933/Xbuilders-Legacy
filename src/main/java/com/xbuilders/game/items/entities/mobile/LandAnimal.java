@@ -15,7 +15,6 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.random.RandomUtils;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
 
 /**
  * @author zipCoder933
@@ -118,7 +117,7 @@ public abstract class LandAnimal extends Animal {
         setAction(new AnimalAction(AnimalAction.ActionType.IDLE, 2000));
     }
 
-    public abstract void renderAnimal(PGraphics g);
+    public abstract void renderAnimal();
 
     public AnimalAction newRandomAction(Enum lastAction) {
         AnimalAction.ActionType actionType = AnimalAction.getRandomActionType(getRandom().getRandom(), IDLE, WALK, TURN);

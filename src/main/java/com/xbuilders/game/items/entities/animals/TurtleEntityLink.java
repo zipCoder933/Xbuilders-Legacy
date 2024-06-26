@@ -11,21 +11,13 @@ import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.LandAndWaterAnimal;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
-import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PShape;
 import processing.opengl.PJOGL;
 
-import javax.imageio.ImageIO;
-import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.xbuilders.engine.items.block.construction.blockTypes.BlockType.ONE_SIXTEENTH;
 
@@ -92,7 +84,7 @@ public class TurtleEntityLink extends EntityLink {
         }
 
         @Override
-        public final void renderAnimal(PGraphics g) {
+        public final void renderAnimal() {
             if (playerCanSeeAnimalUnderwater()) {
                 float animationTarget = 0f;
                 if (getWalkAmt() > 0) {
@@ -100,10 +92,10 @@ public class TurtleEntityLink extends EntityLink {
                 }
                 body.updateModelMatrix(modelMatrix);
                 body.draw();
-                drawFin(g, fin2, 0, 0, ONE_SIXTEENTH * 7,
+                drawFin(fin2, 0, 0, ONE_SIXTEENTH * 7,
                         animationTarget, 0.0f, getPointerHandler().getApplet().frameCount, 0.4f);
 
-                drawFin(g, fin1, 0, 0, ONE_SIXTEENTH * 7,
+                drawFin(fin1, 0, 0, ONE_SIXTEENTH * 7,
                         animationTarget, 1.5f, getPointerHandler().getApplet().frameCount, 0.4f);
 
 //                drawFin(g, back_fin1,
@@ -118,7 +110,7 @@ public class TurtleEntityLink extends EntityLink {
 
         Matrix4f finModelMatrix = new Matrix4f();
 
-        private void drawFin(PGraphics g, glEntityMesh fin,
+        private void drawFin(glEntityMesh fin,
                              float x, float y, float z,
                              float animationSpeed, float animationAdd, int frameCount, float multiplier) {
 

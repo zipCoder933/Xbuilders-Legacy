@@ -20,11 +20,8 @@ import com.xbuilders.game.Main;
 import com.xbuilders.game.items.GameItems;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
-import processing.core.PShape;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public abstract class Animal extends Entity {
 
@@ -314,7 +311,7 @@ public abstract class Animal extends Entity {
         }
     }
 
-    public abstract void renderAnimal(PGraphics g);
+    public abstract void renderAnimal();
 
     public abstract boolean move();
 
@@ -348,12 +345,10 @@ public abstract class Animal extends Entity {
     }
 
     @Override
-    public final void draw(PGraphics g) {
+    public final void draw() {
         modelMatrix.translate(renderOffset.x, renderOffset.y, renderOffset.z);
         modelMatrix.rotateY((float) (getRotationY() * (Math.PI / 180)));
-        sendModelMatrixToShader();
-
-        renderAnimal(g);
+        renderAnimal();
     }
 
     public abstract void postProcessMovement();

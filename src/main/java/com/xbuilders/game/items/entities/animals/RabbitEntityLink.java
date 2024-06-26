@@ -10,17 +10,11 @@ import com.xbuilders.engine.rendering.entity.glEntityMesh;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.LandAnimal;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.items.entities.trapdoors.BirchTrapdoorLink;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.core.PShape;
 import processing.opengl.PJOGL;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author zipCoder933
@@ -68,7 +62,7 @@ public class RabbitEntityLink extends EntityLink {
         }
 
         @Override
-        public void renderAnimal(PGraphics g) {
+        public void renderAnimal() {
             body.updateModelMatrix(modelMatrix);
             body.draw();
         }

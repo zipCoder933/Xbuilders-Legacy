@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.joml.*;
-import processing.core.PGraphics;
 import processing.core.PImage;
 
 /**
@@ -171,10 +170,8 @@ public abstract class Entity {
     /**
      * Renders the entity. NOTE: the entity should be rendered in world space.
      * The chunk will not translate the entity to chunk space for you.
-     *
-     * @param graphics the graphics object
      */
-    public void draw(PGraphics graphics) {
+    public void draw() {
     }
 
     public abstract void toBytes(XBFilterOutputStream fout) throws IOException;
