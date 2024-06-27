@@ -8,6 +8,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.engine.items.block.construction.texture.BlockTextureAtlas;
 import com.xbuilders.engine.utils.MiscUtils;
@@ -16,7 +17,6 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.blockData.BlockData;
 import org.joml.Vector3f;
-import processing.core.PShape;
 import processing.core.PVector;
 
 import java.util.function.Consumer;
@@ -92,7 +92,7 @@ public abstract class BlockType {
     }
 
 
-    public abstract void constructBlock(PShape buffers, Block block, BlockData data,
+    public abstract void constructBlock(BlockMesh_Base buffers, Block block, BlockData data,
                                         Block negativeX, Block positiveX, Block negativeY,
                                         Block positiveY, Block negativeZ, Block positiveZ,
                                         int x, int y, int z);

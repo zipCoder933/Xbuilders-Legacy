@@ -5,9 +5,9 @@ package com.xbuilders.engine.world.meshing;
 
 import com.xbuilders.engine.VoxelGame;
 import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.world.blockData.BlockData;
 import org.joml.Vector3i;
-import processing.core.PShape;
 import com.xbuilders.engine.world.chunk.SubChunk;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
@@ -60,17 +60,13 @@ public class NaiveCulling {
     }
 
     public static synchronized void generateMesh(final SubChunk subChunk,
-                                                 final PShape opaqueMesh, final PShape transparentMesh,
+                                                 final BlockMesh_Base opaqueMesh, final BlockMesh_Base transparentMesh,
                                                  final Vector3i offset) {
 
         final Block faceDefault = null;
-        opaqueMesh.beginShape(8);
-        opaqueMesh.texture(ItemList.blocks.textureAtlas.getImage());
-        opaqueMesh.noStroke();
 
-        transparentMesh.beginShape(8);
-        transparentMesh.texture(ItemList.blocks.textureAtlas.getImage());
-        transparentMesh.noStroke();
+        opaqueMesh.beginShape();
+        transparentMesh.beginShape();
 
         int chunkPosXAdd = 0;
         int chunkNegXAdd = 0;

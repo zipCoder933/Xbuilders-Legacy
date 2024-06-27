@@ -4,14 +4,14 @@
  */
 package com.xbuilders.game.items.blockType;
 
-import com.xbuilders.engine.player.UserControlledPlayer;
-import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
+import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.player.raycasting.Ray;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.blockData.BlockOrientation;
-import processing.core.PShape;
 import processing.core.PVector;
 
 import java.util.function.Consumer;
@@ -68,7 +68,7 @@ public class PaneRenderer extends BlockType {
 
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_pane_negativeX_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pane_negativeX_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[11].x), getUVTextureCoord_Y(pos, uv2[11].y));
@@ -80,7 +80,7 @@ public class PaneRenderer extends BlockType {
         shape.vertex(verts2[5].x + x, verts2[5].y + y, verts2[5].z + z, getUVTextureCoord_X(pos, uv2[9].x), getUVTextureCoord_Y(pos, uv2[9].y));//FACE
     }
 
-    private static void make_pane_positiveX_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pane_positiveX_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -92,7 +92,7 @@ public class PaneRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_pane_positiveY_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pane_positiveY_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[14].x), getUVTextureCoord_Y(pos, uv2[14].y));
@@ -104,7 +104,7 @@ public class PaneRenderer extends BlockType {
         shape.vertex(verts2[6].x + x, verts2[6].y + y, verts2[6].z + z, getUVTextureCoord_X(pos, uv2[12].x), getUVTextureCoord_Y(pos, uv2[12].y));//FACE
     }
 
-    private static void make_pane_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pane_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -124,7 +124,7 @@ public class PaneRenderer extends BlockType {
         shape.vertex(verts2[7].x + x, verts2[7].y + y, verts2[7].z + z, getUVTextureCoord_X(pos, uv2[6].x), getUVTextureCoord_Y(pos, uv2[6].y));//FACE
     }
 
-    private static void make_pane_negativeY_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pane_negativeY_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[7].x + x, verts2[7].y + y, verts2[7].z + z, getUVTextureCoord_X(pos, uv2[16].x), getUVTextureCoord_Y(pos, uv2[16].y));
@@ -179,7 +179,7 @@ public class PaneRenderer extends BlockType {
 
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_pane_flat_negativeX_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pane_flat_negativeX_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[11].x), getUVTextureCoord_Y(pos, uv2[11].y));
@@ -191,7 +191,7 @@ public class PaneRenderer extends BlockType {
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[9].x), getUVTextureCoord_Y(pos, uv2[9].y));//FACE
     }
 
-    private static void make_pane_flat_positiveX_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pane_flat_positiveX_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -203,7 +203,7 @@ public class PaneRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_pane_flat_negativeZ_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pane_flat_negativeZ_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[14].x), getUVTextureCoord_Y(pos, uv2[14].y));
@@ -215,7 +215,7 @@ public class PaneRenderer extends BlockType {
         shape.vertex(verts2[6].x + x, verts2[6].y + y, verts2[6].z + z, getUVTextureCoord_X(pos, uv2[12].x), getUVTextureCoord_Y(pos, uv2[12].y));//FACE
     }
 
-    private static void make_pane_flat_positiveZ_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pane_flat_positiveZ_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[7].x + x, verts2[7].y + y, verts2[7].z + z, getUVTextureCoord_X(pos, uv2[17].x), getUVTextureCoord_Y(pos, uv2[17].y));
@@ -227,7 +227,7 @@ public class PaneRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[15].x), getUVTextureCoord_Y(pos, uv2[15].y));//FACE
     }
 
-    private static void make_pane_flat_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pane_flat_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -250,7 +250,7 @@ public class PaneRenderer extends BlockType {
 //</editor-fold>
 //</editor-fold>
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         BlockOrientation orientation = BlockOrientation.getBlockOrientation(data);
 
         if (orientation == null || orientation.getY() == 0) {
@@ -260,7 +260,7 @@ public class PaneRenderer extends BlockType {
         }
     }
 
-    private void makeVerticalPane(Block block, BlockOrientation orientation, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    private void makeVerticalPane(Block block, BlockOrientation orientation, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         //<editor-fold defaultstate="collapsed" desc="rotate the object">
         PVector[] verts = verts_pane;
         if (orientation != null) {
@@ -308,7 +308,7 @@ public class PaneRenderer extends BlockType {
         }
     }
 
-    private void makeFlatPane(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    private void makeFlatPane(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         if (shouldRenderSide(block, negativeX)) {
             make_pane_flat_negativeX_faces(verts_pane_flat, uv_pane_flat, block, shape, x, y, z);
         }

@@ -6,9 +6,9 @@ package com.xbuilders.game.items.blockType;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.blockData.BlockData;
-import processing.core.PShape;
 import processing.core.PVector;
 
 import java.util.function.Consumer;
@@ -43,7 +43,7 @@ public class SpriteRenderer extends BlockType {
             1, 7, 5,};
 
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data,
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data,
                                Block negativeX, Block positiveX, Block negativeY,
                                Block positiveY, Block negativeZ, Block positiveZ,
                                int x, int y, int z) {

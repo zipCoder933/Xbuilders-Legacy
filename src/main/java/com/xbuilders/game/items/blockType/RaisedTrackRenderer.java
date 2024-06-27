@@ -6,10 +6,10 @@ package com.xbuilders.game.items.blockType;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.blockData.BlockOrientation;
 import org.joml.Vector3f;
-import processing.core.PShape;
 
 /**
  *
@@ -37,14 +37,14 @@ public class RaisedTrackRenderer extends BlockType {
     };
 
 //</editor-fold>
-    public boolean constructBlock_up_track(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_up_track(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_up_track_center_faces(verts_up_track, uv_up_track, block, shape, x, y, z);
 
         return false;
     }
 
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_up_track_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_up_track_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -76,14 +76,14 @@ public class RaisedTrackRenderer extends BlockType {
     };
 
 //</editor-fold>
-    public boolean constructBlock_up_track_A(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_up_track_A(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_up_track_A_center_faces(verts_up_track_A, uv_up_track_A, block, shape, x, y, z);
 
         return false;
     }
 
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_up_track_A_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_up_track_A_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -115,14 +115,14 @@ public class RaisedTrackRenderer extends BlockType {
     };
 
 //</editor-fold>
-    public boolean constructBlock_up_track_B(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_up_track_B(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_up_track_B_center_faces(verts_up_track_B, uv_up_track_B, block, shape, x, y, z);
 
         return false;
     }
 
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_up_track_B_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_up_track_B_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -154,14 +154,14 @@ public class RaisedTrackRenderer extends BlockType {
     };
 
 //</editor-fold>
-    public boolean constructBlock_up_track_C(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_up_track_C(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_up_track_C_center_faces(verts_up_track_C, uv_up_track_C, block, shape, x, y, z);
 
         return false;
     }
 
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_up_track_C_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_up_track_C_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -176,7 +176,7 @@ public class RaisedTrackRenderer extends BlockType {
 //</editor-fold>
 //</editor-fold>
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         BlockOrientation orientation = BlockOrientation.getBlockOrientation(data);
 
         if (orientation == null || orientation.getXZ() == 0) {

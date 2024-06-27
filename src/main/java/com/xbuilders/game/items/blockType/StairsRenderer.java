@@ -4,18 +4,18 @@
  */
 package com.xbuilders.game.items.blockType;
 
-import com.xbuilders.engine.player.UserControlledPlayer;
-import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
 import com.xbuilders.engine.items.block.construction.blockTypes.DefaultBlockType;
+import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.player.raycasting.Ray;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.blockData.BlockOrientation;
 import com.xbuilders.game.blockMode.tools.LineTool;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import processing.core.PShape;
 
 import java.util.function.Consumer;
 
@@ -42,7 +42,7 @@ public class StairsRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         BlockOrientation orientation = BlockOrientation.getBlockOrientation(data);
 
         if (orientation == null) {
@@ -58,7 +58,7 @@ public class StairsRenderer extends BlockType {
         }
     }
 
-    public void makeRegularStairs(Block block, BlockData data, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public void makeRegularStairs(Block block, BlockData data, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         //<editor-fold defaultstate="collapsed" desc="Rotate the object">
         BlockOrientation orientation = BlockOrientation.getBlockOrientation(data);
         Vector3f[] verts2 = verts;
@@ -114,7 +114,7 @@ public class StairsRenderer extends BlockType {
         }
     }
 
-    public void makeUpsideDownStairs(Block block, BlockData data, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public void makeUpsideDownStairs(Block block, BlockData data, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         //<editor-fold defaultstate="collapsed" desc="Rotate the object">
         BlockOrientation orientation = BlockOrientation.getBlockOrientation(data);
         Vector3f[] verts2 = verts_stairs_upside_down;
@@ -169,7 +169,7 @@ public class StairsRenderer extends BlockType {
         }
     }
 
-    public void makeSideStairs(Block block, BlockData data, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public void makeSideStairs(Block block, BlockData data, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         //<editor-fold defaultstate="collapsed" desc="Rotate the object">
         BlockOrientation orientation = BlockOrientation.getBlockOrientation(data);
         Vector3f[] verts2 = verts_stairs_side;
@@ -285,7 +285,7 @@ public class StairsRenderer extends BlockType {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_positiveX_faces(Vector3f[] verts2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_positiveX_faces(Vector3f[] verts2, Block block, BlockMesh_Base shape, int x, int y, int z) {
 
         shape.vertex(verts2[5].x + x, verts2[5].y + y, verts2[5].z + z, getUVTextureCoord_X(block, uvVerts[1].x), getUVTextureCoord_Y(block, uvVerts[1].y));
         shape.vertex(verts2[11].x + x, verts2[11].y + y, verts2[11].z + z, getUVTextureCoord_X(block, uvVerts[16].x), getUVTextureCoord_Y(block, uvVerts[16].y));
@@ -304,7 +304,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[11].x + x, verts2[11].y + y, verts2[11].z + z, getUVTextureCoord_X(block, uvVerts[16].x), getUVTextureCoord_Y(block, uvVerts[16].y));//FACE
     }
 
-    private static void make_center_faces(Vector3f[] verts2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_center_faces(Vector3f[] verts2, Block block, BlockMesh_Base shape, int x, int y, int z) {
 
         shape.vertex(verts2[11].x + x, verts2[11].y + y, verts2[11].z + z, getUVTextureCoord_X(block, uvVerts[5].x), getUVTextureCoord_Y(block, uvVerts[5].y));
         shape.vertex(verts2[8].x + x, verts2[8].y + y, verts2[8].z + z, getUVTextureCoord_X(block, uvVerts[4].x), getUVTextureCoord_Y(block, uvVerts[4].y));
@@ -323,7 +323,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[7].x + x, verts2[7].y + y, verts2[7].z + z, getUVTextureCoord_X(block, uvVerts[12].x), getUVTextureCoord_Y(block, uvVerts[12].y));//FACE
     }
 
-    private static void make_positiveY_faces(Vector3f[] verts2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_positiveY_faces(Vector3f[] verts2, Block block, BlockMesh_Base shape, int x, int y, int z) {
 
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(block, uvVerts[15].x), getUVTextureCoord_Y(block, uvVerts[15].y));
         shape.vertex(verts2[1].x + x, verts2[1].y + y, verts2[1].z + z, getUVTextureCoord_X(block, uvVerts[18].x), getUVTextureCoord_Y(block, uvVerts[18].y));
@@ -334,7 +334,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(block, uvVerts[17].x), getUVTextureCoord_Y(block, uvVerts[17].y));//FACE
     }
 
-    private static void make_negativeY_faces(Vector3f[] verts2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_negativeY_faces(Vector3f[] verts2, Block block, BlockMesh_Base shape, int x, int y, int z) {
 
         shape.vertex(verts2[8].x + x, verts2[8].y + y, verts2[8].z + z, getUVTextureCoord_X(block, uvVerts[2].x), getUVTextureCoord_Y(block, uvVerts[2].y));
         shape.vertex(verts2[5].x + x, verts2[5].y + y, verts2[5].z + z, getUVTextureCoord_X(block, uvVerts[1].x), getUVTextureCoord_Y(block, uvVerts[1].y));
@@ -345,7 +345,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[9].x + x, verts2[9].y + y, verts2[9].z + z, getUVTextureCoord_X(block, uvVerts[0].x), getUVTextureCoord_Y(block, uvVerts[0].y));//FACE
     }
 
-    private static void make_positiveZ_faces(Vector3f[] verts2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_positiveZ_faces(Vector3f[] verts2, Block block, BlockMesh_Base shape, int x, int y, int z) {
 
         shape.vertex(verts2[6].x + x, verts2[6].y + y, verts2[6].z + z, getUVTextureCoord_X(block, uvVerts[8].x), getUVTextureCoord_Y(block, uvVerts[8].y));
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(block, uvVerts[7].x), getUVTextureCoord_Y(block, uvVerts[7].y));
@@ -356,7 +356,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[7].x + x, verts2[7].y + y, verts2[7].z + z, getUVTextureCoord_X(block, uvVerts[6].x), getUVTextureCoord_Y(block, uvVerts[6].y));//FACE
     }
 
-    private static void make_negativeX_faces(Vector3f[] verts2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_negativeX_faces(Vector3f[] verts2, Block block, BlockMesh_Base shape, int x, int y, int z) {
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(block, uvVerts[20].x), getUVTextureCoord_Y(block, uvVerts[20].y));
         shape.vertex(verts2[10].x + x, verts2[10].y + y, verts2[10].z + z, getUVTextureCoord_X(block, uvVerts[19].x), getUVTextureCoord_Y(block, uvVerts[19].y));
@@ -375,7 +375,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[10].x + x, verts2[10].y + y, verts2[10].z + z, getUVTextureCoord_X(block, uvVerts[19].x), getUVTextureCoord_Y(block, uvVerts[19].y));//FACE
     }
 
-    private static void make_negativeZ_faces(Vector3f[] verts2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_negativeZ_faces(Vector3f[] verts2, Block block, BlockMesh_Base shape, int x, int y, int z) {
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(block, uvVerts[11].x), getUVTextureCoord_Y(block, uvVerts[11].y));
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(block, uvVerts[10].x), getUVTextureCoord_Y(block, uvVerts[10].y));
@@ -452,7 +452,7 @@ public class StairsRenderer extends BlockType {
 
     //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_stairs_upside_down_positiveZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_upside_down_positiveZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -464,7 +464,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[1].x + x, verts2[1].y + y, verts2[1].z + z, getUVTextureCoord_X(pos, uv2[0].x), getUVTextureCoord_Y(pos, uv2[0].y));//FACE
     }
 
-    private static void make_stairs_upside_down_negativeY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_upside_down_negativeY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[7].x + x, verts2[7].y + y, verts2[7].z + z, getUVTextureCoord_X(pos, uv2[16].x), getUVTextureCoord_Y(pos, uv2[16].y));
@@ -476,7 +476,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[14].x), getUVTextureCoord_Y(pos, uv2[14].y));//FACE
     }
 
-    private static void make_stairs_upside_down_center_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_upside_down_center_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[13].x), getUVTextureCoord_Y(pos, uv2[13].y));
@@ -496,7 +496,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[9].x + x, verts2[9].y + y, verts2[9].z + z, getUVTextureCoord_X(pos, uv2[17].x), getUVTextureCoord_Y(pos, uv2[17].y));//FACE
     }
 
-    private static void make_stairs_upside_down_positiveY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_upside_down_positiveY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[8].x + x, verts2[8].y + y, verts2[8].z + z, getUVTextureCoord_X(pos, uv2[30].x), getUVTextureCoord_Y(pos, uv2[30].y));
@@ -508,7 +508,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[10].x + x, verts2[10].y + y, verts2[10].z + z, getUVTextureCoord_X(pos, uv2[28].x), getUVTextureCoord_Y(pos, uv2[28].y));//FACE
     }
 
-    private static void make_stairs_upside_down_negativeX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_upside_down_negativeX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[11].x), getUVTextureCoord_Y(pos, uv2[11].y));
@@ -528,7 +528,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[25].x), getUVTextureCoord_Y(pos, uv2[25].y));//FACE
     }
 
-    private static void make_stairs_upside_down_positiveX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_upside_down_positiveX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -548,7 +548,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[11].x + x, verts2[11].y + y, verts2[11].z + z, getUVTextureCoord_X(pos, uv2[20].x), getUVTextureCoord_Y(pos, uv2[20].y));//FACE
     }
 
-    private static void make_stairs_upside_down_negativeZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_upside_down_negativeZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[6].x + x, verts2[6].y + y, verts2[6].z + z, getUVTextureCoord_X(pos, uv2[8].x), getUVTextureCoord_Y(pos, uv2[8].y));
@@ -634,7 +634,7 @@ public class StairsRenderer extends BlockType {
 
     //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_stairs_side_positiveX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_side_positiveX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -646,7 +646,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[1].x + x, verts2[1].y + y, verts2[1].z + z, getUVTextureCoord_X(pos, uv2[0].x), getUVTextureCoord_Y(pos, uv2[0].y));//FACE
     }
 
-    private static void make_stairs_side_negativeZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_side_negativeZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[7].x + x, verts2[7].y + y, verts2[7].z + z, getUVTextureCoord_X(pos, uv2[16].x), getUVTextureCoord_Y(pos, uv2[16].y));
@@ -658,7 +658,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[14].x), getUVTextureCoord_Y(pos, uv2[14].y));//FACE
     }
 
-    private static void make_stairs_side_center_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_side_center_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[13].x), getUVTextureCoord_Y(pos, uv2[13].y));
@@ -678,7 +678,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[9].x + x, verts2[9].y + y, verts2[9].z + z, getUVTextureCoord_X(pos, uv2[17].x), getUVTextureCoord_Y(pos, uv2[17].y));//FACE
     }
 
-    private static void make_stairs_side_positiveZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_side_positiveZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[10].x + x, verts2[10].y + y, verts2[10].z + z, getUVTextureCoord_X(pos, uv2[31].x), getUVTextureCoord_Y(pos, uv2[31].y));
@@ -690,7 +690,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[13].x + x, verts2[13].y + y, verts2[13].z + z, getUVTextureCoord_X(pos, uv2[29].x), getUVTextureCoord_Y(pos, uv2[29].y));//FACE
     }
 
-    private static void make_stairs_side_negativeY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_side_negativeY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[11].x), getUVTextureCoord_Y(pos, uv2[11].y));
@@ -710,7 +710,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[26].x), getUVTextureCoord_Y(pos, uv2[26].y));//FACE
     }
 
-    private static void make_stairs_side_positiveY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_side_positiveY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -730,7 +730,7 @@ public class StairsRenderer extends BlockType {
         shape.vertex(verts2[11].x + x, verts2[11].y + y, verts2[11].z + z, getUVTextureCoord_X(pos, uv2[20].x), getUVTextureCoord_Y(pos, uv2[20].y));//FACE
     }
 
-    private static void make_stairs_side_negativeX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_stairs_side_negativeX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[6].x + x, verts2[6].y + y, verts2[6].z + z, getUVTextureCoord_X(pos, uv2[8].x), getUVTextureCoord_Y(pos, uv2[8].y));

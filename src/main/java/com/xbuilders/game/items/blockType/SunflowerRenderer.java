@@ -6,11 +6,11 @@ package com.xbuilders.game.items.blockType;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.blockData.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 import org.joml.Vector3f;
-import processing.core.PShape;
 
 import java.util.function.Consumer;
 
@@ -37,14 +37,14 @@ public class SunflowerRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_sunflower(Chunk chunk, Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_sunflower(Chunk chunk, Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_sunflower_center_faces(verts_sunflower, uv_sunflower, block, shape, x, y, z);
 
         return false;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_sunflower_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_sunflower_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -77,7 +77,7 @@ public class SunflowerRenderer extends BlockType {
 
     //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_sunflower_2_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_sunflower_2_center_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.BOTTOM;
 
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -111,7 +111,7 @@ public class SunflowerRenderer extends BlockType {
             1, 3, 7,
             1, 7, 5,};
 
-    public void drawSprite(Block block, BlockData data, PShape shape,
+    public void drawSprite(Block block, BlockData data, BlockMesh_Base shape,
                            Block negativeX, Block positiveX, Block negativeY,
                            Block positiveY, Block negativeZ, Block positiveZ,
                            int x, int y, int z) {
@@ -147,7 +147,7 @@ public class SunflowerRenderer extends BlockType {
 //</editor-fold>
 
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_sunflower_center_faces(verts_sunflower, uv_sunflower, block, buffers, x, y, z);
         make_sunflower_2_center_faces(verts_sunflower_2, uv_sunflower_2, block, buffers, x, y, z);
         drawSprite(block, data, buffers, negativeX, positiveX, negativeY, positiveY, negativeZ, positiveZ, x, y, z);

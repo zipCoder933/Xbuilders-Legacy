@@ -7,9 +7,9 @@ package com.xbuilders.game.items.blockType;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.blockData.BlockData;
-import processing.core.PShape;
 import processing.core.PVector;
 
 import java.util.function.Consumer;
@@ -79,7 +79,7 @@ public class LiquidRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data,
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data,
                                Block negativeX, Block positiveX, Block negativeY,
                                Block positiveY, Block negativeZ, Block positiveZ,
                                int x, int y, int z) {
@@ -189,7 +189,7 @@ public class LiquidRenderer extends BlockType {
 
     //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_block_negativeY_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_block_negativeY_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
 
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(block, uv2[2].x), getUVTextureCoord_Y(block, uv2[2].y));
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(block, uv2[1].x), getUVTextureCoord_Y(block, uv2[1].y));

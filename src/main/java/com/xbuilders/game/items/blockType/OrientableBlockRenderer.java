@@ -4,14 +4,14 @@
  */
 package com.xbuilders.game.items.blockType;
 
-import com.xbuilders.engine.player.UserControlledPlayer;
-import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
+import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.player.raycasting.Ray;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.blockData.BlockOrientation;
 import org.joml.Vector3f;
-import processing.core.PShape;
 
 import static com.xbuilders.engine.items.block.construction.blockTypes.DefaultBlockType.blockIsBlock;
 
@@ -69,7 +69,7 @@ public class OrientableBlockRenderer extends BlockType {
 
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_block_negativeX_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_negativeX_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[8].x), getUVTextureCoord_Y(pos, uv2[8].y));
         shape.vertex(verts2[5].x + x, verts2[5].y + y, verts2[5].z + z, getUVTextureCoord_X(pos, uv2[7].x), getUVTextureCoord_Y(pos, uv2[7].y));
@@ -80,7 +80,7 @@ public class OrientableBlockRenderer extends BlockType {
         shape.vertex(verts2[6].x + x, verts2[6].y + y, verts2[6].z + z, getUVTextureCoord_X(pos, uv2[6].x), getUVTextureCoord_Y(pos, uv2[6].y));//FACE
     }
 
-    private static void make_block_negativeZ_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_negativeZ_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
         shape.vertex(verts2[6].x + x, verts2[6].y + y, verts2[6].z + z, getUVTextureCoord_X(pos, uv2[4].x), getUVTextureCoord_Y(pos, uv2[4].y));
@@ -91,7 +91,7 @@ public class OrientableBlockRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_block_positiveZ_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_positiveZ_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[11].x), getUVTextureCoord_Y(pos, uv2[11].y));
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[10].x), getUVTextureCoord_Y(pos, uv2[10].y));
@@ -102,7 +102,7 @@ public class OrientableBlockRenderer extends BlockType {
         shape.vertex(verts2[5].x + x, verts2[5].y + y, verts2[5].z + z, getUVTextureCoord_X(pos, uv2[9].x), getUVTextureCoord_Y(pos, uv2[9].y));//FACE
     }
 
-    private static void make_block_negativeY_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_negativeY_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[7].x + x, verts2[7].y + y, verts2[7].z + z, getUVTextureCoord_X(pos, uv2[14].x), getUVTextureCoord_Y(pos, uv2[14].y));
         shape.vertex(verts2[5].x + x, verts2[5].y + y, verts2[5].z + z, getUVTextureCoord_X(pos, uv2[13].x), getUVTextureCoord_Y(pos, uv2[13].y));
@@ -113,7 +113,7 @@ public class OrientableBlockRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_block_positiveY_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_positiveY_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[10].x), getUVTextureCoord_Y(pos, uv2[10].y));
@@ -124,7 +124,7 @@ public class OrientableBlockRenderer extends BlockType {
         shape.vertex(verts2[6].x + x, verts2[6].y + y, verts2[6].z + z, getUVTextureCoord_X(pos, uv2[12].x), getUVTextureCoord_Y(pos, uv2[12].y));//FACE
     }
 
-    private static void make_block_positiveX_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_positiveX_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[1].x), getUVTextureCoord_Y(pos, uv2[1].y));
@@ -176,7 +176,7 @@ public class OrientableBlockRenderer extends BlockType {
 
     //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_block_side_negativeX_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_side_negativeX_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[8].x), getUVTextureCoord_Y(pos, uv2[8].y));
         shape.vertex(verts2[5].x + x, verts2[5].y + y, verts2[5].z + z, getUVTextureCoord_X(pos, uv2[7].x), getUVTextureCoord_Y(pos, uv2[7].y));
@@ -187,7 +187,7 @@ public class OrientableBlockRenderer extends BlockType {
         shape.vertex(verts2[6].x + x, verts2[6].y + y, verts2[6].z + z, getUVTextureCoord_X(pos, uv2[6].x), getUVTextureCoord_Y(pos, uv2[6].y));//FACE
     }
 
-    private static void make_block_side_negativeY_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_side_negativeY_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
         shape.vertex(verts2[6].x + x, verts2[6].y + y, verts2[6].z + z, getUVTextureCoord_X(pos, uv2[4].x), getUVTextureCoord_Y(pos, uv2[4].y));
@@ -198,7 +198,7 @@ public class OrientableBlockRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_block_side_positiveY_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_side_positiveY_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[11].x), getUVTextureCoord_Y(pos, uv2[11].y));
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[10].x), getUVTextureCoord_Y(pos, uv2[10].y));
@@ -209,7 +209,7 @@ public class OrientableBlockRenderer extends BlockType {
         shape.vertex(verts2[5].x + x, verts2[5].y + y, verts2[5].z + z, getUVTextureCoord_X(pos, uv2[9].x), getUVTextureCoord_Y(pos, uv2[9].y));//FACE
     }
 
-    private static void make_block_side_positiveZ_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_side_positiveZ_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[7].x + x, verts2[7].y + y, verts2[7].z + z, getUVTextureCoord_X(pos, uv2[14].x), getUVTextureCoord_Y(pos, uv2[14].y));
         shape.vertex(verts2[5].x + x, verts2[5].y + y, verts2[5].z + z, getUVTextureCoord_X(pos, uv2[13].x), getUVTextureCoord_Y(pos, uv2[13].y));
@@ -220,7 +220,7 @@ public class OrientableBlockRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_block_side_negativeZ_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_side_negativeZ_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[10].x), getUVTextureCoord_Y(pos, uv2[10].y));
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[12].x), getUVTextureCoord_Y(pos, uv2[12].y));
@@ -231,7 +231,7 @@ public class OrientableBlockRenderer extends BlockType {
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));//FACE
     }
 
-    private static void make_block_side_positiveX_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, PShape shape, int x, int y, int z, int[] pos) {
+    private static void make_block_side_positiveX_faces(Vector3f[] verts2, Vector3f[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z, int[] pos) {
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[1].x), getUVTextureCoord_Y(pos, uv2[1].y));
@@ -245,7 +245,7 @@ public class OrientableBlockRenderer extends BlockType {
     //</editor-fold>
 //</editor-fold>
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data,
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data,
                                Block negativeX, Block positiveX, Block negativeY,
                                Block positiveY, Block negativeZ, Block positiveZ,
                                int x, int y, int z) {
@@ -316,7 +316,7 @@ public class OrientableBlockRenderer extends BlockType {
         }
     }
 
-    private void drawRegularCube(Block block, Vector3f[] verts, PShape shape,
+    private void drawRegularCube(Block block, Vector3f[] verts, BlockMesh_Base shape,
                                  Block negativeX, Block positiveX, Block negativeY,
                                  Block positiveY, Block negativeZ, Block positiveZ,
                                  int x, int y, int z) {
@@ -342,7 +342,7 @@ public class OrientableBlockRenderer extends BlockType {
         }
     }
 
-    private void drawSideCube(Block block, Vector3f[] verts, PShape shape,
+    private void drawSideCube(Block block, Vector3f[] verts, BlockMesh_Base shape,
                               Block negativeX, Block positiveX, Block negativeY,
                               Block positiveY, Block negativeZ, Block positiveZ,
                               int x, int y, int z) {

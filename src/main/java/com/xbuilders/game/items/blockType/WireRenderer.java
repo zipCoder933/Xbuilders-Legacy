@@ -4,12 +4,12 @@
  */
 package com.xbuilders.game.items.blockType;
 
-import com.xbuilders.engine.player.UserControlledPlayer;
-import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
+import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.player.raycasting.Ray;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.world.blockData.BlockData;
-import processing.core.PShape;
 import processing.core.PVector;
 
 /**
@@ -60,14 +60,14 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_on_center(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_on_center(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_on_center_center_faces(verts_on_center, uv_on_center, block, shape, x, y, z);
 
         return false;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_on_center_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_center_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -159,7 +159,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_on_top(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_on_top(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         if (shouldRenderSide(block, negativeY)) {
             make_on_top_negativeY_faces(verts_on_top, uv_on_top, block, shape, x, y, z);
         }
@@ -169,7 +169,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_on_top_negativeY_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_top_negativeY_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -181,7 +181,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_on_top_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_top_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -257,7 +257,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_on_bottom(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_on_bottom(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         if (shouldRenderSide(block, positiveY)) {
             make_on_bottom_positiveY_faces(verts_on_bottom, uv_on_bottom, block, shape, x, y, z);
         }
@@ -267,7 +267,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_on_bottom_positiveY_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_bottom_positiveY_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -279,7 +279,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_on_bottom_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_bottom_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -355,7 +355,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_on_x1(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_on_x1(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         if (shouldRenderSide(block, positiveX)) {
             make_on_x1_positiveX_faces(verts_on_x1, uv_on_x1, block, shape, x, y, z);
         }
@@ -365,7 +365,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_on_x1_positiveX_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_x1_positiveX_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -377,7 +377,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_on_x1_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_x1_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -453,7 +453,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_on_x2(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_on_x2(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_on_x2_center_faces(verts_on_x2, uv_on_x2, block, shape, x, y, z);
         if (shouldRenderSide(block, negativeX)) {
             make_on_x2_negativeX_faces(verts_on_x2, uv_on_x2, block, shape, x, y, z);
@@ -463,7 +463,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_on_x2_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_x2_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -499,7 +499,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[12].x), getUVTextureCoord_Y(pos, uv2[12].y));//FACE
     }
 
-    private static void make_on_x2_negativeX_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_x2_negativeX_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -551,7 +551,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_on_y1(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_on_y1(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         if (shouldRenderSide(block, negativeZ)) {
             make_on_y1_negativeZ_faces(verts_on_y1, uv_on_y1, block, shape, x, y, z);
         }
@@ -561,7 +561,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_on_y1_negativeZ_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_y1_negativeZ_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -573,7 +573,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_on_y1_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_y1_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -649,7 +649,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_on_y2(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_on_y2(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_on_y2_center_faces(verts_on_y2, uv_on_y2, block, shape, x, y, z);
         if (shouldRenderSide(block, positiveZ)) {
             make_on_y2_positiveZ_faces(verts_on_y2, uv_on_y2, block, shape, x, y, z);
@@ -659,7 +659,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_on_y2_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_y2_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -695,7 +695,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[12].x), getUVTextureCoord_Y(pos, uv2[12].y));//FACE
     }
 
-    private static void make_on_y2_positiveZ_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_on_y2_positiveZ_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -747,14 +747,14 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_off_center(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_off_center(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_off_center_center_faces(verts_off_center, uv_off_center, block, shape, x, y, z);
 
         return false;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_off_center_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_center_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -846,7 +846,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_off_top(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_off_top(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         if (shouldRenderSide(block, negativeY)) {
             make_off_top_negativeY_faces(verts_off_top, uv_off_top, block, shape, x, y, z);
         }
@@ -856,7 +856,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_off_top_negativeY_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_top_negativeY_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -868,7 +868,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_off_top_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_top_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -944,7 +944,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_off_bottom(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_off_bottom(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         if (shouldRenderSide(block, positiveY)) {
             make_off_bottom_positiveY_faces(verts_off_bottom, uv_off_bottom, block, shape, x, y, z);
         }
@@ -954,7 +954,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_off_bottom_positiveY_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_bottom_positiveY_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -966,7 +966,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_off_bottom_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_bottom_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -1042,7 +1042,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_off_x1(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_off_x1(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_off_x1_center_faces(verts_off_x1, uv_off_x1, block, shape, x, y, z);
         if (shouldRenderSide(block, negativeX)) {
             make_off_x1_negativeX_faces(verts_off_x1, uv_off_x1, block, shape, x, y, z);
@@ -1052,7 +1052,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_off_x1_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_x1_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -1088,7 +1088,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[12].x), getUVTextureCoord_Y(pos, uv2[12].y));//FACE
     }
 
-    private static void make_off_x1_negativeX_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_x1_negativeX_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -1140,7 +1140,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_off_x2(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_off_x2(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         if (shouldRenderSide(block, positiveX)) {
             make_off_x2_positiveX_faces(verts_off_x2, uv_off_x2, block, shape, x, y, z);
         }
@@ -1150,7 +1150,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_off_x2_positiveX_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_x2_positiveX_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -1162,7 +1162,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_off_x2_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_x2_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -1238,7 +1238,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_off_y1(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_off_y1(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         make_off_y1_center_faces(verts_off_y1, uv_off_y1, block, shape, x, y, z);
         if (shouldRenderSide(block, positiveZ)) {
             make_off_y1_positiveZ_faces(verts_off_y1, uv_off_y1, block, shape, x, y, z);
@@ -1248,7 +1248,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_off_y1_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_y1_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -1284,7 +1284,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[12].x), getUVTextureCoord_Y(pos, uv2[12].y));//FACE
     }
 
-    private static void make_off_y1_positiveZ_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_y1_positiveZ_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -1336,7 +1336,7 @@ public class WireRenderer extends BlockType {
     };
 
     //</editor-fold>
-    public boolean constructBlock_off_y2(Block block, PShape shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public boolean constructBlock_off_y2(Block block, BlockMesh_Base shape, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         if (shouldRenderSide(block, negativeZ)) {
             make_off_y2_negativeZ_faces(verts_off_y2, uv_off_y2, block, shape, x, y, z);
         }
@@ -1346,7 +1346,7 @@ public class WireRenderer extends BlockType {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_off_y2_negativeZ_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_y2_negativeZ_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[2].x + x, verts2[2].y + y, verts2[2].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -1358,7 +1358,7 @@ public class WireRenderer extends BlockType {
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[3].x), getUVTextureCoord_Y(pos, uv2[3].y));//FACE
     }
 
-    private static void make_off_y2_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_off_y2_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[0].x + x, verts2[0].y + y, verts2[0].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -1397,7 +1397,7 @@ public class WireRenderer extends BlockType {
     //</editor-fold>
 //</editor-fold>
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         if (data != null && data.bytes.length > 0 && data.bytes[0] > 0) {
             constructBlock_off_center(block, buffers, negativeX, positiveX, negativeY, positiveY, negativeZ, positiveZ, x, y, z);
             if (makeConnection(negativeX, block)) {

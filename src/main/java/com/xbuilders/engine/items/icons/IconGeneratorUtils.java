@@ -7,6 +7,7 @@ package com.xbuilders.engine.items.icons;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.rendering.blocks.IconMesh;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.PointerHandler;
@@ -14,11 +15,9 @@ import com.xbuilders.game.PointerHandler;
 import java.io.File;
 
 import static processing.core.PConstants.PI;
-import static processing.core.PConstants.TRIANGLE;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.core.PShape;
 import com.xbuilders.window.ui4j.UIExtensionFrame;
 
 /**
@@ -46,7 +45,7 @@ public class IconGeneratorUtils {
                 && b.getRenderType() != BlockRenderType.FLOOR
                 && b.getRenderType() != BlockRenderType.WIRE) {
             if (b.getRenderType() != BlockRenderType.SUNFLOWER_HEAD) {
-                PShape shape = makeBlockShape(b);
+                IconMesh shape = makeBlockShape(b);
 
                 pg.ortho(-frame.width / 2, frame.width / 2, -frame.height / 2, frame.height / 2, -1000, 1000);
                 pg.noStroke();
@@ -56,7 +55,7 @@ public class IconGeneratorUtils {
 
                 pg.translate(0 - (blockSize / 2), 0 - (blockSize / 2), 0 - (blockSize / 2));
                 pg.scale(blockSize);
-                pg.shape(shape);
+                shape.draw(pg);
 
                 PImage image = pg.get();
                 image.save(new File(Main.BLOCK_ICON_DIR, b.id + ".png").getAbsolutePath());
@@ -66,12 +65,9 @@ public class IconGeneratorUtils {
 
     private final Block opaqueBlock = new Block(1, "opaque", true, true);
 
-    private PShape makeBlockShape(Block b) {
-        PShape shape = frame.createShape();
-        shape.beginShape(TRIANGLE);
-        shape.texture(ItemList.blocks.textureAtlas.getImage());
-        shape.noStroke();
-
+    private IconMesh makeBlockShape(Block b) {
+        IconMesh shape = new IconMesh(this.frame);
+        shape.beginShape();
         if (b.getRenderType() == BlockRenderType.FENCE) {
             ItemList.blocks.getBlockType(b.type).constructBlock(shape, b, null,
                     opaqueBlock,
@@ -88,7 +84,6 @@ public class IconGeneratorUtils {
         }
 
         shape.endShape();
-        shape.setTextureMode(0); // This is the secret!
         return shape;
     }
 

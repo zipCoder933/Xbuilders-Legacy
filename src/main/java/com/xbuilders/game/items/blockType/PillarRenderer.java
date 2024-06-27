@@ -6,9 +6,9 @@ package com.xbuilders.game.items.blockType;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.blockData.BlockData;
-import processing.core.PShape;
 import processing.core.PVector;
 
 import java.util.function.Consumer;
@@ -192,7 +192,7 @@ public class PillarRenderer extends BlockType {
 
     //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_pillar_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pillar_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.FRONT;
 
         shape.vertex(verts2[18].x + x, verts2[18].y + y, verts2[18].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -388,7 +388,7 @@ public class PillarRenderer extends BlockType {
         shape.vertex(verts2[16].x + x, verts2[16].y + y, verts2[16].z + z, getUVTextureCoord_X(pos, uv2[70].x), getUVTextureCoord_Y(pos, uv2[70].y));//FACE
     }
 
-    private static void make_pillar_positiveY_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pillar_positiveY_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[4].x + x, verts2[4].y + y, verts2[4].z + z, getUVTextureCoord_X(pos, uv2[5].x), getUVTextureCoord_Y(pos, uv2[5].y));
@@ -432,7 +432,7 @@ public class PillarRenderer extends BlockType {
         shape.vertex(verts2[19].x + x, verts2[19].y + y, verts2[19].z + z, getUVTextureCoord_X(pos, uv2[11].x), getUVTextureCoord_Y(pos, uv2[11].y));//FACE
     }
 
-    private static void make_pillar_negativeY_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_pillar_negativeY_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[31].x + x, verts2[31].y + y, verts2[31].z + z, getUVTextureCoord_X(pos, uv2[75].x), getUVTextureCoord_Y(pos, uv2[75].y));
@@ -511,7 +511,7 @@ public class PillarRenderer extends BlockType {
     //</editor-fold>
 //</editor-fold>
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         if (renderSideSubBlock(block, negativeY)) {
             make_pillar_negativeY_faces(verts_pillar, uv_pillar, block, buffers, x, y, z);
         }

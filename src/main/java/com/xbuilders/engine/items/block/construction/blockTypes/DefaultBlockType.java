@@ -5,11 +5,11 @@
 package com.xbuilders.engine.items.block.construction.blockTypes;
 
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.game.items.blockType.BlockRenderType;
 import com.xbuilders.engine.items.block.construction.texture.BlockTextureAtlas;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.blockData.BlockData;
-import processing.core.PShape;
 import processing.core.PVector;
 
 import java.util.function.Consumer;
@@ -53,7 +53,7 @@ public class DefaultBlockType extends BlockType {
     };
 
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data,
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data,
                                Block negativeX, Block positiveX, Block negativeY,
                                Block positiveY, Block negativeZ, Block positiveZ,
                                int x, int y, int z) {
@@ -87,7 +87,7 @@ public class DefaultBlockType extends BlockType {
         }
     }
 
-    private static void constructBack(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, PShape shape, int x, int y, int z) {
+    private static void constructBack(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, BlockMesh_Base shape, int x, int y, int z) {
         shape.vertex(vertices[blockIndices[0]].x + x, vertices[blockIndices[0]].y + y, vertices[blockIndices[0]].z + z, manager.getTextureIndex(block.texture.BACK).maxX, manager.getTextureIndex(block.texture.BACK).minY);
         shape.vertex(vertices[blockIndices[1]].x + x, vertices[blockIndices[1]].y + y, vertices[blockIndices[1]].z + z, manager.getTextureIndex(block.texture.BACK).minX, manager.getTextureIndex(block.texture.BACK).minY);
         shape.vertex(vertices[blockIndices[2]].x + x, vertices[blockIndices[2]].y + y, vertices[blockIndices[2]].z + z, manager.getTextureIndex(block.texture.BACK).minX, manager.getTextureIndex(block.texture.BACK).maxY);
@@ -96,7 +96,7 @@ public class DefaultBlockType extends BlockType {
         shape.vertex(vertices[blockIndices[5]].x + x, vertices[blockIndices[5]].y + y, vertices[blockIndices[5]].z + z, manager.getTextureIndex(block.texture.BACK).maxX, manager.getTextureIndex(block.texture.BACK).maxY);
     }
 
-    private static void constructRight(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, PShape shape, int x, int y, int z) {
+    private static void constructRight(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, BlockMesh_Base shape, int x, int y, int z) {
         shape.vertex(vertices[blockIndices[6]].x + x, vertices[blockIndices[6]].y + y, vertices[blockIndices[6]].z + z, manager.getTextureIndex(block.texture.RIGHT).maxX, manager.getTextureIndex(block.texture.RIGHT).minY);
         shape.vertex(vertices[blockIndices[7]].x + x, vertices[blockIndices[7]].y + y, vertices[blockIndices[7]].z + z, manager.getTextureIndex(block.texture.RIGHT).minX, manager.getTextureIndex(block.texture.RIGHT).minY);
         shape.vertex(vertices[blockIndices[8]].x + x, vertices[blockIndices[8]].y + y, vertices[blockIndices[8]].z + z, manager.getTextureIndex(block.texture.RIGHT).minX, manager.getTextureIndex(block.texture.RIGHT).maxY);
@@ -105,7 +105,7 @@ public class DefaultBlockType extends BlockType {
         shape.vertex(vertices[blockIndices[11]].x + x, vertices[blockIndices[11]].y + y, vertices[blockIndices[11]].z + z, manager.getTextureIndex(block.texture.RIGHT).maxX, manager.getTextureIndex(block.texture.RIGHT).maxY);
     }
 
-    private static void constructFront(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, PShape shape, int x, int y, int z) {
+    private static void constructFront(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, BlockMesh_Base shape, int x, int y, int z) {
         //shading.applyTopVertex3Shading(shape, Face.FRONT);
         shape.vertex(vertices[blockIndices[12]].x + x, vertices[blockIndices[12]].y + y, vertices[blockIndices[12]].z + z, manager.getTextureIndex(block.texture.FRONT).maxX, manager.getTextureIndex(block.texture.FRONT).minY);
         shape.vertex(vertices[blockIndices[13]].x + x, vertices[blockIndices[13]].y + y, vertices[blockIndices[13]].z + z, manager.getTextureIndex(block.texture.FRONT).minX, manager.getTextureIndex(block.texture.FRONT).minY);
@@ -115,7 +115,7 @@ public class DefaultBlockType extends BlockType {
         shape.vertex(vertices[blockIndices[17]].x + x, vertices[blockIndices[17]].y + y, vertices[blockIndices[17]].z + z, manager.getTextureIndex(block.texture.FRONT).maxX, manager.getTextureIndex(block.texture.FRONT).maxY);
     }
 
-    private static void constructLeft(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, PShape shape, int x, int y, int z) {
+    private static void constructLeft(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, BlockMesh_Base shape, int x, int y, int z) {
         //shading.applyTopVertex4Shading(shape, Face.LEFT);
         shape.vertex(vertices[blockIndices[18]].x + x, vertices[blockIndices[18]].y + y, vertices[blockIndices[18]].z + z, manager.getTextureIndex(block.texture.LEFT).maxX, manager.getTextureIndex(block.texture.LEFT).minY);
         shape.vertex(vertices[blockIndices[19]].x + x, vertices[blockIndices[19]].y + y, vertices[blockIndices[19]].z + z, manager.getTextureIndex(block.texture.LEFT).minX, manager.getTextureIndex(block.texture.LEFT).minY);
@@ -125,7 +125,7 @@ public class DefaultBlockType extends BlockType {
         shape.vertex(vertices[blockIndices[23]].x + x, vertices[blockIndices[23]].y + y, vertices[blockIndices[23]].z + z, manager.getTextureIndex(block.texture.LEFT).maxX, manager.getTextureIndex(block.texture.LEFT).maxY);
     }
 
-    private static void constructTop(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, PShape shape, int x, int y, int z) {
+    private static void constructTop(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, BlockMesh_Base shape, int x, int y, int z) {
         //shading.applyTopVertex3Shading(shape, Face.TOP);
         shape.vertex(vertices[blockIndices[24]].x + x, vertices[blockIndices[24]].y + y, vertices[blockIndices[24]].z + z, manager.getTextureIndex(block.texture.TOP).minX, manager.getTextureIndex(block.texture.TOP).minY);
         // if(CALCULATE_AO){
@@ -150,7 +150,7 @@ public class DefaultBlockType extends BlockType {
         shape.vertex(vertices[blockIndices[29]].x + x, vertices[blockIndices[29]].y + y, vertices[blockIndices[29]].z + z, manager.getTextureIndex(block.texture.TOP).maxX, manager.getTextureIndex(block.texture.TOP).maxY);
     }
 
-    private static void constructBottom(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, PShape shape, int x, int y, int z) {
+    private static void constructBottom(BlockTextureAtlas manager, com.xbuilders.engine.items.block.Block block, BlockMesh_Base shape, int x, int y, int z) {
         //shading.applyBottomVertex1Shading(shape, Face.BOTTOM);
         shape.vertex(vertices[blockIndices[30]].x + x, vertices[blockIndices[30]].y + y, vertices[blockIndices[30]].z + z, manager.getTextureIndex(block.texture.BOTTOM).maxX, manager.getTextureIndex(block.texture.BOTTOM).minY);
         // if(CALCULATE_AO){

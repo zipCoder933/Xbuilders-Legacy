@@ -4,10 +4,10 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.raycasting.Ray;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.world.blockData.BlockData;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import processing.core.PShape;
 
 public class WheelRenderer extends BlockType {
     @Override
@@ -78,7 +78,7 @@ public class WheelRenderer extends BlockType {
 
 //<editor-fold defaultstate="collapsed" desc="Face methods">
 
-    private static void make_wheel_negativeY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape buffers, int x, int y, int z) {
+    private static void make_wheel_negativeY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base buffers, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
 
@@ -92,7 +92,7 @@ public class WheelRenderer extends BlockType {
     }
 
 
-    private static void make_wheel_positiveY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape buffers, int x, int y, int z) {
+    private static void make_wheel_positiveY_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base buffers, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
 
@@ -106,7 +106,7 @@ public class WheelRenderer extends BlockType {
     }
 
 
-    private static void make_wheel_negativeX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape buffers, int x, int y, int z) {
+    private static void make_wheel_negativeX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base buffers, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
 
@@ -120,7 +120,7 @@ public class WheelRenderer extends BlockType {
     }
 
 
-    private static void make_wheel_positiveX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape buffers, int x, int y, int z) {
+    private static void make_wheel_positiveX_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base buffers, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
 
@@ -134,7 +134,7 @@ public class WheelRenderer extends BlockType {
     }
 
 
-    private static void make_wheel_negativeZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape buffers, int x, int y, int z) {
+    private static void make_wheel_negativeZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base buffers, int x, int y, int z) {
         int[] pos = block.texture.FRONT;
 
 
@@ -164,7 +164,7 @@ public class WheelRenderer extends BlockType {
     }
 
 
-    private static void make_wheel_positiveZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape buffers, int x, int y, int z) {
+    private static void make_wheel_positiveZ_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base buffers, int x, int y, int z) {
         int[] pos = block.texture.FRONT;
 
 
@@ -194,7 +194,7 @@ public class WheelRenderer extends BlockType {
     }
 
 
-    private static void make_wheel_center_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, PShape buffers, int x, int y, int z) {
+    private static void make_wheel_center_faces(Vector3f[] verts2, Vector2f[] uv2, Block block, BlockMesh_Base buffers, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
 
@@ -237,7 +237,7 @@ public class WheelRenderer extends BlockType {
 
 
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         Vector3f[] verts2 = verts_wheel;
         if (data != null && data.getLength() >= 1) {
             verts2 = rotateVerticiesYAxis(verts_wheel, data.get(0));

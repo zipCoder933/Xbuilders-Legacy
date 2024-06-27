@@ -4,14 +4,14 @@
  */
 package com.xbuilders.game.items.blockType;
 
-import com.xbuilders.engine.player.UserControlledPlayer;
-import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.blockTypes.BlockType;
+import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.player.raycasting.Ray;
+import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.blockData.BlockOrientation;
-import processing.core.PShape;
 import processing.core.PVector;
 
 import java.util.function.Consumer;
@@ -46,7 +46,7 @@ public class FloorItemRenderer extends BlockType {
 
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_floor1_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_floor1_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -79,7 +79,7 @@ public class FloorItemRenderer extends BlockType {
 
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_floor2_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_floor2_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -112,7 +112,7 @@ public class FloorItemRenderer extends BlockType {
 
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_floor3_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_floor3_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -145,7 +145,7 @@ public class FloorItemRenderer extends BlockType {
 
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Face methods">
-    private static void make_floor4_center_faces(PVector[] verts2, PVector[] uv2, Block block, PShape shape, int x, int y, int z) {
+    private static void make_floor4_center_faces(PVector[] verts2, PVector[] uv2, Block block, BlockMesh_Base shape, int x, int y, int z) {
         int[] pos = block.texture.TOP;
 
         shape.vertex(verts2[3].x + x, verts2[3].y + y, verts2[3].z + z, getUVTextureCoord_X(pos, uv2[2].x), getUVTextureCoord_Y(pos, uv2[2].y));
@@ -160,7 +160,7 @@ public class FloorItemRenderer extends BlockType {
     //</editor-fold>
     //</editor-fold>
     @Override
-    public void constructBlock(PShape buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
+    public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         BlockOrientation orientation = BlockOrientation.getBlockOrientation(data);
 
         if (orientation == null || orientation.getXZ() == 3) {

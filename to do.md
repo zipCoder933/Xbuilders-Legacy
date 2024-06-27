@@ -1,8 +1,23 @@
 # To Do
 
-~~1. fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet
-   * Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides~~
-2. Optimize custom vehicles and convert chunks to opengl meshes
+Should I just switch to xbuilders 3?
+*  I would have to
+  * Add vehicles
+  * add flowing liquid
+  * fix any bugs with block setter
+  ~~* add conversion tool?~~
+  ~~* Add repaint and sphere block tools~~
+* VS using XB2
+  * Update to opengl meshes (Major)
+  * I still have issues with trees looking halved and slower performance in other areas
+
+~~1. fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet~~
+   * Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides
+   * i fixed it, but it causes slower mesh generation
+
+2. Convert blocks to opengl meshes
+**A major issue is that the icon generation now has to be opengl too**
+   3. Green meshes are a major problem
    1. change block construction to use custom block buffer
    2. Convert chunk meshes to opengl
    3. Convert block mesh to opengl
@@ -21,5 +36,5 @@ replace inBoundsOfSLM with  distToPlayer < viewDist
   * its all openGL
 
 # Fixed Bugs
-### **IMPORTANT** Because of entity gl rendering, now regular chunks are doubled up, causing a jitter effect on the surface of the mesh
+### IMPORTANT Because of entity gl rendering, now regular chunks are doubled up, causing a jitter effect on the surface of the mesh
 The reason for this is because the p3d meshes are rendered AFTER the opengl meshes
