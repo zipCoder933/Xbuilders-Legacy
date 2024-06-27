@@ -3,7 +3,7 @@ package com.xbuilders.engine.rendering;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.rendering.blocks.glBlockMesh;
+import com.xbuilders.engine.rendering.blocks.p3dBlockMesh;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.game.items.other.BlockGrid;
 import processing.core.PShape;
@@ -12,7 +12,7 @@ public class StandaloneBlockMesh {
 
     public static PShape createMesh(BlockGrid grid, boolean wireframe, boolean textured) {
         Block faceDefault = BlockList.BLOCK_AIR;
-        glBlockMesh mesh =  new glBlockMesh();
+        p3dBlockMesh mesh =  new p3dBlockMesh();
         mesh.wireframe = wireframe;
         mesh.beginShape();
 

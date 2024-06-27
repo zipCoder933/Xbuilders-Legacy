@@ -5,8 +5,7 @@ package com.xbuilders.engine.world.chunk;
 
 import com.xbuilders.engine.player.camera.frustum.Frustum;
 import com.xbuilders.engine.rendering.ShaderHandler;
-import com.xbuilders.engine.rendering.blocks.BlockMesh_Base;
-import com.xbuilders.engine.rendering.blocks.glBlockMesh;
+import com.xbuilders.engine.rendering.blocks.p3dBlockMesh;
 import com.xbuilders.game.Main;
 import com.xbuilders.engine.utils.MiscUtils;
 import processing.core.PVector;
@@ -47,7 +46,7 @@ public class SubChunk {
     private Vector3i currentTransformation;
     private Vector3i offset;
     PShape entityMesh;
-    final glBlockMesh opaqueMesh, transparentMesh;
+    final p3dBlockMesh opaqueMesh, transparentMesh;
     boolean needsRegenerating;
     private float distToPlayer;
 
@@ -77,8 +76,8 @@ public class SubChunk {
         this.aabb = new AABB();
         this.lightMap = new ChunkLightMap(this, SubChunk.WIDTH, SubChunk.WIDTH, SubChunk.WIDTH);
         this.data = new ChunkVoxels(SubChunk.WIDTH, SubChunk.WIDTH, SubChunk.WIDTH);
-        this.opaqueMesh = new glBlockMesh();
-        this.transparentMesh = new glBlockMesh();
+        this.opaqueMesh = new p3dBlockMesh();
+        this.transparentMesh = new p3dBlockMesh();
         this.needsRegenerating = false;
     }
 
