@@ -10,16 +10,23 @@ I would have to
 * I still have issues with trees looking halved and slower performance in other areas
 
 # To Do
-~~1. fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet~~
-   * Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides
-   * i fixed it, but it causes slower mesh generation
-     * Take note if the issue has actually been solved, if it hasnt, scrap the whole thing entirely, and switch back to what I did before...
+## ~~fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet~~
+~~* Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides~~
 
-2. Convert blocks to opengl meshes
-   * I will have to load and update the mesh on the main thread
-     * Use an executor system like in xb3 and only send the mesh to GPU on the main thread
-   * Is it really worth it?
-   * Rebuild block shader using entity shader as a template
+### I fixed it, but it causes slower mesh generation.
+Take note if the issue has actually been solved, if it hasnt, scrap the whole thing entirely, and switch back to what I did before...
+the only way for me to fix this would be to change the entire terrain updating system to xb3. its one of those things that I could do, but it would just take way too much of my time
+
+**POSSIBLE ALTERNATIVE:** check if the sub chunk is visible from the surface, if so, than fill holes of null or unloaded chunks
+  
+
+## ~~Convert blocks to opengl meshes~~
+this will take too much time. if i am going to to this, I mind as well switch to XB3.
+  
+* I will have to load and update the mesh on the main thread
+* Use an executor system like in xb3 and only send the mesh to GPU on the main thread
+* Is it really worth it?
+* Rebuild block shader using entity shader as a template
 
 
 3. See if the lightmap has been set to initialized if the chunk was loaded from the file
