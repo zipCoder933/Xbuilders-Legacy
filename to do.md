@@ -14,6 +14,12 @@ I would have to
 ## Occlusion culling is possible for p3d meshes!
 * if i had occlusion culling, i wouldnt have to worry about waiting to generate the mesh. i could just fill the holes
 * i could have a setting to choose if i wanted to fill holes of chunks in naive mesher
+* However i dont think i will (because i mind as well use xb3) and because I would have to:
+  1. sort all chunks from front to back
+  2. make a opengl bounding box that gets rendered after all p3d meshes
+  3. cull using occlusion culling and frustum culling
+  4. handle the edge cases (transparent and not opaque meshes) or dont handle them
+
 
 ## ~~fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet~~
 ~~* Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides~~
