@@ -5,9 +5,9 @@ I would have to
 * fix any bugs with block setter
   ~~* add conversion tool?~~
   ~~* Add repaint and sphere block tools~~
-  VS using XB2
-* Update to opengl meshes (Major)
-* I still have issues with trees looking halved and slower performance in other areas
+  
+xbuilders 3 is just better for performance and chunk generation.
+its smoother and has a perfect fps. There would be no good reason for me to spend a bunch of time optimizing because It would take just as long if not easier to use XB3 instead
 
 # To Do
 
@@ -45,13 +45,6 @@ this will take too much time. if i am going to to this, I mind as well switch to
 
 3. See if the lightmap has been set to initialized if the chunk was loaded from the file
    * We dont need to generate sun for already saved chunks
-
-### switching to P3D+LWJGL?
-* This would take too much time
-* As far as I can tell has no advantages
-* It would be just as easy to switch to lwjgl even after i have been using joml for 2 reasons
-  * the shader and mesh classes would be easy to swap out or change
-  * its all openGL
 
 # Fixed Bugs
 ### IMPORTANT Because of entity gl rendering, now regular chunks are doubled up, causing a jitter effect on the surface of the mesh
