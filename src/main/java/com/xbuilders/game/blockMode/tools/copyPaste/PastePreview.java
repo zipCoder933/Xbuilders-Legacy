@@ -6,7 +6,7 @@ package com.xbuilders.game.blockMode.tools.copyPaste;
 
 import com.xbuilders.engine.world.blockData.BlockOrientation;
 import com.xbuilders.engine.world.holograms.Hologram;
-import com.xbuilders.game.items.other.BlockMesh;
+import com.xbuilders.engine.rendering.StandaloneBlockMesh;
 import org.joml.Vector3i;
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -30,7 +30,7 @@ public class PastePreview extends Hologram {
                 clipboard.blocks.size.y,
                 clipboard.blocks.size.z);
 
-        mesh = BlockMesh.createMesh(clipboard.blocks, true, true);
+        mesh = StandaloneBlockMesh.createMesh(clipboard.blocks, true, true);
         this.worldPosition.set(worldPosition);
     }
 

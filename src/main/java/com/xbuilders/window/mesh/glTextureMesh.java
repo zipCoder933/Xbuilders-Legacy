@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 
 public class glTextureMesh {
 
@@ -31,7 +32,7 @@ public class glTextureMesh {
     int posLoc;
     int colorLoc;
     public final GL4 gl;
-    public final  PJOGL pgl;
+    public final PJOGL pgl;
 
     public glTextureMesh(PJOGL pgl, int posLoc, int colorLoc) {
         this.pgl = pgl;
@@ -196,8 +197,37 @@ public class glTextureMesh {
 //        sendToGPU(posBuffer, uvBuffer, indexBuffer); // sendToGPU
 //    }
 
-    int drawElements = 0;
+    public int size = 0;
 
+
+    public void sendToGPU(ArrayList<Float> positions, ArrayList<Float> uvs) {
+        System.out.println("sendToGPU called");
+        posBuffer = BufferUtils.allocateDirectFloatBuffer(positions.size());
+        uvBuffer = BufferUtils.allocateDirectFloatBuffer(uvs.size());
+        indexBuffer = BufferUtils.allocateDirectIntBuffer(positions.size());
+
+
+        posBuffer.rewind();
+        for (int i = 0; i < positions.size(); i++) {
+            posBuffer.put(positions.get(i));
+
+        }
+        indexBuffer.rewind();
+
+        indexBuffer.rewind();
+        for (int i = 0; i < positions.size(); i++) {
+            indexBuffer.put(i);
+        }
+        indexBuffer.rewind();
+
+        uvBuffer.rewind();
+        for (int i = 0; i < uvs.size(); i++) {
+            uvBuffer.put(uvs.get(i));
+        }
+        uvBuffer.rewind();
+
+        sendToGPU(posBuffer, uvBuffer, indexBuffer); // sendToGPU
+    }
 
     public void sendToGPU(float[] positions, float[] colors, int[] indices) {
         posBuffer = BufferUtils.allocateDirectFloatBuffer(positions.length);
@@ -231,7 +261,7 @@ public class glTextureMesh {
         gl.glBufferData(GL.GL_ARRAY_BUFFER, Float.BYTES * uvBuffer.capacity(), uvBuffer, GL.GL_DYNAMIC_DRAW);
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
-        drawElements = indexBuffer.capacity();
+        size = indexBuffer.capacity();
     }
 
     int textureID = 0;
@@ -247,13 +277,15 @@ public class glTextureMesh {
     }
 
     public void draw() {
-        setVBOProperties(); // Required otherwise the mesh will disappear when p3d components are added to
-        // the scene
+        if (size > 0) {
+            setVBOProperties(); // Required otherwise the mesh will disappear when p3d components are added to
+            // the scene
 
-        gl.glBindTexture(GL.GL_TEXTURE_2D, textureID);
+            gl.glBindTexture(GL.GL_TEXTURE_2D, textureID);
 
-        gl.glBindBuffer(PGL.ELEMENT_ARRAY_BUFFER, indexVboId);
-        gl.glDrawElements(PGL.TRIANGLES, drawElements, GL.GL_UNSIGNED_INT, 0);
-        gl.glBindBuffer(PGL.ELEMENT_ARRAY_BUFFER, 0);
+            gl.glBindBuffer(PGL.ELEMENT_ARRAY_BUFFER, indexVboId);
+            gl.glDrawElements(PGL.TRIANGLES, size, GL.GL_UNSIGNED_INT, 0);
+            gl.glBindBuffer(PGL.ELEMENT_ARRAY_BUFFER, 0);
+        }
     }
 }

@@ -12,7 +12,7 @@ import com.xbuilders.game.items.GameItems;
 import com.xbuilders.game.items.entities.mobile.Vehicle;
 import com.xbuilders.game.items.entities.vehicle.minecart.MinecartUtils;
 import com.xbuilders.game.items.other.BlockGrid;
-import com.xbuilders.game.items.other.BlockMesh;
+import com.xbuilders.engine.rendering.StandaloneBlockMesh;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -238,7 +238,7 @@ public class CustomVehicleEntityLink extends EntityLink {
                 renderOffset.x = (float) -blocks.size.x / 2;
                 renderOffset.y = (float) -blocks.size.y / 2;
                 renderOffset.z = (float) -blocks.size.z / 2;
-                mesh = BlockMesh.createMesh(blocks, false, true);
+                mesh = StandaloneBlockMesh.createMesh(blocks, false, true);
 
                 // Find the driver seat and blades
                 for (int i = 0; i < blocks.size.x; i++) {

@@ -8,7 +8,7 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.holograms.Hologram;
 import com.xbuilders.game.items.other.BlockGrid;
-import com.xbuilders.game.items.other.BlockMesh;
+import com.xbuilders.engine.rendering.StandaloneBlockMesh;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import processing.core.PGraphics;
@@ -85,7 +85,7 @@ public class BoundingBox extends Hologram {
                 clipboard.size.x,
                 clipboard.size.y,
                 clipboard.size.z);
-        mesh = BlockMesh.createMesh(clipboard, wireframe, textured);
+        mesh = StandaloneBlockMesh.createMesh(clipboard, wireframe, textured);
         this.worldPosition.set(worldPosition);
     }
 

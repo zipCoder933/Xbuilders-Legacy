@@ -7,8 +7,6 @@ public abstract class BlockMesh_Base {
 
     public abstract void endShape();
 
-    public abstract void vertex(float x, float y, float z);
-
     public abstract void vertex(float x, float y, float z, float u, float v);
 
 }

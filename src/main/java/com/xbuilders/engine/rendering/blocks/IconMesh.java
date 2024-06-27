@@ -33,10 +33,6 @@ public class IconMesh extends BlockMesh_Base {
         vertices = buffer.getVertexCount();
     }
 
-    @Override
-    public void vertex(float x, float y, float z) {
-        buffer.vertex(x, y, z);
-    }
 
     @Override
     public void vertex(float x, float y, float z, float u, float v) {

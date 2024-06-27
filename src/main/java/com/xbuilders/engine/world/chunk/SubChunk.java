@@ -47,7 +47,7 @@ public class SubChunk {
     private Vector3i currentTransformation;
     private Vector3i offset;
     PShape entityMesh;
-    glBlockMesh opaqueMesh, transparentMesh;
+    final glBlockMesh opaqueMesh, transparentMesh;
     boolean needsRegenerating;
     private float distToPlayer;
 
@@ -77,6 +77,9 @@ public class SubChunk {
         this.aabb = new AABB();
         this.lightMap = new ChunkLightMap(this, SubChunk.WIDTH, SubChunk.WIDTH, SubChunk.WIDTH);
         this.data = new ChunkVoxels(SubChunk.WIDTH, SubChunk.WIDTH, SubChunk.WIDTH);
+        this.opaqueMesh = new glBlockMesh();
+        this.transparentMesh = new glBlockMesh();
+        this.needsRegenerating = false;
     }
 
     public void init(final int x, final int y, final int z) {
@@ -104,9 +107,12 @@ public class SubChunk {
         // neighbors
         // hasLightNeighbor = NaiveCulling.checkAllNeighborsForNonDarkness(this);
         // }
+        this.opaqueMesh.reset();
+        this.transparentMesh.reset();
+
         NaiveCulling.generateMesh(this,
-                this.opaqueMesh = new glBlockMesh(),
-                this.transparentMesh = new glBlockMesh(), this.offset);
+                this.opaqueMesh,
+                this.transparentMesh, this.offset);
 
         this.needsRegenerating = false;
         this.getParentChunk().markAsNeedsSaving();
@@ -132,7 +138,7 @@ public class SubChunk {
     public PShape generateStaticEntityType(final PImage key, final ArrayList<Entity> value) {
         this.entityMesh = this.getPointerHandler().getApplet().createShape();
         final PShape entityMesh = this.entityMesh;
-        this.getPointerHandler().getApplet();
+
         entityMesh.beginShape(8);
         this.entityMesh.noStroke();
         this.entityMesh.texture(key);
@@ -212,7 +218,7 @@ public class SubChunk {
                 VoxelGame.getShaderHandler().setWorldSpaceOffset((float) (this.position.x * SubChunk.WIDTH), 0.0f,
                         (float) (this.position.z * SubChunk.WIDTH));
                 VoxelGame.getShaderHandler().setBlockShaderModelMatrix(modelMatrix);
-                opaqueMesh.draw();
+                opaqueMesh.draw(modelMatrix);
 
                 //Draw static entities
                 VoxelGame.getShaderHandler().setAnimatedTexturesEnabled(false);
@@ -236,7 +242,7 @@ public class SubChunk {
             VoxelGame.getShaderHandler().setWorldSpaceOffset((float) (this.position.x * SubChunk.WIDTH), 0.0f,
                     (float) (this.position.z * SubChunk.WIDTH));
             VoxelGame.getShaderHandler().setBlockShaderModelMatrix(modelMatrix);
-            transparentMesh.draw();
+            transparentMesh.draw(modelMatrix);
         }
     }
 
