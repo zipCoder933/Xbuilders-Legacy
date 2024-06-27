@@ -1,30 +1,24 @@
 package com.xbuilders.test.joglDemo.demoModified.demo;
 
 import com.jogamp.opengl.GL4;
-import com.xbuilders.window.CameraNavigator;
-import com.xbuilders.window.MVP;
 
-import com.xbuilders.window.mesh.glTextureMesh;
-import com.xbuilders.window.shader.DemoTextureShader;
+import com.xbuilders.window.utils.glSampleQuery;
 import processing.core.UIFrame;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import processing.opengl.PJOGL;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-
-import org.joml.Matrix4f;
 
 class JOGLDemoMod extends UIFrame {
 
     PJOGL pgl;
     GL4 gl;
     WrappedDemo demo;
+    glSampleQuery sampleQuery;
 
     public JOGLDemoMod() {
         super();
@@ -45,7 +39,7 @@ class JOGLDemoMod extends UIFrame {
     public void setup() {
         pgl = (PJOGL) beginPGL();
         gl = pgl.gl.getGL4();
-
+        sampleQuery = new glSampleQuery(pgl);
 
         demo = new WrappedDemo(this, pgl);
 
@@ -60,9 +54,18 @@ class JOGLDemoMod extends UIFrame {
         if (mousePressed) {
             fill(255, 0, 0);
             rect(100, 100, 100, 100);
+            fill(0, 0, 255);
+            box(100, 100, 100);
         }
 
+        if(sampleQuery.queried){
+            sampleQuery.getQuery();
+            System.out.println("Samples: " + sampleQuery.getSamplesPassedLastFrame());
+        }
+
+        sampleQuery.start();
         demo.draw();
+        sampleQuery.end();
     }
 
     @Override

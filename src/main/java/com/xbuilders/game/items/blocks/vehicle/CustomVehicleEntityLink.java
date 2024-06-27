@@ -13,9 +13,11 @@ import com.xbuilders.game.items.entities.mobile.Vehicle;
 import com.xbuilders.game.items.entities.vehicle.minecart.MinecartUtils;
 import com.xbuilders.game.items.other.BlockGrid;
 import com.xbuilders.engine.rendering.StandaloneBlockMesh;
+import com.xbuilders.window.utils.glSampleQuery;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.core.PShape;
+import processing.opengl.PJOGL;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,9 +25,17 @@ import java.util.List;
 
 public class CustomVehicleEntityLink extends EntityLink {
 
+//    glSampleQuery query; //Used to test if occlusion culling is working
+
     public CustomVehicleEntityLink(int id) {
         super(id, "Custom Vehicle hidden");
         setSupplier(() -> new CustomVehicle());
+    }
+
+    public void initialize() {
+        PJOGL pgl = Main.beginPJOGL();
+//        query = new glSampleQuery(pgl);
+        Main.endPJOGL();
     }
 
 
@@ -183,7 +193,14 @@ public class CustomVehicleEntityLink extends EntityLink {
                 smoothYRotation = (float) MathUtils.curve(smoothYRotation, rotationYDeg, 0.25f);
                 modelMatrix.rotateY(yRotationRadians).translate(renderOffset.x, renderOffset.y, renderOffset.z);
                 sendModelMatrixToShader();
+
+//                if(query.queried){
+//                    query.getQuery();
+//                    System.out.println("Samples: " + query.getSamplesPassedLastFrame());
+//                }
+//                query.start();
                 renderMob();
+//                query.end();
             }
         }
 

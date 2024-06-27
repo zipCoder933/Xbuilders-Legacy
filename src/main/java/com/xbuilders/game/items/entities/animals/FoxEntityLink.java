@@ -56,7 +56,7 @@ public class FoxEntityLink extends EntityLink {
     class Fox extends LandAnimal {
 
         public Fox() {
-            super(new Vector3f(0.9f, 0.8f, 0.9f), 1);
+            super(new Vector3f(0.8f, 0.9f, 0.8f), 1);
             setMaxSpeed(0.17f);
             setActivity(0.8f);
             // setFreezeMode(true);

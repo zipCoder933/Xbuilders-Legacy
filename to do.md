@@ -10,6 +10,9 @@ I would have to
 * I still have issues with trees looking halved and slower performance in other areas
 
 # To Do
+
+## Occlusion culling is possible for p3d meshes!
+
 ## ~~fix issue where the edge of the chunk is invisible because the neighboring chunks havent been loaded yet~~
 ~~* Dont ever generate the mesh of a chunk unless it is surrounded by neighbors on all facing sides~~
 

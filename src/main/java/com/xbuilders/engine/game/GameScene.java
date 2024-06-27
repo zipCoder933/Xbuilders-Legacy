@@ -486,7 +486,7 @@ public class GameScene extends UIExtension {
             if (keysArePressed(KeyCode.CTRL, KeyCode.SHIFT, KeyCode.E)) {
                 ChunkEntitySet.drawEntities = !ChunkEntitySet.drawEntities;
                 alert("Entity Rendering " + (ChunkEntitySet.drawEntities ? "ENABLED" : "DISABLED"));
-            } else if (keyIsPressed(KeyCode.I)) {
+            } else if (keyIsPressed(KeyCode.I) || keyIsPressed(KeyCode.E)) {
                 menu.show(MenuType.INVENTORY);
             } else if (keyIsPressed(KeyCode.CTRL) && keyIsPressed(KeyCode.SHIFT) && keyIsPressed(KeyCode.P)) {
                 setDevStatsOpen(!isDevStatsOpen());
