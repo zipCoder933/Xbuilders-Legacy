@@ -15,7 +15,10 @@ I would have to
 
 ### I fixed it, but it causes slower mesh generation.
 Take note if the issue has actually been solved, if it hasnt, scrap the whole thing entirely, and switch back to what I did before...
-the only way for me to fix this would be to change the entire terrain updating system to xb3. its one of those things that I could do, but it would just take way too much of my time
+
+the only way for me to fix this would be to change the entire terrain updating system to xb3.
+* its one of those things that I could do, but it would just take way too much of my time
+* additionally, new bugs might be introduced, especially seeing that I use a shader lightmap
 
 **POSSIBLE ALTERNATIVE:** check if the sub chunk is visible from the surface, if so, than fill holes of null or unloaded chunks
   
