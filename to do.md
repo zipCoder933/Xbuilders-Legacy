@@ -16,17 +16,14 @@ I would have to
      * Take note if the issue has actually been solved, if it hasnt, scrap the whole thing entirely, and switch back to what I did before...
 
 2. Convert blocks to opengl meshes
-**A major issue is that the icon generation now has to be opengl too**
-   3. Green meshes are a major problem
-   1. change block construction to use custom block buffer
-   2. Convert chunk meshes to opengl
-   3. Convert block mesh to opengl
-   3. Optimize the custom vehicle
+   * I will have to load and update the mesh on the main thread
+     * Use an executor system like in xb3 and only send the mesh to GPU on the main thread
+   * Is it really worth it?
+   * Rebuild block shader using entity shader as a template
 
-See if the lightmap has been set to initialized if the chunk was loaded from the file
-We dont need to generate sun for already saved chunks
 
-replace inBoundsOfSLM with  distToPlayer < viewDist
+3. See if the lightmap has been set to initialized if the chunk was loaded from the file
+   * We dont need to generate sun for already saved chunks
 
 ### switching to P3D+LWJGL?
 * This would take too much time
