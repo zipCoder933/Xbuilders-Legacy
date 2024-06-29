@@ -1,15 +1,10 @@
-# Should I just switch to xbuilders 3?
-I would have to
-* Add vehicles
-* add flowing liquid
-* fix any bugs with block setter
-  ~~* add conversion tool?~~
-  ~~* Add repaint and sphere block tools~~
-  VS using XB2
-* Update to opengl meshes (Major)
-* I still have issues with trees looking halved and slower performance in other areas
+# Optimizations
+## Hashset and Hashqueue
+* These should be used as LITTLE AS POSSIBLE!
+  * hashmap/hashset.get() poses a major memory bottleneck
 
-# To Do
+## The main reason why the FPS is stuck at 30fps is because the chunk meshes MUST be replaced with opengl meshes
+* Im not going to worry about this, however because I am switching to XBuilders 3
 
 ## Occlusion culling is possible for p3d meshes!
 

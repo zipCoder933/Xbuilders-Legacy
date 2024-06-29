@@ -44,7 +44,7 @@ public class CatEntityLink extends EntityLink {
 
             body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
             try {
-                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\cat\\cat.obj"));
+                body.loadFromOBJ(ResourceUtils.resource("items\\entities\\animals\\cat\\cat.obj"));
                 body.setTexture(ResourceUtils.resource("items\\entities\\animals\\cat\\" + texturePath));
             } catch (IOException e) {
                 throw new RuntimeException(e);

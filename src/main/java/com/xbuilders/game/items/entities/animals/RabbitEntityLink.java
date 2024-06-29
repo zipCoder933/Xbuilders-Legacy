@@ -40,7 +40,7 @@ public class RabbitEntityLink extends EntityLink {
 
             body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
             try {
-                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\rabbit\\body.obj"));
+                body.loadFromOBJ(ResourceUtils.resource("items\\entities\\animals\\rabbit\\body.obj"));
                 body.setTexture(ResourceUtils.resource("items\\entities\\animals\\rabbit\\" + texturePath));
             } catch (IOException e) {
                 throw new RuntimeException(e);

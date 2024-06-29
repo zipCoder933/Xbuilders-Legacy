@@ -54,8 +54,8 @@ public class MuleEntityLink extends EntityLink {
                 int texture = TextureUtils.loadTexture(pgl.gl.getGL4(),
                         ResourceUtils.resourcePath(TEXTURE_DIR + textureFile), false).id;
 
-                body.setOBJ(ResourceUtils.resource(BODY_OBJ));
-                leg.setOBJ(ResourceUtils.resource(LEG_OBJ));
+                body.loadFromOBJ(ResourceUtils.resource(BODY_OBJ));
+                leg.loadFromOBJ(ResourceUtils.resource(LEG_OBJ));
                 body.setTexture(texture);
                 leg.setTexture(texture);
                 Main.endPJOGL();

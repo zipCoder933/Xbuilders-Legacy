@@ -67,7 +67,7 @@ public class glTextureMesh {
 
     final float HALF_PI = (float) Math.PI / 2.0f;
 
-    public void setOBJ(File objModel) throws FileNotFoundException {
+    public void loadFromOBJ(File objModel) throws FileNotFoundException {
         FloatBuffer posBuffer;
         FloatBuffer uvBuffer;
 

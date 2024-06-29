@@ -47,13 +47,13 @@ class EntityHelecopterBlade {
     }
 
     public static void startDrawingBlades() {
-        Main.getPG().resetShader();
-        Main.getPG().noStroke();
-        Main.getPG().fill(20, 20, 20);
-        Main.getPG().noStroke();
+//        Main.getPG().resetShader();
+//        Main.getPG().noStroke();
+//        Main.getPG().fill(20, 20, 20);
+//        Main.getPG().noStroke();
     }
 
     public static void stopDrawingBlades() {
-        ChunkEntitySet.bindEntityShader();
+//        ChunkEntitySet.bindEntityShader();
     }
 }

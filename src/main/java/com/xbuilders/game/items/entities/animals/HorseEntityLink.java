@@ -55,9 +55,9 @@ public class HorseEntityLink extends EntityLink {
                 int texture = TextureUtils.loadTexture(pgl.gl.getGL4(),
                         ResourceUtils.resourcePath(TEXTURE_DIR + textureFile), false).id;
 
-                saddle.setOBJ(ResourceUtils.resource("items\\entities\\animals\\horse\\horse_saddle.obj"));
-                body.setOBJ(ResourceUtils.resource(BODY_OBJ));
-                leg.setOBJ(ResourceUtils.resource(LEG_OBJ));
+                saddle.loadFromOBJ(ResourceUtils.resource("items\\entities\\animals\\horse\\horse_saddle.obj"));
+                body.loadFromOBJ(ResourceUtils.resource(BODY_OBJ));
+                leg.loadFromOBJ(ResourceUtils.resource(LEG_OBJ));
                 body.setTexture(texture);
                 saddle.setTexture(texture);
                 leg.setTexture(texture);

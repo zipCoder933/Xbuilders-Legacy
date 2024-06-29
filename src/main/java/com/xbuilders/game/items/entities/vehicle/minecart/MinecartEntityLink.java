@@ -42,7 +42,7 @@ public abstract class MinecartEntityLink extends EntityLink {
             PJOGL pgl = Main.beginPJOGL();
             model = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
             try {
-                model.setOBJ(ResourceUtils.resource("items\\entities\\minecart\\minecart.obj"));
+                model.loadFromOBJ(ResourceUtils.resource("items\\entities\\minecart\\minecart.obj"));
                 model.setTexture(ResourceUtils.resource("items\\entities\\minecart\\" + textureFile));
             } catch (IOException e) {
                 throw new RuntimeException(e);

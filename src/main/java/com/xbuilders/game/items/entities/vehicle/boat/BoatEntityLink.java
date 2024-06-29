@@ -36,7 +36,7 @@ public class BoatEntityLink extends EntityLink {
             PJOGL pgl = Main.beginPJOGL();
             model = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
             try {
-                model.setOBJ(ResourceUtils.resource("items\\entities\\boat\\boat.obj"));
+                model.loadFromOBJ(ResourceUtils.resource("items\\entities\\boat\\boat.obj"));
                 model.setTexture(ResourceUtils.resource("items\\entities\\boat\\textures\\" + texturePath));
             } catch (IOException e) {
                 throw new RuntimeException(e);

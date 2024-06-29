@@ -47,7 +47,7 @@ public class BannerEntityLink extends EntityLink {
 
             body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
             try {
-                body.setOBJ(ResourceUtils.resource("items\\entities\\banner\\banner.obj"));
+                body.loadFromOBJ(ResourceUtils.resource("items\\entities\\banner\\banner.obj"));
                 body.setTexture(
                         ResourceUtils.resource("items\\entities\\banner\\" + texturePath));
             } catch (IOException e) {

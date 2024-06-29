@@ -29,7 +29,7 @@ public class DemoMesh {
         try {
             String basePath = new File("").getAbsolutePath();
             mesh.setTexture(new File(basePath + "\\res\\items\\entities\\animals\\fox\\red.png"));
-            mesh.setOBJ(new File(basePath + "\\res\\items\\entities\\animals\\fox\\fox.obj"));
+            mesh.loadFromOBJ(new File(basePath + "\\res\\items\\entities\\animals\\fox\\fox.obj"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

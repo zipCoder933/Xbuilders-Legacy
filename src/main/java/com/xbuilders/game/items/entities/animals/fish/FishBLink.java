@@ -41,7 +41,7 @@ public class FishBLink extends EntityLink {
 
             body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
             try {
-                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\fish\\fish_B.obj"));
+                body.loadFromOBJ(ResourceUtils.resource("items\\entities\\animals\\fish\\fish_B.obj"));
                 body.setTexture(ResourceUtils.resource("items\\entities\\animals\\fish\\textures\\fish_B\\" + textureFile));
             } catch (IOException e) {
                 throw new RuntimeException(e);

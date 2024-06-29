@@ -39,7 +39,7 @@ public class FoxEntityLink extends EntityLink {
 
             body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
             try {
-                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\fox\\fox.obj"));
+                body.loadFromOBJ(ResourceUtils.resource("items\\entities\\animals\\fox\\fox.obj"));
                 body.setTexture(
                         ResourceUtils.resource("items\\entities\\animals\\fox\\" + texturePath));
             } catch (IOException e) {

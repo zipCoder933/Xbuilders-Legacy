@@ -14,7 +14,6 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
 import processing.opengl.PJOGL;
 
 import java.io.IOException;
@@ -53,9 +52,9 @@ public class TurtleEntityLink extends EntityLink {
                 int texture = TextureUtils.loadTexture(pgl.gl.getGL4(),
                         ResourceUtils.resourcePath("items\\entities\\animals\\turtle\\" + textureFile), false).id;
 
-                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\turtle\\body.obj"));
-                fin1.setOBJ(ResourceUtils.resource("items\\entities\\animals\\turtle\\left_fin.obj"));
-                fin2.setOBJ(ResourceUtils.resource("items\\entities\\animals\\turtle\\right_fin.obj"));
+                body.loadFromOBJ(ResourceUtils.resource("items\\entities\\animals\\turtle\\body.obj"));
+                fin1.loadFromOBJ(ResourceUtils.resource("items\\entities\\animals\\turtle\\left_fin.obj"));
+                fin2.loadFromOBJ(ResourceUtils.resource("items\\entities\\animals\\turtle\\right_fin.obj"));
                 body.setTexture(texture);
                 fin1.setTexture(texture);
                 fin2.setTexture(texture);

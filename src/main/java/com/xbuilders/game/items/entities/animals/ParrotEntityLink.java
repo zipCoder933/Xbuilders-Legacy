@@ -13,7 +13,6 @@ import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.mobile.FlyingAnimal;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PJOGL;
 
@@ -46,8 +45,8 @@ public class ParrotEntityLink extends EntityLink {
             body = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
             wing = new glEntityMesh(Main.getFrame(), pgl, ShaderHandler.entityShader);
             try {
-                body.setOBJ(ResourceUtils.resource("items\\entities\\animals\\parrot\\body.obj"));
-                wing.setOBJ(ResourceUtils.resource("items\\entities\\animals\\parrot\\wing.obj"));
+                body.loadFromOBJ(ResourceUtils.resource("items\\entities\\animals\\parrot\\body.obj"));
+                wing.loadFromOBJ(ResourceUtils.resource("items\\entities\\animals\\parrot\\wing.obj"));
 
                 body.setTexture(ResourceUtils.resource("items\\entities\\animals\\parrot\\" + texturePath));
                 wing.setTexture(ResourceUtils.resource("items\\entities\\animals\\parrot\\" + texturePath));
