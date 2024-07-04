@@ -4,7 +4,6 @@
  */
 package com.xbuilders.game.items;
 
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.texture.BlockTexture;
 import com.xbuilders.engine.items.entity.EntityLink;
@@ -73,7 +72,7 @@ public class GameItems {
     public static final BlockLamp BLOCK_LAMP = new BlockLamp();
     public static final BlockBlueLamp BLOCK_BLUE_LAMP = new BlockBlueLamp();
     public static final Track TRACK = new Track();
-    public static final StopTrack STOP_TRACK = new StopTrack();
+    public static final StopTrack BLOCK_TRACK_STOP = new StopTrack();
     public static final SwitchJunction SWITCH_JUNCTION = new SwitchJunction();
     public static final CurvedTrack CURVED_TRACK = new CurvedTrack();
     public static final RaisedTrack RAISED_TRACK = new RaisedTrack();
@@ -112,7 +111,7 @@ public class GameItems {
     public static final BlockLava BlockLava = new BlockLava();
     public static final BlockTorch BlockTorch = new BlockTorch();
     public static final Block BlockBedrock = new Block(1, "Bedrock", new BlockTexture(1, 1));
-    public static final CrossTrack CROSS_TRACK = new CrossTrack();
+    public static final CrossTrack BLOCK_CROSSTRACK = new CrossTrack();
     public static final Block BLOCK_GRAVEL = new Block(10, "Gravel", new BlockTexture(3, 1));
     public static final Block BlockBamboo = new Plant(15, "Bamboo", new BlockTexture(9, 4), false, false,
             BlockRenderType.SPRITE);
@@ -1970,8 +1969,8 @@ public class GameItems {
                 BEET_SEEDS, SUNFLOWER_SEEDS, SUNFLOWER_HEAD, SUNFLOWER_STALK, IRON_LADDER, BAMBOO_LADDER, OAK_LADDER,
                 DARK_OAK_LADDER, BLOCK_SPRUCE_SAPLING, BLOCK_SPRUCE_LOG, BLOCK_SPRUCE_LEAVES, BlockBirchSapling,
                 BIRCH_LOG, BIRCH_LEAVES, BlockOakSapling, OAK_LOG, OAK_LEAVES, ACACIA_SAPLING, ACACIA_LOG,
-                ACACIA_LEAVES, BLOCK_JUNGLE_SAPLING, BLOCK_JUNGLE_LOG, BLOCK_JUNGLE_LEAVES, TRACK, CROSS_TRACK,
-                MERGE_TRACK, STOP_TRACK, SWITCH_JUNCTION, MINECART_ROAD, MINECART_ROAD_SLAB, MINECART_CROSSWALK,
+                ACACIA_LEAVES, BLOCK_JUNGLE_SAPLING, BLOCK_JUNGLE_LOG, BLOCK_JUNGLE_LEAVES, TRACK, BLOCK_CROSSTRACK,
+                MERGE_TRACK, BLOCK_TRACK_STOP, SWITCH_JUNCTION, MINECART_ROAD, MINECART_ROAD_SLAB, MINECART_CROSSWALK,
                 MINECART_ROAD_MARKINGS, BlockBedrock, BlockBamboo, BLOCK_SAND, BLOCK_RED_SAND, BLOCK_CLAY, BLOCK_GRAVEL,
                 BLOCK_STONE, BLOCK_ANDESITE, BLOCK_DIORITE, BLOCK_GLASS, BlockBrick, StoneBrick, BlockCobblestone,
                 BLOCK_CEMENT, BlockWatermelon, BlockPalisadeStone, BlockPalisadeStone2, BLOCK_FARMLAND, WHEAT, CARROTS,

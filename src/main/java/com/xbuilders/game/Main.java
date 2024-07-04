@@ -30,7 +30,7 @@ public class Main extends VoxelGame {
     static PointerHandler ph;
     public static final File BLOCK_ICON_DIR = ResourceUtils.resource("items\\blocks\\icons");
 
-    public final static String VERSION_NOTES = "Entity Performance Improvements";
+    public final static String VERSION_NOTES = "Performance V3.0.0";
 
     public Main(boolean devMode, int sizeX, int sizeY,
                 File iconPath, ProgramMode mode, String[] args) throws IOException, InterruptedException {

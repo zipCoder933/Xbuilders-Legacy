@@ -10,24 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97088633-1bd4-4482-a1bb-f362d22b9a51" name="Changes" comment="Refactored some code and added future chunks">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/XBuildersUI4J_jar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XBuildersUI4J.jar" beforeDir="false" afterPath="$PROJECT_DIR$/XBuildersUI4J.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/vehicle/EntityHelecopterBlade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/vehicle/EntityHelecopterBlade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/BannerEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/BannerEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/CatEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/CatEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/FoxEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/FoxEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/HorseEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/HorseEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/MuleEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/MuleEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/ParrotEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/ParrotEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/RabbitEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/RabbitEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/TurtleEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/TurtleEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/fish/FishALink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/fish/FishALink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/fish/FishBLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animals/fish/FishBLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/boat/BoatEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/boat/BoatEntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/GameItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/GameItems.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/minecart/MinecartEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/minecart/MinecartEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/DemoMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/test/joglDemo/demoModified/demo/DemoMesh.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/mesh/glTextureMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/mesh/glTextureMesh.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/minecart/MinecartUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/minecart/MinecartUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,27 +59,28 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Application.JOGLDemo.executor": "Run",
-    "Application.JOGLDemoMod.executor": "Run",
-    "Application.JOGLMeshDemo.executor": "Run",
-    "Application.JOGLMeshDemoV2.executor": "Run",
-    "Application.JOGLTriangleDemo.executor": "Run",
-    "Application.Main Dev.executor": "Run",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Local Files/github/Xbuilders-2",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.20099668"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Application.JOGLDemo.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JOGLDemoMod.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JOGLMeshDemo.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JOGLMeshDemoV2.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JOGLTriangleDemo.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main Dev.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Local Files/github/Xbuilders&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.20099668&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Xbuilders2\src\main\java\com\xbuilders\test\joglDemo\demoModified" />

@@ -250,7 +250,7 @@ public abstract class MinecartEntityLink extends EntityLink {
                 if (b == GameItems.SWITCH_JUNCTION) {
                     stop(position);
                     goForward(speed);
-                } else if (b == GameItems.STOP_TRACK) {
+                } else if (b == GameItems.BLOCK_TRACK_STOP) {
                     stop(position);
                     goForward(speed);
                 } else if (b == GameItems.CURVED_TRACK) {
@@ -283,7 +283,7 @@ public abstract class MinecartEntityLink extends EntityLink {
                         disableRotation(position);
                     }
                     goForward(speed);
-                } else if (b == GameItems.CROSS_TRACK) {
+                } else if (b == GameItems.BLOCK_CROSSTRACK) {
                     enableRotation();
                     goForward(speed);
                 } else {

@@ -218,11 +218,11 @@ public class MinecartUtils {
     public static boolean isTrack(Block block) {
         return block == GameItems.TRACK
                 || block == GameItems.RAISED_TRACK
-                || block == GameItems.CROSS_TRACK
+                || block == GameItems.BLOCK_CROSSTRACK
                 || block == GameItems.CURVED_TRACK
                 || block == GameItems.SWITCH_JUNCTION
                 || block == GameItems.MERGE_TRACK
-                || block == GameItems.STOP_TRACK;
+                || block == GameItems.BLOCK_TRACK_STOP;
 
     }
 
