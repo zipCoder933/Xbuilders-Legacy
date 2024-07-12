@@ -4,8 +4,8 @@
 # XBuilders (legacy version)
 A Voxel game written in java and using Processing 4.0 (https://github.com/benfry/processing4)
 
-This version of the game is no longer actively developed
-The new version is here: https://github.com/zipCoder933/Xbuilders
+*This version of xbuilders is no longer under active development*
+For the new Xbuilders, see: https://github.com/zipCoder933/Xbuilders
 
 Textures taken mostly from Pixel Perfection:
 * https://github.com/Athemis/PixelPerfectionCE/tree/master
