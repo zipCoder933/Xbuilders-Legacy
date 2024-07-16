@@ -19,11 +19,14 @@ public class Main extends JFrame {
         File currentDir = new File(System.getProperty("user.dir"));
         System.out.println("Current dir: " + currentDir.getAbsolutePath());
 
+        String xbuilders2Directory = "XBuilders-2-main\\XBuilders-2-main";
+        String xbuilder3Directory = "XBuilders-main\\XBuilders-main";
+
         new Main(
                 "XBuildersUI4J.jar",
                 "Xbuilders3.jar",
-                new File(currentDir.getParentFile(), "XBuilders-2"),
-                new File(currentDir.getParentFile(), "XBuilders"),
+                new File(currentDir.getParentFile(), xbuilders2Directory),
+                new File(currentDir.getParentFile(), xbuilder3Directory),
                 "");
     }
 
