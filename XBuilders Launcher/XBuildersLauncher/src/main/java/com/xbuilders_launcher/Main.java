@@ -9,25 +9,75 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 
 public class Main extends JFrame {
 
 
-    public static void main(String[] args) throws IOException, FontFormatException {
+    public static void main(String[] args) {
+        try {
+            File currentDir = new File(System.getProperty("user.dir"));
+            System.out.println("Current dir: " + currentDir.getAbsolutePath());
+
+            //Load the config.txt file as a local directory
+            File config = new File(currentDir, "config.txt");
+            if (!config.exists()) {
+                //Create the config.txt file
+                String str = "XB2\t" +
+                        "XBuilders-2-main\\XBuilders-2-main\t" +
+                        "XBuildersUI4J.jar\n" +
+                        //---------------------------
+                        "XB3\t" +
+                        "XBuilders-main\\XBuilders-main\t" +
+                        "XBuilders3.jar";
+
+                Files.write(config.toPath(), str.getBytes());
+            }
+
+            //Read the config.txt file
+            String[] lines = new String(Files.readAllBytes(config.toPath())).split("\n");
+
+            File xbuilders2Directory = null;
+            File xbuilder3Directory = null;
+
+            String xbuilders2Name = null;
+            String xbuilder3Name = null;
+
+            for (int i = 0; i < lines.length; i++) {
+                lines[i] = lines[i].trim();
+                String[] parts = lines[i].split("\t");
+
+                if (parts[0].equals("XB2")) {
+                    xbuilders2Directory = new File(currentDir.getParentFile().getAbsolutePath(), parts[1]);
+                    xbuilders2Name = parts[2];
+                } else if (parts[0].equals("XB3")) {
+                    xbuilder3Directory = new File(currentDir.getParentFile().getAbsolutePath(), parts[1]);
+                    xbuilder3Name = parts[2];
+                }
+            }
+
+            File xb2File = new File(xbuilders2Directory, xbuilders2Name);
+            File xb3File = new File(xbuilder3Directory, xbuilder3Name);
+
+            if (!xb2File.exists()) {
+                createPopupWindow("Error", "XBuilders 2 not found:\n \"" + xb2File.getAbsolutePath() + "\"");
+            }
+
+            if (!xb3File.exists()) {
+                createPopupWindow("Error", "XBuilders 3 not found:\n \"" + xb3File.getAbsolutePath() + "\"");
+            }
 
 
-        File currentDir = new File(System.getProperty("user.dir"));
-        System.out.println("Current dir: " + currentDir.getAbsolutePath());
-
-        String xbuilders2Directory = "XBuilders-2-main\\XBuilders-2-main";
-        String xbuilder3Directory = "XBuilders-main\\XBuilders-main";
-
-        new Main(
-                "XBuildersUI4J.jar",
-                "Xbuilders3.jar",
-                new File(currentDir.getParentFile(), xbuilders2Directory),
-                new File(currentDir.getParentFile(), xbuilder3Directory),
-                "");
+            new Main(
+                    xbuilders2Name,
+                    xbuilder3Name,
+                    xbuilders2Directory,
+                    xbuilder3Directory,
+                    "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            createPopupWindow("Error", e.toString());
+        }
     }
 
 
@@ -48,8 +98,6 @@ public class Main extends JFrame {
     public Main(String xb2command, String xb3command,
                 File xb2dir, File xb3dir, String args) throws IOException, FontFormatException {
         super("XBuilders Launcher");
-
-
         setSize(450, 310);
         //Disable maximize button
         setResizable(false);
