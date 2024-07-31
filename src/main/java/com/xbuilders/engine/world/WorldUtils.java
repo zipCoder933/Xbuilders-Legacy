@@ -99,7 +99,7 @@ public class WorldUtils {
             }
             Files.delete(dir.toPath());
         } catch (Throwable t) {
-            ErrorHandler.handleFatalError(t);
+            ErrorHandler.report(t);
         }
     }
 }

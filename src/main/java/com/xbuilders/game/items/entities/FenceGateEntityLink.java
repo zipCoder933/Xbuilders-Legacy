@@ -109,7 +109,7 @@ public class FenceGateEntityLink extends EntityLink {
                     openTrapdoor.setTexture(texture);
                     closedTrapdoor.setTexture(texture);
                 } catch (IOException ex) {
-                    ErrorHandler.handleFatalError(ex);
+                    ErrorHandler.report(ex);
                 }
             }
             aabb.collisionEnabled = closed;

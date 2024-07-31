@@ -8,7 +8,6 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.HashingUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.random.FastNoise;
@@ -108,7 +107,7 @@ public abstract class Terrain {
     public final void setBlockWorld(final Block block, final int x, final int y, final int z) {
         targetChunk.set(x, y, z);
         if (targetChunk.getSubChunk() != null) {
-            targetChunk.getSubChunk().data.setBlock(block.id, targetChunk.subChunkVoxel.x, targetChunk.subChunkVoxel.y, targetChunk.subChunkVoxel.z);
+            targetChunk.getSubChunk().data.setBlock(targetChunk.subChunkVoxel.x, targetChunk.subChunkVoxel.y, targetChunk.subChunkVoxel.z, block.id);
         } else {//Add it to the future chunk
 //            System.out.println("Adding block to future chunk: " + MiscUtils.printVector(targetChunk.subChunk));
             if (!VoxelGame.getWorld().futureSubChunks.containsKey(targetChunk.subChunk)) {
@@ -142,16 +141,16 @@ public abstract class Terrain {
         final int chunkLocation = WCCi.chunkDiv(y);
         final int blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
         SubChunk subChunk1 = chunk.getSubChunks()[chunkLocation];
-        subChunk1.data.setBlock(block.id, x, blockLocation, z);
+        subChunk1.data.setBlock(x, blockLocation, z, block.id);
         SubChunk subChunk = chunk.getSubChunks()[chunkLocation];
-        subChunk.data.setBlockData(data, x, blockLocation, z);
+        subChunk.data.setBlockData(x, blockLocation, z, data);
     }
 
     public final void setBlock(final Chunk chunk, final Block block, final int x, final int y, final int z) {
         final int chunkLocation = WCCi.chunkDiv(y);
         final int blockLocation = MathUtils.positiveMod(y, SubChunk.WIDTH);
         SubChunk subChunk = chunk.getSubChunks()[chunkLocation];
-        subChunk.data.setBlock(block.id, x, blockLocation, z);
+        subChunk.data.setBlock(x, blockLocation, z, block.id);
     }
 
     public final void setEntity(final Chunk chunk, final EntityLink el, final int chunkX, final int worldY, final int chunkZ) {

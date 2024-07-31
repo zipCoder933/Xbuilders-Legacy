@@ -11,7 +11,7 @@ import org.joml.Vector3i;
 
 public class ChunkVoxels {
 
-    private Vector3i size;
+    public final Vector3i size;
     private short[] blocks;
     private HashMap<Integer, BlockData> blockData;
     private boolean isEmpty;
@@ -64,7 +64,7 @@ public class ChunkVoxels {
         return x + this.getSizeX() * (y + this.getSizeY() * z);
     }
 
-    public void setBlock(final short block, final int x, final int y, final int z) {
+    public void setBlock(final int x, final int y, final int z, final short block) {
         try {
             if(block != BlockList.BLOCK_AIR.id) {
                 isEmpty = false;
@@ -83,7 +83,7 @@ public class ChunkVoxels {
         }
     }
 
-    public void setBlockData(final BlockData orientation, final int x, final int y, final int z) {
+    public void setBlockData(final int x, final int y, final int z, final BlockData orientation) {
         try {
             final int key = this.getIndexOfCoords(x, y, z);
             if (orientation == null) {

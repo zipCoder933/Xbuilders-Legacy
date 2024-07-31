@@ -29,6 +29,10 @@ public class BlockData {
         }
     }
 
+    public byte[] toByteArray() {
+        return this.bytes;
+    }
+
     public void set(int index, byte value) {
         this.bytes[index] = value;
     }
@@ -37,7 +41,7 @@ public class BlockData {
         return this.bytes[index];
     }
 
-    public int getLength() {
+    public int size() {
         return this.bytes.length;
     }
 

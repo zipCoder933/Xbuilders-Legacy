@@ -45,8 +45,8 @@ public class PasteTool extends Tool {
                         int newZ = x;
                         int newY = y;
 
-                        newClipboard.set(
-                                CopyTool.clipboard.blocks.get(x, y, z),
+                        newClipboard.setBlock(
+                                CopyTool.clipboard.blocks.getBlock(x, y, z),
                                 newX, newY, newZ);
 
                         BlockData data = CopyTool.clipboard.blocks.getBlockData(x, y, z);
@@ -138,7 +138,7 @@ public class PasteTool extends Tool {
             for (int x = 0; x < CopyTool.clipboard.blocks.size.x; x++) {
                 for (int y = 0; y < CopyTool.clipboard.blocks.size.y; y++) {
                     for (int z = 0; z < CopyTool.clipboard.blocks.size.z; z++) {
-                        Block block = ItemList.getBlock(CopyTool.clipboard.blocks.get(x, y, z));
+                        Block block = ItemList.getBlock(CopyTool.clipboard.blocks.getBlock(x, y, z));
                         Block previousBlock = VoxelGame.ph().getWorld().getBlock(
                                 (int) startPosOfffset.x + x,
                                 (int) startPosOfffset.y + y,

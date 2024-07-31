@@ -144,11 +144,11 @@ public class ChunkSavingLoading {
                 out.finish();
                 out.close();
             } catch (Throwable t) {
-                ErrorHandler.handleFatalError("Error saving chunk", "The chunk saving algorithm threw an exception", t);
+                ErrorHandler.report("Error saving chunk", "The chunk saving algorithm threw an exception", t);
             }
             fos.close();
         } catch (Throwable t2) {
-            ErrorHandler.handleFatalError("Error saving chunk", "The chunk saving algorithm threw an exception", t2);
+            ErrorHandler.report("Error saving chunk", "The chunk saving algorithm threw an exception", t2);
         }
     }
 
@@ -237,9 +237,9 @@ public class ChunkSavingLoading {
         final short blockID = bytesToShort(bytes[start + 1], bytes[start + 2]);
         final Block block = ItemList.blocks.getItem(blockID);
         if (block == null) {
-            subChunk.data.setBlock(BlockList.BLOCK_AIR.id, x, y, z);
+            subChunk.data.setBlock(x, y, z, BlockList.BLOCK_AIR.id);
         } else {
-            subChunk.data.setBlock(block.id, x, y, z);
+            subChunk.data.setBlock(x, y, z, block.id);
         }
         start += 3;
         final ArrayList<Byte> blockDataBytes = new ArrayList<Byte>();
@@ -252,7 +252,7 @@ public class ChunkSavingLoading {
             ++start;
         }
         if (!blockDataBytes.isEmpty()) {
-            subChunk.data.setBlockData(new BlockData(blockDataBytes), x, y, z);
+            subChunk.data.setBlockData(x, y, z, new BlockData(blockDataBytes));
         }
         return start + 1;
     }
@@ -293,7 +293,7 @@ public class ChunkSavingLoading {
                     Entity entity = item.makeNew(subChunk, worldX, worldY, worldZ, entityData, false);
                     subChunk.entities.list.add(entity);
                 } catch (Exception ex) {
-                    ErrorHandler.handleFatalError(ex);
+                    ErrorHandler.report(ex);
                     ex.printStackTrace();
                 }
             }

@@ -37,11 +37,9 @@ import static processing.core.PConstants.TOP;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.core.PMatrix3D;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import processing.opengl.PGL;
-import processing.opengl.PGraphics3D;
 import processing.opengl.PJOGL;
 import com.xbuilders.window.ui4j.UIExtension;
 
@@ -86,6 +84,10 @@ public class GameScene extends UIExtension {
         this.main = main;
         ready = false;
 
+    }
+
+    public void pauseGame() {
+        menu.show(MenuType.BASE_MENU);
     }
 
     private boolean ready = false;
@@ -152,7 +154,7 @@ public class GameScene extends UIExtension {
             main.setPage(VoxelGame.Page.MENU);
             System.out.println("PAGE: " + main.getPage());
         } catch (Exception ex) {
-            ErrorHandler.handleFatalError(ex);
+            ErrorHandler.report(ex);
         }
     }
 

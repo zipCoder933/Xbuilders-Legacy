@@ -176,7 +176,7 @@ public class WorldInfo
             Files.writeString(new File(this.getDirectory(), "info.json").toPath(), this.gson.toJson(this.getInfoFile()), new OpenOption[0]);
         }
         catch (IOException e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.report(e);
         }
     }
     

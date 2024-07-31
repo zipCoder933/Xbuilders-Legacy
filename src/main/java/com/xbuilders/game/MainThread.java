@@ -32,7 +32,7 @@ public class MainThread {
                     }
                 }
             } catch (Exception ex) {
-                ErrorHandler.handleFatalError("Error", "Error in main thread", ex);
+                ErrorHandler.report("Error", "Error in main thread", ex);
                 pointerHandler.getApplet().stop();
                 saveWorld();
                 return;

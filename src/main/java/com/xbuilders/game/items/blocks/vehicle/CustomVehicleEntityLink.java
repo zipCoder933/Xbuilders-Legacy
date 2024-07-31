@@ -13,7 +13,6 @@ import com.xbuilders.game.items.entities.mobile.Vehicle;
 import com.xbuilders.game.items.entities.vehicle.minecart.MinecartUtils;
 import com.xbuilders.game.items.other.BlockGrid;
 import com.xbuilders.engine.rendering.StandaloneBlockMesh;
-import com.xbuilders.window.utils.glSampleQuery;
 import org.joml.Vector3f;
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -261,8 +260,8 @@ public class CustomVehicleEntityLink extends EntityLink {
                 for (int i = 0; i < blocks.size.x; i++) {
                     for (int j = 0; j < blocks.size.y; j++) {
                         for (int k = 0; k < blocks.size.z; k++) {
-                            Block block = ItemList.getBlock(blocks.get(i, j, k));
-                            if (blocks.get(i, j, k) == GameItems.BLOCK_DRIVERS_SEAT.id) {
+                            Block block = ItemList.getBlock(blocks.getBlock(i, j, k));
+                            if (blocks.getBlock(i, j, k) == GameItems.BLOCK_DRIVERS_SEAT.id) {
                                 seatPosition.set(i + renderOffset.x + 0.5f, j + renderOffset.y + 0.5f, k + renderOffset.z + 0.5f);
                             } else if (block instanceof HelecopterBladeBlock) {
                                 HelecopterBladeBlock blade = (HelecopterBladeBlock) block;

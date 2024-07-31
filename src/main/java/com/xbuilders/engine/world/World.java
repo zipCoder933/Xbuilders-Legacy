@@ -155,10 +155,10 @@ public class World {
             // System.out.println("\n");
             return true;
         } catch (IOException ex) {
-            ErrorHandler.handleFatalError("Error", "IOException saving changed chunks", ex);
+            ErrorHandler.report("Error", "IOException saving changed chunks", ex);
             return false;
         } catch (Exception ex2) {
-            ErrorHandler.handleFatalError("Error", "Exception saving changed chunks", ex2);
+            ErrorHandler.report("Error", "Exception saving changed chunks", ex2);
             return false;
         }
     }
@@ -206,9 +206,9 @@ public class World {
                 this.chunks.remove(coords);
             }
         } catch (IOException ex) {
-            ErrorHandler.handleFatalError("Error", "IOException saving chunk before removal", ex);
+            ErrorHandler.report("Error", "IOException saving chunk before removal", ex);
         } catch (Exception ex2) {
-            ErrorHandler.handleFatalError("Error", "Exception saving chunk before removal", ex2);
+            ErrorHandler.report("Error", "Exception saving chunk before removal", ex2);
         }
     }
 
@@ -286,7 +286,7 @@ public class World {
     }
 
     private final void fatalError(final Throwable t, final ProgressData prog) {
-        ErrorHandler.handleFatalError("Fatal Error",
+        ErrorHandler.report("Fatal Error",
                 "XBuilders was Unable to create the new world. The Process was aborted.", t);
         prog.abort();
     }
@@ -437,7 +437,7 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.data.setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlockData(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z, data);
         }
     }
 
@@ -445,8 +445,8 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.data.setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
-            chunk.data.setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlock(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z, block.id);
+            chunk.data.setBlockData(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z, data);
         }
     }
 
@@ -454,7 +454,7 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.data.setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlock(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z, block.id);
         }
     }
 
@@ -465,8 +465,8 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.data.setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
-            chunk.data.setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlock(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z, block.id);
+            chunk.data.setBlockData(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z, data);
             chunk.getParentChunk().update(wcc.subChunkVoxel.x, wcc.subChunk.y, wcc.subChunkVoxel.y,
                     wcc.subChunkVoxel.z);
         }
@@ -479,7 +479,7 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.data.setBlock(block.id, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlock(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z, block.id);
             chunk.getParentChunk().update(wcc.subChunkVoxel.x, wcc.subChunk.y, wcc.subChunkVoxel.y,
                     wcc.subChunkVoxel.z);
         }
@@ -489,7 +489,7 @@ public class World {
         WCCi wcc = new WCCi().set(x, y, z);
         SubChunk chunk = getSubChunk(wcc.subChunk);
         if (chunk != null) {
-            chunk.data.setBlockData(data, wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z);
+            chunk.data.setBlockData(wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z, data);
             chunk.getParentChunk().update(wcc.subChunkVoxel.x, wcc.subChunk.y, wcc.subChunkVoxel.y,
                     wcc.subChunkVoxel.z);
         }

@@ -61,7 +61,7 @@ class UpdaterThread extends Thread {
         } catch (InterruptedException ex) {
             System.out.println("Updater interrupted");
         } catch (Exception ex) {
-            ErrorHandler.handleFatalError("Error", "Error updating terrain", ex);
+            ErrorHandler.report("Error", "Error updating terrain", ex);
         }
     }
 

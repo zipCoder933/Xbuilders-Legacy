@@ -19,32 +19,32 @@ public class StandaloneBlockMesh {
         for (int x = 0; x < grid.size.x; x++) {
             for (int y = 0; y < grid.size.y; y++) {
                 for (int z = 0; z < grid.size.z; z++) {
-                  Block block = ItemList.getBlock(grid.get(x, y, z));
+                  Block block = ItemList.getBlock(grid.getBlock(x, y, z));
 
                     if (block != null) {
                         Block nx = faceDefault;
                         if (x - 1 > 0) {
-                            nx = ItemList.getBlock(grid.get(x - 1, y, z));
+                            nx = ItemList.getBlock(grid.getBlock(x - 1, y, z));
                         }
                         Block px = faceDefault;
                         if (x < grid.size.x - 1) {
-                            px = ItemList.getBlock(grid.get(x + 1, y, z));
+                            px = ItemList.getBlock(grid.getBlock(x + 1, y, z));
                         }
                         Block ny = faceDefault;
                         if (y - 1 > 0) {
-                            ny = ItemList.getBlock(grid.get(x, y - 1, z));
+                            ny = ItemList.getBlock(grid.getBlock(x, y - 1, z));
                         }
                         Block py = faceDefault;
                         if (y < grid.size.y - 1) {
-                            py = ItemList.getBlock(grid.get(x, y + 1, z));
+                            py = ItemList.getBlock(grid.getBlock(x, y + 1, z));
                         }
                         Block nz = faceDefault;
                         if (z - 1 > 0) {
-                            nz = ItemList.getBlock(grid.get(x, y, z - 1));
+                            nz = ItemList.getBlock(grid.getBlock(x, y, z - 1));
                         }
                         Block pz = faceDefault;
                         if (z < grid.size.z - 1) {
-                            pz = ItemList.getBlock(grid.get(x, y, z + 1));
+                            pz = ItemList.getBlock(grid.getBlock(x, y, z + 1));
                         }
 
                         if (!block.isAir() && block.hasTexture()) {

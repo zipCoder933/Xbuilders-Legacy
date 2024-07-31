@@ -94,7 +94,7 @@ public final class ChunkLightMap {
                                                     wcc.subChunkVoxel.x, wcc.subChunkVoxel.y, wcc.subChunkVoxel.z));
                                 }
                             } catch (IndexOutOfBoundsException ex) {
-                                ErrorHandler.handleFatalError(ex);
+                                ErrorHandler.report(ex);
                             }
                         }
                     }

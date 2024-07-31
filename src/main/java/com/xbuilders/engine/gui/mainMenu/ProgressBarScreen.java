@@ -75,7 +75,7 @@ public class ProgressBarScreen extends UIExtension {
                     main.getGameScene().startGame();
                     mainMenu.setPage(MainMenu.MenuPages.HOME);
                 } catch (Exception ex) {
-                    ErrorHandler.handleFatalError(ex);
+                    ErrorHandler.report(ex);
                 }
             }
 //            if (getProgressData().getBulletin() != null && !VoxelGame.getMessageBox().isShown()) {

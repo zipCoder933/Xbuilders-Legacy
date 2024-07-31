@@ -31,7 +31,7 @@ public class FoxSkin extends PlayerSkin {
                         .loadShape(ResourceUtils.resourcePath("items\\entities\\animals\\fox\\fox.obj"));
                 model.setTexture(texture);
             } catch (IOException ex) {
-                ErrorHandler.handleFatalError(ex);
+                ErrorHandler.report(ex);
             }
         }
         g.shape(model);

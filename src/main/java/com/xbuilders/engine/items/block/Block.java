@@ -273,9 +273,9 @@ public class Block extends Item {
                 Block prevBlock = ItemList.getBlock(subChunk2.data.getBlock(blockX, blockLocation, blockZ));
 
                 SubChunk subChunk1 = chunk.getSubChunks()[chunkLocation];
-                subChunk1.data.setBlock(this.id, blockX, blockLocation, blockZ);
+                subChunk1.data.setBlock(blockX, blockLocation, blockZ, this.id);
                 SubChunk subChunk = chunk.getSubChunks()[chunkLocation];
-                subChunk.data.setBlockData(data, blockX, blockLocation, blockZ);
+                subChunk.data.setBlockData(blockX, blockLocation, blockZ, data);
 
                 chunk.markAsNeedsSaving();
                 if (chunk.gen_meshesGenerated) {

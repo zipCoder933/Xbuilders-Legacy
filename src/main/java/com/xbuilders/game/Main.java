@@ -30,7 +30,7 @@ public class Main extends VoxelGame {
     static PointerHandler ph;
     public static final File BLOCK_ICON_DIR = ResourceUtils.resource("items\\blocks\\icons");
 
-    public final static String VERSION_NOTES = "Performance V3.0.0";
+    public final static String VERSION_NOTES = "Load/Save Prefabs";
 
     public Main(boolean devMode, int sizeX, int sizeY,
                 File iconPath, ProgramMode mode, String[] args) throws IOException, InterruptedException {
@@ -105,7 +105,7 @@ public class Main extends VoxelGame {
                     1000, 700, ResourceUtils.resource("icon.png"), mode, args);
             ph.getMainThread().run(Thread.currentThread());
         } catch (Exception ex) {
-            ErrorHandler.handleFatalError(ex);
+            ErrorHandler.report(ex);
         }
     }
 

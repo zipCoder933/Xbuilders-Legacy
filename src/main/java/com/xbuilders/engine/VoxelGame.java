@@ -31,8 +31,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.xbuilders.test.joglDemo.demoModified.demo.WrappedDemo;
-import com.xbuilders.test.joglDemo.triangleDemo.TestTriangleMesh;
 import com.xbuilders.window.BaseWindow;
 import processing.core.KeyCode;
 import processing.core.PFont;
@@ -294,7 +292,7 @@ public class VoxelGame extends BaseWindow {
 //            testTriangleMesh = new TestTriangleMesh(this, pgl);
 //            demo = new WrappedDemo(this, pgl);
         } catch (Exception ex) {
-            ErrorHandler.handleFatalError(ex);
+            ErrorHandler.report(ex);
         }
     }
 
@@ -320,7 +318,7 @@ public class VoxelGame extends BaseWindow {
                 getMenu().draw();
             }
         } catch (Exception e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.report(e);
             noLoop();
         }
         memoryGraph.update();

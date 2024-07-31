@@ -23,7 +23,7 @@ public class FutureChunk {
 
     public void setBlocksInChunk(SubChunk chunk) {
         futureBlocks.forEach((position, id) -> {
-            chunk.data.setBlock(id, position.x, position.y, position.z);
+            chunk.data.setBlock(position.x, position.y, position.z, id);
         });
     }
 }

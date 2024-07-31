@@ -20,21 +20,21 @@ import java.util.Date;
  */
 public class ErrorHandler {
 
-    public static void handleFatalError(Throwable ex) {
+    public static void report(Throwable ex) {
         String exMsg = ex.getMessage();
         if (exMsg == null) {
             exMsg = "Unknown error.";
         }
-        handleFatalError("Runtime error", exMsg, ex);
+        report("Runtime error", exMsg, ex);
         saveErrorToLogFile(ex, "unnamed error");
     }
 
-    public static void handleFatalError(String message, Throwable ex) {
-        handleFatalError("Runtime error", message, ex);
+    public static void report(String message, Throwable ex) {
+        report("Runtime error", message, ex);
         saveErrorToLogFile(ex, message);
     }
 
-    public static void handleFatalError(String title, String body, Throwable ex) {
+    public static void report(String title, String body, Throwable ex) {
         String message = ex.getMessage();
         if (message == null) {
             message = "Unknown error";

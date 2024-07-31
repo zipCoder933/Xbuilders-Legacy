@@ -8,7 +8,7 @@ public class BlockOrientation extends BlockData
 {
     public static BlockOrientation getBlockOrientation(final BlockData data) {
         BlockOrientation orientation = null;
-        if (data != null && data.getLength() >= 2) {
+        if (data != null && data.size() >= 2) {
             orientation = new BlockOrientation(data.get(0), data.get(1));
         }
         return orientation;

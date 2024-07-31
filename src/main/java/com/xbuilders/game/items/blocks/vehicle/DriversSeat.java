@@ -163,7 +163,7 @@ public class DriversSeat extends Block {
                     int normX = (int) (pos.x - aabb.minPoint.x);
                     int normY = (int) (pos.y - aabb.minPoint.y);
                     int normZ = (int) (pos.z - aabb.minPoint.z);
-                    blocks.set(VoxelGame.getWorld().getBlock(pos.x, pos.y, pos.z).id, normX, normY, normZ);
+                    blocks.setBlock(VoxelGame.getWorld().getBlock(pos.x, pos.y, pos.z).id, normX, normY, normZ);
                     blocks.setBlockData(VoxelGame.getWorld().getBlockData(pos.x, pos.y, pos.z), normX, normY, normZ);
                 }
                 box.setMesh(blocks, true, true);
@@ -197,7 +197,7 @@ public class DriversSeat extends Block {
                         int x = (int) (i + aabb.minPoint.x);
                         int y = (int) (j + aabb.minPoint.y);
                         int z = (int) (k + aabb.minPoint.z);
-                        if (isPartOfVehicle(ItemList.getBlock(blocks.get(i, j, k)))) {
+                        if (isPartOfVehicle(ItemList.getBlock(blocks.getBlock(i, j, k)))) {
                             BlockList.BLOCK_AIR.set(x, y, z, null);
                         }
                     }

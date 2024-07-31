@@ -5,7 +5,6 @@
 package com.xbuilders.engine.items.block.construction;
 
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import org.joml.Vector3f;
 
@@ -122,7 +121,7 @@ public class ObjToBlockTypeConversion {
                     + "RENDERER CLASS FILE WRITTEN TO: " + outputClass
                     + "\n======================================================");
         } catch (IOException ex) {
-            ErrorHandler.handleFatalError(ex);
+            ErrorHandler.report(ex);
         }
     }
 

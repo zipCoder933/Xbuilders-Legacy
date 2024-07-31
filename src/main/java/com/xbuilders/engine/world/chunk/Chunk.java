@@ -122,7 +122,7 @@ public class Chunk {
             ChunkSavingLoading.writeChunkToFile(this, f);
             this.needsSaving = false;
         } catch (Exception e2) {
-            ErrorHandler.handleFatalError("Error", "Unable to save chunk (" + this.toString() + ").", e2);
+            ErrorHandler.report("Error", "Unable to save chunk (" + this.toString() + ").", e2);
         }
     }
 
@@ -146,7 +146,7 @@ public class Chunk {
             gen_terrainGenerated = true;
             markAsModifiedByUser();
         } catch (Exception e) {
-            ErrorHandler.handleFatalError("Error", "Unable to load chunk (" + this.toString() + ").", e);
+            ErrorHandler.report("Error", "Unable to load chunk (" + this.toString() + ").", e);
         }
     }
 

@@ -240,7 +240,7 @@ public class HalfWheelRenderer extends BlockType {
     public void constructBlock(BlockMesh_Base buffers, Block block, BlockData data, Block negativeX, Block positiveX, Block negativeY, Block positiveY, Block negativeZ, Block positiveZ, int x, int y, int z) {
         Vector3f[] verts2 = verts_half_wheel;
 
-        if (data != null && data.getLength() >= 1) {
+        if (data != null && data.size() >= 1) {
             verts2 = rotateVerticiesYAxis(verts_half_wheel, data.get(0));
         }
         make_half_wheel_negativeY_faces(verts2, uv_half_wheel, block, buffers, x, y, z);

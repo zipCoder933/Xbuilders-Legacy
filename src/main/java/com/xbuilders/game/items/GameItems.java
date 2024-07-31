@@ -2141,7 +2141,7 @@ public class GameItems {
             }
             return allBlocks;
         } catch (IOException e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.report(e);
         }
         return null;
     }

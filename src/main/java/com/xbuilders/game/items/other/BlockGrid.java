@@ -23,7 +23,7 @@ public class BlockGrid {
         return this.blockData;
     }
 
-    public short get(final int x, final int y, final int z) {
+    public short getBlock(final int x, final int y, final int z) {
         try {
             return blocks[this.getIndexOfCoords(x, y, z)];
         } catch (IndexOutOfBoundsException ex) {
@@ -39,7 +39,7 @@ public class BlockGrid {
         return index % this.size.x + (index / this.size.x * this.size.x);
     }
 
-    public void set(final short block, final int x, final int y, final int z) {
+    public void setBlock(final short block, final int x, final int y, final int z) {
         try {
             this.blocks[this.getIndexOfCoords(x, y, z)] = block;
         } catch (IndexOutOfBoundsException ex) {

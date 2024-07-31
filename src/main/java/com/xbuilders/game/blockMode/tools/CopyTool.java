@@ -1,6 +1,7 @@
 package com.xbuilders.game.blockMode.tools;
 
 import com.xbuilders.engine.VoxelGame;
+import com.xbuilders.engine.game.GameScene;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.ItemQuantity;
 import com.xbuilders.engine.items.block.Block;
@@ -8,6 +9,7 @@ import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityTemplate;
 import com.xbuilders.engine.player.CursorRaycast;
 import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.utils.xb3.PrefabUtils;
 import com.xbuilders.engine.world.chunk.SubChunk;
 import com.xbuilders.engine.world.blockData.BlockData;
 import com.xbuilders.engine.world.wcc.WCCi;
@@ -15,6 +17,7 @@ import com.xbuilders.game.blockMode.BlockTools;
 import com.xbuilders.game.blockMode.tools.copyPaste.Clipboard;
 import com.xbuilders.game.items.entities.mobile.Animal;
 import com.xbuilders.game.items.entities.mobile.Vehicle;
+import com.xbuilders.game.items.other.BlockGrid;
 import com.xbuilders.window.BaseWindow;
 import org.joml.Vector3f;
 import processing.core.KeyCode;
@@ -30,6 +33,7 @@ public class CopyTool extends Tool {
 
     @Override
     public void activate() {
+        VoxelGame.getGameScene().alert("Ctrl+S to save a prefab, Ctrl+L to load a prefab");
         VoxelGame.getPlayer().camera.cursorRay.enableBoundaryMode((aabb, aBoolean) -> {
             copyBoundary(aabb);
         });
@@ -66,7 +70,7 @@ public class CopyTool extends Tool {
                                     wcc.subChunkVoxel.x,
                                     wcc.subChunkVoxel.y,
                                     wcc.subChunkVoxel.z);
-                            clipboard.blocks.set(block.id, x, y, z);
+                            clipboard.blocks.setBlock(block.id, x, y, z);
                             clipboard.blocks.setBlockData(data, x, y, z);
                         }
                     }
@@ -105,6 +109,30 @@ public class CopyTool extends Tool {
             VoxelGame.getGameScene().alert("Nothing to copy!");
         }
     }
+
+
+    public boolean keyReleased(BaseWindow window, KeyEvent ke) {
+
+        if (ke.getKeyCode() == KeyCode.S && window.keyIsPressed(KeyCode.CTRL)) {
+            System.out.println("Saving");
+            VoxelGame.getGameScene().pauseGame();
+            PrefabUtils.savePrefabToFileDialog(clipboard.blocks);
+            VoxelGame.getGameScene().alert("Prefab Saved");
+            return true;
+        } else if (ke.getKeyCode() == KeyCode.L && window.keyIsPressed(KeyCode.CTRL)) {
+            System.out.println("Loading");
+            VoxelGame.getGameScene().pauseGame();
+            clipboard.blocks = PrefabUtils.loadPrefabFromFileDialog();
+            if (clipboard.blocks == null) {
+                clipboard.blocks = new BlockGrid(0, 0, 0);
+            }
+            VoxelGame.getGameScene().alert("Prefab Loaded");
+            return true;
+        }
+
+        return false;
+    }
+
 
     @Override
     public void deactivate() {
