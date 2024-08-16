@@ -108,7 +108,7 @@ public class PrefabUtils {
 
     public static BlockGrid loadPrefabFromFileDialog() {
         File outFile = FileDialog.fileDialog((fd) -> {
-            File prefabFolder = ResourceUtils.appDataResource("prefabs");
+            File prefabFolder = getPrefabFolder();
             if (!prefabFolder.exists()) {
                 prefabFolder.mkdirs();
             }
@@ -137,7 +137,7 @@ public class PrefabUtils {
 
     public static void savePrefabToFileDialog(BlockGrid data) {
         FileDialog.fileDialog((fd) -> {
-            File prefabFolder = ResourceUtils.appDataResource("prefabs");
+            File prefabFolder = getPrefabFolder();
             if (!prefabFolder.exists()) {
                 prefabFolder.mkdirs();
             }
@@ -155,6 +155,14 @@ public class PrefabUtils {
                 ErrorHandler.report(e);
             }
         });
+    }
+
+    private static File getPrefabFolder() {
+        File xb3AppDataDir = new File(System.getenv("LOCALAPPDATA") + "\\xbuilders");
+        if (xb3AppDataDir.exists()) {
+            return new File(xb3AppDataDir, "prefabs");
+        }
+        return ResourceUtils.appDataResource("prefabs");
     }
 
 

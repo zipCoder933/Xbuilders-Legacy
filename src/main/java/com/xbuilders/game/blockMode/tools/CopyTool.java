@@ -122,6 +122,9 @@ public class CopyTool extends Tool {
         } else if (ke.getKeyCode() == KeyCode.L && window.keyIsPressed(KeyCode.CTRL)) {
             System.out.println("Loading");
             VoxelGame.getGameScene().pauseGame();
+            if(clipboard == null) {//TODO: Fix this
+                clipboard = new Clipboard(0, 0, 0);
+            }
             clipboard.blocks = PrefabUtils.loadPrefabFromFileDialog();
             if (clipboard.blocks == null) {
                 clipboard.blocks = new BlockGrid(0, 0, 0);
