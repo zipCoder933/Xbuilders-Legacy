@@ -14,67 +14,35 @@ import java.nio.file.Files;
 public class Main extends JFrame {
 
 
-    private static File getRelativePath(String relativePath) {
-        File currentDir = new File(System.getProperty("user.dir"));
-        //If relativePath starts with ../ set currentDir up one level
-        while (relativePath.startsWith("../") || relativePath.startsWith("..\\")) {
-            currentDir = currentDir.getParentFile();
-            relativePath = relativePath.substring(3);
-        }
-        return new File(currentDir, relativePath);
-    }
-
     public static void main(String[] args) {
         try {
             File currentDir = new File(System.getProperty("user.dir"));
             System.out.println("Current dir: " + currentDir.getAbsolutePath());
-            File config = new File(currentDir, "config.txt");
+            File configFile = new File(currentDir, "config.txt");
 
-            if (!config.exists()) {
-                //Create the config.txt file
-                String str = "XB2\t" +
-                        "XBuilders-2-main\\XBuilders-2-main\t" +
-                        "XBuildersUI4J.jar\n" +
-                        //---------------------------
-                        "XB3\t" +
-                        "XBuilders-main\\XBuilders-main\t" +
-                        "XBuilders3.jar";
 
-                Files.write(config.toPath(), str.getBytes());
-            }
 
             //Read the config.txt file
-            String[] lines = new String(Files.readAllBytes(config.toPath())).split("\n");
+            Config config = new Config(configFile);
+            System.out.println(config.toString());
 
-            File xbuilders2File = null;
-            File xbuilder3File = null;
-            for (int i = 0; i < lines.length; i++) {
-                lines[i] = lines[i].trim();
-                String[] parts = lines[i].split("\t");
 
-                if (parts[0].equals("XB2")) {
-                    xbuilders2File = getRelativePath(parts[1]);
-                } else if (parts[0].equals("XB3")) {
-                    xbuilder3File = getRelativePath(parts[1]);
-                }
+            if (!config.xbuilders2File.exists()) {
+                createPopupWindow("Error", "XBuilders 2 location not found." +
+                        "Please update config file with the correct path:\n \"" + config.xbuilders2File.getAbsolutePath() + "\"");
             }
 
-            System.out.println("XBuilders 2 path: " + xbuilders2File.getAbsolutePath());
-            System.out.println("XBuilders 3 path: " + xbuilder3File.getAbsolutePath());
-            if (!xbuilders2File.exists()) {
-                createPopupWindow("Error", "XBuilders 2 not found:\n \"" + xbuilders2File.getAbsolutePath() + "\"");
-            }
-
-            if (!xbuilder3File.exists()) {
-                createPopupWindow("Error", "XBuilders 3 not found:\n \"" + xbuilder3File.getAbsolutePath() + "\"");
+            if (!config.xbuilder3File.exists()) {
+                createPopupWindow("Error", "XBuilders 3 location not found." +
+                        "Please update config file with the correct path:\n \"" + config.xbuilder3File.getAbsolutePath() + "\"");
             }
 
 
             //Remove the filenamef rom the path and  put it in the name
-            String xbuilders2Name = xbuilders2File.getName();
-            File xbuilders2Dir = xbuilders2File.getParentFile();
-            String xbuilder3Name = xbuilder3File.getName();
-            File xbuilder3Dir = xbuilder3File.getParentFile();
+            String xbuilders2Name = config.xbuilders2File.getName();
+            File xbuilders2Dir = config.xbuilders2File.getParentFile();
+            String xbuilder3Name = config.xbuilder3File.getName();
+            File xbuilder3Dir = config.xbuilder3File.getParentFile();
             System.out.println("\nXBuilders 2 name: " + xbuilders2Name);
             System.out.println("XBuilders 3 name: " + xbuilder3Name);
             System.out.println("XBuilders 2 dir: " + xbuilders2Dir.getAbsolutePath());
@@ -86,6 +54,7 @@ public class Main extends JFrame {
                     xbuilder3Name,
                     xbuilders2Dir,
                     xbuilder3Dir,
+                    config,
                     "");
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,9 +80,10 @@ public class Main extends JFrame {
 
 
     public Main(String xb2jarfile, String xb3jarfile,
-                File xb2dir, File xb3dir, String args) throws IOException, FontFormatException {
+                File xb2dir, File xb3dir,
+                Config config, String args) throws IOException, FontFormatException {
         super("XBuilders Launcher");
-        setSize(450, 310);
+        setSize(480, 330);
         //Disable maximize button
         setResizable(false);
         setLocationRelativeTo(null);
@@ -168,6 +138,8 @@ public class Main extends JFrame {
             runProgram(xb3dir, xb3jarfile, args,
                     runAsTerminal.isSelected());
         });
+
+        runAsTerminal.setSelected(config.runConsoleOut);
 
         setVisible(true);
     }

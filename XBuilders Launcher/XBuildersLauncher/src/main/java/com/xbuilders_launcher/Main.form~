@@ -49,7 +49,7 @@
         <properties>
           <font swing-font="Label.font"/>
           <icon value="XB3 icon.png"/>
-          <text value="PLAY XBUILDERS 3"/>
+          <text value="Play XBUILDERS 3"/>
         </properties>
       </component>
       <component id="aacab" class="javax.swing.JButton" binding="exitButton">
